@@ -182,4 +182,12 @@ class reportController extends Controller
         }
         
     }
+
+    // public function SearchReports(Request $request){
+    //     $search = Report::search($request->search)->get();
+    //     return $search;
+    // }
+    // public function getFormSearch(){
+    //     return view('search');
+    // }
 }
