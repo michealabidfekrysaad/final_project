@@ -3,7 +3,10 @@
 <title>Seacrh</title>
 </head>
 <body>
+    <form action="/search" method="POST">
+    @csrf
     <input type="text" name="search" />
-    <a href="/search">Search</a>
+    <input type="submit" name="submit"/>
+    </form>
 </body>
 </html>

@@ -32,4 +32,4 @@ Route::get('/people/search', function(){
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
 
 // Route::get('/search' , 'reportController@getFormSearch');
-// Route::get('/search' , 'reportController@SearchReports');
+// Route::post('/search' , 'reportController@SearchReports');
