@@ -39,6 +39,66 @@
                             </div>
                         </div>
 
+                        {{-- add phone --}}
+                        <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone-number') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+
+                                @error('phone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        {{-- end of phone --}}
+                        
+                        {{-- start of city --}}
+                        <div class="form-group row">
+                            <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('Choose-city') }}</label>
+
+                            <div class="col-md-6">
+                                <div class="dropdown">                
+                                    <select id="city" class="form-control">
+                                      <option selected>Choose your city</option>
+                                      <option>...</option>
+                                      <option>...</option>
+                                      <option>...</option>
+                                    </select>
+                                  </div>
+                                @error('city')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        {{-- end of cities --}}
+
+                        {{-- start of region --}}
+                        <div class="form-group row">
+                            <label for="region" class="col-md-4 col-form-label text-md-right">{{ __('Choose-region') }}</label>
+
+                            <div class="col-md-6">
+                                <div class="dropdown">                
+                                    <select id="region" class="form-control">
+                                      <option selected>Choose your region</option>
+                                      <option>...</option>
+                                      <option>...</option>
+                                      <option>...</option>
+                                    </select>
+                                  </div>
+                                @error('region')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        {{-- end of region --}}
+
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 

@@ -22,6 +22,12 @@ Route::resource('reports', 'reportController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/people/search', function(){
+    return view('people.find');
+});
 
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
+
+// Route::get('/search' , 'reportController@getFormSearch');
+// Route::get('/search' , 'reportController@SearchReports');
