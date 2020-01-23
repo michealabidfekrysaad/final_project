@@ -16,6 +16,10 @@ Route::get('/', function () {
 });
 
 Route::resource('reports' , 'reportController');
+Route::get('/contact', function () {
+    return view('contact.index');
+});
+Route::resource('reports', 'reportController');
 
 Auth::routes();
 
@@ -26,3 +30,6 @@ Route::get('/people/search', function(){
 
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
+
+// Route::get('/search' , 'reportController@getFormSearch');
+// Route::get('/search' , 'reportController@SearchReports');

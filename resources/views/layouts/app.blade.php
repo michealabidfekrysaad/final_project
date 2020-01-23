@@ -33,76 +33,68 @@
     <!--==========================
     Header
   ============================-->
-<header id="header">
-    <div class="container">
+    <header id="header">
+        <div class="container">
 
-        <div id="logo" class="pull-left">
-            <!-- Uncomment below if you prefer to use a text logo -->
-            <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
-            <a href="{{ url('/') }}" class="scrollto"><img src="{{asset('img/logo.png') }}" alt="" title=""></a>
+            <div id="logo" class="pull-left">
+                <!-- Uncomment below if you prefer to use a text logo -->
+                <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
+                <a href="/" class="scrollto"><img src="{{asset('img/logo.png') }}" alt="" title=""></a>
+            </div>
+
+            <nav id="nav-menu-container">
+                <ul class="nav-menu ">
+                    <li class=" {{ Request::is('/') ? 'menu-active' : '' }}"><a href="/">Home</a></li>
+                    <li class=" {{ Request::is('people/search') ? 'menu-active' : '' }}"><a href="people/search">Find People</a></li>
+                    <li class=""><a href="#about">Find Items</a></li>
+                    <li class=""><a href="#about">About</a></li>
+                    <li class="{{ Request::is('contact') ? 'menu-active' : '' }}"><a href="/contact">Contact Us</a></li>
+
+                    @guest
+                    <li class="buy-tickets ml-xl-5 pl-xl-5">
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    </li>
+                    @if (Route::has('register'))
+                    <li class="buy-tickets">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                    @endif
+                    @else
+                    <li class="buy-tickets dropdown ml-xl-5 pl-xl-5">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
+
+
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="border: 0px;background:none;">
+                            <a class="dropdown-item d-block" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+
+                    </li>
+
+                    @endguest
+                </ul>
+            </nav><!-- #nav-menu-container -->
         </div>
-       
-
-        <nav id="nav-menu-container">
-            <ul class="nav-menu">
-                <li class="{{ (request()->is('/')) ? ' menu-active' : '' }}"> <a href="{{ url('/') }}">Home</a></li>
-                <li class="{{ (request()->is('/about')) ? ' menu-active' : '' }}"> <a href="{{ url('/about') }}">About</a></li>
-                <li ><a href="#speakers">Speakers</a></li>
-                <li><a href="#schedule">Schedule</a></li>
-                <li><a href="#venue">Venue</a></li>
-                <li><a href="#hotels">Hotels</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#supporters">Sponsors</a></li>
-                <li><a href="#contact">Contact</a></li>
-                  
-
-              
-                
-                @guest
-                <li class="buy-tickets">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-                @if (Route::has('register'))
-                <li class="buy-tickets">
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                </li>
-                @endif
-                @else
-                <li class="buy-tickets dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ Auth::user()->name }} <span class="caret"></span>
-                    </a>
-                    
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="border: 0px;background:none;">
-                    <a class="dropdown-item d-block" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </div>
-                    
-                </li>
-                
-                @endguest
-            </ul>
-        </nav><!-- #nav-menu-container -->
-    </div>
-</header><!-- #header -->
+    </header><!-- #header -->
     <div>
         <main>
             @yield('content')
             
         </main>
     </div>
-    <!-- JavaScript Libraries -->
+ 
     <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery-migrate.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

@@ -258,6 +258,7 @@ h6 {
 #nav-menu-container {
   float: right;
   margin: 0;
+  width: 70%;
 }
 
 /* Nav Meu Styling */
@@ -1394,9 +1395,13 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 #footer {
   background: #101522;
-  padding: 0 0 25px 0;
+  padding: 0 0 20px 0;
   color: #eee;
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
+    width: 100%;
+
 }
 
 #footer .footer-top {
