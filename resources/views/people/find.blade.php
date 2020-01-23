@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="pt-5 container-fluid">
+<ul class="internal_navbar ">
+  <li><a class="active" href="#home">All Lost People</a></li>
+  <li><a href="#news">Search for missing</a></li>
+  <li><a href="#contact">Found missing</a></li>
+  <li><a href="#about">Search by image</a></li>
+</ul>
+<div class="pt-5 container-fluid" style="margin-top:100px;">
   <div class="row mt-2 pt-5 section-header">
   <h2 class="mx-auto">all losts people</h2>
 </div>
