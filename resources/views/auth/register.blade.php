@@ -61,7 +61,7 @@
 
                             <div class="col-md-6">
                                 <div class="dropdown">                
-                                    <select id="city" class="form-control">
+                                    <select id="city" name="city" class="form-control">
                                       <option selected>Choose your city</option>
                                       <option>...</option>
                                       <option>...</option>
@@ -83,7 +83,7 @@
 
                             <div class="col-md-6">
                                 <div class="dropdown">                
-                                    <select id="region" class="form-control">
+                                    <select id="region" name="region" class="form-control">
                                       <option selected>Choose your region</option>
                                       <option>...</option>
                                       <option>...</option>
