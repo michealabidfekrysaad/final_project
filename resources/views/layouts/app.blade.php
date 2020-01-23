@@ -28,63 +28,73 @@
 
 </head>
 
+
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <!--==========================
+    Header
+  ============================-->
+    <header id="header">
+        <div class="container">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+            <div id="logo" class="pull-left">
+                <!-- Uncomment below if you prefer to use a text logo -->
+                <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
+                <a href="/" class="scrollto"><img src="{{asset('img/logo.png') }}" alt="" title=""></a>
+            </div>
 
-                    </ul>
+            <nav id="nav-menu-container">
+                <ul class="nav-menu ">
+                    <li class=" {{ Request::is('/') ? 'menu-active' : '' }}"><a href="/">Home</a></li>
+                    <li class=" {{ Request::is('people/search') ? 'menu-active' : '' }}"><a href="people/search">Find People</a></li>
+                    <li class=""><a href="#about">Find Items</a></li>
+                    <li class=""><a href="#about">About</a></li>
+                    <li class="{{ Request::is('contact') ? 'menu-active' : '' }}"><a href="/contact">Contact Us</a></li>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
-                        @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                    @guest
+                    <li class="buy-tickets ml-xl-5 pl-xl-5">
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    </li>
+                    @if (Route::has('register'))
+                    <li class="buy-tickets">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                    @endif
+                    @else
+                    <li class="buy-tickets dropdown ml-xl-5 pl-xl-5">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
+
+
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="border: 0px;background:none;">
+                            <a class="dropdown-item d-block" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                    </li>
 
-        <main class="py-4">
+                    @endguest
+                </ul>
+            </nav><!-- #nav-menu-container -->
+        </div>
+    </header><!-- #header -->
+    <div>
+        <main>
             @yield('content')
+            
         </main>
     </div>
-    <!-- JavaScript Libraries -->
+ 
     <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery-migrate.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
