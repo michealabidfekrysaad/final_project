@@ -41,13 +41,12 @@
             <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
             <a href="{{ url('/') }}" class="scrollto"><img src="{{asset('img/logo.png') }}" alt="" title=""></a>
         </div>
+       
 
         <nav id="nav-menu-container">
             <ul class="nav-menu">
-                <li class=" {{ Request::is('/') ? 'menu-active' : '' }}">
-                    <a href="{{ url('/') }}">Home</a>
-                </li>
-                <li><a href="{{ url('/') }}">About</a></li>
+                <li class="{{ (request()->is('/')) ? ' menu-active' : '' }}"> <a href="{{ url('/') }}">Home</a></li>
+                <li class="{{ (request()->is('/about')) ? ' menu-active' : '' }}"> <a href="{{ url('/about') }}">About</a></li>
                 <li ><a href="#speakers">Speakers</a></li>
                 <li><a href="#schedule">Schedule</a></li>
                 <li><a href="#venue">Venue</a></li>
@@ -55,6 +54,9 @@
                 <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#supporters">Sponsors</a></li>
                 <li><a href="#contact">Contact</a></li>
+                  
+
+              
                 
                 @guest
                 <li class="buy-tickets">

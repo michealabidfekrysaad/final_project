@@ -147,66 +147,73 @@
 
         <div class="col-lg-4 col-md-6">
           <div class="hotel text-center">
+            <a href="{{ url('/') }}">
             <div class="hotel-img">
             <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
             </div>
            
-            <h3><a href="#">ahmed</a></h3>
+            <h3><a href="{{ url('/') }}">ahmed</a></h3>
             
             <p>5 mins ago</p>
-          
+          </a>
           </div>
         </div>
+        
         <div class="col-lg-4 col-md-6">
           <div class="hotel text-center">
+            <a href="{{ url('/') }}">
             <div class="hotel-img">
-            <img src="{{asset('img/speakers/2.jpg')}}" alt="Hotel 1" class="img-fluid">
+            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
             </div>
            
-            <h3><a href="#">ali</a></h3>
+            <h3><a href="{{ url('/') }}">ahmed</a></h3>
             
-            <p>one hour ago</p>
-          
+            <p>5 mins ago</p>
+          </a>
           </div>
         </div>
 
         <div class="col-lg-4 col-md-6">
           <div class="hotel text-center">
+            <a href="{{ url('/') }}">
             <div class="hotel-img">
-            <img src="{{asset('img/speakers/3.jpg')}}" alt="Hotel 1" class="img-fluid">
+            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
             </div>
            
-            <h3><a href="#">mohamed ibrahim</a></h3>
+            <h3><a href="{{ url('/') }}">ahmed</a></h3>
             
-            <p>3 years ago</p>
-          
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="hotel text-center">
-            <div class="hotel-img">
-            <img src="{{asset('img/speakers/3.jpg')}}" alt="Hotel 1" class="img-fluid">
-            </div>
-           
-            <h3><a href="#">mohamed ibrahim</a></h3>
-            
-            <p>3 years ago</p>
-          
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="hotel text-center">
-            <div class="hotel-img">
-            <img src="{{asset('img/speakers/3.jpg')}}" alt="Hotel 1" class="img-fluid">
-            </div>
-           
-            <h3><a href="#">mohamed ibrahim</a></h3>
-            
-            <p>3 years ago</p>
-          
+            <p>5 mins ago</p>
+          </a>
           </div>
         </div>
 
+        <div class="col-lg-4 col-md-6">
+          <div class="hotel text-center">
+            <a href="{{ url('/') }}">
+            <div class="hotel-img">
+            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
+            </div>
+           
+            <h3><a href="{{ url('/') }}">ahmed</a></h3>
+            
+            <p>5 mins ago</p>
+          </a>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="hotel text-center">
+            <a href="{{ url('/') }}">
+            <div class="hotel-img">
+            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
+            </div>
+           
+            <h3><a href="{{ url('/') }}">ahmed</a></h3>
+            
+            <p>5 mins ago</p>
+          </a>
+          </div>
+        </div>
        
 
        
