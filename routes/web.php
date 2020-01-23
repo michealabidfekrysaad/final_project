@@ -14,7 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('reports' , 'reportController');
+Route::get('/contact', function () {
+    return view('contact.index');
+});
+Route::resource('reports', 'reportController');
 
 Auth::routes();
 
