@@ -147,6 +147,7 @@ h6 {
 #header {
   height: 90px;
   padding: 25px 0;
+  background: rgba(6, 12, 34, 0.98);
   position: fixed;
   left: 0;
   top: 0;
@@ -315,7 +316,7 @@ h6 {
 }
 
 .nav-menu li.buy-tickets a:hover {
-  background: none;
+  background: rgba(6, 12, 34, 0.98);
 }
 
 .nav-menu li.buy-tickets:hover a:before,
@@ -489,11 +490,11 @@ body.mobile-nav-active #mobile-nav-toggle {
   position: absolute;
   bottom: 0;
   left: 0;
-  top: 90px;
+  top: 20px;
   right: 0;
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
