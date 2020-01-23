@@ -45,7 +45,7 @@
             <nav id="nav-menu-container">
                 <ul class="nav-menu ">
                     <li class=" {{ Request::is('/') ? 'menu-active' : '' }}"><a href="/">Home</a></li>
-                    <li class=" {{ Request::is('people/search') ? 'menu-active' : '' }}"><a href="people/search">Find People</a></li>
+                    <li class=" {{ Request::is('people/search') ? 'menu-active' : '' }}"><a href="/people/search">Find People</a></li>
                     <li class=""><a href="#about">Find Items</a></li>
                     <li class=""><a href="#about">About</a></li>
                     <li class="{{ Request::is('contact') ? 'menu-active' : '' }}"><a href="/contact">Contact Us</a></li>
