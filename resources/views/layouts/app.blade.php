@@ -39,13 +39,15 @@
         <div id="logo" class="pull-left">
             <!-- Uncomment below if you prefer to use a text logo -->
             <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
-            <a href="#intro" class="scrollto"><img src="{{asset('img/logo.png') }}" alt="" title=""></a>
+            <a href="{{ url('/') }}" class="scrollto"><img src="{{asset('img/logo.png') }}" alt="" title=""></a>
         </div>
 
         <nav id="nav-menu-container">
             <ul class="nav-menu">
-                <li class=" {{ Request::is('/') ? 'menu-active' : '' }}"><a href="#intro">Home</a></li>
-                <li><a href="#about">About</a></li>
+                <li class=" {{ Request::is('/') ? 'menu-active' : '' }}">
+                    <a href="{{ url('/') }}">Home</a>
+                </li>
+                <li><a href="{{ url('/') }}">About</a></li>
                 <li ><a href="#speakers">Speakers</a></li>
                 <li><a href="#schedule">Schedule</a></li>
                 <li><a href="#venue">Venue</a></li>

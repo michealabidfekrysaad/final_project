@@ -971,8 +971,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #hotels .hotel:hover .hotel-img img {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
 }
 
 #hotels .hotel-img {
@@ -1661,3 +1661,5 @@ body.mobile-nav-active #mobile-nav-toggle {
     margin-top: 10px;
   }
 }
+/* micheal css style for project final------------------------------------ */
+

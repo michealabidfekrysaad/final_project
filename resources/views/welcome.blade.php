@@ -8,7 +8,7 @@
       <!-- <p class="mb-4 pb-0">10-12 December, Downtown Conference Center, New York</p> -->
       <!-- <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox play-btn mb-4" data-vbtype="video"
         data-autoplay="true"></a> -->
-      <a href="#about" class="about-btn scrollto">People</a>
+      <a href="{{ url('/people/search') }}" class="about-btn scrollto">People</a>
       <a href="#about" class="about-btn scrollto">Items</a>
     </div>
   </section>
