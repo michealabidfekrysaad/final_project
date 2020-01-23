@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\User;
 
 class reportController extends Controller
 {
@@ -183,11 +184,12 @@ class reportController extends Controller
         
     }
 
-    // public function SearchReports(Request $request){
-    //     $search = Report::search($request->search)->get();
-    //     return $search;
-    // }
-    // public function getFormSearch(){
-    //     return view('search');
-    // }
+    public function SearchReports(Request $request){
+       $nameSearch = $request->input('search');
+       $FilterSearch = Report::where('name' , 'like' , '%'.$nameSearch.'%')->get();
+       dd($FilterSearch);
+    }
+    public function getFormSearch(){
+        return view('search');
+    }
 }

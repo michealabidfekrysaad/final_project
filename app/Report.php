@@ -10,6 +10,8 @@ class Report extends Model
 {
     use Searchable;
 
+    protected $table = 'reports';
+
     protected $fillable = ['name', 'age', 'gender', 'image', 'type', 'special_mark','eye_color','hair_color','city','region','location','last_seen_on','last_seen_at','lost_since','found_since','height','weight',];
 
     public function user()
@@ -17,20 +19,12 @@ class Report extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function searchableAs()
-    {
-        return 'reports';
-    }
+    
 
-    public function toSearchableArray()
-    {
-        return [
-            'name' => $this->name,
-            'age' => $this->age,
-            'gender' => $this->gender,
-            'image' => $this->image,
-        ];
-
-        return $array;
-    }
+    // public function toSearchableArray()
+    // {
+    //     $array =  $this->toArray();
+    //     $array['name'] = $array->user['name'];
+    //     return $array;
+    // }
 }
