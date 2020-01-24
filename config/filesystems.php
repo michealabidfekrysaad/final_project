@@ -57,11 +57,11 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
+            'key' => 'AKIA5WVDM6FIA5253O7V',
+            'secret' => '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',
+            'region' => 'us-east-2',
+            'bucket' => 'loseall',
+            'url' => 'https://loseall.s3.us-east-2.amazonaws.com'
         ],
 
     ],
