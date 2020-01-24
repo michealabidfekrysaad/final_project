@@ -21,7 +21,7 @@ Route::get('/contact', function () {
 });
 Route::resource('reports', 'reportController');
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/search', function(){
@@ -33,3 +33,5 @@ Route::get('/people/search', function(){
 
 // Route::get('/search' , 'reportController@getFormSearch');
 // Route::post('/search' , 'reportController@SearchReports');
+
+Auth::routes(['verify' => true]);

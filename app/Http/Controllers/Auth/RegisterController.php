@@ -76,10 +76,21 @@ class RegisterController extends Controller
             'city' => $data['city'],
             'region' => $data['region'],
             'password' => Hash::make($data['password']),
+            //'verification_token' => base64_encode($data['verification_token']),
             
         ]);
         $user->assignRole('User');
         
         return $user;
     }
+    // public function verify($token)
+    // {
+    //     $user = User::where('verification_token', $token)->firstOrFail();
+    //     $user->verified = true;
+    //     $user->verification_token = null;
+    //     $user->save();
+    //     //redirect('/home');
+    //     return response()->json('The account has been verified succesfully');
+
+    // }
 }

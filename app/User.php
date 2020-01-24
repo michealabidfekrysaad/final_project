@@ -10,7 +10,7 @@ use Laravel\Scout\Searchable;
 
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable , HasRoles , Searchable;
 
