@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
 class LoginController extends Controller
 {
     /*
@@ -37,4 +36,34 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+//     public function redirect($provider)
+//     {
+//         // dd(Socialite::driver($provider)->redirect());
+//         return Socialite::driver($provider)->redirect();
+//     }
+//     public function callback($provider)
+//     {
+//         $getInfo = Socialite::driver($provider)->user();
+//         dd($getInfo);
+//            // return view('auth.register' , ['Name' => $getInfo->name , 'Email'=> $getInfo->email]);
+//         $user = $this->createUser($getInfo,$provider);
+
+//         auth()->login($user);
+
+//         return redirect()->to('/home');
+
+//     }
+//  function createUser($getInfo,$provider){
+//  $user = User::where('provider_id', $getInfo->id)->first();
+//  if (!$user) {
+//       $user = User::create([
+//          'name'     => $getInfo->name,
+//          'email'    => $getInfo->email,
+//          'provider' => $provider,
+//          'provider_id' => $getInfo->id
+//      ]);
+//    }
+//    return $user;
+//  }
 }
