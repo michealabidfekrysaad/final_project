@@ -27,7 +27,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/search', function(){
     return view('people.find');
 });
+Route::get('/people/details', function(){
+    return view('people.personDetails');
+});
 
+Route::get('/items/search', function(){
+    return view('items.find');
+});
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
 
