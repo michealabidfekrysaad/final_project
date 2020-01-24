@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
 
 class RegisterController extends Controller
 {
@@ -64,12 +63,14 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param array $data
+     * @return User
      */
     protected function create(array $data)
     {
-        $user =  User::create([
+        //dd((Role::where('name','=','User')->first())->id);
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
@@ -78,9 +79,10 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             //'verification_token' => base64_encode($data['verification_token']),
             
+
         ]);
-        $user->assignRole('User');
-        
+
+        $user->assignRole([(Role::where('name', '=', 'User')->first())->id]);
         return $user;
     }
     // public function verify($token)

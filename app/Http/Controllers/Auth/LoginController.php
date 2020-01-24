@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Socialite;
- use App\User;
 class LoginController extends Controller
 {
     /*
@@ -49,10 +47,10 @@ class LoginController extends Controller
 //         $getInfo = Socialite::driver($provider)->user();
 //         dd($getInfo);
 //            // return view('auth.register' , ['Name' => $getInfo->name , 'Email'=> $getInfo->email]);
-//         $user = $this->createUser($getInfo,$provider); 
+//         $user = $this->createUser($getInfo,$provider);
 
-//         auth()->login($user); 
-        
+//         auth()->login($user);
+
 //         return redirect()->to('/home');
 
 //     }

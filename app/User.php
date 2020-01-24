@@ -6,13 +6,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Laravel\Scout\Searchable;
 
 
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable , HasRoles , Searchable;
+    use Notifiable;
+    use HasRoles;
 
 
     /**
@@ -44,9 +44,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function reports()
     {
         return $this->hasMany(Report::class);
-    }
-    public function shouldBeSearchable()
-    {
-        return $this->name;
     }
 }
