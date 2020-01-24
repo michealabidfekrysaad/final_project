@@ -269,8 +269,8 @@ h6 {
   display: inline-block;
   color: rgba(202, 206, 221, 0.8);
   font-family: "Raleway", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 800;
+  font-size: 16px;
   outline: none;
 }
 
@@ -1707,10 +1707,10 @@ body.mobile-nav-active #mobile-nav-toggle {
       padding: 2px;
     }
 
-/* ascdfbghjkl;'/ */
-#lostButton{
+
+    #lostButton{
   background: #e0072f;
-  border: 0;
+  border: 10px;
   padding: 10px 40px;
   color: #fff;
   transition: 0.4s;
