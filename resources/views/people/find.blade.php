@@ -318,5 +318,5 @@
 		</form>
 
 	</div>
-</section><!-- #contact -->
+</section>
 @endsection

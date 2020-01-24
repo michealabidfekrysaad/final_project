@@ -269,8 +269,8 @@ h6 {
   display: inline-block;
   color: rgba(202, 206, 221, 0.8);
   font-family: "Raleway", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 800;
+  font-size: 16px;
   outline: none;
 }
 
@@ -1667,37 +1667,50 @@ body.mobile-nav-active #mobile-nav-toggle {
   }
 }
 /* micheal css style for project final------------------------------------ */
+.internal_navbar{
+  list-style-type: none;
+  padding-left:0%;
+  overflow: hidden;
+  background-color:rgba(6, 12, 34, 0.98);
+  position: fixed;
+  top: 80px;
+  margin-left: 30%;
+  z-index: 100;
+}
+.internal_navbar li{
+  float: left;
+}
+.internal_navbar li a{
+  display: block;
+  color: white;
+  padding: 10px 10px;
+  text-decoration: none;
+
+}
+.internal_navbar li a:hover:not(.active){
+  background-color: #f82249;
+}
+.active{
+  background-color: #f82249;
+
+}
+@media (max-width: 991px) {
+  .internal_navbar {
+   width: 80%;
+   background-color: red;
+   margin-left: 10%;
+    
+  }
+
+  @media (max-width: 768px) {
+    .internal_navbar {
+      padding: 2px;
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ascdfbghjkl;'/ */
-#lostButton{
+    #lostButton{
   background: #e0072f;
-  border: 0;
+  border: 10px;
   padding: 10px 40px;
   color: #fff;
   transition: 0.4s;

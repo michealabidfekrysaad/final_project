@@ -45,13 +45,28 @@
             <nav id="nav-menu-container">
                 <ul class="nav-menu ">
                     <li class=" {{ Request::is('/') ? 'menu-active' : '' }}"><a href="/">Home</a></li>
-                    <li class=" {{ Request::is('people/search') ? 'menu-active' : '' }}"><a href="/people/search">Find People</a></li>
+                    
+                    <li class="dropdown {{ Request::is('people/search') ? 'menu-active' : '' }}">
+                        <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Find People                        </a>
+                        <div class="dropdown-menu" style="background-color: #f82249" aria-labelledby="navbarDropdown">
+                          <a class=" {{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All People</a>
+                          <div class="divider"></div>
+                          <a class="" href="/people/missing">Search for missing</a>
+                          <div class="divider"></div>
+                          <a class="" href="#">found a missing</a>
+                          <div class="divider"></div>
+                          <a class="" href="#">search by image</a>
+                        </div>
+                      </li>
+
+
                     <li class=""><a href="#about">Find Items</a></li>
                     <li class=""><a href="#about">About</a></li>
                     <li class="{{ Request::is('contact') ? 'menu-active' : '' }}"><a href="/contact">Contact Us</a></li>
 
                     @guest
-                    <li class="buy-tickets ml-xl-5 pl-xl-5">
+                    <li class="buy-tickets pl-xl-5">
                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
                     @if (Route::has('register'))
