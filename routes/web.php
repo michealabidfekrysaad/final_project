@@ -28,6 +28,16 @@ Route::get('/people/search', function(){
     return view('people.find');
 });
 
+// Route::get('/people/search/{type}', function($type){
+//     return view('people.form',['type' => $type]);
+// });
+Route::get('/people/search/{type}','UploadfileController@createReport');
+
+Route::post('/people/search/{type}','UploadfileController@report');
+Route::get('/people/image','UploadfileController@index');
+Route::post('uploadfile','UploadfileController@upload');
+ 
+
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
 

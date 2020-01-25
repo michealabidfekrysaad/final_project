@@ -1701,11 +1701,13 @@ body.mobile-nav-active #mobile-nav-toggle {
    margin-left: 10%;
     
   }
+}
 
   @media (max-width: 768px) {
     .internal_navbar {
       padding: 2px;
     }
+  }
 
 
     #lostButton{
