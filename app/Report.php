@@ -19,12 +19,16 @@ class Report extends Model
         return $this->belongsTo(User::class);
     }
 
-    
+    public function searchableAs(){
 
-    // public function toSearchableArray()
-    // {
-    //     $array =  $this->toArray();
-    //     $array['name'] = $array->user['name'];
-    //     return $array;
-    // }
+        return "reports";
+    
+    }
+
+    public function toSearchableArray()
+    {
+        $array =  $this->toArray();
+        
+        return $array;
+    }
 }
