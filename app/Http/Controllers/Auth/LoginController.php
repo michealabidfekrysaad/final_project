@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
+use Socialite;
+use Auth;
+use Exception;
+ use App\User;
 class LoginController extends Controller
 {
     /*
@@ -37,33 +42,82 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-//     public function redirect($provider)
-//     {
-//         // dd(Socialite::driver($provider)->redirect());
-//         return Socialite::driver($provider)->redirect();
-//     }
-//     public function callback($provider)
-//     {
-//         $getInfo = Socialite::driver($provider)->user();
-//         dd($getInfo);
-//            // return view('auth.register' , ['Name' => $getInfo->name , 'Email'=> $getInfo->email]);
-//         $user = $this->createUser($getInfo,$provider);
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
 
-//         auth()->login($user);
+    public function handleGoogleCallback()
+    {
+        try {
 
-//         return redirect()->to('/home');
+            $user = Socialite::driver('google')->user();
+    
+            $finduser = User::where('google_id', $user->id)->first();
+    
+            if($finduser){
+    
+                Auth::login($finduser);
 
-//     }
-//  function createUser($getInfo,$provider){
-//  $user = User::where('provider_id', $getInfo->id)->first();
-//  if (!$user) {
-//       $user = User::create([
-//          'name'     => $getInfo->name,
-//          'email'    => $getInfo->email,
-//          'provider' => $provider,
-//          'provider_id' => $getInfo->id
-//      ]);
-//    }
-//    return $user;
-//  }
+                return redirect('/home');
+    
+            }else{
+                $newUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'password' => Hash::make('a1234567'),
+                    'phone' => 'null',
+                    'city' => 'null',
+                    'region' => 'null',
+                    'google_id'=> $user->id
+                ]);
+
+                Auth::login($newUser);
+    
+                return redirect('/home');
+            }
+
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+    // public function redirectToFacebook()
+    // {
+    //     return Socialite::driver('facebook')->redirect();
+    // }
+
+    // public function handleFacebookCallback()
+    // {
+    //     try {
+
+    //         $user = Socialite::driver('facebook')->user();
+    
+    //         $finduser = User::where('facebook_id', $user->id)->first();
+    
+    //         if($finduser){
+    
+    //             Auth::login($finduser);
+
+    //             return redirect('/home');
+    
+    //         }else{
+    //             $newUser = User::create([
+    //                 'name' => $user->name,
+    //                 'email' => $user->email,
+    //                 'password' => Hash::make('a1234567'),
+    //                 'phone' => 'null',
+    //                 'city' => 'null',
+    //                 'region' => 'null',
+    //                 'facebook_id'=> $user->id
+    //             ]);
+
+    //             Auth::login($newUser);
+    
+    //             return redirect('/home');
+    //         }
+
+    //     } catch (Exception $e) {
+    //         dd($e->getMessage());
+    //     }
+    // }
 }
