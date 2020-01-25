@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Route::get('/test','TestsController@test');
+
 Route::resource('reports' , 'reportController');
 Route::get('/contact', function () {
     return view('contact.index');
@@ -27,6 +29,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/search', function(){
     return view('people.find');
 });
+Route::get('/people/details', function(){
+    return view('people.personDetails');
+});
 
 // Route::get('/people/search/{type}', function($type){
 //     return view('people.form',['type' => $type]);
@@ -38,6 +43,9 @@ Route::get('/people/image','UploadfileController@index');
 Route::post('uploadfile','UploadfileController@upload');
  
 
+Route::get('/items/search', function(){
+    return view('items.find');
+});
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
 
