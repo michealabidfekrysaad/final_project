@@ -56,27 +56,27 @@
                 </div>
                 <div class="form-group">
                     <label for="gender">select Gender :</label>
-                    <select class="form-control" id="gender" required>
+                    <select class="form-control" id="gender" name="gender" required>
                         <option value="male">Male</option>
                         <option value="fmale">Fmale</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="last_seen_on">Last Seen On :</label>
-                    <select class="form-control" id="last_seen_on" required>
-                        <option value="blue">Saturday</option>
-                        <option value="black">Sunday</option>
-                        <option value="browan">Monday</option>
-                        <option value="green">Tuesday</option>
-                        <option value="gry">Wednesday</option>
-                        <option value="blue">Thursday</option>
-                        <option value="blue">Friday</option>
+                    <select class="form-control" id="last_seen_on" name="last_seen_on" required>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
     
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="eye_color">Select Eye Color :</label>
-                    <select class="form-control" id="eye_color" required>
+                    <select class="form-control" id="eye_color" name="eye_color" required>
                         <option value="black">Black</option>
                         <option value="browan">Browan</option>
                         <option value="green">Green</option>
@@ -90,7 +90,7 @@
                 
                 <div class="form-group">
                     <label for="hair_color">Select Hair Color :</label>
-                    <select class="form-control" id="hair_color">
+                    <select class="form-control" id="hair_color" name="hair_color">
                         <option value="black">Black</option>
                         <option value="browan">Browan</option>
                         <option value="white">White</option>
