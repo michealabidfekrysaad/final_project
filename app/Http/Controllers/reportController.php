@@ -112,8 +112,8 @@ class reportController extends Controller
      */
     public function update(Request $request, Report $report)
     {
-        
-            
+
+
                 if($request->has('name')){
                     $report->name = $request->name;
                 }
@@ -167,8 +167,8 @@ class reportController extends Controller
                     $report->weight = $request->weight;
                 }
              $report->save();
-            
-            
+
+
     }
 
     /**
@@ -180,9 +180,9 @@ class reportController extends Controller
     public function destroy(Report $report)
     {
         if(auth()->user()->id==$report->user()->id||auth()->user()->hasRole('Admin')){
-            $report->delete(); 
+            $report->delete();
         }
-        
+
     }
 
     public function SearchReports(Request $request){

@@ -66,9 +66,7 @@
                                   <strong>Login With Google</strong>
                                 </a> 
                                 
-                                <a href="{{ url('/auth/facebook') }}" style="margin-top: 20px;" class="btn btn-md btn-primary btn-block">
-                                  <strong>Login With Facebook</strong>
-                                </a>
+                                
                             </div>
                         </div>
                     </form>

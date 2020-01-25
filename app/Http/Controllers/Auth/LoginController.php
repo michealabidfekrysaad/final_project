@@ -81,43 +81,43 @@ class LoginController extends Controller
             dd($e->getMessage());
         }
     }
-    public function redirectToFacebook()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
+    // public function redirectToFacebook()
+    // {
+    //     return Socialite::driver('facebook')->redirect();
+    // }
 
-    public function handleFacebookCallback()
-    {
-        try {
+    // public function handleFacebookCallback()
+    // {
+    //     try {
 
-            $user = Socialite::driver('facebook')->user();
+    //         $user = Socialite::driver('facebook')->user();
     
-            $finduser = User::where('facebook_id', $user->id)->first();
+    //         $finduser = User::where('facebook_id', $user->id)->first();
     
-            if($finduser){
+    //         if($finduser){
     
-                Auth::login($finduser);
+    //             Auth::login($finduser);
 
-                return redirect('/home');
+    //             return redirect('/home');
     
-            }else{
-                $newUser = User::create([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'password' => Hash::make('a1234567'),
-                    'phone' => 'null',
-                    'city' => 'null',
-                    'region' => 'null',
-                    'facebook_id'=> $user->id
-                ]);
+    //         }else{
+    //             $newUser = User::create([
+    //                 'name' => $user->name,
+    //                 'email' => $user->email,
+    //                 'password' => Hash::make('a1234567'),
+    //                 'phone' => 'null',
+    //                 'city' => 'null',
+    //                 'region' => 'null',
+    //                 'facebook_id'=> $user->id
+    //             ]);
 
-                Auth::login($newUser);
+    //             Auth::login($newUser);
     
-                return redirect('/home');
-            }
+    //             return redirect('/home');
+    //         }
 
-        } catch (Exception $e) {
-            dd($e->getMessage());
-        }
-    }
+    //     } catch (Exception $e) {
+    //         dd($e->getMessage());
+    //     }
+    // }
 }

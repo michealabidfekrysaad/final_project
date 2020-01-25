@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Route::get('/test','TestsController@test');
+
 Route::resource('reports' , 'reportController');
 Route::get('/contact', function () {
     return view('contact.index');
@@ -27,7 +29,23 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/search', function(){
     return view('people.find');
 });
+Route::get('/people/details', function(){
+    return view('people.personDetails');
+});
 
+// Route::get('/people/search/{type}', function($type){
+//     return view('people.form',['type' => $type]);
+// });
+Route::get('/people/search/{type}','UploadfileController@createReport');
+
+Route::post('/people/search/{type}','UploadfileController@report');
+Route::get('/people/image','UploadfileController@index');
+Route::post('uploadfile','UploadfileController@upload');
+ 
+
+Route::get('/items/search', function(){
+    return view('items.find');
+});
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
 
@@ -40,5 +58,7 @@ Route::get('/liveSearch/action' , 'reportController@action')->name('search.actio
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');
 Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
 Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
-Route::get('/auth/facebook', 'Auth\LoginController@redirectToFacebook');
-Route::get('/auth/facebook/callback', 'Auth\LoginController@handleFacebookCallback');
+// Route::get('/auth/facebook', 'Auth\LoginController@redirectToFacebook');
+// Route::get('/auth/facebook/callback', 'Auth\LoginController@handleFacebookCallback');
+// Route::get('/search' , 'reportController@getFormSearch');
+// Route::post('/search' , 'reportController@SearchReports');
