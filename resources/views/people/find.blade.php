@@ -12,6 +12,7 @@
 	<div class="row w-100 mx-auto ">
 
 		<div class="col-lg-3  d-none d-lg-block">
+			
 			<h4 class="text-muted">filter by</h4>
 			<article class="card-group-item">
 				<header class="card-header">
