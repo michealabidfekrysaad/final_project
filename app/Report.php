@@ -23,11 +23,16 @@ class Report extends Model
     public function scopeGetFilter($query){
       return $query->get();
     }
+    public function searchableAs(){
 
-    // public function toSearchableArray()
-    // {
-    //     $array =  $this->toArray();
-    //     $array['name'] = $array->user['name'];
-    //     return $array;
-    // }
+        return "reports";
+    
+    }
+
+    public function toSearchableArray()
+    {
+        $array =  $this->toArray();
+        
+        return $array;
+    }
 }

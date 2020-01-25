@@ -6,6 +6,7 @@ use App\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\User;
+use DB;
 
 class reportController extends Controller
 {
@@ -194,6 +195,80 @@ class reportController extends Controller
        dd($FilterSearch);
     }
     public function getFormSearch(){
+        
         return view('search');
+    }
+
+    public function searchReports2(Request $request){
+        if($request->has('search')){
+
+        $searchName = $request->input('search');
+
+        $FilterSearch = Report::search($searchName)->get();
+
+        return view('search' , ['FilterSearch'=>$FilterSearch]);
+
+        }else{
+
+            return response()->json('Not Found');
+        }
+    }
+    public function getSearchCheckbox(Request $request){
+        if($request->input('locationfilter1')){
+            $reports = DB::table('reports')->whereIn('gender', ['male'])
+            ->get();
+        }else{
+            $reports = DB::table('reports')->whereIn('gender', ['female'])
+            ->get();
+        } 
+        return response()->json($reports);
+    }
+
+    public function action(Request $request){
+        $output = '';
+        if($request->ajax()){
+            $query = $request->get('query');
+            if($query != ''){
+                $data = DB::table('reports')
+                    ->where('name' , 'like' , '%'.$query.'%')
+                    ->orWhere('city' , 'like' , '%'.$query.'%')
+                    ->orWhere('region' , 'like' , '%'.$query.'%')
+                    ->get();
+            }else{
+                $data = DB::table('reports')->get();
+            }
+            $total_row = $data->count();
+            if($total_row > 0 ){
+                foreach($data as $row){
+                    $output .= '
+                        <div>
+                        <a href="/showRepo/'.$row->id.'">
+                            <h5>'.$row->name.'</h5>
+                            <h5>'.$row->age.'</h5>
+                            <h5>'.$row->gender.'</h5>
+                            <h5>'.$row->image.'</h5>
+                            <h5 class="bg-danger">'.$row->type.'</h5>
+                            <h5>'.$row->city.'</h5>
+                            </a>
+                        </div>
+                    ';
+                }
+            }else{
+                $output = '
+                   
+                        <div align="center" colspan="5">No Data Found</div>
+                    
+                ';
+            }
+            $data = array(
+                'div_data'  => $output
+            );
+            echo json_encode($data);
+        }
+    }
+
+    public function showReport($id){
+        $repor = Report::findOrFail($id);
+        return view('showReports', ['repor'=>$repor]);
     }
 }

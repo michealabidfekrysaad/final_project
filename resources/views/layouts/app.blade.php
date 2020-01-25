@@ -52,11 +52,11 @@
                         <div class="dropdown-menu" style="background-color: #f82249" aria-labelledby="navbarDropdown">
                           <a class=" {{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All People</a>
                           <div class="divider"></div>
-                          <a class="" href="/people/missing">Search for missing</a>
+                          <a class="" value="lookfor" href="{{ url('people/search', 'lookfor')}}">Search for missing</a>
                           <div class="divider"></div>
-                          <a class="" href="#">found a missing</a>
+                          <a class="" value="found" href="{{ url('people/search', 'found')}}">found a missing</a>
                           <div class="divider"></div>
-                          <a class="" href="#">search by image</a>
+                          <a class="" href="/people/image">search by image</a>
                         </div>
                       </li>
 
