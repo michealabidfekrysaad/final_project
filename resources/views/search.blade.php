@@ -27,10 +27,13 @@
 
     <form action="/searchCheckbox" method="POST">
     @csrf
-        <input type="checkbox" name="locationfilter1">male</label>
-        <input type="checkbox" name="locationfilter2">Female</label>
-        <input type="submit" name="submit2"/>
+        <input type="checkbox" name="checkbox[]" value="male" id="male">male</label>
+        <input type="checkbox" name="checkbox[]" value="female" id="female">Female</label>
     </form>
+    
+
+
+    <h5>***********************************</h5>
     
     <div class="container">
         <div class="row mt-5">
@@ -47,11 +50,9 @@
                     </div>
                     
             </div>
-        </div>
     </div>
 
-
-
+        </div>
     <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery-migrate.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -61,28 +62,50 @@
     <script src="{{ asset('js/wow/wow.min.js') }}"></script>
     <script src="{{ asset('js/venobox/venobox.min.js') }}"></script>
     <script src="{{ asset('js/owlcarousel/owl.carousel.min.js') }}"></script>
+
     <script>
-        $(document).ready(function(){
+    $(document).ready(function(){
+var arr=[];
+var obj={};
+$(":checkbox").on("click", function(){
+    arr.push($(this).val());
+    //console.log(arr);
+    var s = arr.toString();
+    console.log(s);
+   obj =  Object.assign({}, [s]);
+   console.log(obj);
+// obj.push($(this).val());
+// console.log(obj);
+//obj.push($this.val());
 
-//fetch_Data();
-
-function fetch_Data(query = ''){
-	$.ajax({
-		url:"{{route('search.action')}}",
-		method:'GET',
-		data:{query:query},
-		dataType:'json',
-		success:function(data)
-		{
-			$('#datas').html(data.div_data);
-		}
-	});
-}
-$(document).on('keyup' , '#search' , function(){
-	var query = $(this).val();
-	fetch_Data(query);
 });
 });
+
+    
+
+
+
+// $(document).ready(function(){
+
+    
+// function fetch_Data(query = ''){
+    // //fetch_Data();
+// 	$.ajax({
+// 		url:"{{route('search.action')}}",
+// 		method:'GET',
+// 		data:{query:query},
+// 		dataType:'json',
+// 		success:function(data)
+// 		{
+// 			$('#datas').html(data.div_data);
+// 		}
+// 	});
+// }
+// $(document).on('keyup' , '#search' , function(){
+// 	var query = $(this).val();
+// 	fetch_Data(query);
+// });
+// });
     </script>
 </body>
 </html>

@@ -24,7 +24,7 @@
                             </ul>
                         </div>
                         @endif
-                        <form method="POST" action="/users/{{$user->id}}">
+                        <form method="POST" action="/update/{{$profile->id}}">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -32,7 +32,7 @@
                                     <label>Name</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" value="{{$user->name}}" />
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" value="{{$profile->name}}" />
                                 </div>
                             </div>
                             <div class="row">
@@ -40,7 +40,7 @@
                                     <label>Email</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" value="{{$user->email}}" />
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" value="{{$profile->email}}" />
                                 </div>
                             </div>
                             <div class="row">
@@ -48,7 +48,7 @@
                                     <label>Phone</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Your phone" data-rule="phone" data-msg="Please enter a valid phone" value="{{$user->phone}}" />
+                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Your phone" data-rule="phone" data-msg="Please enter a valid phone" value="{{$profile->phone}}" />
                                 </div>
                             </div>
                             <div class="row">
@@ -57,8 +57,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <select id="city" name="city" class="form-control">
+                                        
                                         <option selected>Choose your city</option>
-                                        <option>...</option>
+                                        <option value="{{$profile->city}}">{{$profile->city}}</option>
                                         <option>...</option>
                                         <option>...</option>
                                     </select>
@@ -71,7 +72,7 @@
                                 <div class="col-md-6">
                                     <select id="region" name="region" class="form-control">
                                         <option selected>Choose your region</option>
-                                        <option>...</option>
+                                        <option value="{{$profile->region}}">{{$profile->region}}</option>
                                         <option>...</option>
                                         <option>...</option>
                                     </select>
@@ -85,5 +86,3 @@
     </div>
 
 </section>
-
-@endsection

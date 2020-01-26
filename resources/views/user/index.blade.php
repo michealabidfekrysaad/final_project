@@ -22,13 +22,13 @@
             <div class="card-body">
                 <div class="tab-content profile-tab" id="myTabContent">
                     <div class="tab-pane fade show active bg-white" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        
+                       
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Name</label>
                             </div>
                             <div class="col-md-6">
-                                <p>Kshiti Ghelani</p>
+                                <p>{{$profile->name}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -36,7 +36,7 @@
                                 <label>Email</label>
                             </div>
                             <div class="col-md-6">
-                                <p>kshitighelani@gmail.com</p>
+                                <p>{{$profile->email}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -44,25 +44,28 @@
                                 <label>Phone</label>
                             </div>
                             <div class="col-md-6">
-                                <p>123 456 7890</p>
+                                <p>{{$profile->phone}}</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>city</label>
+                                <label>City</label>
                             </div>
                             <div class="col-md-6">
-                                <p>Web Developer and Designer</p>
+                                <p>{{$profile->city}}</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>region</label>
+                                <label>Region</label>
                             </div>
                             <div class="col-md-6">
-                                <p>Web Developer and Designer</p>
+                                <p>{{$profile->region}}</p>
                             </div>
                         </div>
+                        <a href="/edit/{{$profile->id}}" id="lostButton">
+                                Update Profile
+                        </a>
                     </div>
                     <div class="tab-pane fade bg-white" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row">
