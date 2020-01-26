@@ -320,3 +320,26 @@
 	</div>
 </section>
 @endsection
+<script>
+	$(document).ready(function(){
+
+fetch_Data();
+
+function fetch_Data(query = ''){
+   $.ajax({
+	   url:"{{route('search.action')}}",
+	   method:'GET',
+	   data:{query:query},
+	   dataType:'json',
+	   success:function(data)
+	   {
+		   $('#lost').html(data.div_data);
+	   }
+   });
+}
+$(document).on('keyup' , '#search' , function(){
+   var query = $(this).val();
+   fetch_Data(query);
+});
+});
+</script>

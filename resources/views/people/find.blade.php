@@ -196,8 +196,7 @@ $(document).on('keyup' , '#search' , function(){
 });
 </script>
 
-	{{-- </div>
-</div> --}}
+
 
 
 @endsection

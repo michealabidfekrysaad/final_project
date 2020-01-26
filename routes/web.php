@@ -42,9 +42,6 @@ Route::post('/people/search/{type}','UploadfileController@report');
 Route::get('/people/image','UploadfileController@index');
 Route::post('uploadfile','UploadfileController@upload');
 // Route::get('/users/{id}','UsersController@show')->name('users.show');
-Route::get('/users/{id}',function(){
-    return view('people.information');
-})->name('users.show');
 
  
 
@@ -70,3 +67,14 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 // Route::get('/auth/facebook/callback', 'Auth\LoginController@handleFacebookCallback');
 // Route::get('/search' , 'reportController@getFormSearch');
 // Route::post('/search' , 'reportController@SearchReports');
+
+/******** Attribute CRUD *******/
+Route::get('/attribute' , 'AttributeController@index')->name('attribute.index');
+Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
+Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
+Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
+Route::get('/edit/{id}' , 'AttributeController@edit')->name('attribute.edit');
+Route::put('/updateAttribute/{id}' , 'AttributeController@update')->name('attribute.update');
+Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribute.destroy');
+
+/***************/
