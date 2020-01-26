@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <select id="city" name="city" class="form-control">
-                                        
+
                                         <option selected>Choose your city</option>
                                         <option value="{{$profile->city}}">{{$profile->city}}</option>
                                         <option>...</option>
@@ -78,6 +78,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="row justify-cotent-center">
+                                <div class="text-center">
+                                    <button type="submit" class="btn" id="lostButton">Update Data</button>
+                                </div>
+                            </div>
+
                     </div>
 
                 </div>

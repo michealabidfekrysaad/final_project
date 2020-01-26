@@ -79,7 +79,7 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 
     Route::get('/profile' , 'ProfileController@index')->name('profile.index');
     Route::get('/edit/{id}' , 'ProfileController@edit')->name('profile.edit');
-    Route::post('/update/{id}' , 'ProfileController@update')->name('profile.update');
+    Route::put('/update/{id}' , 'ProfileController@update')->name('profile.update');
 
 
 /************* */
