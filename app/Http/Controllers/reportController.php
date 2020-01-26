@@ -230,23 +230,28 @@ class reportController extends Controller
                     ->orWhere('city' , 'like' , '%'.$query.'%')
                     ->orWhere('region' , 'like' , '%'.$query.'%')
                     ->get();
-            }else{
+            }
+            else{
                 $data = DB::table('reports')->get();
             }
             $total_row = $data->count();
             if($total_row > 0 ){
                 foreach($data as $row){
                     $output .= '
-                        <div>
-                        <a href="/showRepo/'.$row->id.'">
-                            <h5>'.$row->name.'</h5>
-                            <h5>'.$row->age.'</h5>
-                            <h5>'.$row->gender.'</h5>
-                            <h5>'.$row->image.'</h5>
-                            <h5 class="bg-danger">'.$row->type.'</h5>
-                            <h5>'.$row->city.'</h5>
-                            </a>
-                        </div>
+                    <div class="col-lg-4 col-md-6">
+							<div class="hotel text-center">
+								<a href="{{ url(/showRepo/'.$row->id.') }}">
+									<div class="hotel-img">
+										<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
+									</div>
+
+									<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
+
+									<p>'.$row->created_at.'</p>
+								</a>
+							</div>
+						</div>
+                        
                     ';
                 }
             }else{

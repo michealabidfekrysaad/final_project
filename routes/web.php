@@ -41,11 +41,17 @@ Route::get('/people/search/{type}','UploadfileController@createReport');
 Route::post('/people/search/{type}','UploadfileController@report');
 Route::get('/people/image','UploadfileController@index');
 Route::post('uploadfile','UploadfileController@upload');
+// Route::get('/users/{id}','UsersController@show')->name('users.show');
+Route::get('/users/{id}',function(){
+    return view('people.information');
+})->name('users.show');
+
  
 
 Route::get('/items/search', function(){
     return view('items.find');
 });
+
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
 
@@ -62,3 +68,14 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 // Route::get('/auth/facebook/callback', 'Auth\LoginController@handleFacebookCallback');
 // Route::get('/search' , 'reportController@getFormSearch');
 // Route::post('/search' , 'reportController@SearchReports');
+
+
+
+/***** Profile Controller *****/
+
+    Route::get('/profile' , 'ProfileController@index')->name('profile.index');
+    Route::get('/edit/{id}' , 'ProfileController@edit')->name('profile.edit');
+    Route::post('/update/{id}' , 'ProfileController@update')->name('profile.update');
+
+
+/************* */
