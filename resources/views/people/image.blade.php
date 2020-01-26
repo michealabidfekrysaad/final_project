@@ -10,7 +10,7 @@
         <div class="form-group">
             <input type="file" name="select_file" />
             <input type="submit" name="upload" class="btn btn-primary" value="Upload">
-            <span class="text-muted mt-2 d-block">jpg, png, gif</span>
+            <span class="text-muted mt-2 d-block">jpg, jpeg, png</span>
            </div>
         </form>
 

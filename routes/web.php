@@ -42,14 +42,18 @@ Route::get('/people/search/{type}','UploadfileController@createReport');
 Route::post('/people/search/{type}','UploadfileController@report');
 Route::get('/people/image','UploadfileController@index');
 Route::post('uploadfile','UploadfileController@upload');
+// Route::get('/users/{id}','UsersController@show')->name('users.show');
+
  
 
 Route::get('/items/search', function(){
     return view('items.find');
 });
-Route::get('/myprofile', function(){
-    return view('user.index');
+ 
+Route::get('/matchReport', function(){
+    return view('matchReport');
 });
+
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
 
@@ -68,3 +72,23 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 // Route::post('/search' , 'reportController@SearchReports');
 
 Auth::routes(['verify' => true]);
+/******** Attribute CRUD *******/
+Route::get('/attribute' , 'AttributeController@index')->name('attribute.index');
+Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
+Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
+Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
+Route::get('/edit/{id}' , 'AttributeController@edit')->name('attribute.edit');
+Route::put('/updateAttribute/{id}' , 'AttributeController@update')->name('attribute.update');
+Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribute.destroy');
+
+/***************/
+
+
+/***** Profile Controller *****/
+
+    Route::get('/profile' , 'ProfileController@index')->name('profile.index');
+    Route::get('/edit/{id}' , 'ProfileController@edit')->name('profile.edit');
+    Route::put('/update/{id}' , 'ProfileController@update')->name('profile.update');
+
+
+/************* */

@@ -9,7 +9,7 @@
 	<div class="row justify-content-end ">
 		<div class="col-lg-9 col-md-12">
 			<input type="text" id="search"  class="form-control mb-3 " placeholder="searching for lost people by name "> </div>
-	</div>
+		</div>
 	<div class="row w-100 mx-auto ">
 
 		<div class="col-lg-3  d-none d-lg-block">
@@ -154,82 +154,15 @@
 			<section id="hotels" class="section-with-bg ">
 
 				<div class="container">
-					<div class="row">
+					<div class="row" id="lost">
 
-						<div class="col-lg-4 col-md-6">
-							<div class="hotel text-center">
-								<a href="{{ url('/people/details') }}">
-									<div class="hotel-img">
-										<img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-									</div>
-
-									<h3><a href="{{ url('/people/details') }}">ahmed</a></h3>
-
-									<p>5 mins ago</p>
-								</a>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-6">
-							<div class="hotel text-center">
-								<a href="{{ url('/people/details') }}">
-									<div class="hotel-img">
-										<img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-									</div>
-
-									<h3><a href="{{ url('/people/details') }}">ahmed</a></h3>
-
-									<p>5 mins ago</p>
-								</a>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-6">
-							<div class="hotel text-center">
-								<a href="{{ url('/people/details') }}">
-									<div class="hotel-img">
-										<img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-									</div>
-
-									<h3><a href="{{ url('/people/details') }}">ahmed</a></h3>
-
-									<p>5 mins ago</p>
-								</a>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-6">
-							<div class="hotel text-center">
-								<a href="{{ url('/people/details') }}">
-									<div class="hotel-img">
-										<img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-									</div>
-
-									<h3><a href="{{ url('/people/details') }}">ahmed</a></h3>
-
-									<p>5 mins ago</p>
-								</a>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-6">
-							<div class="hotel text-center">
-								<a href="{{ url('/people/details') }}">
-									<div class="hotel-img">
-										<img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-									</div>
-
-									<h3><a href="{{ url('/people/details') }}">ahmed</a></h3>
-
-									<p>5 mins ago</p>
-								</a>
-							</div>
-						</div>
+						
 
 
 
 
 					</div>
+
 				</div>
 
 			</section>
@@ -237,110 +170,13 @@
   </article>
   
  </div>
-
- <div class="col-lg-9 col-md-12 ">
-  <section id="hotels" class="section-with-bg ">
-
-    <div class="container">
-      <div class="row">
-	<div id="lost">
-	
-	</div>
-
-        <div class="col-lg-4 col-md-6" >
-          <div class="hotel text-center">
-            <a href="{{ url('/') }}">
-            <div class="hotel-img">
-            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-            </div>
-           
-            <h3><a href="{{ url('/') }}">ahmed</a></h3>
-            
-            <p>5 mins ago</p>
-          </a>
-          </div>
-        </div>
-        
-        <div class="col-lg-4 col-md-6">
-          <div class="hotel text-center">
-            <a href="{{ url('/') }}">
-            <div class="hotel-img">
-            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-            </div>
-           
-            <h3><a href="{{ url('/') }}">ahmed</a></h3>
-            
-            <p>5 mins ago</p>
-          </a>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6">
-          <div class="hotel text-center">
-            <a href="{{ url('/') }}">
-            <div class="hotel-img">
-            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-            </div>
-           
-            <h3><a href="{{ url('/') }}">ahmed</a></h3>
-            
-            <p>5 mins ago</p>
-          </a>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6">
-          <div class="hotel text-center">
-            <a href="{{ url('/') }}">
-            <div class="hotel-img">
-            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-            </div>
-           
-            <h3><a href="{{ url('/') }}">ahmed</a></h3>
-            
-            <p>5 mins ago</p>
-          </a>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6">
-          <div class="hotel text-center">
-            <a href="{{ url('/') }}">
-            <div class="hotel-img">
-            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-            </div>
-           
-            <h3><a href="{{ url('/') }}">ahmed</a></h3>
-            
-            <p>5 mins ago</p>
-          </a>
-          </div>
-        </div>
-       
-
-       
-
-      </div>
-    </div>
-
-  </section>
- </div>
-  
 </div>
-</div>
-<script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/jquery/jquery-migrate.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/easing/easing.min.js') }}"></script>
-    <script src="{{ asset('js/superfish/hoverIntent.js') }}"></script>
-    <script src="{{ asset('js/superfish/superfish.min.js') }}"></script>
-    <script src="{{ asset('js/wow/wow.min.js') }}"></script>
-    <script src="{{ asset('js/venobox/venobox.min.js') }}"></script>
-    <script src="{{ asset('js/owlcarousel/owl.carousel.min.js') }}"></script>
+
+
 <script>
 	 $(document).ready(function(){
 
-//fetch_Data();
+fetch_Data();
 
 function fetch_Data(query = ''){
 	$.ajax({
@@ -361,8 +197,7 @@ $(document).on('keyup' , '#search' , function(){
 });
 </script>
 
-	</div>
-</div>
+
 
 
 @endsection
