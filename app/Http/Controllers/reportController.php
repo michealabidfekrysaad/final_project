@@ -267,4 +267,8 @@ class reportController extends Controller
         $repor = Report::findOrFail($id);
         return view('showReports', ['repor'=>$repor]);
     }
+    public function filterCheckbox(Request $request){
+
+       
+    }
 }
