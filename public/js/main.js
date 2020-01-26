@@ -163,6 +163,8 @@ $(document).ready(function () {
     //     }
     // });
     var data = { "gender": gender, "age": age, "city": city };
+    console.log(data);
+    
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
           console.log(key + " -> " + data[key]);

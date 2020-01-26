@@ -82,7 +82,7 @@
 
 
                         <div class="dropdown-menu dropdown-menu-right mt-2"style="border: 0px;background:none;">
-                            <a class="dropdown-item d-block" href="/myprofile" >
+                            <a class="dropdown-item d-block" href="/profile" >
                                 {{ __('MyProfile') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
