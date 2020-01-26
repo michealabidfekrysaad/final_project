@@ -81,10 +81,9 @@
                         </a>
 
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="border: 0px;background:none;">
-                            <a class="dropdown-item d-block" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                        <div class="dropdown-menu dropdown-menu-right mt-2"style="border: 0px;background:none;">
+                            <a class="dropdown-item d-block" href="{{ route ('users.show',['id'=>Auth::user()->id])}}" >
+                                {{ __('MyProfile') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -102,14 +101,7 @@
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>
-    </header><!-- #header -->
-    <div>
-        <main>
-            @yield('content')
-            
-        </main>
-    </div>
- 
+    </header>
     <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery-migrate.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -124,7 +116,17 @@
     <script src="{{ asset('js/contactform/contactform.js') }}"></script>
 
     <!-- Template Main Javascript File -->
-    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script><!-- #header -->
+
+    
+    <div>
+        <main>
+            @yield('content')
+            
+        </main>
+    </div>
+ 
+
 </body>
 
 </html>

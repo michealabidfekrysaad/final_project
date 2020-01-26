@@ -59,7 +59,7 @@ class LoginController extends Controller
     
                 Auth::login($finduser);
 
-                return redirect('/home');
+                return redirect('/');
     
             }else{
                 $newUser = User::create([
@@ -74,7 +74,7 @@ class LoginController extends Controller
 
                 Auth::login($newUser);
     
-                return redirect('/home');
+                return redirect('/');
             }
 
         } catch (Exception $e) {

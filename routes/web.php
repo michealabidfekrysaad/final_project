@@ -41,6 +41,11 @@ Route::get('/people/search/{type}','UploadfileController@createReport');
 Route::post('/people/search/{type}','UploadfileController@report');
 Route::get('/people/image','UploadfileController@index');
 Route::post('uploadfile','UploadfileController@upload');
+// Route::get('/users/{id}','UsersController@show')->name('users.show');
+Route::get('/users/{id}',function(){
+    return view('people.information');
+})->name('users.show');
+
  
 
 Route::get('/items/search', function(){
