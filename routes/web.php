@@ -11,7 +11,6 @@
 |
 */
 
-use App\Http\Controllers\filterController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,7 +33,7 @@ Route::get('/people/search', function(){
 Route::get('/people/details', function(){
     return view('people.personDetails');
 });
-
+Route::post('/filter/find','filterController@doSearchingQuery');
 // Route::get('/people/search/{type}', function($type){
 //     return view('people.form',['type' => $type]);
 // });
