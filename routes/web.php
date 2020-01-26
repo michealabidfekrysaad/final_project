@@ -51,6 +51,9 @@ Route::get('/users/{id}',function(){
 Route::get('/items/search', function(){
     return view('items.find');
 });
+Route::get('/myprofile', function(){
+    return view('user.index');
+});
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
 
