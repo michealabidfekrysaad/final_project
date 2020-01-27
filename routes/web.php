@@ -79,7 +79,8 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 
 Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
-Route::get('/attribute' , 'AttributeController@index')->name('attribute.index');
+Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
+Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
@@ -90,11 +91,24 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 /***************/
 
 
-/***** Profile Controller *****/
+/***** Profile CRUD *****/
 
     Route::get('/profile' , 'ProfileController@index')->name('profile.index');
     Route::get('/edit/{id}' , 'ProfileController@edit')->name('profile.edit');
     Route::put('/update/{id}' , 'ProfileController@update')->name('profile.update');
+
+
+/************* */
+
+/***** Values CRUD *****/
+Route::get('/valuesAdmin' , 'ValuesController@indexAdmin')->name('value.index');
+Route::get('/values' , 'ValuesController@index')->name('value.index');
+Route::get('/createValue' , 'ValuesController@create')->name('profile.create');
+Route::post('/values' , 'ValuesController@store')->name('profile.store');
+Route::get('/showValue/{id}' , 'ValuesController@show')->name('value.show');
+Route::get('/editValue/{id}' , 'ValuesController@edit')->name('value.edit');
+Route::put('/update/{id}' , 'ValuesController@update')->name('value.update');
+Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.delete');
 
 
 /************* */

@@ -17,6 +17,13 @@
 			<article class="card-group-item">
 				<header class="card-header">
 					<h6 class="title">Gender: </h6>
+					@foreach($attr as $at)
+						{{$at->attribute_name}}
+					@endforeach
+					<br>
+					@foreach($value as $v)
+						{{$v->value_name}}
+					@endforeach
 				</header>
 				<div class="filter-content">
 					<div class="card-body">
