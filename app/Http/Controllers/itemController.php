@@ -21,13 +21,13 @@ class itemController extends Controller
         //     'items' => $items,
         // ]);
     }
-    public function myItems()
-    {
-        $items = auth()->user()->items ;//Report::paginate(10);
-        return view('items/index', [
-            'items' => $items,
-        ]);
-    }
+    // public function myItems()
+    // {
+    //     $items = auth()->user()->items ;//Report::paginate(10);
+    //     return view('items/index', [
+    //         'items' => $items,
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -64,7 +64,7 @@ class itemController extends Controller
      */
     public function show(Item $item)
     {
-        if(auth()->user()->id==$item->user()->id){
+        if(auth()->user()->id==$item->user->id){
             return response()->json($item);
          }
     }
@@ -79,7 +79,7 @@ class itemController extends Controller
     {
         //
     }
-
+0
     /**
      * Update the specified resource in storage.
      *

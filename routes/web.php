@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
+| routes are loaded by the RouteServicepoeProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
 */
@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 //Route::get('/test','TestsController@test');
 
-Route::resource('reports' , 'reportController');
+// Route::resource('reports' , 'reportController');
 Route::get('/contact', function () {
     return view('contact.index');
 });
@@ -92,3 +92,6 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 
 
 /************* */
+
+Route::get('/edit/{id}' , 'reportController@edit')->name('repo.edit');
+Route::post('/update/{id}' , 'reportController@update')->name('repo.update');

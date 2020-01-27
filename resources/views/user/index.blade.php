@@ -83,23 +83,12 @@
                                         <p>the type of the report</p>
                                         <p>5 mins ago</p>
                                     </a>
+                                    @foreach($report as $repo)
+                                <a class="btn btn-primary" href="/edit/{{$repo->id}}">Update Report</a>
+                                @endforeach
+                                    <button class="btn btn-danger" href="">delete</button>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6">
-                                <div class="hotel text-center">
-                                    <a href="{{ url('/people/details') }}">
-                                        <div class="hotel-img">
-                                            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
-                                        </div>
-
-                                        <h3><a href="{{ url('/people/details') }}">ahmed</a></h3>
-
-                                        <p>5 mins ago</p>
-                                        <p>the type of the report</p>
-                                        <p>5 mins ago</p>
-                                    </a>
-                                </div>
+                                
                             </div>
                             
                         </div>

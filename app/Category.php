@@ -14,4 +14,8 @@ class Category extends Model
 
         return $this->hasMany(Item::class);
     }
+    public function attributes(){
+
+        return $this->belongsToMany(Attribute::class);
+    }
 }
