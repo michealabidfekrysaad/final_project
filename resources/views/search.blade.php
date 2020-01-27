@@ -25,12 +25,12 @@
        @endif
     </div>
 
-    <form action="/searchCheckbox" method="POST">
-    @csrf
+    
         <input type="checkbox" name="checkbox[]" value="male" id="male">male</label>
         <input type="checkbox" name="checkbox[]" value="female" id="female">Female</label>
-    </form>
-    
+        <input type="checkbox" name="checkbox[]" value="alex" id="city">city</label>
+        <input type="checkbox" name="checkbox[]" value="age" id="age">10</label>
+
 
 
     <h5>***********************************</h5>
@@ -64,22 +64,18 @@
     <script src="{{ asset('js/owlcarousel/owl.carousel.min.js') }}"></script>
 
     <script>
-    $(document).ready(function(){
-var arr=[];
-var obj={};
-$(":checkbox").on("click", function(){
-    arr.push($(this).val());
-    //console.log(arr);
-    var s = arr.toString();
-    console.log(s);
-   obj =  Object.assign({}, [s]);
-   console.log(obj);
-// obj.push($(this).val());
-// console.log(obj);
-//obj.push($this.val());
+   
+   $(document).ready(function(){
+    var obj = [];
+    var male = $('#male').val();
+    var female = $('#female').val();
+    var city = $('#city').val();
+    var age = $('#age').val();
+    $.each($("input[type='checkbox']:checked"), function(){
+        obj.push($(this).val());
+     });
 
-});
-});
+   });
 
     
 
