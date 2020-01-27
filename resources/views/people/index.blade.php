@@ -3,7 +3,7 @@
 @section('content')
 <div class="pt-5 container-fluid">
 	<div class="row mt-2 pt-5 section-header">
-		<h2 class="mx-auto">all losts people</h2>	
+		<h2 class="mx-auto">all lost people</h2>	
 	</div>
 	<h2 class="filter_data d-block"></h2>
 	<div class="row justify-content-end ">
