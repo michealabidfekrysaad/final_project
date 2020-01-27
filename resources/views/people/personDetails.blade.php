@@ -6,10 +6,12 @@
       Speaker Details Section
     ============================-->
     <section id="speakers-details" class="wow fadeIn pt-5">
+            
       <div class="container  pt-5">
         <div class="section-header pt-2">
           <h2>Person Details</h2>
         </div>
+             <i class="fas fa-arrow-right"></i>
 
         <div class="row">
           <div class="col-md-6">

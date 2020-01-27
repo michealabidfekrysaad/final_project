@@ -4,11 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
 {
-    use Searchable;
+    
+    use SoftDeletes;
 
     protected $table = 'reports';
 
@@ -18,7 +19,10 @@ class Report extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+ 
+    public function scopeGetFilter($query){
+      return $query->get();
+    }
     public function searchableAs(){
 
         return "reports";

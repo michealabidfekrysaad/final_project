@@ -9,7 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
@@ -44,5 +44,19 @@ class User extends Authenticatable
     public function reports()
     {
         return $this->hasMany(Report::class);
+    }
+
+    public function userFounder()
+    {
+        return $this->hasMany('App\DescriptionValidation', 'founder_id', 'id');
+    }
+    public function userLost()
+    {
+        return $this->hasMany('App\DescriptionValidation', 'lost_id', 'id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
     }
 }

@@ -46,11 +46,11 @@
                 <ul class="nav-menu ">
                     <li class=" {{ Request::is('/') ? 'menu-active' : '' }}"><a href="/">Home</a></li>
                     
-                    <li class="dropdown {{ Request::is('people/search') ? 'menu-active' : '' }}">
+                    <li class="dropdown {{ Request::is('people/search') ? 'menu-active' : '' }}" >
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Find People                        </a>
-                        <div class="dropdown-menu" style="background-color: #f82249" aria-labelledby="navbarDropdown">
-                          <a class=" {{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All People</a>
+                        <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1);" aria-labelledby="navbarDropdown">
+                          <a class="{{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All People</a>
                           <div class="divider"></div>
                           <a class="" value="lookfor" href="{{ url('people/search', 'lookfor')}}">Search for missing</a>
                           <div class="divider"></div>
@@ -61,7 +61,19 @@
                       </li>
 
 
-                    <li class=""><a href="#about">Find Items</a></li>
+                    {{-- <li class=""><a href="#about">Find Items</a></li> --}}
+
+                    <li class="dropdown {{ Request::is('items/search') ? 'menu-active' : '' }}">
+                        <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Find Items                        </a>
+                        <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1)" aria-labelledby="navbarDropdown">
+                          <a class=" {{ Request::is('items/search') ? 'menu-active' : '' }}" href="/items/search">All Items</a>
+                          <div class="divider"></div>
+                          <a class="" value="found" href="{{ url('items/search', 'found')}}">Found a missing</a>
+                        </div>
+                      </li>
+
+
                     <li class=""><a href="#about">About</a></li>
                     <li class="{{ Request::is('contact') ? 'menu-active' : '' }}"><a href="/contact">Contact Us</a></li>
 
@@ -75,14 +87,14 @@
                     </li>
                     @endif
                     @else
-                    <li class="buy-tickets dropdown ml-xl-5 pl-xl-5">
+                    <li class="buy-tickets dropdown pl-xl-5">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
 
                         <div class="dropdown-menu dropdown-menu-right mt-2"style="border: 0px;background:none;">
-                            <a class="dropdown-item d-block" href="{{ route ('users.show',['id'=>Auth::user()->id])}}" >
+                            <a class="dropdown-item d-block" href="/profile" >
                                 {{ __('MyProfile') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
