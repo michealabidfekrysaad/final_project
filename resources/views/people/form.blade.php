@@ -39,6 +39,7 @@
                 }
 
 // above validation on person name and below is location validation
+
             let inputlocation=document.getElementById("inputlocation");
             let LocationErr=document.getElementById("LocationErr");
             if (inputlocation.value == "")                                  
@@ -59,7 +60,7 @@
 
                 }
 
-                // validation for special mark
+                // validation for special mark that is  text
                 let inputspecial_mark=document.getElementById("inputspecial_mark");
                 let SpecialErr=document.getElementById("SpecialErr");
                 if (inputspecial_mark.value == "")                                  
@@ -79,49 +80,140 @@
                     SpecialErr.innerHTML = "";
 
                 }
-                // validation on date input
-                // var date_regex = /^\d{2}\/\d{2}\/\d{4}$/ ;
-                // var date_regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/ ;
 
-                // let inputlost_since=document.getElementById("inputlost_since");
-                // let LostErr=document.getElementById("LostErr");
-                // if (inputlost_since.value == "")                                  
-                // { 
-                //     inputlost_since.focus();
-                //     LostErr.classList.add("text-danger");
-                //     LostErr.innerHTML = "Date  is required";
-                //     return false; 
-                // } 
-                // if(date_regex.test(inputlost_since.value) == false){
-                //     inputlost_since.focus(); 
-                //     LostErr.classList.add("text-danger");
-                //     LostErr.innerHTML = "the Date fromat is not correct";
-                //     return false; 
-                // }
-                // else{
-                //     LostErr.classList.remove('text-danger')
-                //     LostErr.classList.add("text-success");
-                //     LostErr.innerHTML = "Date is accepted";
+            
 
-                // }
 
-                let NumberErr=document.getElementById("NumberErr");
-                let inputAge= document.getElementById("inputAge");
-                    if (inputAge.value < 0 || inputAge.value > 200 || inputAge.value == "" ||inputAge.value == "e") {
-                        inputAge.focus();
-                        NumberErr.classList.add("text-danger");
-                        NumberErr.innerHTML = "Age is required";
-                    return false; 
+                //validation on date input
+                 const queryString = window.location.href;
+                 spliturl=queryString.split("/");
+                 let lookfor;
+                    for (i = 0; i < spliturl.length; i++) {
+                    if(spliturl[i]== 'lookfor'){
+                         lookfor=true;
                     }
                     else{
+                        lookfor=false;
+
+                        }
+                     }
+                       if(lookfor){
+                           alert("inside lost since")
+                            let inputlost_since=document.getElementById("inputlost_since");
+                            let LostErr= document.getElementById("LostErr");
+                            SplitLostSince=inputlost_since.value.split("-");
+                            let today = new Date();
+                            let year = today.getFullYear();
+                            let day = String(today.getDate()).padStart(2, '0');
+                            let month = String(today.getMonth() + 1).padStart(2, '0');
+                            var dateformat =/^\d{4}-\d{2}-\d{2}$/;
+                                 if (!inputlost_since.value.match(dateformat) || SplitLostSince[0] > year) {
+                                    LostErr.classList.add("text-danger");
+                                    LostErr.innerHTML = "year is not valid";
+                                     return false; 
+                                    }
+                                    if (SplitLostSince[1] > month || SplitLostSince[2] > day ) {
+                                    LostErr.classList.add("text-danger");
+                                    LostErr.innerHTML = "day or month is not valid";
+                                     return false; 
+                                    }
+
+                                    else{
+                                        LostErr.innerHTML = "";
+                                        }
+                                    
+
+                                }
+
+                //    validation on age input
+
+            let inputAge=document.getElementById("inputAge");
+            let NumberErr=document.getElementById("NumberErr");
+            let RegexNumber=/^[0-9]+$/;
+            if (inputAge.value == "" ||inputAge.value == 0)                                  
+                { 
+                    inputAge.focus();
+                    NumberErr.classList.add("text-danger");
+                    NumberErr.innerHTML = "Age is required";
+                    return false; 
+                } 
+                if(RegexNumber.test(inputAge.value) == false || inputAge.value >100){
+                    inputAge.focus(); 
+                    NumberErr.classList.add("text-danger");
+                    NumberErr.innerHTML = "Age is not valid";
+                    return false; 
+                }
+                else{
                     NumberErr.innerHTML = "";
 
                 }
 
+                //validation on height in cm
+            let inputHeight=document.getElementById("inputHeight");
+            let HeightErr=document.getElementById("HeightErr");
+            let RegexAge=/^[0-9]+$/;
+            if (inputHeight.value == "" ||inputHeight.value == 0)                                  
+                { 
+                    inputHeight.focus();
+                    HeightErr.classList.add("text-danger");
+                    HeightErr.innerHTML = "Height is required ";
+                    return false; 
+                } 
+                if(RegexAge.test(inputHeight.value) == false || inputHeight.value >250){
+                    inputHeight.focus(); 
+                    HeightErr.classList.add("text-danger");
+                    HeightErr.innerHTML = "Height is not valid";
+                    return false; 
+                }
+                else{
+                    HeightErr.innerHTML = "";
+
+                }
+
+
+                //validation on weight
+            let inputWeight=document.getElementById("inputWeight");
+            let WeightErr=document.getElementById("WeightErr");
+            let RegexWeight=/^[0-9]+$/;
+            if (inputWeight.value == "" ||inputWeight.value == 0)                                  
+                { 
+                    inputWeight.focus();
+                    WeightErr.classList.add("text-danger");
+                    WeightErr.innerHTML = "Weight is required ";
+                    return false; 
+                } 
+                if(RegexWeight.test(inputWeight.value) == false || inputWeight.value >100){
+                    inputWeight.focus(); 
+                    WeightErr.classList.add("text-danger");
+                    WeightErr.innerHTML = "Weight is not valid";
+                    return false; 
+                }
+                else{
+                    WeightErr.innerHTML = "";
+
+                }
+
+
+            //validate on dropdown gender
+                    let gender = document.getElementById("gender");
+                    let strUser = gender.options[gender.selectedIndex].value;
+                    let GenderErr= document.getElementById("GenderErr");
+                    if(strUser=="") //for text use if(strUser1=="Select")
+                    {
+                        GenderErr.classList.add("text-danger");
+                        GenderErr.innerHTML = "gender is required ";
+                    }
+                    else{
+                        GenderErr.innerHTML = "";
+
+                        }
+                       
+
+
 
 
                
-            return( true );
+             return( true )
     }
 
 
@@ -159,7 +251,6 @@
             } 
         } 
     } 
-
 
 </script>
 
@@ -212,37 +303,47 @@
                     <label for="inputspecial_mark">Special Mark :</label>
                     <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Person" required>
                     <span id="SpecialErr"></span>
-                </div>
+                </div> 
 
                 @if($type == 'lookfor') 
                 <div class="form-group">
                     <label for="inputlost_since">Lost Since	:</label>
-                    <input type="date" class="form-control" id="inputlost_since" placeholder="Person Lost Since" required>
+                    <input type="date" class="form-control" id="inputlost_since" placeholder="Person Lost Since" max = "2020-02-01" min = "1920-02-01" required >
                     <span id="LostErr"></span>
                 </div>
 
                 @endif
                 
-                <div class="form-group ">
+                
+                 <div class="form-group ">
                     <label for="inputAge">Age :</label>
-                    <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=100 required>
+                    <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=90 required >
                     <span id="NumberErr"></span>
                 </div>
 
-               <div class="form-group ">
+
+              <div class="form-group ">
                     <label for="inputHeight">Height :</label>
-                    <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM" min=1 max=250 required>
+                    <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 required >
+                    <span id="HeightErr"></span>
                 </div>
-                <div class="form-group ">
+                
+
+                 <div class="form-group ">
                     <label for="inputWeight">Weight :</label>
-                    <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=1 max=100 required>
+                    <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 required>
+                    <span id="WeightErr"></span>
                 </div>
+
+
                 <div class="form-group">
                     <label for="gender">select Gender :</label>
-                    <select class="form-control" id="gender" name="gender" required>
+                    <select class="form-control" id="gender" name="gender" required >
+                        <option value="">select your gender</option>
                         <option value="male">Male</option>
-                        <option value="fmale">Fmale</option>
+                        <option value="female">Female</option>
                     </select>
+                    <span id="GenderErr"></span>
                 </div>
 
                 @if($type == 'lookfor') 
@@ -260,7 +361,7 @@
                     </select>
                 </div>
 
-                <div class="form-group">
+               <div class="form-group">
                     <label for="inputlast_seen_at">Last Seen At	:</label>
                     <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required>
                 </div>
@@ -310,19 +411,4 @@
     @endsection
 
 
-    {{-- <script type="text/javascript">
-        function ValidateExtension() {
-            var allowedFiles = [".jpg", ".jpeg", ".png"];
-            var fileUpload = document.getElementById("fileUpload");
-            var ImgError = document.getElementById("ImgError");
-            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
-            if (!regex.test(fileUpload.value.toLowerCase())) {
-                ImgError.classList.add("text-danger");
-                ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
-                return false;
-            }
-            ImgError.classList.add("text-success");
-            ImgError.innerHTML = "Upload Image Successfully";
-            return true;
-        }
-    </script> --}}
+ 
