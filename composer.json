@@ -13,11 +13,10 @@
         "aws/aws-sdk-php-laravel": "^3.4",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
-
         "laravel/scout": "^7.2",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
-        "laravelcollective/html": "^6.0",
+        "league/flysystem-aws-s3-v3": "~1.0",
         "spatie/laravel-permission": "^3.6"
     },
     "require-dev": {
@@ -26,8 +25,7 @@
         "laravel/ui": "^1.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^8.0",
-        "league/flysystem-aws-s3-v3": "~1.0"
+        "phpunit/phpunit": "^8.0"
     },
     "config": {
         "optimize-autoloader": true,

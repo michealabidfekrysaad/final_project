@@ -2,40 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\SendSmsMailToFounder;
 use App\Report;
+use Aws\Rekognition\RekognitionClient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\User;
 
 class reportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    private $client;
+    private $renderType;
+
     public function __construct()
-{
-    $this->middleware(['role:Admin'])->only('index');
-
-}
-
+    {
+        $this->renderType=" ";
+//        $this->middleware(['role:Admin'])->only('index');
+        $this->client = new RekognitionClient(
+            [
+                'version' => 'latest',
+                'region' => 'us-east-2',
+                'credentials' => [
+                    'key' => 'AKIA5WVDM6FIA5253O7V',
+                    'secret' => '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'
+                ]]);
+    }
     public function index()
     {
-        $reports = Report::paginate(10);
-        return view('reports/index', [
-            'reports' => $reports,
-        ]);
-    }
+        $reports = Report::all();
+        return response()->json($reports);
 
+    }
     public function myReports()
     {
-        $reports = auth()->user()->reports ;//Report::paginate(10);
+        $reports = auth()->user()->reports;//Report::paginate(10);
         return view('reports/index', [
             'reports' => $reports,
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -49,41 +55,75 @@ class reportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
+        $validateFace = $this->detectFace($request->file('image'));
+        if (!$validateFace) {
+            return response()->json(['message'=>'No face Found Of More than one Face']);
+        } else
         {
-            $report = Report::create([
-                'name' => $request->name,
-                'age' => $request->age,
-                'gender' => $request->gender,
-                'image' => $request->image->store('images'),
-                'type' => $request ->type,
-                'special_mark' => $request ->special_mark,
-                'eye_color' => $request ->eye_color,
-                'hair_color' => $request ->hair_color,
-                'city' => $request ->city,
-                'region' => $request ->region,
-                'location' => $request ->loaction,
-                'last_seen_on' => $request ->last_seen_on,
-                'last_seen_at' => $request ->last_seen_at,
-                'lost_since' => $request ->lost_since,
-                'found_since' => $request ->found_since,
-                'height' => $request ->height,
-                'weight' => $request ->weight,
-            ]);
+            $resonse = $this->searchByImage($request->type,$request->file('image'));
+            if ($resonse==false) {
+                $data=[
+                    'name' => $request->name,
+                    'age' => $request->age,
+                    'gender' => $request->gender,
+                    'type' => $request->type,
+                    'special_mark' => $request->special_mark,
+                    'eye_color' => $request->eye_color,
+                    'hair_color' => $request->hair_color,
+                    'city' => $request->city,
+                    'region' => $request->region,
+                    'location' => $request->location,
+                    'last_seen_on' => $request->last_seen_on,
+                    'last_seen_at' => $request->last_seen_at,
+                    'lost_since' => $request->lost_since,
+                    'found_since' => $request->found_since,
+                    'height' => $request->height,
+                    'weight' => $request->weight,
+                ];
+                $report = Report::create($data);
+                $request->session()->put('report',$data);
+                $responseFromS3Upload = $this->uploadImageToS3($report, $request->file('image'));
+                return response()->json([
+                    'message' => 'sorry The person not exist and created report successfully',
+                    'your report' => $responseFromS3Upload
+                ]);
+            }
+            else {
+                $otherReport = Report::with('user')->where('image', '=', $resonse)->get();
+                return response()->json(['otherReport'=>$otherReport]);
+            }
+
+        }
+        }
+        //accept other report from auth user
+        public function acceptOtherReport(Report $report)
+        {
+            \request()->session()->forget('report');
+            $otherUser = $report->user;
+            $otherUser->notify(new SendSmsMailToFounder($report,User::find(6)));
+
+        }
+    public function RejectOtherReport(){
+        if (\request()->session()->has('report')) {
+            $data=\request()->session()->get('report');
+            $report = Report::create($data);
+            \request()->session()->forget('report');
             return response()->json($report);
         }
     }
+        public function closeReport(Report $report){
+        $report->is_found='1';
+        $report->save();
+        dd($report);
+        return redirect('/');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        }
+
     public function show(Report $report)
     {
         if(auth()->user()->id==$report->user()->id){
@@ -91,28 +131,13 @@ class reportController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Report $report)
     {
-
-
                 if($request->has('name')){
                     $report->name = $request->name;
                 }
@@ -123,8 +148,7 @@ class reportController extends Controller
                     $report->gender = $request->gender;
                 }
                 if($request->hasFile('image')){
-                    Storage::delete($report->image);
-                    $report->image = $request->image;
+
                 }
                 if($request->has('type')){
                     $report->type = $request->type;
@@ -165,21 +189,90 @@ class reportController extends Controller
                 if($request->has('weight')){
                     $report->weight = $request->weight;
                 }
+        if ($report->isClean()) {
+            return response()->json('You need to specify a different value to update', 422);
+        }
              $report->save();
-
-
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Report $report)
     {
         if(auth()->user()->id==$report->user()->id||auth()->user()->hasRole('Admin')){
             $report->delete();
+        }
+    }
+    public function detectFace($file){
+        {
+            $filenamewithextension = $file;
+            $result = $this->client->detectFaces([
+                'Image' => [
+                    'Bytes' => file_get_contents($filenamewithextension,true)
+                ],
+            ]);
+            if (count($result->get('FaceDetails'))==1){
+                return true;
+            }
+//            else if (count($result->get('FaceDetails'))>1){
+//                return 'there are more than one person';
+//            }
+            else{
+                return false;
+               // return response()->json('there are no person in image');
+            }
+        }
+
+    }
+    public function uploadImageToS3($report,$file){
+
+        $filenamewithextension = $file->getClientOriginalName();
+        $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $filenametostore = 'people/'.$filename.'_'.time().'.'.$extension;
+        Storage::disk('s3')->put($filenametostore, fopen($file, 'r+'), 'public');
+       // $image_url='https://loseall.s3.us-east-2.amazonaws.com/'.$filenametostore;
+        $report->image= $filenametostore;
+        $report->user_id=6;
+        $report->save();
+        return $report;
+
+    }
+    public function searchByImage($type,$file){
+
+        if($type=="lost"){
+            $this->renderType="found";
+        }
+        if($type=="found"){
+            $this->renderType="lost";
+        }
+        foreach (DB::table('reports')->where('type','=',$this->renderType)->get(['image'])->toArray() as $value){
+            $result = $this->client->compareFaces([
+                'SimilarityThreshold' => 0,
+                'SourceImage' => [
+                    'Bytes' => file_get_contents($file,true)
+                ],
+                'TargetImage' => [
+                    'S3Object' => [
+                        'Bucket' => 'loseall',
+                        'Name' => $value->image,
+                    ],
+                ],
+
+            ]);
+            if ((int)$result->get('FaceMatches')[0]['Similarity'] > 90)
+            {
+                return  $value->image;
+            }
+        }
+        return false;
+    }
+    public function searchbyImageForLost(Request $request){
+        $response= $this->searchByImage('lost',$request->image);
+        if($response=false){
+            return response()->json('go to report image');
+        }
+        else{
+            $otherReport = Report::with('user')->where('image', '=', $response)->get();
+            return response()->json(['otherReport'=>$otherReport]);
         }
 
     }

@@ -24,48 +24,49 @@ class TestsController extends Controller
                    'secret'=>'j2LSHHct7RPBixDxU/sXuzwt7tedafZv6pfrcZhJ'
                ]]);
    }
-    public function test(Request $request){
-        if($request->hasFile('image'))
-        {
-            $filenamewithextension = $request->file('image');
-            $result = $this->client->detectFaces([
-                'Image' => [
-                    'Bytes' => file_get_contents($filenamewithextension,true)
-                ],
-            ]);
-            if (count($result->get('FaceDetails'))==1){
-
-                return response()->json('detect one person successfully');
-
-            }
-            else if (count($result->get('FaceDetails'))>1){
-                  return response()->json('there are more than one person');
-            }
-            else{
-                return response()->json('there are no person in image');
-            }
-        }
-
-
-//        $result = $this->client->compareFaces([
-//            'SimilarityThreshold' => 0,
-//            'SourceImage' => [
-//                'S3Object' => [
-//                    'Bucket' => 'loseall',
-//                    'Name' => 'people/images_1579866863.jpeg',
+    public function test(){
+        return response()->json('ss');
+//        if($request->hasFile('image'))
+//        {
+//            $filenamewithextension = $request->file('image');
+//            $result = $this->client->detectFaces([
+//                'Image' => [
+//                    'Bytes' => file_get_contents($filenamewithextension,true)
 //                ],
-//            ],
-//            'TargetImage' => [
-//                'S3Object' => [
-//                    'Bucket' => 'loseall',
-//                    'Name' => 'people/rm_1579861570.jpg',
-//                ],
-//            ],
+//            ]);
+//            if (count($result->get('FaceDetails'))==1){
 //
-//        ]);
-//        return response()->json([
-//            'Similarity'=> $result->get('FaceMatches')[0]['Similarity']
-//        ]);
+//                return response()->json('detect one person successfully');
+//
+//            }
+//            else if (count($result->get('FaceDetails'))>1){
+//                  return response()->json('there are more than one person');
+//            }
+//            else{
+//                return response()->json('there are no person in image');
+//            }
+//        }
+//
+//
+////        $result = $this->client->compareFaces([
+////            'SimilarityThreshold' => 0,
+////            'SourceImage' => [
+////                'S3Object' => [
+////                    'Bucket' => 'loseall',
+////                    'Name' => 'people/images_1579866863.jpeg',
+////                ],
+////            ],
+////            'TargetImage' => [
+////                'S3Object' => [
+////                    'Bucket' => 'loseall',
+////                    'Name' => 'people/rm_1579861570.jpg',
+////                ],
+////            ],
+////
+////        ]);
+////        return response()->json([
+////            'Similarity'=> $result->get('FaceMatches')[0]['Similarity']
+////        ]);
 
   }
     public function index()

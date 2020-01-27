@@ -314,7 +314,7 @@
 			<div class="text-center">
 			<button type="submit" class="btn" id="lostButton">Send Report</button>
 			</div>
-			
+
 		</form>
 
 	</div>
