@@ -45,4 +45,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Report::class);
     }
+
+    public function userFounder(){
+        return $this->hasMany('App\DescriptionValidation' , 'founder_id' , 'id');
+    }
+    public function userLost(){
+        return $this->hasMany('App\DescriptionValidation' , 'lost_id' , 'id');
+    }
 }

@@ -48,9 +48,15 @@ Route::post('uploadfile','UploadfileController@upload');
 Route::get('/items/search', function(){
     return view('items.find');
 });
+Route::get('/items/search/found', function(){
+    return view('items.form');
+});
  
 Route::get('/matchReport', function(){
     return view('matchReport');
+});
+Route::get('/editReport', function(){
+    return view('editReport');
 });
 
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
