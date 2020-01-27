@@ -755,11 +755,11 @@ body.mobile-nav-active #mobile-nav-toggle {
   padding: 60px 0;
 }
 
-#speakers-details .details h2 {
+#speakers-details .details h3 {
   color: #112363;
   font-size: 28px;
   font-weight: 700;
-  margin-bottom: 10px;
+  padding-left: 15px;
 }
 
 #speakers-details .details .social {
@@ -789,8 +789,9 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 #speakers-details .details p {
   color: #112363;
-  font-size: 15px;
-  margin-bottom: 10px;
+  font-size: 19px;
+  padding-left: 8px;
+  padding-top: 2px;
 }
 
 /*--------------------------------------------------------------
@@ -1701,19 +1702,28 @@ body.mobile-nav-active #mobile-nav-toggle {
    margin-left: 10%;
     
   }
+}
 
   @media (max-width: 768px) {
     .internal_navbar {
       padding: 2px;
     }
+  }
 
 
     #lostButton{
-  background: #e0072f;
-  border: 10px;
-  padding: 10px 40px;
-  color: #fff;
-  transition: 0.4s;
-  border-radius: 50px;
-  cursor: pointer;
+      background: #f82249;
+      border: 0;
+      padding: 10px 40px;
+      color: #fff;
+      transition: 0.4s;
+      border-radius: 50px;
+      cursor: pointer;
 }
+
+#lostButton:hover {
+  background: #e0072f;
+}
+
+
+

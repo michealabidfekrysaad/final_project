@@ -283,6 +283,180 @@ class reportController extends Controller
        dd($FilterSearch);
     }
     public function getFormSearch(){
+
         return view('search');
+    }
+
+    public function searchReports2(Request $request){
+        if($request->has('search')){
+
+        $searchName = $request->input('search');
+
+        $FilterSearch = Report::search($searchName)->get();
+
+        return view('search' , ['FilterSearch'=>$FilterSearch]);
+
+        }else{
+
+            return response()->json('Not Found');
+        }
+    }
+    public function getSearchCheckbox(Request $request){
+        if($request->input('locationfilter1')){
+            $reports = DB::table('reports')->whereIn('gender', ['male'])
+            ->get();
+        }else{
+            $reports = DB::table('reports')->whereIn('gender', ['female'])
+            ->get();
+        }
+        return response()->json($reports);
+    }
+
+    public function action(Request $request){
+        $output = '';
+        if($request->ajax()){
+            $query = $request->get('query');
+            if($query != ''){
+                $data = DB::table('reports')
+                    ->where('name' , 'like' , '%'.$query.'%')
+                    ->orWhere('city' , 'like' , '%'.$query.'%')
+                    ->orWhere('region' , 'like' , '%'.$query.'%')
+                    ->get();
+            }
+            else{
+                $data = DB::table('reports')->get();
+            }
+            $total_row = $data->count();
+            if($total_row > 0 ){
+                foreach($data as $row){
+                    $output .= '
+                    <div class="col-lg-4 col-md-6">
+							<div class="hotel text-center">
+								<a href="{{ url(/showRepo/'.$row->id.') }}">
+									<div class="hotel-img">
+										<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
+									</div>
+
+									<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
+
+									<p>'.$row->created_at.'</p>
+								</a>
+							</div>
+						</div>
+
+                    ';
+                }
+            }else{
+                $output = '
+
+                        <div align="center" colspan="5">No Data Found</div>
+
+                ';
+            }
+            $data = array(
+                'div_data'  => $output
+            );
+            echo json_encode($data);
+        }
+    }
+
+
+    public function showReport($id){
+        $repor = Report::findOrFail($id);
+        return view('showReports', ['repor'=>$repor]);
+    }
+    public function filterCheckbox(Request $request){
+
+
+    }
+    public function doSearchingQuery($request) {
+        $globalQuery="SELECT * FROM reports WHERE ";
+        $array=array();
+        // {"gender":["male","female"],"city":"Cairo","age":[]}
+        $constraints= json_decode($request, true);
+        if(count($constraints['gender'])==2){
+            $firstGender="'".$constraints['gender'][0]."'";
+            $secondGender="'".$constraints['gender'][1]."'";
+            $query=" (gender=".$firstGender." OR gender=".$secondGender.")";
+            array_push($array,$query);
+        }
+        if(count($constraints['gender'])==1){
+            $gender="'".$constraints['gender'][0]."'";
+            $query=" gender=".$gender;
+            array_push($array,$query);
+
+        }
+        //
+        if($constraints['city']){
+            if(count($constraints['age']) == 1){
+                $city="'".$constraints['city']."'"." AND";
+
+            }
+            else{
+                $city="'".$constraints['city']."'";
+            }
+            $query="city=".$city;
+            array_push($array,$query);
+        }
+        if($constraints['age']){
+            for($i=0;$i<count($constraints['age']);$i++) {
+                if ($constraints['age'][$i] == "below_10_years"){
+                    $query=" age <= 10";
+                    array_push($this->localArray,$query);
+                }
+                if ($constraints['age'][$i] == "below_20_years"){
+
+                    $query="age <= 20";
+                    array_push($this->localArray,$query);
+
+                }
+                if ($constraints['age'][$i] == "below_30_years"){
+                    $query=" age <= 30";
+                    array_push($this->localArray,$query);
+                }
+                if ($constraints['age'][$i] == "other_above_30"){
+
+                    $query=" age > 30";
+                    array_push($this->localArray,$query);
+                }
+            }
+            for ($i=0;$i<count($this->localArray);$i++){
+                if($i > 0){
+                    if($i==count($this->localArray) - 1){
+                        $this->localQuery .= " OR ".$this->localArray[$i]." )";
+                    }
+                    else{
+                        $this->localQuery .= " OR ".$this->localArray[$i];
+                    }
+                }
+                else
+                {
+                    if(count($this->localArray)==1){
+                        $this->localQuery.=" (".$this->localArray[$i]." )";
+                    }
+                    else{
+                        if($constraints['city']){
+                            $this->localQuery.=" AND (".$this->localArray[$i];
+                        }
+                        else{
+                            $this->localQuery.=" (".$this->localArray[$i];
+                        }
+                    }
+                }
+            }
+            array_push($array,$this->localQuery);
+            //return $this->localQuery;
+        }
+
+        for($i=0;$i<count($array);$i++){
+            if($i==1){
+                $globalQuery.=" AND ".$array[$i];
+            }
+            else{
+                $globalQuery.=$array[$i];
+            }
+        }
+        return $globalQuery;
+        // return $results = DB::select("SELECT * FROM reports WHERE   AND ( age <= 10 )");
     }
 }

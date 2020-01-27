@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddProviderIdToUsers extends Migration
+class AddLoginVerifyUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddProviderIdToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('provider_id')->nullable();
+            $table->boolean('verified')->default(false);
+            $table->string('verification_token')->nullable();
         });
     }
 
@@ -26,7 +27,7 @@ class AddProviderIdToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            
         });
     }
 }

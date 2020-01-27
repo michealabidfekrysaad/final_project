@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddProviderToUsersTable extends Migration
+class AddSoftDeleteToReportTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddProviderToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('provider')->nullable();
+        Schema::table('reports', function (Blueprint $table) {
+            $table->softDeletes('deleted_at')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddProviderToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('reports', function (Blueprint $table) {
             //
         });
     }
