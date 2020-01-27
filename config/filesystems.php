@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => 'images',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,6 +63,13 @@ return [
             'bucket' => 'loseall',
             'url' => 'https://loseall.s3.us-east-2.amazonaws.com'
         ],
+
+        'images' => [
+            'driver' => 'local',
+            'root' => public_path(),
+            'visibility' => 'public',
+        ],
+
 
     ],
 

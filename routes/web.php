@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,7 +24,7 @@ Route::get('/contact', function () {
 });
 //Route::resource('reports', 'reportController');
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/search', function(){
@@ -32,7 +33,7 @@ Route::get('/people/search', function(){
 Route::get('/people/details', function(){
     return view('people.personDetails');
 });
-
+Route::post('/filter/find','filterController@doSearchingQuery');
 // Route::get('/people/search/{type}', function($type){
 //     return view('people.form',['type' => $type]);
 // });
@@ -76,6 +77,7 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 // Route::get('/search' , 'reportController@getFormSearch');
 // Route::post('/search' , 'reportController@SearchReports');
 
+Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attribute' , 'AttributeController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');

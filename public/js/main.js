@@ -154,14 +154,17 @@ $(document).ready(function () {
     var gender = get_filter('gender');
     var age = get_filter('age');
     var city = $("#DropDownList1 :selected").text();
-    // $.ajax({
-    //     url:"fetch_data.php",
-    //     method:"POST",
-    //     data:{action:action, minimum_price:minimum_price, maximum_price:maximum_price, gender:gender, age:age, city:city},
-    //     success:function(data){
-    //         $('.filter_data').html(data);
-    //     }
-    // });
+    $.ajax({
+        url:"/filter/find",
+        method:"POST",
+        data:{ "gender": gender, "age": age, "city": city },
+        success:function(data){
+            // $('.filter_data').html(data);
+
+        }
+    }
+      
+    );
     var data = { "gender": gender, "age": age, "city": city };
     console.log(data);
     
@@ -170,6 +173,8 @@ $(document).ready(function () {
           console.log(key + " -> " + data[key]);
       }
   }
+
+  console.log(data);
     $('.filter_data').html();
   }
 

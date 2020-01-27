@@ -67,13 +67,14 @@ class reportController extends Controller
                 'hair_color' => $request ->hair_color,
                 'city' => $request ->city,
                 'region' => $request ->region,
-                'location' => $request ->loaction,
+                'location' => $request ->location,
                 'last_seen_on' => $request ->last_seen_on,
                 'last_seen_at' => $request ->last_seen_at,
                 'lost_since' => $request ->lost_since,
                 'found_since' => $request ->found_since,
                 'height' => $request ->height,
                 'weight' => $request ->weight,
+                'deleted_at' => $request ->deleted_at,
             ]);
             return response()->json($report);
         }
@@ -179,9 +180,12 @@ class reportController extends Controller
      */
     public function destroy(Report $report)
     {
-        if(auth()->user()->id==$report->user()->id||auth()->user()->hasRole('Admin')){
-            $report->delete();
-        }
+        // if(auth()->user()->id==$report->user()->id||auth()->user()->hasRole('Admin')){
+        //     $report->delete();
+        //     return response()->json($report);
+        // }
+        $report->delete();
+        return response()->json($report);
 
     }
 
