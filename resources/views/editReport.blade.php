@@ -27,6 +27,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <img src="{{asset('img/speakers/1.jpg')}}" alt="Speaker 1" class="img-fluid">
+                    
                 </div>
 
                 <div class="col-md-6">
