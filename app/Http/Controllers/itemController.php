@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Item;
+use DB;
 class itemController extends Controller
 {
     /**
@@ -16,11 +17,11 @@ class itemController extends Controller
      // isthere any role?
     public function index()
     {
-        $items = Item::paginate(10);
-        // return view('items/index', [
-        //     'items' => $items,
-        // ]);
+        // $items = Item::paginate(10);
+        $cities = DB::table("cities")->pluck("city_name","id");
+        return view('items.form',compact('cities'));
     }
+
     public function myItems()
     {
         $items = auth()->user()->items ;//Report::paginate(10);
@@ -106,33 +107,33 @@ class itemController extends Controller
     }
 
     // micheal 3amel ajax request lel city fe el items report --start
-    public function ajaxRequest(Request $request){
-        // if($request->ajax()){
-        //     $query = $request->get('query');
-        //     if($query != ''){
-        //         $data = DB::table('reports')
-        //             ->where('name' , 'like' , '%'.$query.'%')
-        //             ->orWhere('city' , 'like' , '%'.$query.'%')
-        //             ->orWhere('region' , 'like' , '%'.$query.'%')
-        //             ->get();
-        //     }
-        //     else{
-        //         $data = DB::table('reports')->get();
-        //     }
-        //     return $data;
-            
+    public function action(Request $request){
+        if($request->ajax()){
+            return response()->json(['success'=>'Data is successfully added']);
 
-        //     // $data = array(
-        //     //     'div_data'  => $output
-        //     // );
-        //     // echo json_encode($data);
-            
-        // }
-        dd($request);
-        return "inside action";
+
+        }
         
     }
-    public function ajaxRequestPost(){}
+
+    function fetch(Request $request)
+    {
+     $select = $request->get('select');
+     $value = $request->get('value');
+     $dependent = $request->get('dependent');
+     $data = DB::table('country_state_city')
+       ->where($select, $value)
+       ->groupBy($dependent)
+       ->get();
+     $output = '<option value="">Select '.ucfirst($dependent).'</option>';
+     foreach($data as $row)
+     {
+      $output .= '<option value="'.$row->$dependent.'">'.$row->$dependent.'</option>';
+     }
+     echo $output;
+    }
+
+
     // ---------end of ajax for city
 
     /**
@@ -146,4 +147,49 @@ class itemController extends Controller
         $item->delete();
         return response()->json($item);
     }
+
+
+
+
+
+
+        public function getAreaList(Request $request)
+        {
+            $states = DB::table("areas")
+            ->where("city_id",$request->city_id)
+            ->pluck("area_name","id");
+            return response()->json($states);
+            
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -68,7 +68,12 @@ Route::get('/search' , 'reportController@getFormSearch');
 Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 
-
+// the ajax of city in item by micheal
+Route::get('/ajaxRequest', 'itemController@action')->name('form.ajax');
+Route::get('items/search/found','itemController@index');
+Route::get('get-state-list','itemController@getAreaList');
+Route::get('get-city-list','itemController@getCityList');
+// the ajax of city in item by micheal
 
 Route::get('/liveSearch/action' , 'reportController@action')->name('search.action');
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');

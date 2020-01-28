@@ -119,21 +119,23 @@
             <div class="form-group">
                 <label for="city">City:</label>
                 <select class="form-control" id="city" name="city" required>
-                    <option value="alexandria">alexandria</option>
-                    <option value="cairo">cairo</option>
-                    <option value="fayoum">fayoum</option>
-                    <option value="ismailia">ismailia</option>
-                    <option value="matrouh">matrouh</option>
-
+                    <option value="none" selected disabled hidden> 
+                        Select an Option 
+                    </option>
+                    @foreach($cities as $key => $city)
+                  <option value="{{$key}}"> {{$city}}</option>
+                  @endforeach
+                    
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="region">region:</label>
-                <select class="form-control" id="region" name="city" required>
-                    <option value="0">- Select -</option>
+                <label for="title">select region:</label>
+                <select name="state" id="state" class="form-control" style="width:350px">
+
                 </select>
             </div>
+
 
             <div class="form-group">
                 <label for="inputfound_since">found Since :</label>
@@ -150,38 +152,34 @@
 </section>
 
 
-
 <script>
-    // the ajax request of the city ro response the region
-$(document).ready(function(){
 
-$("#city").change(function(){
-    var cityvalue = $(this).val();
-    console.log(cityvalue);
-
-    $.ajax({
-        url:'/ajaxRequest',
-        type: 'POST',
-        data: {cityvalue:cityvalue},
-        dataType: 'json',
-        success:function(response){
-            alert(response);
-
-            var len = response.length;
-
-            $("#sregion").empty();
-            for( var i = 0; i<len; i++){
-                var id = response[i]['id'];
-                var name = response[i]['name'];
-                
-                $("#region").append("<option value='"+id+"'>"+name+"</option>");
-
+$('#city').change(function(){
+    var cityID = $(this).val();
+    if(cityID){
+        $.ajax({
+           type:"GET",
+           url:"{{url('get-state-list')}}?city_id="+cityID,
+           success:function(res){               
+            if(res){
+                $("#state").empty();
+                $("#state").append('<option>Select region</option>');
+                $.each(res,function(key,value){
+                    $("#state").append('<option value="'+key+'">'+value+'</option>');
+                });
+           
+            }else{
+               $("#state").empty();
             }
-        }
-    });
-});
+           }
+        });
+    }else{
+        $("#state").empty();
+        $("#city").empty();
+    }      
+   });
 
-});
+
 </script>
 
 
