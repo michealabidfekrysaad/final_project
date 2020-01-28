@@ -14,4 +14,8 @@ class Category extends Model
 
         return $this->hasMany(Item::class);
     }
+    public function attributes(){
+
+        return $this->belongsToMany('App\Attribute' , 'category_attribute' , 'category_id','id');
+    }
 }

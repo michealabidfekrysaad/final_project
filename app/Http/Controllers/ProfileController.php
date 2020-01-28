@@ -16,7 +16,10 @@ class ProfileController extends Controller
     public function index()
     {
         $profile = auth()->user();
-        return view('user.index' , ['profile' => $profile]);
+        $report = Report::with('user')->where('user_id' , '=' , auth()->user()->id)->get();
+        
+    
+        return view('user.index' , compact('profile' , 'report'));
     }
 
     /**
@@ -59,7 +62,7 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        $profile = auth()->user()->find($id);
+        $profile = auth()->user()->$id;
         
         return view('user.edit' ,compact('profile'));
     }

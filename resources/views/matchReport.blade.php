@@ -37,7 +37,7 @@
                                             <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
                                         </div>
 
-                                        <h3><a href="{{ url('/people/details') }}">ahmed</a></h3>
+                                        <h3><a href="{{ url('/people/details') }}">micheal</a></h3>
 
                                         <p>5 mins ago</p>
                                     </a>

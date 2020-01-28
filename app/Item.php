@@ -11,7 +11,7 @@ class Item extends Model
 {
 
     use SoftDeletes;
-    protected $table = 'items';
+    // protected $table = 'items';
 
     protected $fillable = ['image', 'city', 'region', 'found_since'];
     public function user()

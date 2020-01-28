@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
+| routes are loaded by the RouteServicepoeProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
 */
@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 //Route::get('/test','TestsController@test');
 
-Route::resource('reports' , 'reportController');
+// Route::resource('reports' , 'reportController');
 Route::get('/contact', function () {
     return view('contact.index');
 });
@@ -26,10 +26,23 @@ Route::get('/contact', function () {
 
 // Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('verified')->group(function () {
+    
+    Route::get('/people/search/{type}','UploadfileController@createReport');
+    Route::get('/people/image','UploadfileController@index');
+    
+    Route::get('/items/search/found', function(){
+        return view('items.form');
+    });
+});
 Route::get('/people/search', function(){
     return view('people.find');
 });
+Route::get('/items/search', function(){
+    return view('items.find');
+});
+
+Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/details', function(){
     return view('people.personDetails');
 });
@@ -37,21 +50,16 @@ Route::post('/filter/find','filterController@doSearchingQuery');
 // Route::get('/people/search/{type}', function($type){
 //     return view('people.form',['type' => $type]);
 // });
-Route::get('/people/search/{type}','UploadfileController@createReport');
+
 
 Route::post('/people/search/{type}','UploadfileController@report');
-Route::get('/people/image','UploadfileController@index');
+
 Route::post('uploadfile','UploadfileController@upload');
 // Route::get('/users/{id}','UsersController@show')->name('users.show');
 
  
 
-Route::get('/items/search', function(){
-    return view('items.find');
-});
-Route::get('/items/search/found', function(){
-    return view('items.form');
-});
+
  
 Route::get('/matchReport', function(){
     return view('matchReport');
@@ -85,7 +93,7 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
-Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+// Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
@@ -105,6 +113,8 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 
 /************* */
 
+Route::get('/edit/{id}' , 'reportController@edit')->name('repo.edit');
+Route::post('/update/{id}' , 'reportController@update')->name('repo.update');
 /***** Values CRUD *****/
 Route::get('/valuesAdmin' , 'ValuesController@indexAdmin')->name('value.index');
 Route::get('/values' , 'ValuesController@index')->name('value.index');
