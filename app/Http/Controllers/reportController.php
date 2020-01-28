@@ -32,7 +32,7 @@ class reportController extends Controller
     public function myReports()
     {
         $reports = auth()->user()->reports ;//Report::paginate(10);
-        return view('reports/index', [
+        return view('user.index', [
             'reports' => $reports,
         ]);
     }
@@ -94,14 +94,16 @@ class reportController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified resource.o
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $report = Report::find($id);
+        
+        return view('user.updatereport' ,['report' => $report]);
     }
 
     /**
@@ -111,8 +113,32 @@ class reportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Report $report)
+    public function update(Request $request, $id)
     {
+        $report = Report::find($id);
+        // dd($repo);
+        // $repo->name = $request->input('name');
+        // $repo->age = $request->input('age');
+        // $repo->gender = $request->input('gender');
+        // $repo->image = $request->input('image');
+        // $repo->type = $request->input('type');
+        // $repo->special_mark = $request->input('special_mark');
+        // $repo->eye_color = $request->input('eye_color');
+        // $repo->hair_color = $request->input('hair_color');
+        // $repo->city = $request->input('city');
+        // $repo->location = $request->input('location');
+        // $repo->last_seen_on = $request->input('last_seen_on');
+        // $repo->last_seen_at = $request->input('last_seen_at');
+        // $repo->lost_since = $request->input('lost_since');
+        // $repo->found_since = $request->input('found_since');
+        // $repo->is_found = $request->input('is_found');
+        // $repo->height = $request->input('height');
+        // $repo->weight = $request->input('weight');
+        // $repo->name = auth()->user()->id;
+
+        // $repo->save();
+        // return redirect(route('profile.index'));
+
 
 
                 if($request->has('name')){
@@ -168,6 +194,7 @@ class reportController extends Controller
                     $report->weight = $request->weight;
                 }
              $report->save();
+             return redirect(route('profile.index'));
 
 
     }

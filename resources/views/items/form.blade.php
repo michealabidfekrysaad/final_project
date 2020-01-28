@@ -89,6 +89,10 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- @foreach($category as $item)
+<p> {{$item->id}}</p>
+
+@endforeach --}}
 
 <section id="contact" class="section-bg  py-5">
 
@@ -97,7 +101,7 @@
         <div class="section-header pt-5">
             <h2>Report For Lost Item</h2>
         </div>
-
+        
 
         <form onsubmit="return(validate());">
 
@@ -110,22 +114,36 @@
             </div>
 
             <div class="form-group">
-                <label for="inputName">Name Of Item :</label>
-                <input type="text" class="form-control" id="inputName" placeholder="Name Of Item" required>
-                <span id="NameErr"></span>
+                <label for="item">item name:</label>
+                <select class="form-control" id="item" name="item" required>
+                    <option value="none" selected disabled hidden>
+                        Select an Option
+                    </option>
+                    @foreach($categories as $category)
+                    <option value="{{$category->id}}"> {{$category->category_name}}</option>
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">select attribute:</label>
+                <select name="attribute" id="attribute" class="form-control" style="width:350px">
+
+                </select>
             </div>
 
 
             <div class="form-group">
                 <label for="city">City:</label>
                 <select class="form-control" id="city" name="city" required>
-                    <option value="none" selected disabled hidden> 
-                        Select an Option 
+                    <option value="none" selected disabled hidden>
+                        Select an Option
                     </option>
                     @foreach($cities as $key => $city)
-                  <option value="{{$key}}"> {{$city}}</option>
-                  @endforeach
-                    
+                    <option value="{{$key}}"> {{$city}}</option>
+                    @endforeach
+
                 </select>
             </div>
 
@@ -153,8 +171,7 @@
 
 
 <script>
-
-$('#city').change(function(){
+    $('#city').change(function(){
     var cityID = $(this).val();
     if(cityID){
         $.ajax({
@@ -179,10 +196,34 @@ $('#city').change(function(){
     }      
    });
 
+   $('#item').change(function(){
+    var category_id = $(this).val();
+    console.log(category_id);
+    if(category_id){
+        $.ajax({
+           type:"GET",
+           url:"/get/"+category_id,
+           success:function(res){               
+            if(res){
+                $("#attribute").empty();
+                $("#attribute").append('<option>Select attribute</option>');
+                $.each(res,function(key,value){
+                    $("#attribute").append('<option value="'+key+'">'+value+'</option>');
+                });
+           
+            }else{
+               $("#attribute").empty();
+            }
+           }
+        });
+    }else{
+        $("#attribute").empty();
+        $("#item").empty();
+    }      
+   });
+
 
 </script>
 
 
 @endsection
-
-

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Item;
 use DB;
+use App\Category;
 class itemController extends Controller
 {
     /**
@@ -19,16 +20,11 @@ class itemController extends Controller
     {
         // $items = Item::paginate(10);
         $cities = DB::table("cities")->pluck("city_name","id");
-        return view('items.form',compact('cities'));
+        $categories = Category::with('attributes')->get();
+
+        return view('items.form',compact('cities','categories'));
     }
 
-    public function myItems()
-    {
-        $items = auth()->user()->items ;//Report::paginate(10);
-        return view('items/index', [
-            'items' => $items,
-        ]);
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -65,7 +61,7 @@ class itemController extends Controller
      */
     public function show(Item $item)
     {
-        if(auth()->user()->id==$item->user()->id){
+        if(auth()->user()->id==$item->user->id){
             return response()->json($item);
          }
     }
@@ -104,16 +100,6 @@ class itemController extends Controller
             $item->found_since = $request->found_since;
         }
         $item->save();
-    }
-
-    // micheal 3amel ajax request lel city fe el items report --start
-    public function action(Request $request){
-        if($request->ajax()){
-            return response()->json(['success'=>'Data is successfully added']);
-
-
-        }
-        
     }
 
     function fetch(Request $request)
@@ -162,6 +148,12 @@ class itemController extends Controller
             
         }
 
+        public function getAttributeList(Category $category)
+        {
+            // dd($category->attributes()->get());
+            // return response()->json();
+            
+        }
 
 
 
