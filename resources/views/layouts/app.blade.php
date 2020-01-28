@@ -8,7 +8,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>ToFind</title>
+
+    <!-- Favicons -->
+    <link href="{{asset('img/favicon.png')}}" rel="icon">
+    <link href="asset('img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
@@ -45,33 +49,33 @@
             <nav id="nav-menu-container">
                 <ul class="nav-menu ">
                     <li class=" {{ Request::is('/') ? 'menu-active' : '' }}"><a href="/">Home</a></li>
-                    
-                    <li class="dropdown {{ Request::is('people/search') ? 'menu-active' : '' }}" >
+
+                    <li class="dropdown {{ Request::is('people/search') ? 'menu-active' : '' }}">
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Find People                        </a>
+                            Find People </a>
                         <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1);" aria-labelledby="navbarDropdown">
-                          <a class="{{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All People</a>
-                          <div class="divider"></div>
-                          <a class="" value="lookfor" href="{{ url('people/search', 'lookfor')}}">Search for missing</a>
-                          <div class="divider"></div>
-                          <a class="" value="found" href="{{ url('people/search', 'found')}}">found a missing</a>
-                          <div class="divider"></div>
-                          <a class="" href="/people/image">search by image</a>
+                            <a class="{{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All People</a>
+                            <div class="divider"></div>
+                            <a class="" value="lookfor" href="{{ url('people/search', 'lookfor')}}">Search for missing</a>
+                            <div class="divider"></div>
+                            <a class="" value="found" href="{{ url('people/search', 'found')}}">found a missing</a>
+                            <div class="divider"></div>
+                            <a class="" href="/people/image">search by image</a>
                         </div>
-                      </li>
+                    </li>
 
 
                     {{-- <li class=""><a href="#about">Find Items</a></li> --}}
 
                     <li class="dropdown {{ Request::is('items/search') ? 'menu-active' : '' }}">
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Find Items                        </a>
+                            Find Items </a>
                         <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1)" aria-labelledby="navbarDropdown">
-                          <a class=" {{ Request::is('items/search') ? 'menu-active' : '' }}" href="/items/search">All Items</a>
-                          <div class="divider"></div>
-                          <a class="" value="found" href="{{ url('items/search', 'found')}}">Found a missing</a>
+                            <a class=" {{ Request::is('items/search') ? 'menu-active' : '' }}" href="/items/search">All Items</a>
+                            <div class="divider"></div>
+                            <a class="" value="found" href="{{ url('items/search', 'found')}}">Found a missing</a>
                         </div>
-                      </li>
+                    </li>
 
 
                     <li class=""><a href="#about">About</a></li>
@@ -93,8 +97,8 @@
                         </a>
 
 
-                        <div class="dropdown-menu dropdown-menu-right mt-2"style="border: 0px;background:none;">
-                            <a class="dropdown-item d-block" href="/profile" >
+                        <div class="dropdown-menu dropdown-menu-right mt-2" style="border: 0px;background:none;">
+                            <a class="dropdown-item d-block" href="/profile">
                                 {{ __('MyProfile') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -130,14 +134,14 @@
     <!-- Template Main Javascript File -->
     <script src="{{ asset('js/main.js') }}"></script><!-- #header -->
 
-    
+
     <div>
         <main>
             @yield('content')
-            
+
         </main>
     </div>
- 
+
 
 </body>
 

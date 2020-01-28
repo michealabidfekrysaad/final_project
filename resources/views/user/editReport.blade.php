@@ -21,13 +21,13 @@
             </ul>
         </div>
         @endif
-        <form action="" method="">
+        <form action="/update/{{$report->id}}" method="POST">
             @csrf
             @method('PUT')
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{asset('img/speakers/1.jpg')}}" alt="Speaker 1" class="img-fluid">
-                    <input type="file" class="form-control" name="select_file" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png" required />
+                    <img src="{{$report->image}}" alt="Speaker 1" class="img-fluid">
+                    <input type="file" class="form-control" name="select_file" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png"  value="{{$report->image}}"/>
                     <span id="ImgError"></span>
                 </div>
 
@@ -37,7 +37,7 @@
                             <div class="col">
                                 <h3>Name Of Person :</h3>
                             </div>
-                            <div class="col"><input type="text" class="form-control" id="inputName" placeholder="Name Of Person" required>
+                            <div class="col"><input type="text" class="form-control" id="inputName" placeholder="Name Of Person" required name="name" value="{{$report->name}}">
                                 <span id="NameErr"></span>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                             <div class="col">
                                 <h3>Location :</h3>
                             </div>
-                            <div class="col"><input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Person" required>
+                            <div class="col"><input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Person" required name="location" value="{{$report->location}}">
                                 <span id="LocationErr"></span>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 <h3>Special Mark :</h3>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Person" required>
+                                <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Person" required name="special_mark" value="{{$report->special_mark}}">
                                 <span id="SpecialErr"></span>
                             </div>
 
@@ -65,7 +65,7 @@
                                 <h3>Last Seen At :</h3>
                             </div>
                             <div class="col">
-                                <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required>
+                                <input type="text" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required name="last_seen_at" value="{{$report->last_seen_at}}">
                             </div>
 
                         </div>
@@ -74,7 +74,7 @@
                                 <h3>Lost Since : </h3>
                             </div>
                             <div class="col">
-                                <p> 01/05/2019</p>
+                            <input type="date" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required name="last_seen_on" value="{{$report->last_seen_on}}">
                             </div>
                         </div>
                         <div class="row">
@@ -82,7 +82,7 @@
                                 <h3>Age : </h3>
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=90 required>
+                                <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=90 required name="age" value="{{$report->age}}">
                                 <span id="NumberErr"></span>
                             </div>
 
@@ -92,7 +92,7 @@
                                 <h3>Height : </h3>
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 required>
+                                <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 required name="height" value="{{$report->height}}">
                                 <span id="HeightErr"></span>
                             </div>
 
@@ -102,7 +102,7 @@
                                 <h3>Weight : </h3>
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 required>
+                                <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 required name="weight" value="{{$report->weight}}">
                                 <span id="WeightErr"></span>
                             </div>
 
@@ -147,9 +147,9 @@
                             <div class="col">
                                 <select class="form-control" id="eye_color" name="eye_color" required>
                                     <option value="black">Black</option>
-                                    <option value="browan">Browan</option>
+                                    <option value="brown">Browan</option>
                                     <option value="green">Green</option>
-                                    <option value="gry">Grey</option>
+                                    <option value="grey">Grey</option>
                                     <option value="blue">Blue</option>
                                 </select>
                             </div>
@@ -162,9 +162,9 @@
                             <div class="col">
                                 <select class="form-control" id="hair_color" name="hair_color">
                                     <option value="black">Black</option>
-                                    <option value="browan">Browan</option>
+                                    <option value="brown">Brown</option>
                                     <option value="white">White</option>
-                                    <option value="gry">Golden</option>
+                                    <option value="golden">Golden</option>
                                 </select>
                             </div>
 

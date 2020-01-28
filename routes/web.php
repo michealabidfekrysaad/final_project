@@ -67,6 +67,9 @@ Route::get('/matchReport', function(){
 Route::get('/editReport', function(){
     return view('editReport');
 });
+Route::get('/itemDetails', function(){
+    return view('items.itemDetails');
+});
 
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
@@ -96,7 +99,7 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
-// Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
@@ -117,7 +120,7 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 /************* */
 
 Route::get('/edit/{id}' , 'reportController@edit')->name('repo.edit');
-Route::post('/update/{id}' , 'reportController@update')->name('repo.update');
+Route::put('/update/{id}' , 'reportController@update')->name('repo.update');
 /***** Values CRUD *****/
 Route::get('/valuesAdmin' , 'ValuesController@indexAdmin')->name('value.index');
 Route::get('/values' , 'ValuesController@index')->name('value.index');
