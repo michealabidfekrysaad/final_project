@@ -130,13 +130,13 @@
 						<div class="custom-control custom-checkbox">
 							<span class="float-right badge badge-light round">52</span>
 							<input type="checkbox" class="custom-control-input region" id="region1" value="sidibishr">
-							<label class="custom-control-label" for="region1">sidibishr</label>
 						</div> <!-- form-check.// -->
 
 						<div class="custom-control custom-checkbox">
 							<span class="float-right badge badge-light round">132</span>
 							<input type="checkbox" class="custom-control-input region" id="region2" value="region">
 							<label class="custom-control-label" for="region2">sidibishr</label>
+							<label class="custom-control-label" for="region1">sidibishr</label>
 						</div> <!-- form-check.// -->
 
 						<div class="custom-control custom-checkbox">
