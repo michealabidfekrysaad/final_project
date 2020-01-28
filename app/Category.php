@@ -16,6 +16,6 @@ class Category extends Model
     }
     public function attributes(){
 
-        return $this->belongsToMany(Attribute::class);
+        return $this->belongsToMany('App\Attribute' , 'category_attribute' , 'category_id','id');
     }
 }

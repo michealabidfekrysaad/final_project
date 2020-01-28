@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Attribute;
 use App\AttributeValue;
-use DB;
+use App\Attribute;
 
-class AttributeController extends Controller
+class ValuesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,19 +16,19 @@ class AttributeController extends Controller
     public function __construct(){
 
         $this->middleware('role:Admin')->only('indexAdmin');
-
+        
     }
     public function index()
     {
-        $attr = Attribute::all();
         $value = AttributeValue::all();
-        return view('items.find' , compact('attr' , 'value'));
+        return view('items.find' , ['value' => $value]);
+        
     }
 
     public function indexAdmin()
     {
-        $attr = Attribute::all();
-        return view('attribute.index' , ['attr' -> $attr]);
+        $value = AttributeValue::all();
+        return view('value.index' , ['value' => $value]);
     }
 
     /**
@@ -39,7 +38,8 @@ class AttributeController extends Controller
      */
     public function create()
     {
-        return view ('attribute.create');
+        $value = Attribute::with('valuesOfAttributes')->get();
+        return view('value.create' , ['value' => $value]);
     }
 
     /**
@@ -50,10 +50,13 @@ class AttributeController extends Controller
      */
     public function store(Request $request)
     {
-        $attr = new Attribute;
-        $attr->attribute_name = $request->input('attribute_name');
-        $attr->save();
-        return redirect(route('attribute.index'));
+        $value = new AttributeValue;
+        $value->value_name = $request->input('value_name');
+        $value->attribute_id = $request->get('attribute_id');
+        
+        $value->save();
+        //return response()->json($value);
+        return redirect(route('value.index'));
     }
 
     /**
@@ -64,8 +67,8 @@ class AttributeController extends Controller
      */
     public function show($id)
     {
-        $attr = Attribute::find($id);
-        return view('attribute.show' , ['attr' => $attr]);
+        $value = AttributeValue::find($id);
+        return view('value.show' , ['value' => $value]);
     }
 
     /**
@@ -76,8 +79,8 @@ class AttributeController extends Controller
      */
     public function edit($id)
     {
-        $attr = Attribute::find($id);
-        return view('attribute.edit' , ['attr' => $attr]);
+        $value = AttributeValue::find($id);
+        return view('value.edit' , ['value' => $value]);
     }
 
     /**
@@ -89,10 +92,13 @@ class AttributeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $attr = Attribute::find($id);
-        $attr->attribute_name = $request->input('attribute_name');
-        $attr->save();
-        return redirect(route('attribute.index'));
+        $value = AttributeValue::find($id);
+        $value->value_name = $request->input('value_name');
+        $value->attribute_id = $request->get('attribute_id');
+        
+        $value->save();
+        return redirect(route('value.index'));
+
     }
 
     /**
@@ -103,8 +109,7 @@ class AttributeController extends Controller
      */
     public function destroy($id)
     {
-        $attr = Attribute::find($id)->delete();
-        return redirect(route('attribute.index'));
+        $value = Attribute::find($id)->delete();
+        return redirect(route('value.index')); 
     }
-    
 }

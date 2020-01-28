@@ -46,6 +46,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Report::class , 'user_id');
     }
 
+    public function userFounder()
+    {
+        return $this->hasMany('App\DescriptionValidation', 'founder_id', 'id');
+    }
+    public function userLost()
+    {
+        return $this->hasMany('App\DescriptionValidation', 'lost_id', 'id');
+    }
+
     public function items()
     {
         return $this->hasMany(Item::class);
