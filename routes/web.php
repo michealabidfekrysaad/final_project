@@ -59,6 +59,9 @@ Route::get('/matchReport', function(){
 Route::get('/editReport', function(){
     return view('editReport');
 });
+Route::get('/itemDetails', function(){
+    return view('items.itemDetails');
+});
 
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
