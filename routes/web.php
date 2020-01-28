@@ -54,7 +54,7 @@ Route::get('/people/image','UploadfileController@index');
 Route::post('uploadfile','UploadfileController@upload');
 // Route::get('/users/{id}','UsersController@show')->name('users.show');
 
- 
+
 
 Route::get('/items/search', function(){
     return view('items.find');
@@ -62,7 +62,7 @@ Route::get('/items/search', function(){
 Route::get('/items/search/found', function(){
     return view('items.form');
 });
- 
+
 Route::get('/matchReport', function(){
     return view('matchReport');
 });
@@ -122,3 +122,4 @@ Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.dele
 
 
 /************* */
+Route::get('/api/filter/{request}','TestsController@doSearchingQuery');

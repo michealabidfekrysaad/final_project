@@ -3,7 +3,7 @@
 @section('content')
 <div class="pt-5 container-fluid">
 	<div class="row mt-2 pt-5 section-header">
-		<h2 class="mx-auto">all lost people</h2>	
+		<h2 class="mx-auto">all lost people</h2>
 	</div>
 	<h2 class="filter_data d-block"></h2>
 	<div class="row justify-content-end ">
@@ -13,7 +13,7 @@
 	<div class="row w-100 mx-auto ">
 
 		<div class="col-lg-3  d-none d-lg-block">
-			
+
 			<h4 class="text-muted">filter by</h4>
 			<article class="card-group-item">
 				<header class="card-header">
@@ -80,7 +80,7 @@
 					<div class="card-body">
 						<div class="form-group">
 							<select class="form-control " id="DropDownList1" name="city">
-							<option value=""> </option>
+                                <option value=" "></option>
 								<option value="Alexandria">Alexandria </option>
 								<option  value="Cairo">Cairo</option>
 								<option value="Portsaid">Portsaid</option>
@@ -91,25 +91,25 @@
 							<span class="float-right badge badge-light round">52</span>
 							<input type="checkbox" class="custom-control-input" id="City1">
 							<label class="custom-control-label" for="City1">Alexandria</label>
-						</div> 
+						</div>
 
 						<div class="custom-control custom-checkbox">
 							<span class="float-right badge badge-light round">132</span>
 							<input type="checkbox" class="custom-control-input" id="City2">
 							<label class="custom-control-label" for="City2">Cairo</label>
-						</div> 
+						</div>
 
 						<div class="custom-control custom-checkbox">
 							<span class="float-right badge badge-light round">17</span>
 							<input type="checkbox" class="custom-control-input" id="City3">
 							<label class="custom-control-label" for="City3">Portsaid</label>
-						</div> 
+						</div>
 
 						<div class="custom-control custom-checkbox">
 							<span class="float-right badge badge-light round">7</span>
 							<input type="checkbox" class="custom-control-input" id="City4">
 							<label class="custom-control-label" for="City4">Minia</label>
-						</div> --> 
+						</div> -->
 					</div> <!-- card-body.// -->
 				</div>
 			</article>
@@ -156,7 +156,7 @@
 				<div class="container">
 					<div class="row" id="lost">
 
-						
+
 
 
 
@@ -168,7 +168,7 @@
 			</section>
 		</div>
   </article>
-  
+
  </div>
 </div>
 

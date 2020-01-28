@@ -153,21 +153,26 @@ $(document).ready(function () {
     var action = 'fetch_data';
     var gender = get_filter('gender');
     var age = get_filter('age');
-    var city = $("#DropDownList1 :selected").text();
-    $.ajax({
-        url:"/filter/find",
-        method:"POST",
-        data:{ "gender": gender, "age": age, "city": city },
-        success:function(data){
-            // $('.filter_data').html(data);
-
-        }
-    }
-      
+      if($("#DropDownList1 :selected").text()!=" "){
+          var city = $("#DropDownList1 :selected").text();
+      }
+      var data = {gender,city,age};
+      $.ajax({
+          method:"GET",
+          url:"/api/filter/"+JSON.stringify(data),
+          traditional: true,
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          //data: JSON.stringify(data),
+          success:function(data){
+              //$('.filter_data').html(data);
+              console.log(data);
+          }}
     );
     var data = { "gender": gender, "age": age, "city": city };
     console.log(data);
-    
+
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
           console.log(key + " -> " + data[key]);

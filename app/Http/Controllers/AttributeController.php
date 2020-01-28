@@ -29,7 +29,7 @@ class AttributeController extends Controller
     public function indexAdmin()
     {
         $attr = Attribute::all();
-        return view('attribute.index' , ['attr' -> $attr]);
+        return view('attribute.index' , ['attr' => $attr]);
     }
 
     /**
@@ -106,5 +106,5 @@ class AttributeController extends Controller
         $attr = Attribute::find($id)->delete();
         return redirect(route('attribute.index'));
     }
-    
+
 }

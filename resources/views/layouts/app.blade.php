@@ -78,7 +78,7 @@
                     <li class="{{ Request::is('contact') ? 'menu-active' : '' }}"><a href="/contact">Contact Us</a></li>
 
                     @guest
-                    <li class="buy-tickets pl-xl-5">
+                    <li class="buy-tickets ">
                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
                     @if (Route::has('register'))
