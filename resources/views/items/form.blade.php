@@ -38,88 +38,6 @@
 
                 }
 
-// above validation on Item name and below is location validation
-            let inputlocation=document.getElementById("inputlocation");
-            let LocationErr=document.getElementById("LocationErr");
-            if (inputlocation.value == "")                                  
-                { 
-                    inputlocation.focus();
-                    LocationErr.classList.add("text-danger");
-                    LocationErr.innerHTML = "location is required";
-                    return false; 
-                } 
-                if(re.test(inputlocation.value) == false){
-                    inputlocation.focus(); 
-                    LocationErr.classList.add("text-danger");
-                    LocationErr.innerHTML = "location can not contain numbers";
-                    return false; 
-                }
-                else{
-                    LocationErr.innerHTML = "";
-
-                }
-
-                // validation for special mark
-                let inputspecial_mark=document.getElementById("inputspecial_mark");
-                let SpecialErr=document.getElementById("SpecialErr");
-                if (inputspecial_mark.value == "")                                  
-                { 
-                    inputspecial_mark.focus();
-                    SpecialErr.classList.add("text-danger");
-                    SpecialErr.innerHTML = "special mark is required";
-                    return false; 
-                } 
-                if(re.test(inputspecial_mark.value) == false){
-                    inputspecial_mark.focus(); 
-                    SpecialErr.classList.add("text-danger");
-                    SpecialErr.innerHTML = "special mark can not contain numbers";
-                    return false; 
-                }
-                else{
-                    SpecialErr.innerHTML = "";
-
-                }
-                // validation on date input
-                // var date_regex = /^\d{2}\/\d{2}\/\d{4}$/ ;
-                // var date_regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/ ;
-
-                // let inputlost_since=document.getElementById("inputlost_since");
-                // let LostErr=document.getElementById("LostErr");
-                // if (inputlost_since.value == "")                                  
-                // { 
-                //     inputlost_since.focus();
-                //     LostErr.classList.add("text-danger");
-                //     LostErr.innerHTML = "Date  is required";
-                //     return false; 
-                // } 
-                // if(date_regex.test(inputlost_since.value) == false){
-                //     inputlost_since.focus(); 
-                //     LostErr.classList.add("text-danger");
-                //     LostErr.innerHTML = "the Date fromat is not correct";
-                //     return false; 
-                // }
-                // else{
-                //     LostErr.classList.remove('text-danger')
-                //     LostErr.classList.add("text-success");
-                //     LostErr.innerHTML = "Date is accepted";
-
-                // }
-
-                let NumberErr=document.getElementById("NumberErr");
-                let inputAge= document.getElementById("inputAge");
-                    if (inputAge.value < 0 || inputAge.value > 200 || inputAge.value == "" ||inputAge.value == "e") {
-                        inputAge.focus();
-                        NumberErr.classList.add("text-danger");
-                        NumberErr.innerHTML = "Age is required";
-                    return false; 
-                    }
-                    else{
-                    NumberErr.innerHTML = "";
-
-                }
-
-
-
                
             return( true );
     }
@@ -161,6 +79,9 @@
     } 
 
 
+
+
+
 </script>
 
 
@@ -169,90 +90,101 @@
 
 @section('content')
 
-    <section id="contact" class="section-bg  py-5">
+<section id="contact" class="section-bg  py-5">
 
-        <div class="container py-5">
-    
-            <div class="section-header pt-5">
-                <h2>Report For Lost Item</h2>
-            </div>
-    
-            
-            <form onsubmit = "return(validate());" >
+    <div class="container py-5">
 
-                
-                  <div class="form-group">
-                <label for="Select_file">Upload Image :</label>
-                <input type="file" class="form-control" name="select_file" id="fileUpload" 
-                 onchange="Filevalidation()" accept=".jpg,.jpeg,.png" required/>
-                <span id="ImgError"></span>
-                </div>
-               
-               <div class="form-group">
-                    <label for="inputName">Name Of Item :</label>
-                    <input type="text" class="form-control" id="inputName" placeholder="Name Of Item" required>
-                    <span id="NameErr"></span>
-                </div> 
-
-                {{-- <div class="form-group">
-                    <label for="inputlocation">Location :</label>
-                    <input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Item" required>
-                    <span id="LocationErr"></span>
-                </div> --}}
-
-
-               {{-- <div class="form-group">
-                    <label for="inputspecial_mark">Special Mark :</label>
-                    <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Item" required>
-                    <span id="SpecialErr"></span>
-                </div> --}}
-
-
-
-
-
-                <div class="form-group">
-                    <label for="city">City:</label>
-                    <select class="form-control" id="city" name="city" required>
-                        <option value="alexandria">alexandria</option>
-                        <option value="cairo">cairo</option>
-                        <option value="fayoum">fayoum</option>
-                        <option value="ismailia">ismailia</option>
-                        <option value="matrouh">matrouh</option>
-    
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="Region">Region:</label>
-                    <select class="form-control" id="Region" name="Region" required>
-                        <option value="sidibishr">sidibishr</option>
-                        <option value="falaky">falaky</option>
-                        <option value="sidigaber">sidigaber</option>
-                        <option value="sidibarany">sidibarany</option>
-    
-                    </select>
-                </div>
-
-                {{-- <div class="form-group">
-                    <label for="inputlast_seen_at">Last Seen At	:</label>
-                    <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Item" required>
-                </div> --}}
-
-
-                <div class="form-group">
-                    <label for="inputfound_since">found Since	:</label>
-                    <input type="date" class="form-control" id="inputfound_since" placeholder="Item found when" required>
-                </div>
-
-                <div class="text-center">
-                <button type="submit" class="btn" id="lostButton" >Send Report</button>
-                </div>
-                
-            </form>
-    
+        <div class="section-header pt-5">
+            <h2>Report For Lost Item</h2>
         </div>
-    </section>
 
-    @endsection
+
+        <form onsubmit="return(validate());">
+
+
+            <div class="form-group">
+                <label for="Select_file">Upload Image :</label>
+                <input type="file" class="form-control" name="select_file" id="fileUpload" onchange="Filevalidation()"
+                    accept=".jpg,.jpeg,.png" required />
+                <span id="ImgError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName">Name Of Item :</label>
+                <input type="text" class="form-control" id="inputName" placeholder="Name Of Item" required>
+                <span id="NameErr"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label for="city">City:</label>
+                <select class="form-control" id="city" name="city" required>
+                    <option value="alexandria">alexandria</option>
+                    <option value="cairo">cairo</option>
+                    <option value="fayoum">fayoum</option>
+                    <option value="ismailia">ismailia</option>
+                    <option value="matrouh">matrouh</option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="region">region:</label>
+                <select class="form-control" id="region" name="city" required>
+                    <option value="0">- Select -</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputfound_since">found Since :</label>
+                <input type="date" class="form-control" id="inputfound_since" placeholder="Item found when" required>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn" id="lostButton">Send Report</button>
+            </div>
+
+        </form>
+
+    </div>
+</section>
+
+
+
+<script>
+    // the ajax request of the city ro response the region
+$(document).ready(function(){
+
+$("#city").change(function(){
+    var cityvalue = $(this).val();
+    console.log(cityvalue);
+
+    $.ajax({
+        url:'/ajaxRequest',
+        type: 'POST',
+        data: {cityvalue:cityvalue},
+        dataType: 'json',
+        success:function(response){
+            alert(response);
+
+            var len = response.length;
+
+            $("#sregion").empty();
+            for( var i = 0; i<len; i++){
+                var id = response[i]['id'];
+                var name = response[i]['name'];
+                
+                $("#region").append("<option value='"+id+"'>"+name+"</option>");
+
+            }
+        }
+    });
+});
+
+});
+</script>
+
+
+@endsection
+
 

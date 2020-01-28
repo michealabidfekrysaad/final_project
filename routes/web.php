@@ -76,6 +76,8 @@ Route::get('/search' , 'reportController@getFormSearch');
 Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 
+
+
 Route::get('/liveSearch/action' , 'reportController@action')->name('search.action');
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');
 Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
