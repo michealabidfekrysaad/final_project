@@ -105,6 +105,36 @@ class itemController extends Controller
         $item->save();
     }
 
+    // micheal 3amel ajax request lel city fe el items report --start
+    public function ajaxRequest(Request $request){
+        // if($request->ajax()){
+        //     $query = $request->get('query');
+        //     if($query != ''){
+        //         $data = DB::table('reports')
+        //             ->where('name' , 'like' , '%'.$query.'%')
+        //             ->orWhere('city' , 'like' , '%'.$query.'%')
+        //             ->orWhere('region' , 'like' , '%'.$query.'%')
+        //             ->get();
+        //     }
+        //     else{
+        //         $data = DB::table('reports')->get();
+        //     }
+        //     return $data;
+            
+
+        //     // $data = array(
+        //     //     'div_data'  => $output
+        //     // );
+        //     // echo json_encode($data);
+            
+        // }
+        dd($request);
+        return "inside action";
+        
+    }
+    public function ajaxRequestPost(){}
+    // ---------end of ajax for city
+
     /**
      * Remove the specified resource from storage.
      *
