@@ -225,7 +225,7 @@ class reportController extends Controller
     }
 
     public function action(Request $request){
-        $output = '';
+        // $output = '';
         if($request->ajax()){
             $query = $request->get('query');
             if($query != ''){
@@ -240,24 +240,25 @@ class reportController extends Controller
             }
             $total_row = $data->count();
             if($total_row > 0 ){
-                foreach($data as $row){
-                    $output .= '
-                    <div class="col-lg-4 col-md-6">
-							<div class="hotel text-center">
-								<a href="{{ url(/showRepo/'.$row->id.') }}">
-									<div class="hotel-img">
-										<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
-									</div>
+                
+                // foreach($data as $row){
+                //     $output .= '
+                //     <div class="col-lg-4 col-md-6">
+				// 			<div class="hotel text-center">
+				// 				<a href="{{ url(/showRepo/'.$row->id.') }}">
+				// 					<div class="hotel-img">
+				// 						<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
+				// 					</div>
 
-									<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
+				// 					<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
 
-									<p>'.$row->created_at.'</p>
-								</a>
-							</div>
-						</div>
+				// 					<p>'.$row->created_at.'</p>
+				// 				</a>
+				// 			</div>
+				// 		</div>  
                         
-                    ';
-                }
+                //     ';
+                // }
             }else{
                 $output = '
                    
@@ -265,11 +266,16 @@ class reportController extends Controller
                     
                 ';
             }
+            return $data;
+            
+
             $data = array(
                 'div_data'  => $output
             );
             echo json_encode($data);
+            
         }
+        
     }
 
     public function showReport($id){
