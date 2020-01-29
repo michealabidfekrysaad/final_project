@@ -88,10 +88,6 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- @foreach($category as $item)
-<p> {{$item->id}}</p>
-
-@endforeach --}}
 
 <section id="contact" class="section-bg  py-5">
 
@@ -168,7 +164,7 @@
 <script>
     $('#city').change(function(){
     var cityID = $(this).val();
-     console.log(cityID);
+    console.log(cityID);
     if(cityID){
         $.ajax({
            type:"GET",

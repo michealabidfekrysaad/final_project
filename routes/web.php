@@ -27,7 +27,7 @@ Route::get('/contact', function () {
 // Auth::routes();
 
 Route::middleware('verified')->group(function () {
-    Route::get('/people/search/{type}','UploadfileController@createReport');
+    Route::get('/people/search/{type}','reportController@create');
 Route::get('/people/image','UploadfileController@index');
 
 Route::get('/items/search/found', function(){
@@ -53,7 +53,7 @@ Route::post('/filter/find','filterController@doSearchingQuery');
 // });
 
 
-Route::post('/people/search/{type}','UploadfileController@report');
+// Route::post('/people/search/{type}','UploadfileController@report');
 
 Route::post('uploadfile','UploadfileController@upload');
 // Route::get('/users/{id}','UsersController@show')->name('users.show');
@@ -86,6 +86,11 @@ Route::get('/get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
 
+//    Route::get('people/search/{type}','UploadfileController@CityCategory');
+
+
+Route::get('get-area-list','reportController@getAreaList');
+
 
 // Route::get('/cat' , 'categoryController@index');
 // the ajax of city in item by micheal
@@ -104,6 +109,7 @@ Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
  Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+ Route::get('/items/search' , 'itemController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
@@ -142,3 +148,7 @@ Route::get('/sendEmailItem/{id}' , 'reportController@sendEmailVerifyItems');
 
 Route::post('/storeFahmy' , 'itemController@store');
 
+ 
+Route::get('/error', function(){
+    return view('error');
+});

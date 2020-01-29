@@ -30,6 +30,7 @@ class itemController extends Controller
         //     'items' => $items,
         // ]);
         // $items = Item::paginate(10);
+        return response()->json($items);
     }
 
     /**
