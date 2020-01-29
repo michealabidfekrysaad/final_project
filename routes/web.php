@@ -22,13 +22,22 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('contact.index');
 });
+
+Route::get('/about', function () {
+    return view('about.index');
+});
+
+Route::get('/about/view1', function () {
+    return view('about.view1');
+});
+
 //Route::resource('reports', 'reportController');
 
 // Auth::routes();
 
 Route::middleware('verified')->group(function () {
     
-    Route::get('/people/search/{type}','UploadfileController@createReport');
+    Route::get('/people/search/{type}','reportController@create');
     Route::get('/people/image','UploadfileController@index');
     
     Route::get('/items/search/found', function(){
@@ -38,9 +47,9 @@ Route::middleware('verified')->group(function () {
 Route::get('/people/search', function(){
     return view('people.find');
 });
-Route::get('/items/search', function(){
-    return view('items.find');
-});
+// Route::get('/items/search', function(){
+//     return view('items.find');
+// });
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/details', function(){
@@ -52,7 +61,7 @@ Route::post('/filter/find','filterController@doSearchingQuery');
 // });
 
 
-Route::post('/people/search/{type}','UploadfileController@report');
+Route::post('/people/search/','reportController@store');
 
 Route::post('uploadfile','UploadfileController@upload');
 // Route::get('/users/{id}','UsersController@show')->name('users.show');
@@ -90,7 +99,7 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
-// Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+ Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
@@ -112,6 +121,7 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 
 Route::get('/edit/{id}' , 'reportController@edit')->name('repo.edit');
 Route::post('/update/{id}' , 'reportController@update')->name('repo.update');
+// Route::post('/create/report/missing','reportController@store')
 /***** Values CRUD *****/
 Route::get('/valuesAdmin' , 'ValuesController@indexAdmin')->name('value.index');
 Route::get('/values' , 'ValuesController@index')->name('value.index');

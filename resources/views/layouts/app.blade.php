@@ -74,7 +74,7 @@
                       </li>
 
 
-                    <li class=""><a href="#about">About</a></li>
+                    <li class="{{ Request::is('about') ? 'menu-active' : '' }}"><a href="/about">About</a></li>
                     <li class="{{ Request::is('contact') ? 'menu-active' : '' }}"><a href="/contact">Contact Us</a></li>
 
                     @guest
