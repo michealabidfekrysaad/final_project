@@ -102,9 +102,10 @@
         </div>
 
 
-        <form onsubmit="return(validate());">
+        
+            @csrf
 
-
+        <form action="/storeFahmy" method="POST" onsubmit="return(validate());" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="image">Upload Image :</label>
                 <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()"
@@ -136,15 +137,14 @@
                         Select an Option
                     </option>
                     @foreach($cities as $key => $city)
-                    <option value="{{$key}}"> {{$city}}</option>
+                    <option value="{{$key}}"> {{$city->city_name}}</option>
                     @endforeach
-
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="title">select region:</label>
-                <select name="state" id="state" class="form-control">
+                <select name="region" id="state" class="form-control">
 
                 </select>
             </div>
@@ -152,7 +152,7 @@
 
             <div class="form-group">
                 <label for="inputfound_since">found Since :</label>
-                <input type="date" class="form-control" id="inputfound_since" placeholder="Item found when" required>
+                <input type="date" class="form-control" id="inputfound_since" name="found_since" placeholder="Item found when" required>
             </div>
 
             <div class="text-center">
@@ -168,16 +168,18 @@
 <script>
     $('#city').change(function(){
     var cityID = $(this).val();
+     console.log(cityID);
     if(cityID){
         $.ajax({
            type:"GET",
            url:"{{url('get-state-list')}}?city_id="+cityID,
-           success:function(states){               
+           success:function(states){ 
+               //console.log(states);         
             if(states){
                 $("#state").empty();
                 $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
-                $.each(states,function(key,value){
-                    $("#state").append('<option value="'+key+'">'+value+'</option>');
+                $.each(states[0],function(key,value){
+                    $("#state").append('<option value="'+value+'">'+value+'</option>');
                 });
            
             }else{
@@ -241,6 +243,5 @@
 
 
 </script>
-
 
 @endsection

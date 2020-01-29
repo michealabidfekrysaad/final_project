@@ -81,17 +81,18 @@ Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 
 // the ajax of city in item by micheal
-Route::get('items/search/found','itemController@CityCategory');
-Route::get('get-state-list','itemController@getAreaList');
+Route::get('/items/search/found','itemController@CityCategory');
+Route::get('/get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
 
 
 // Route::get('/cat' , 'categoryController@index');
 // the ajax of city in item by micheal
-
+Route::get('/liveSearch/actionItem' , 'itemController@actionItem')->name('search.actionItem');
 Route::get('/liveSearch/action' , 'reportController@action')->name('search.action');
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');
+Route::get('/showRepoItems/{id}' , 'itemController@showReportItems')->name('showItems.action');
 Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
 Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
 // Route::get('/auth/facebook', 'Auth\LoginController@redirectToFacebook');
@@ -138,4 +139,6 @@ Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.dele
 /************* */
 Route::post('/sendEmail/{id}' , 'reportController@SendEmailVerify');
 Route::get('/sendEmailItem/{id}' , 'reportController@sendEmailVerifyItems');
+
+Route::post('/storeFahmy' , 'itemController@store');
 

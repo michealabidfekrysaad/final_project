@@ -21,7 +21,10 @@
                 <div class="details">
                     <div class="row">
                         <h3>Category :</h3>
-                        <p> Bag</p>
+                        @foreach($item->category as $items){
+                            <p> {{$items->category_name}}</p>
+                        }
+                        @endforeach
                     </div>
                     <div class="row">
                         <h3>Color :</h3>
@@ -29,11 +32,11 @@
                     </div>
                     <div class="row">
                         <h3>Found Since :</h3>
-                        <p> 22/12/2019</p>
+                        <p> {{$item->found_since}}</p>
                     </div>
                     <div class="row">
                         <h3>City Where Found :</h3>
-                        <p> Alexandria</p>
+                        <p> {{$item->city}}</p>
                     </div>
 
 
@@ -41,7 +44,7 @@
                         <form action="" class="form">
                             <div class="form-group">
                                 <h3 for="exampleFormControlTextarea1">Description :</h3>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Write Description To Founder To Know Your Are They Real Owner Of Item"></textarea>
+                                <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" placeholder="Write Description To Founder To Know Your Are They Real Owner Of Item"></textarea>
                             </div>
                             <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
                         </form>
