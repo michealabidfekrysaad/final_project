@@ -108,7 +108,7 @@ class reportController extends Controller
     {
         $report = Report::find($id);
         
-        return view('user.updatereport' ,['report' => $report]);
+        return view('user.editReport' ,['report' => $report]);
     }
 
     /**

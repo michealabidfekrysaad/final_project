@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    //protected $table = 'category';
+    // protected $table = 'categories';
 
     protected $fillable = ['category_name'];
 
@@ -16,6 +16,6 @@ class Category extends Model
     }
     public function attributes(){
 
-        return $this->belongsToMany('App\Attribute' , 'category_attribute' , 'category_id','id');
+        return $this->belongsToMany('App\Attribute' , 'attribute_category' , 'category_id' , 'attribute_id');
     }
 }

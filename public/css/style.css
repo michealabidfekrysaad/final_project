@@ -1727,3 +1727,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 
 
+@media print {
+  html, body {
+     display: none;  /* hide whole page */
+  }
+}

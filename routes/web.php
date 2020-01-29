@@ -67,6 +67,9 @@ Route::get('/matchReport', function(){
 Route::get('/editReport', function(){
     return view('editReport');
 });
+Route::get('/itemDetails', function(){
+    return view('items.itemDetails');
+});
 
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
@@ -76,7 +79,13 @@ Route::get('/search' , 'reportController@getFormSearch');
 Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 
+// the ajax of city in item by micheal
+Route::get('items/search/found','itemController@CityCategory');
+Route::get('get-state-list','itemController@getAreaList');
+Route::get('/get/{category}','itemController@getAttributeList');
 
+// Route::get('/cat' , 'categoryController@index');
+// the ajax of city in item by micheal
 
 Route::get('/liveSearch/action' , 'reportController@action')->name('search.action');
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');
@@ -111,7 +120,7 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 /************* */
 
 Route::get('/edit/{id}' , 'reportController@edit')->name('repo.edit');
-Route::post('/update/{id}' , 'reportController@update')->name('repo.update');
+Route::put('/update/{id}' , 'reportController@update')->name('repo.update');
 /***** Values CRUD *****/
 Route::get('/valuesAdmin' , 'ValuesController@indexAdmin')->name('value.index');
 Route::get('/values' , 'ValuesController@index')->name('value.index');
