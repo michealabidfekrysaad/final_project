@@ -27,5 +27,7 @@ class UploadfileController extends Controller
     function createReport($type){
         return view('people.form',['type'=>$type]);
     }
+
+
     
 }

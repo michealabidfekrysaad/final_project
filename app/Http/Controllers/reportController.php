@@ -47,9 +47,11 @@ class reportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type)
     {
-        //
+        $cities = DB::table("cities")->pluck("city_name", "id");
+        // return view('people.form', compact('cities'));
+        return view('people.form',['type'=>$type,'cities'=>$cities]);
     }
 
     /**
@@ -358,6 +360,18 @@ class reportController extends Controller
         $founder = Item::with('user')->where('id' , '=' , $id)->get();
         dd($founder);
 
-
     }
+
+
+    public function getAreaList(Request $request)
+    {
+        $states = DB::table("areas")
+        ->where("city_id",$request->city_id)
+        ->pluck("area_name","id");
+        return response()->json($states);
+        
+    }
+
+
+
 }

@@ -326,6 +326,25 @@
                 </select>
                 <span id="GenderErr"></span>
             </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <select class="form-control" id="city" name="city" required>
+                    <option value="none" selected disabled hidden>
+                        Select an Option
+                    </option>
+                    @foreach($cities as $key => $city)
+                    <option value="{{$key}}"> {{$city}}</option>
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">select region:</label>
+                <select name="state" id="state" class="form-control">
+
+                </select>
+            </div>
 
             @if($type == 'lookfor')
             <div class="form-group">
@@ -341,6 +360,7 @@
 
                 </select>
             </div>
+
 
             <div class="form-group">
                 <label for="inputlast_seen_at">Last Seen At :</label>
@@ -389,4 +409,30 @@
     </div>
 </section>
 
+<script>
+    $('#city').change(function(){
+    var cityID = $(this).val();
+    if(cityID){
+        $.ajax({
+           type:"GET",
+           url:"{{url('get-area-list')}}?city_id="+cityID,
+           success:function(states){               
+            if(states){
+                $("#state").empty();
+                $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
+                $.each(states,function(key,value){
+                    $("#state").append('<option value="'+key+'">'+value+'</option>');
+                });
+           
+            }else{
+               $("#state").empty();
+            }
+           }
+        });
+    }else{
+        $("#state").empty();
+        $("#city").empty();
+    }      
+   });
+</script>
 @endsection

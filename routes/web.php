@@ -27,7 +27,7 @@ Route::get('/contact', function () {
 // Auth::routes();
 
 Route::middleware('verified')->group(function () {
-    Route::get('/people/search/{type}','UploadfileController@createReport');
+    Route::get('/people/search/{type}','reportController@create');
 Route::get('/people/image','UploadfileController@index');
 
 Route::get('/items/search/found', function(){
@@ -53,7 +53,7 @@ Route::post('/filter/find','filterController@doSearchingQuery');
 // });
 
 
-Route::post('/people/search/{type}','UploadfileController@report');
+// Route::post('/people/search/{type}','UploadfileController@report');
 
 Route::post('uploadfile','UploadfileController@upload');
 // Route::get('/users/{id}','UsersController@show')->name('users.show');
@@ -85,6 +85,11 @@ Route::get('items/search/found','itemController@CityCategory');
 Route::get('get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
+
+//    Route::get('people/search/{type}','UploadfileController@CityCategory');
+
+
+Route::get('get-area-list','reportController@getAreaList');
 
 
 // Route::get('/cat' , 'categoryController@index');
