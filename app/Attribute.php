@@ -27,7 +27,7 @@ class Attribute extends Model
 
     public function categoryAttribute(){
 
-        return $this->hasMany('App\CategoryItems' , 'attribute_id' , 'id');
+        return $this->belongsToMany('App\Category' , 'attribute_category' , 'attribute_id' , 'category_id');
         
     }
 }

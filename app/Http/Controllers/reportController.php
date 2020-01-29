@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\NotifyReport;
+use Illuminate\Support\Facades\Notification;
 use App\User;
+use App\DescriptionValidation;
+use App\Item;
+use Carbon\Carbon;
 use DB;
 
 class reportController extends Controller
@@ -307,10 +312,52 @@ class reportController extends Controller
 
     public function showReport($id){
         $repor = Report::findOrFail($id);
-        return view('showReports', ['repor'=>$repor]);
+        // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
+        // dd($founder);
+        return view('people.personDetails', ['repor'=>$repor]);
     }
-    public function filterCheckbox(Request $request){
+   
+    public function SendEmailVerify(Request $request , $id){
+       // $when = now()->addMinutes(10);
+        //$when = Carbon::now()->addSeconds(10);
 
-       
+        $founder = Report::with('user')->where('id' , '=' , $id)->get();
+        // $founderss = User::with('reports')->where('id' , '=' , $id)->get();
+       // dd($founder->user);
+        $loster = auth()->user()->id;
+        $desc = new DescriptionValidation;
+        // $user1 = User::find(4);
+        // $user2 = User::find(1);
+        foreach($founder as $f){
+            $desc->lost_id = $loster;
+            $desc->founder_id = $f->user_id;
+            $desc->description = $request->input('description');
+            $f->user->notify(new NotifyReport($loster));
+            // $f->user->notify((new NotifyReport($loster))->delay($when));
+            //dd(Notification::send($f, new NotifyReport($loster)));
+        }
+        
+        
+        
+        //dd($user1->notify(new NotifyReport($user2)));
+        $desc->save();
+        
+        return response()->json($desc);
+        
+        //dd($founder);
+        // $founder = Report::with('user')->where('id' , '=' , );
+        // $founder = User::with('reports')->get();
+        // foreach($founder as $ff){
+        // dd($ff->name);
+        // }
+    }
+    public function sendEmailVerifyItems(Request $request , $id){
+        //$user->notify(new NotifyReport);
+        // or
+        //Notification::send($users , new NotifyReport());//for sending to users not one user
+        $founder = Item::with('user')->where('id' , '=' , $id)->get();
+        dd($founder);
+
+
     }
 }

@@ -38,9 +38,9 @@ Route::middleware('verified')->group(function () {
 Route::get('/people/search', function(){
     return view('people.find');
 });
-Route::get('/items/search', function(){
-    return view('items.find');
-});
+// Route::get('/items/search', function(){
+//     return view('items.find');
+// });
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/details', function(){
@@ -79,7 +79,13 @@ Route::get('/search' , 'reportController@getFormSearch');
 Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 
+// the ajax of city in item by micheal
+Route::get('items/search/found','itemController@CityCategory');
+Route::get('get-state-list','itemController@getAreaList');
+Route::get('/get/{category}','itemController@getAttributeList');
 
+// Route::get('/cat' , 'categoryController@index');
+// the ajax of city in item by micheal
 
 Route::get('/liveSearch/action' , 'reportController@action')->name('search.action');
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');
@@ -93,15 +99,15 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
-Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+ Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
 Route::get('/edit/{id}' , 'AttributeController@edit')->name('attribute.edit');
 Route::put('/updateAttribute/{id}' , 'AttributeController@update')->name('attribute.update');
-Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribute.destroy');
 
 /***************/
+Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribute.destroy');
 
 
 /***** Profile CRUD *****/
@@ -127,3 +133,6 @@ Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.dele
 
 
 /************* */
+Route::post('/sendEmail/{id}' , 'reportController@SendEmailVerify');
+Route::get('/sendEmailItem/{id}' , 'reportController@sendEmailVerifyItems');
+

@@ -22,55 +22,65 @@
             <div class="details">
               <div class="row">
                       <h3>Name :</h3>
-                      <p> Ahmed</p>
+                      <p>{{$repor->name}}</p>
               </div>
               <div class="row">
                       <h3>Location :</h3>
-                      <p> car</p>
+                      <p>{{$repor->location}}</p>
               </div>
               <div class="row">
                       <h3>Special Mark :</h3>
-                      <p> dark birthmark on face</p>
+                      <p>{{$repor->special_mark}}</p>
               </div>
               <div class="row">
                       <h3>Last Seen At :</h3>
-                      <p> 10:00 pm</p>
+                      <p>{{$repor->last_seen_at}}</p>
               </div>
               <div class="row">
                       <h3>Lost Since :  </h3>
-                      <p> 01/05/2019</p>
+                      <p>{{$repor->lost_since}}</p>
               </div>
               <div class="row">
                       <h3>Age :  </h3>
-                      <p> 12</p>
+                      <p>{{$repor->age}}</p>
               </div>
               <div class="row">
                       <h3>Height :  </h3>
-                      <p>170 cm</p>
+                      <p>{{$repor->height}} cm</p>
               </div>
               <div class="row">
                       <h3>Weight :  </h3>
-                      <p>50 kg</p>
+                      <p>{{$repor->weight}} kg</p>
               </div>
               <div class="row">
                       <h3>Gender :  </h3>
-                      <p>Male </p>
+                      <p>{{$repor->gender}}</p>
               </div>
               <div class="row">
                       <h3>Last Seen On :  </h3>
-                      <p> Saturday</p>
+                      <p> {{$repor->last_seen_on}}</p>
               </div>
               <div class="row">
                       <h3>Eye Color :  </h3>
-                      <p>Black</p>
+                      <p>{{$repor->eye_color}}</p>
               </div>
               <div class="row">
                       <h3>Hair Color :  </h3>
-                      <p> Black</p>
+                      <p>{{$repor->hair_color}}</p>
+                </div>
+                <form action="/sendEmail/{{$repor->id}}" method="POST">
+                @csrf
+                <div class="row">
+                      <h3>Description:</h3>
+                      <textarea name="description" cols="10" rows="5"></textarea>
+                </div>
+                <br>
+                <div class="row ">
+                 <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
               </div>
-              <div class="row ">
-                      <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
+                </form>
               </div>
+              
               
               
             </div>
