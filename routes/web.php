@@ -103,6 +103,7 @@ Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
  Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+ Route::get('/items/search' , 'itemController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
@@ -139,3 +140,7 @@ Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.dele
 Route::post('/sendEmail/{id}' , 'reportController@SendEmailVerify');
 Route::get('/sendEmailItem/{id}' , 'reportController@sendEmailVerifyItems');
 
+ 
+Route::get('/error', function(){
+    return view('error');
+});
