@@ -13,7 +13,7 @@ class CreateCategoryAttributeTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_attribute', function (Blueprint $table) {
+        Schema::create('attribute_category', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null')

@@ -9,6 +9,10 @@ class Attribute extends Model
     protected $table = 'attributes';
     protected $fillable = ['name'];
 
+    public function category(){
+
+      return $this->belongsToMany(Category::class);
+    }
     public function valuesOfAttributes(){
 
         return $this->hasMany('App\AttributeValue' , 'attribute_id' , 'id');

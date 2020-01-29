@@ -17,17 +17,18 @@ class itemController extends Controller
     public function index()
     {
         $items = Item::paginate(10);
+        return view('item.find');
         // return view('items/index', [
         //     'items' => $items,
         // ]);
     }
-    public function myItems()
-    {
-        $items = auth()->user()->items ;//Report::paginate(10);
-        return view('items/index', [
-            'items' => $items,
-        ]);
-    }
+    // public function myItems()
+    // {
+    //     $items = auth()->user()->items ;//Report::paginate(10);
+    //     return view('items/index', [
+    //         'items' => $items,
+    //     ]);
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -36,7 +37,7 @@ class itemController extends Controller
      */
     public function create()
     {
-        //
+        return view ('item.form');
     }
 
     /**
@@ -47,11 +48,14 @@ class itemController extends Controller
      */
     public function store(Request $request)
     {
+        
         $item = Item::create([
             'image' => $request->image->store('images'),
             'city' => $request ->city,
             'region' => $request ->region,
             'found_since' => $request ->found_since,
+            'user_id' => auth()->user()->id,
+           'category_id' => '',
         ]);
         return response()->json($item);
     }
@@ -64,7 +68,7 @@ class itemController extends Controller
      */
     public function show(Item $item)
     {
-        if(auth()->user()->id==$item->user()->id){
+        if(auth()->user()->id==$item->user->id){
             return response()->json($item);
          }
     }
@@ -104,6 +108,36 @@ class itemController extends Controller
         }
         $item->save();
     }
+
+    // micheal 3amel ajax request lel city fe el items report --start
+    public function ajaxRequest(Request $request){
+        // if($request->ajax()){
+        //     $query = $request->get('query');
+        //     if($query != ''){
+        //         $data = DB::table('reports')
+        //             ->where('name' , 'like' , '%'.$query.'%')
+        //             ->orWhere('city' , 'like' , '%'.$query.'%')
+        //             ->orWhere('region' , 'like' , '%'.$query.'%')
+        //             ->get();
+        //     }
+        //     else{
+        //         $data = DB::table('reports')->get();
+        //     }
+        //     return $data;
+            
+
+        //     // $data = array(
+        //     //     'div_data'  => $output
+        //     // );
+        //     // echo json_encode($data);
+            
+        // }
+        dd($request);
+        return "inside action";
+        
+    }
+    public function ajaxRequestPost(){}
+    // ---------end of ajax for city
 
     /**
      * Remove the specified resource from storage.

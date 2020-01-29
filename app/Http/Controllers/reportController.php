@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\NotifyReport;
+use Illuminate\Support\Facades\Notification;
 use App\User;
+use App\DescriptionValidation;
+use App\Item;
+use Carbon\Carbon;
 use DB;
 
 class reportController extends Controller
@@ -32,7 +37,7 @@ class reportController extends Controller
     public function myReports()
     {
         $reports = auth()->user()->reports ;//Report::paginate(10);
-        return view('reports/index', [
+        return view('user.index', [
             'reports' => $reports,
         ]);
     }
@@ -94,14 +99,16 @@ class reportController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified resource.o
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $report = Report::find($id);
+        
+        return view('user.updatereport' ,['report' => $report]);
     }
 
     /**
@@ -111,8 +118,32 @@ class reportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Report $report)
+    public function update(Request $request, $id)
     {
+        $report = Report::find($id);
+        // dd($repo);
+        // $repo->name = $request->input('name');
+        // $repo->age = $request->input('age');
+        // $repo->gender = $request->input('gender');
+        // $repo->image = $request->input('image');
+        // $repo->type = $request->input('type');
+        // $repo->special_mark = $request->input('special_mark');
+        // $repo->eye_color = $request->input('eye_color');
+        // $repo->hair_color = $request->input('hair_color');
+        // $repo->city = $request->input('city');
+        // $repo->location = $request->input('location');
+        // $repo->last_seen_on = $request->input('last_seen_on');
+        // $repo->last_seen_at = $request->input('last_seen_at');
+        // $repo->lost_since = $request->input('lost_since');
+        // $repo->found_since = $request->input('found_since');
+        // $repo->is_found = $request->input('is_found');
+        // $repo->height = $request->input('height');
+        // $repo->weight = $request->input('weight');
+        // $repo->name = auth()->user()->id;
+
+        // $repo->save();
+        // return redirect(route('profile.index'));
+
 
 
                 if($request->has('name')){
@@ -168,6 +199,7 @@ class reportController extends Controller
                     $report->weight = $request->weight;
                 }
              $report->save();
+             return redirect(route('profile.index'));
 
 
     }
@@ -225,7 +257,7 @@ class reportController extends Controller
     }
 
     public function action(Request $request){
-        $output = '';
+        // $output = '';
         if($request->ajax()){
             $query = $request->get('query');
             if($query != ''){
@@ -240,24 +272,25 @@ class reportController extends Controller
             }
             $total_row = $data->count();
             if($total_row > 0 ){
-                foreach($data as $row){
-                    $output .= '
-                    <div class="col-lg-4 col-md-6">
-							<div class="hotel text-center">
-								<a href="{{ url(/showRepo/'.$row->id.') }}">
-									<div class="hotel-img">
-										<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
-									</div>
+                
+                // foreach($data as $row){
+                //     $output .= '
+                //     <div class="col-lg-4 col-md-6">
+				// 			<div class="hotel text-center">
+				// 				<a href="{{ url(/showRepo/'.$row->id.') }}">
+				// 					<div class="hotel-img">
+				// 						<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
+				// 					</div>
 
-									<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
+				// 					<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
 
-									<p>'.$row->created_at.'</p>
-								</a>
-							</div>
-						</div>
+				// 					<p>'.$row->created_at.'</p>
+				// 				</a>
+				// 			</div>
+				// 		</div>  
                         
-                    ';
-                }
+                //     ';
+                // }
             }else{
                 $output = '
                    
@@ -265,19 +298,66 @@ class reportController extends Controller
                     
                 ';
             }
+            return $data;
+            
+
             $data = array(
                 'div_data'  => $output
             );
             echo json_encode($data);
+            
         }
+        
     }
 
     public function showReport($id){
         $repor = Report::findOrFail($id);
-        return view('showReports', ['repor'=>$repor]);
+        // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
+        // dd($founder);
+        return view('people.personDetails', ['repor'=>$repor]);
     }
-    public function filterCheckbox(Request $request){
+   
+    public function SendEmailVerify(Request $request , $id){
+       // $when = now()->addMinutes(10);
+        //$when = Carbon::now()->addSeconds(10);
 
-       
+        $founder = Report::with('user')->where('id' , '=' , $id)->get();
+        // $founderss = User::with('reports')->where('id' , '=' , $id)->get();
+       // dd($founder->user);
+        $loster = auth()->user()->id;
+        $desc = new DescriptionValidation;
+        // $user1 = User::find(4);
+        // $user2 = User::find(1);
+        foreach($founder as $f){
+            $desc->lost_id = $loster;
+            $desc->founder_id = $f->user_id;
+            $desc->description = $request->input('description');
+            $f->user->notify(new NotifyReport($loster));
+            // $f->user->notify((new NotifyReport($loster))->delay($when));
+            //dd(Notification::send($f, new NotifyReport($loster)));
+        }
+        
+        
+        
+        //dd($user1->notify(new NotifyReport($user2)));
+        $desc->save();
+        
+        return response()->json($desc);
+        
+        //dd($founder);
+        // $founder = Report::with('user')->where('id' , '=' , );
+        // $founder = User::with('reports')->get();
+        // foreach($founder as $ff){
+        // dd($ff->name);
+        // }
+    }
+    public function sendEmailVerifyItems(Request $request , $id){
+        //$user->notify(new NotifyReport);
+        // or
+        //Notification::send($users , new NotifyReport());//for sending to users not one user
+        $founder = Item::with('user')->where('id' , '=' , $id)->get();
+        dd($founder);
+
+
     }
 }

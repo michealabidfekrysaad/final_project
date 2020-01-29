@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\NotifyReport;
 use Spatie\Permission\Traits\HasRoles;
 
 
@@ -43,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
     public function reports()
     {
-        return $this->hasMany(Report::class);
+        return $this->hasMany(Report::class , 'user_id');
     }
 
     public function userFounder()
@@ -59,4 +60,5 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Item::class);
     }
+    
 }
