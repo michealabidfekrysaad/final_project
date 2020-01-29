@@ -91,7 +91,7 @@
             }
         }
         if (lookfor) {
-            alert("inside lost since")
+            console.log("inside lost since")
             let inputlost_since = document.getElementById("inputlost_since");
             let LostErr = document.getElementById("LostErr");
             SplitLostSince = inputlost_since.value.split("-");
