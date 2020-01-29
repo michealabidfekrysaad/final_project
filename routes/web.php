@@ -36,14 +36,15 @@ Route::get('/about/view1', function () {
 // Auth::routes();
 
 Route::middleware('verified')->group(function () {
-    
     Route::get('/people/search/{type}','reportController@create');
-    Route::get('/people/image','UploadfileController@index');
-    
-    Route::get('/items/search/found', function(){
-        return view('items.form');
-    });
+Route::get('/people/image','UploadfileController@index');
+
+Route::get('/items/search/found', function(){
+    return view('items.form');
 });
+  
+});
+
 Route::get('/people/search', function(){
     return view('people.find');
 });
@@ -61,7 +62,7 @@ Route::post('/filter/find','filterController@doSearchingQuery');
 // });
 
 
-Route::post('/people/search/','reportController@store');
+// Route::post('/people/search/{type}','UploadfileController@report');
 
 Route::post('uploadfile','UploadfileController@upload');
 // Route::get('/users/{id}','UsersController@show')->name('users.show');
@@ -76,6 +77,9 @@ Route::get('/matchReport', function(){
 Route::get('/editReport', function(){
     return view('editReport');
 });
+Route::get('/itemDetails', function(){
+    return view('items.itemDetails');
+});
 
 // Route::get('/login/{provider}', 'Auth\LoginController@redirect');
 // Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
@@ -85,10 +89,24 @@ Route::get('/search' , 'reportController@getFormSearch');
 Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 
+// the ajax of city in item by micheal
+Route::get('/items/search/found','itemController@CityCategory');
+Route::get('/get-state-list','itemController@getAreaList');
+Route::get('/get/{category}','itemController@getAttributeList');
+Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
+
+//    Route::get('people/search/{type}','UploadfileController@CityCategory');
 
 
+Route::get('get-area-list','reportController@getAreaList');
+
+
+// Route::get('/cat' , 'categoryController@index');
+// the ajax of city in item by micheal
+Route::get('/liveSearch/actionItem' , 'itemController@actionItem')->name('search.actionItem');
 Route::get('/liveSearch/action' , 'reportController@action')->name('search.action');
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');
+Route::get('/showRepoItems/{id}' , 'itemController@showReportItems')->name('showItems.action');
 Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
 Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
 // Route::get('/auth/facebook', 'Auth\LoginController@redirectToFacebook');
@@ -100,14 +118,15 @@ Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
  Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+ Route::get('/items/search' , 'itemController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
 Route::get('/edit/{id}' , 'AttributeController@edit')->name('attribute.edit');
 Route::put('/updateAttribute/{id}' , 'AttributeController@update')->name('attribute.update');
-Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribute.destroy');
 
 /***************/
+Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribute.destroy');
 
 
 /***** Profile CRUD *****/
@@ -120,8 +139,7 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 /************* */
 
 Route::get('/edit/{id}' , 'reportController@edit')->name('repo.edit');
-Route::post('/update/{id}' , 'reportController@update')->name('repo.update');
-// Route::post('/create/report/missing','reportController@store')
+Route::put('/update/{id}' , 'reportController@update')->name('repo.update');
 /***** Values CRUD *****/
 Route::get('/valuesAdmin' , 'ValuesController@indexAdmin')->name('value.index');
 Route::get('/values' , 'ValuesController@index')->name('value.index');
@@ -134,3 +152,12 @@ Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.dele
 
 
 /************* */
+Route::post('/sendEmail/{id}' , 'reportController@SendEmailVerify');
+Route::get('/sendEmailItem/{id}' , 'reportController@sendEmailVerifyItems');
+
+Route::post('/storeFahmy' , 'itemController@store');
+
+ 
+Route::get('/error', function(){
+    return view('error');
+});

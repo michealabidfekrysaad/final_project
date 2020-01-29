@@ -13,7 +13,7 @@ class Item extends Model
     use SoftDeletes;
     // protected $table = 'items';
 
-    protected $fillable = ['image', 'city', 'region', 'found_since'];
+    protected $fillable = ['image', 'city', 'region', 'found_since' , 'user_id' , 'category_id'];
     public function user()
     {
         return $this->belongsTo(User::class);

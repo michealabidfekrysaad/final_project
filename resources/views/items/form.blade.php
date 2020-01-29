@@ -62,7 +62,6 @@
                 var allowedFiles = [".jpg", ".jpeg", ".png"];
                 let regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
                 if (!regex.test(fileUpload.value.toLowerCase())) {
-                    console.log("inside")
                 ImgError.classList.add("text-danger");
                 ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
                 break;
@@ -99,45 +98,57 @@
         </div>
 
 
-        <form onsubmit="return(validate());">
+        
+            @csrf
 
-
+        <form action="/storeFahmy" method="POST" onsubmit="return(validate());" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="Select_file">Upload Image :</label>
-                <input type="file" class="form-control" name="select_file" id="fileUpload" onchange="Filevalidation()"
+                <label for="image">Upload Image :</label>
+                <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()"
                     accept=".jpg,.jpeg,.png" required />
                 <span id="ImgError"></span>
             </div>
 
             <div class="form-group">
-                <label for="inputName">Name Of Item :</label>
-                <input type="text" class="form-control" id="inputName" placeholder="Name Of Item" required>
-                <span id="NameErr"></span>
+                <label for="category_id">item name:</label>
+                <select class="form-control" id="item" name="category_id" required>
+                    <option value="none" selected disabled hidden>
+                        Select an Option
+                    </option>
+                    @foreach($categories as $category)
+                    <option value="{{$category->id}}"> {{$category->category_name}}</option>
+                    @endforeach
+
+                </select>
             </div>
 
+            <div class="form-group" id="attribute">
+
+            </div>
 
             <div class="form-group">
                 <label for="city">City:</label>
                 <select class="form-control" id="city" name="city" required>
-                    <option value="alexandria">alexandria</option>
-                    <option value="cairo">cairo</option>
-                    <option value="fayoum">fayoum</option>
-                    <option value="ismailia">ismailia</option>
-                    <option value="matrouh">matrouh</option>
-
+                    <option value="none" selected disabled hidden>
+                        Select an Option
+                    </option>
+                    @foreach($cities as $key => $city)
+                    <option value="{{$key}}"> {{$city->city_name}}</option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="region">region:</label>
-                <select class="form-control" id="region" name="city" required>
-                    <option value="0">- Select -</option>
+                <label for="title">select region:</label>
+                <select name="region" id="state" class="form-control">
+
                 </select>
             </div>
+
 
             <div class="form-group">
                 <label for="inputfound_since">found Since :</label>
-                <input type="date" class="form-control" id="inputfound_since" placeholder="Item found when" required>
+                <input type="date" class="form-control" id="inputfound_since" name="found_since" placeholder="Item found when" required>
             </div>
 
             <div class="text-center">
@@ -150,41 +161,83 @@
 </section>
 
 
-
 <script>
-    // the ajax request of the city ro response the region
-$(document).ready(function(){
-
-$("#city").change(function(){
-    var cityvalue = $(this).val();
-    console.log(cityvalue);
-
-    $.ajax({
-        url:'/ajaxRequest',
-        type: 'POST',
-        data: {cityvalue:cityvalue},
-        dataType: 'json',
-        success:function(response){
-            alert(response);
-
-            var len = response.length;
-
-            $("#sregion").empty();
-            for( var i = 0; i<len; i++){
-                var id = response[i]['id'];
-                var name = response[i]['name'];
-                
-                $("#region").append("<option value='"+id+"'>"+name+"</option>");
-
+    $('#city').change(function(){
+    var cityID = $(this).val();
+    console.log(cityID);
+    if(cityID){
+        $.ajax({
+           type:"GET",
+           url:"{{url('get-state-list')}}?city_id="+cityID,
+           success:function(states){ 
+               //console.log(states);         
+            if(states){
+                $("#state").empty();
+                $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
+                $.each(states[0],function(key,value){
+                    $("#state").append('<option value="'+value+'">'+value+'</option>');
+                });
+           
+            }else{
+               $("#state").empty();
             }
-        }
-    });
-});
+           }
+        });
+    }else{
+        $("#state").empty();
+        $("#city").empty();
+    }      
+   });
 
-});
+   $('#item').change(function(){
+    var category_id = $(this).val();
+    if(category_id){
+        $.ajax({
+           type:"GET",
+           url:"/get/"+category_id,
+           success:function(category){   
+            if(category){
+                $("#attribute").empty();
+                $.each(category[0].attributes,function(key,value){
+                    let itemAttributes=category[0].attributes;
+                $("#attribute").append( `<label>`+itemAttributes[key].attribute_name+`</label>
+                                         <select class="form-control" name="`+itemAttributes[key].attribute_name+`" id = "`+itemAttributes[key].id+`">
+                                         </select>`);
+
+
+                    $.ajax({
+                    type:"GET",
+                    url:"/valueofattribute/"+itemAttributes[key].id,
+                    success:function(result){
+                        if(result){
+                            $.each(result,function(key,value){
+                                $(`#`+result[key].attribute_id+``).append(`<option value = "`+result[key].id+`">`+result[key].value_name+`</option>`);
+                            })
+                                
+
+                        }
+                        //  console.log(result.value_name)  
+                         
+                         }})
+
+
+                });                       
+
+           
+            }else{
+               $("#attribute").empty();
+            }
+           }
+        });
+    }else{
+        $("#attribute").empty();
+        $("#item").empty();
+    }      
+   });
+
+
+
+
 </script>
 
-
 @endsection
-
-

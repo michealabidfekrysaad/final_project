@@ -22,7 +22,7 @@
 		@foreach($attrributeValue as $attribute)
 			<article class="card-group-item">
 				<header class="card-header">
-					<h6 class="title">{{$attribute->attribute_name}}: </h6>
+					<h6 class="title">{{$attribute->attribute_name}} : </h6>
 				</header>
 				<div class="filter-content">
 					<div class="card-body">
@@ -73,15 +73,39 @@ fetch_Data();
 
 function fetch_Data(query = ''){
 	$.ajax({
-		url:"{{route('search.action')}}",
+		url:"{{route('search.actionItem')}}",
 		method:'GET',
 		data:{query:query},
 		dataType:'json',
 		success:function(data)
 		{
-			$('#lost').html(data.div_data);
+			//$('#lost').html(data.div_data);
+			insertToHtml(data)
 		}
 	});
+}
+function insertToHtml(data){
+
+let d1 = document.getElementById('lost');
+d1.innerHTML=" ";
+data.forEach(element => {
+	d1.insertAdjacentHTML('beforeend', `
+	<div class="col-lg-4 col-md-6" >
+	<div class="hotel text-center">
+	<a href="/showRepoItems/${element.id}">
+	<div class="hotel-img">	
+		 <img src="${element.image}" alt="Img Of Person" class="img-fluid">
+	</div>
+		<h3><a href="/showRepoItems/${element.id}">${element.image}</a></h3>
+
+	</a>
+	</div>
+	</div>  
+
+	`)
+	
+});
+	
 }
 $(document).on('keyup' , '#search' , function(){
 	var query = $(this).val();

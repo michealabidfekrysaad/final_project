@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Socialite;
 use Auth;
 use Exception;
- use App\User;
+use App\User;
+use Spatie\Permission\Models\Role;
+
 class LoginController extends Controller
 {
     /*
@@ -56,7 +58,7 @@ class LoginController extends Controller
             $finduser = User::where('google_id', $user->id)->first();
     
             if($finduser){
-    
+                
                 Auth::login($finduser);
 
                 return redirect('/');
