@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AttributeValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Item;
@@ -148,11 +149,20 @@ class itemController extends Controller
             
         }
 
-        public function getAttributeList(Category $category)
+        public function getAttributeList($id)
         {
-            // dd($category->attributes()->get());
-            // return response()->json();
+           $category = Category::with('attributes')->where('id' , '=' , $id)->get();
+        //    return response()->json(count($category));
+           return response()->json($category);
             
+        }
+        
+        public function getAttributeValue($id)
+        {
+           $attribute = AttributeValue::with('attribute')->where('attribute_id','=',$id)->get();
+           return response()->json($attribute);
+            
+
         }
 
 

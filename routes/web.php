@@ -27,14 +27,15 @@ Route::get('/contact', function () {
 // Auth::routes();
 
 Route::middleware('verified')->group(function () {
-    
     Route::get('/people/search/{type}','UploadfileController@createReport');
-    Route::get('/people/image','UploadfileController@index');
-    
-    Route::get('/items/search/found', function(){
-        return view('items.form');
-    });
+Route::get('/people/image','UploadfileController@index');
+
+Route::get('/items/search/found', function(){
+    return view('items.form');
 });
+  
+});
+
 Route::get('/people/search', function(){
     return view('people.find');
 });
@@ -83,6 +84,8 @@ Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 Route::get('items/search/found','itemController@index');
 Route::get('get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
+Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
+
 
 // Route::get('/cat' , 'categoryController@index');
 // the ajax of city in item by micheal

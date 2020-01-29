@@ -62,7 +62,6 @@
                 var allowedFiles = [".jpg", ".jpeg", ".png"];
                 let regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
                 if (!regex.test(fileUpload.value.toLowerCase())) {
-                    console.log("inside")
                 ImgError.classList.add("text-danger");
                 ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
                 break;
@@ -101,21 +100,21 @@
         <div class="section-header pt-5">
             <h2>Report For Lost Item</h2>
         </div>
-        
+
 
         <form onsubmit="return(validate());">
 
 
             <div class="form-group">
-                <label for="Select_file">Upload Image :</label>
-                <input type="file" class="form-control" name="select_file" id="fileUpload" onchange="Filevalidation()"
+                <label for="image">Upload Image :</label>
+                <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()"
                     accept=".jpg,.jpeg,.png" required />
                 <span id="ImgError"></span>
             </div>
 
             <div class="form-group">
-                <label for="item">item name:</label>
-                <select class="form-control" id="item" name="item" required>
+                <label for="category_id">item name:</label>
+                <select class="form-control" id="item" name="category_id" required>
                     <option value="none" selected disabled hidden>
                         Select an Option
                     </option>
@@ -126,13 +125,9 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="title">select attribute:</label>
-                <select name="attribute" id="attribute" class="form-control" style="width:350px">
+            <div class="form-group" id="attribute">
 
-                </select>
             </div>
-
 
             <div class="form-group">
                 <label for="city">City:</label>
@@ -149,7 +144,7 @@
 
             <div class="form-group">
                 <label for="title">select region:</label>
-                <select name="state" id="state" class="form-control" style="width:350px">
+                <select name="state" id="state" class="form-control">
 
                 </select>
             </div>
@@ -177,11 +172,11 @@
         $.ajax({
            type:"GET",
            url:"{{url('get-state-list')}}?city_id="+cityID,
-           success:function(res){               
-            if(res){
+           success:function(states){               
+            if(states){
                 $("#state").empty();
-                $("#state").append('<option>Select region</option>');
-                $.each(res,function(key,value){
+                $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
+                $.each(states,function(key,value){
                     $("#state").append('<option value="'+key+'">'+value+'</option>');
                 });
            
@@ -198,18 +193,38 @@
 
    $('#item').change(function(){
     var category_id = $(this).val();
-    console.log(category_id);
     if(category_id){
         $.ajax({
            type:"GET",
            url:"/get/"+category_id,
-           success:function(res){               
-            if(res){
+           success:function(category){   
+            if(category){
                 $("#attribute").empty();
-                $("#attribute").append('<option>Select attribute</option>');
-                $.each(res,function(key,value){
-                    $("#attribute").append('<option value="'+key+'">'+value+'</option>');
-                });
+                $.each(category[0].attributes,function(key,value){
+                    let itemAttributes=category[0].attributes;
+                $("#attribute").append( `<label>`+itemAttributes[key].attribute_name+`</label>
+                                         <select class="form-control" name="`+itemAttributes[key].attribute_name+`" id = "`+itemAttributes[key].id+`">
+                                         </select>`);
+
+
+                    $.ajax({
+                    type:"GET",
+                    url:"/valueofattribute/"+itemAttributes[key].id,
+                    success:function(result){
+                        if(result){
+                            $.each(result,function(key,value){
+                                $(`#`+result[key].attribute_id+``).append(`<option value = "`+result[key].id+`">`+result[key].value_name+`</option>`);
+                            })
+                                
+
+                        }
+                        //  console.log(result.value_name)  
+                         
+                         }})
+
+
+                });                       
+
            
             }else{
                $("#attribute").empty();
@@ -221,6 +236,8 @@
         $("#item").empty();
     }      
    });
+
+
 
 
 </script>
