@@ -19,7 +19,16 @@ class itemController extends Controller
      // isthere any role?
     public function index()
     {
+        $items = Item::paginate(10);
+       // return view('item.find');
+        // return view('items/index', [
+        //     'items' => $items,
+        // ]);
         // $items = Item::paginate(10);
+    }
+
+    public function CityCategory(){
+        
         $cities = DB::table("cities")->pluck("city_name","id");
         $categories = Category::with('attributes')->get();
 
@@ -34,7 +43,7 @@ class itemController extends Controller
      */
     public function create()
     {
-        //
+        return view ('item.form');
     }
 
     /**
@@ -45,11 +54,14 @@ class itemController extends Controller
      */
     public function store(Request $request)
     {
+        
         $item = Item::create([
             'image' => $request->image->store('images'),
             'city' => $request ->city,
             'region' => $request ->region,
             'found_since' => $request ->found_since,
+            'user_id' => auth()->user()->id,
+           'category_id' => '',
         ]);
         return response()->json($item);
     }

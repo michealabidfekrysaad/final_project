@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\NotifyReport;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
