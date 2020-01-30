@@ -93,6 +93,7 @@ Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 Route::get('/items/search/found','itemController@CityCategory');
 Route::get('/get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
+Route::get('/getforitem/{category}','AttributeController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
 Route::get('/get-area/{id}','AttributeController@getAreas');
 

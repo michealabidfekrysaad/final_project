@@ -124,5 +124,12 @@ class AttributeController extends Controller
         // return view('items.find',['areas'=>$areas]);
         return response()->json($areas);
     }
+
+    public function getAttributeList($id)
+    {
+       $category = Category::with('attributes')->where('id' , '=' , $id)->get();
+       return response()->json($category);
+        
+    }
     
 }
