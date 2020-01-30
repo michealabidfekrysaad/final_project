@@ -255,9 +255,4 @@ class itemController extends Controller
     }
 
 
-    public function getCategory(){
-        
-        
-
-    }
 }
