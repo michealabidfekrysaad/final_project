@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Attribute;
+use App\Item;
+use App\Category;
 use App\AttributeValue;
 use DB;
 
@@ -21,8 +23,15 @@ class AttributeController extends Controller
     }
     public function index()
     {
+        $items = Item::paginate(10);
+        $categories = Category::all();
+        $cities = DB::table("cities")->pluck("city_name", "id");
         $attrributeValue=Attribute::with('valuesofattributes')->get();
-         return view('items.find' , ['attrributeValue'=>$attrributeValue]);
+
+         return view('items.find' , ['attrributeValue'=>$attrributeValue ,
+                                        'items' => $items , 
+                                        'categories' => $categories,
+                                        'cities'=>$cities]);
     }
 
     public function indexAdmin()

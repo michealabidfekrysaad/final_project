@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -404,6 +405,7 @@ class reportController extends Controller
         return response()->json($states);
         
     }
+
 
 
 
