@@ -159,11 +159,11 @@ Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.dele
 
 /************* */
 Route::post('/sendEmail/{id}' , 'reportController@SendEmailVerify');
-Route::get('/sendEmailItem/{id}' , 'reportController@sendEmailVerifyItems');
+Route::post('/sendEmailItem/{id}' , 'itemController@sendEmailVerifyItems');
+Route::get('/acceptMessage/{lost_id}/{founder_id}' , 'itemController@AcceptMessage');
+//Route::post('/storeFahmy' , 'itemController@store');
 
-Route::post('/storeFahmy' , 'itemController@store');
-
- 
+ Route::get('/acceptMessage' , 'itemController@AcceptMessage');
 Route::get('/error', function(){
     return view('error');
 });

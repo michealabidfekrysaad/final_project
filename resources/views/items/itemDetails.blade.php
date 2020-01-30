@@ -21,10 +21,9 @@
                 <div class="details">
                     <div class="row">
                         <h3>Category :</h3>
-                        @foreach($item->category as $items){
-                            <p> {{$items->category_name}}</p>
-                        }
-                        @endforeach
+                        @foreach($item as $items)
+                            <p> {{$items->category_id}}</p>
+                       
                     </div>
                     <div class="row">
                         <h3>Color :</h3>
@@ -32,24 +31,25 @@
                     </div>
                     <div class="row">
                         <h3>Found Since :</h3>
-                        <p> {{$item->found_since}}</p>
+                        <p> {{$items->found_since}}</p>
                     </div>
                     <div class="row">
                         <h3>City Where Found :</h3>
-                        <p> {{$item->city}}</p>
+                        <p> {{$items->city}}</p>
                     </div>
 
-
+                    
                     <div class="row ">
-                        <form action="" class="form">
-                            <div class="form-group">
+                        <form action="/sendEmailItem/{{$items->id}}" method="POST" class="form">
+                           @csrf
+                        <div class="form-group">
                                 <h3 for="exampleFormControlTextarea1">Description :</h3>
                                 <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" placeholder="Write Description To Founder To Know Your Are They Real Owner Of Item"></textarea>
                             </div>
                             <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
                         </form>
                     </div>
-
+@endforeach
 
                 </div>
             </div>

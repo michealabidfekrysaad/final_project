@@ -63,10 +63,12 @@ class reportController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    { $type='lost';
+    { 
+        $type='lost';
+
         if($type=='lost'){
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:8|max:11',
+            'name' => 'required|min:8|max:12',
             'age' =>'required|min:1|max:90',
             'gender' => 'required',
             'image' =>'required|mimes:jpeg,jpg,png|max:2024',
@@ -369,7 +371,8 @@ class reportController extends Controller
             $desc->lost_id = $loster;
             $desc->founder_id = $f->user_id;
             $desc->description = $request->input('description');
-            $f->user->notify(new NotifyReport($loster , $f->user));
+            $f->user->notify(new NotifyReport(auth()->user() , $f->user));
+           
             // $f->user->notify((new NotifyReport($loster))->delay($when));
             //dd(Notification::send($f, new NotifyReport($loster)));
         }

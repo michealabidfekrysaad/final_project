@@ -13,6 +13,8 @@ use App\Area;
 use App\DescriptionValidation;
 use DB;
 use App\Category;
+use App\Notifications\NotifyItem;
+
 class itemController extends Controller
 {
     /**
@@ -208,7 +210,7 @@ class itemController extends Controller
         public function showReportItems($id){
             //$item = Item::findOrFail($id);
             $item = Item::with('category')->where('id' , '=' , $id)->get();
-            dd($item);
+            
             // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
             // dd($founder);
             return view('items.itemDetails', ['item'=>$item]);
@@ -217,8 +219,10 @@ class itemController extends Controller
         //$user->notify(new NotifyReport);
         // or
         //Notification::send($users , new NotifyReport());//for sending to users not one user
-        $founder = Item::with('user')->where('id' , '=' , $id)->get();
-        dd($founder);
+        $founder = Item::with('user')->where('id' , '=' , $id)->first();
+        
+        
+        
 
          // $when = now()->addMinutes(10);
         //$when = Carbon::now()->addSeconds(10);
@@ -230,14 +234,14 @@ class itemController extends Controller
         $desc = new DescriptionValidation;
         // $user1 = User::find(4);
         // $user2 = User::find(1);
-        foreach($founder as $f){
+        
             $desc->lost_id = $loster;
-            $desc->founder_id = $f->user_id;
+            $desc->founder_id = $founder->user->id;
             $desc->description = $request->input('description');
-            $f->user->notify(new NotifyReport($loster));
+            $founder->user->notify(new NotifyItem(auth()->user() , $founder->user , $request->input('description') , $founder));
             // $f->user->notify((new NotifyReport($loster))->delay($when));
             //dd(Notification::send($f, new NotifyReport($loster)));
-        }
+    
         
         
         
@@ -254,5 +258,13 @@ class itemController extends Controller
         // }
     }
 
-
+    public function AcceptMessage($lost_id , $founder_id){
+       $status = DB::table('description_validation')
+       ->select('status')
+       ->where('lost_id' , '=' , $lost_id)
+       ->orWhere('founder_id' , '=' , $founder_id)
+       ->update(array('status' => '1'));
+        
+        return redirect('/');
+    }
 }
