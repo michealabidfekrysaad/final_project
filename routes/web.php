@@ -94,6 +94,8 @@ Route::get('/items/search/found','itemController@CityCategory');
 Route::get('/get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
+Route::get('/get-area/{id}','AttributeController@getAreas');
+
 //Route::get('/items/search','itemController@getCategory');
 // ------------------------------------------------------------------------------
 

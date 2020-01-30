@@ -27,9 +27,9 @@
 			<div class="filter-content">
 				<div class="card-body">
 					<div class="form-group">
-						<select class="form-control " id="DropDownList1" name="category">
+						<label for="title">Select Category:</label>
+						<select class="form-control " id="CategoryList" name="category">
 							<option value="none" selected disabled hidden>
-								Select an Option
 							</option>
 
 							@foreach ($categories as $category)
@@ -51,13 +51,13 @@
 			<div class="filter-content">
 				<div class="card-body">
 					<div class="form-group">
+						<label for="title">Select City:</label>
 						<select class="form-control " id="city" name="city">
 							<option value="none" selected disabled hidden>
-								Select an Option
 							</option>
 
 							@foreach ($cities as $city)
-							<option value="{{$city}}">{{$city}} </option>
+							<option value="{{$city->id}}">{{$city->city_name}} </option>
 							@endforeach
 							
 						</select>
@@ -70,31 +70,25 @@
 
 		<article class="card-group-item">
 			<header class="card-header">
-				<h6 class="title">Region :</h6>
+				<h6 class="title">region :</h6>
 			</header>
 
 			<div class="filter-content">
 				<div class="card-body">
-					<div class="form-group">
-						<select class="form-control " id="DropDownList1" name="city">
-							<option value="none" selected disabled hidden>
-								Select an Option
-							</option>
 
-							@foreach ($cities as $city)
-							<option value="{{$city}}">{{$city}} </option>
-							@endforeach
-							
-						</select>
-					</div>
-			
-				</div> <!-- card-body.// -->
-			</div>
+		<div class="form-group">
+			<label for="title">select region:</label>
+			<select name="region" id="region" class="form-control">
+				
+			</select>
+		</div>
+				</div>
+			</article>
 
-		</article>
+
 			
 
-		{{-- @foreach($attrributeValue as $attribute)
+		@foreach($attrributeValue as $attribute)
 			<article class="card-group-item">
 				<header class="card-header">
 					<h6 class="title">{{$attribute->attribute_name}} : </h6>
@@ -114,7 +108,7 @@
 					</div> 
 				</div>
 			</article>
-			@endforeach --}}
+			@endforeach
 
 		</div>
 
@@ -125,8 +119,6 @@
 					<div class="row" id="lost">
 
 						
-
-
 
 
 					</div>
@@ -193,26 +185,27 @@ $(document).on('keyup' , '#search' , function(){
 <script>
     $('#city').change(function(){
     var cityID = $(this).val();
-	console.log(cityID);
     if(cityID){
         $.ajax({
            type:"GET",
-           url:"{{url('get-area-list')}}?city_id="+cityID,
-           success:function(states){               
-            if(states){
-                $("#state").empty();
-                $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
-                $.each(states,function(key,value){
-                    $("#state").append('<option value="'+key+'">'+value+'</option>');
+           url:"/get-area/"+cityID,
+           success:function(regions){ 
+            if(regions){
+				$("#region").empty();
+				$("#region").append('<option selected disabled hidden value="none"></option>');
+				$.each(regions,function(key,value){
+                    $("#region").append('<option value="'+regions[key].id+'">'+regions[key].area_name+'</option>');
                 });
            
+                
+                
             }else{
-               $("#state").empty();
+               $("#region").empty();
             }
            }
         });
     }else{
-        $("#state").empty();
+        $("#region").empty();
         $("#city").empty();
     }      
    });
