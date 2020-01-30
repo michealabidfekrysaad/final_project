@@ -7,7 +7,7 @@
 
 <div class="pt-5 container-fluid">
 	<div class="row mt-2 pt-5 section-header">
-		<h2 class="mx-auto">all Found Items</h2>	
+		<h2 class="mx-auto">all Found Items</h2>
 	</div>
 	<h2 class="filter_data d-block"></h2>
 	<div class="row justify-content-end ">
@@ -19,27 +19,27 @@
 		<div class="col-lg-3  d-none d-lg-block">
 		<h4 class="text-muted">filter by</h4>
 
-		@foreach($attrributeValue as $attribute)
-			<article class="card-group-item">
-				<header class="card-header">
-					<h6 class="title">{{$attribute->attribute_name}}: </h6>
-				</header>
-				<div class="filter-content">
-					<div class="card-body">
+{{--		@foreach($attrributeValue as $attribute)--}}
+{{--			<article class="card-group-item">--}}
+{{--				<header class="card-header">--}}
+{{--					<h6 class="title">{{$attribute->attribute_name}} : </h6>--}}
+{{--				</header>--}}
+{{--				<div class="filter-content">--}}
+{{--					<div class="card-body">--}}
 
-						@foreach($attribute->valuesofattributes as $value)
-						<div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">52</span>
-							<input type="checkbox" class="custom-control-input gender" id="{{$value->value_name}}" name="{{$value->value_name}}" value="{{$value->value_name}}">
-							<label class="custom-control-label" for="{{$value->value_name}}">{{$value->value_name}}</label>
-						</div>
-						@endforeach
- 
+{{--						@foreach($attribute->valuesofattributes as $value)--}}
+{{--						<div class="custom-control custom-checkbox">--}}
+{{--							<span class="float-right badge badge-light round">52</span>--}}
+{{--							<input type="checkbox" class="custom-control-input gender" id="{{$value->value_name}}" name="{{$value->value_name}}" value="{{$value->value_name}}">--}}
+{{--							<label class="custom-control-label" for="{{$value->value_name}}">{{$value->value_name}}</label>--}}
+{{--						</div>--}}
+{{--						@endforeach--}}
+{{-- --}}
 
-					</div> 
-				</div>
-			</article>
-			@endforeach
+{{--					</div>--}}
+{{--				</div>--}}
+{{--			</article>--}}
+{{--			@endforeach--}}
 
 		</div>
 
@@ -49,7 +49,7 @@
 				<div class="container">
 					<div class="row" id="lost">
 
-						
+
 
 
 
@@ -61,7 +61,7 @@
 			</section>
 		</div>
   </article>
-  
+
  </div>
 </div>
 
@@ -73,15 +73,39 @@ fetch_Data();
 
 function fetch_Data(query = ''){
 	$.ajax({
-		url:"{{route('search.action')}}",
+		url:"{{route('search.actionItem')}}",
 		method:'GET',
 		data:{query:query},
 		dataType:'json',
 		success:function(data)
 		{
-			$('#lost').html(data.div_data);
+			//$('#lost').html(data.div_data);
+			insertToHtml(data)
 		}
 	});
+}
+function insertToHtml(data){
+
+let d1 = document.getElementById('lost');
+d1.innerHTML=" ";
+data.forEach(element => {
+	d1.insertAdjacentHTML('beforeend', `
+	<div class="col-lg-4 col-md-6" >
+	<div class="hotel text-center">
+	<a href="/showRepoItems/${element.id}">
+	<div class="hotel-img">
+		 <img src="${element.image}" alt="Img Of Person" class="img-fluid">
+	</div>
+		<h3><a href="/showRepoItems/${element.id}">${element.image}</a></h3>
+
+	</a>
+	</div>
+	</div>
+
+	`)
+
+});
+
 }
 $(document).on('keyup' , '#search' , function(){
 	var query = $(this).val();

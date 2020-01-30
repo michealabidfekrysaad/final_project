@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Attribute;
 use App\Category;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,10 @@ class categoryController extends Controller
      */
     public function index()
     {
-        //
+        // $category = Category::find(1);
+       
+        //$attribute = Attribute::with('categoryAttribute')->get();
+       // dd($attribute);
     }
 
     /**

@@ -79,12 +79,12 @@ class Controller extends BaseController
         return $nearest;
     }
 
-    public function uploadImageToS3($file){
+    public function uploadImageToS3($path,$file){
 
         $filenamewithextension = $file->getClientOriginalName();
         $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
         $extension = $file->getClientOriginalExtension();
-        $filenametostore = 'people/'.$filename.'_'.time().'.'.$extension;
+        $filenametostore = $path.$filename.'_'.time().'.'.$extension;
         Storage::disk('s3')->put($filenametostore, fopen($file, 'r+'), 'public');
         // $image_url='https://loseall.s3.us-east-2.amazonaws.com/'.$filenametostore;
         return $filenametostore;
@@ -92,5 +92,10 @@ class Controller extends BaseController
     }
     public function errorPage($code,$message){
         return response()->json(['code'=>$code,'message'=>$message]);
+    }
+    function startsWith ($string, $startString)
+    {
+        $len = strlen($startString);
+        return (substr($string, 0, $len) === $startString);
     }
 }

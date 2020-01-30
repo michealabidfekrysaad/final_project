@@ -19,11 +19,17 @@ class ProfileController extends Controller
     {
         $profile = auth()->user();
         $notifications=auth()->user()->unreadNotifications()->latest()->limit(5)->get()->toArray();
+        $report = Report::with('user')->where('user_id' , '=' , auth()->user()->id)->get();
         return view('user.index' , [
             'profile' => $profile,
-            'notifications'=>$notifications
+            'notifications'=>$notifications,
+            'report'=>$report
         ]
         );
+
+        
+    
+        return view('user.index' , compact('profile' , 'report'));
     }
 
     /**
@@ -66,8 +72,11 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        $profile = auth()->user()->find($id);
+        //$profile = auth()->user()->find($id);
+        $profile = auth()->user();
 
+       // $profile = auth()->user()->$id;
+        
         return view('user.edit' ,compact('profile'));
     }
 

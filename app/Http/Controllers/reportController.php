@@ -10,7 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use App\Notifications\NotifyReport;
+use Illuminate\Support\Facades\Notification;
 use App\User;
+use App\DescriptionValidation;
+use App\Item;
+use Carbon\Carbon;
 
 class reportController extends Controller
 {
@@ -49,7 +55,9 @@ class reportController extends Controller
      */
     public function create($type)
     {
-        return view('people.form',['type'=>$type]);
+        $cities = DB::table("cities")->pluck("city_name", "id");
+        // return view('people.form', compact('cities'));
+        return view('people.form',['type'=>$type,'cities'=>$cities]);
     }
 
     /**
@@ -60,6 +68,39 @@ class reportController extends Controller
      */
     public function store(Request $request,$type)
     {
+        $type='lost';
+        if($type=='lost'){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:8|max:11',
+            'age' =>'required|min:1|max:90',
+            'gender' => 'required',
+            'image' =>'required|mimes:jpeg,jpg,png|max:2024',
+            'special_mark' => 'required',
+            'eye_color' => 'required',
+            'hair_color' => 'required',
+            'location' => 'required',
+            'last_seen_on' => 'required',
+            'last_seen_at' => 'required',
+            'lost_since' => 'required|date',
+            'height' => 'required|min:50|max:250',
+            'weight' => 'required|min:1|max:100',
+        ]);
+    }
+    else{
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:8',
+            'age' => 'required|min:1|max:90',
+            'gender' => 'required',
+            'image' => 'required|mimes:jpeg,jpg,png|max:2024',
+            'special_mark' => 'required',
+            'eye_color' => 'required',
+            'hair_color' => 'required',
+            'location' => 'required',
+            'found_since' => 'required|date',
+            'height' => 'required|min:50|max:250',
+            'weight' => 'required|min:1|max:100',
+        ]);
+    }
         $data = [
             'name' => $request->name,
             'age' => $request->age,
@@ -86,7 +127,7 @@ class reportController extends Controller
             if ($response == false) {
                 $request->session()->put('report', $data);
                 $report = Report::create($data);
-                $report->image = $this->uploadImageToS3($request->file('image'));
+                $report->image = $this->uploadImageToS3("people/",$request->file('image'));
                 $report->user_id = auth()->user()->getAuthIdentifier();
                 $report->save();
                 return response()->json([
@@ -95,7 +136,7 @@ class reportController extends Controller
                 ]);
             } else {
                 \request()->session()->put('report', $data);
-                \request()->session()->put('imageReport',$this->uploadImageToS3($request->file('image')));
+                \request()->session()->put('imageReport',$this->uploadImageToS3("people/",$request->file('image')));
                 auth()->user()->notify(new SendSummaryToUser($response));
                 return Redirect::to("/profile");
                // return response()->json(['nearest' => $response]);
@@ -155,13 +196,55 @@ class reportController extends Controller
 
     }
 
+    /**
+     * Show the form for editing the specified resource.o
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-        //
+        $report = Report::find($id);
+
+        return view('user.editReport' ,['report' => $report]);
     }
 
-    public function update(Request $request, Report $report)
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
+        $report = Report::find($id);
+        // dd($repo);
+        // $repo->name = $request->input('name');
+        // $repo->age = $request->input('age');
+        // $repo->gender = $request->input('gender');
+        // $repo->image = $request->input('image');
+        // $repo->type = $request->input('type');
+        // $repo->special_mark = $request->input('special_mark');
+        // $repo->eye_color = $request->input('eye_color');
+        // $repo->hair_color = $request->input('hair_color');
+        // $repo->city = $request->input('city');
+        // $repo->location = $request->input('location');
+        // $repo->last_seen_on = $request->input('last_seen_on');
+        // $repo->last_seen_at = $request->input('last_seen_at');
+        // $repo->lost_since = $request->input('lost_since');
+        // $repo->found_since = $request->input('found_since');
+        // $repo->is_found = $request->input('is_found');
+        // $repo->height = $request->input('height');
+        // $repo->weight = $request->input('weight');
+        // $repo->name = auth()->user()->id;
+
+        // $repo->save();
+        // return redirect(route('profile.index'));
+
+
+
                 if($request->has('name')){
                     $report->name = $request->name;
                 }
@@ -217,7 +300,7 @@ class reportController extends Controller
             return response()->json('You need to specify a different value to update', 422);
         }
              $report->save();
-    }
+             return redirect(route('profile.index')); }
 
     public function destroy(Report $report)
     {
@@ -280,9 +363,51 @@ class reportController extends Controller
     }
     public function showReport($id){
         $repor = Report::findOrFail($id);
-        return view('showReports', ['repor'=>$repor]);
+        // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
+        // dd($founder);
+        return view('people.personDetails', ['repor'=>$repor]);
     }
-    public function filterCheckbox(Request $request){
+
+    public function SendEmailVerify(Request $request , $id){
+       // $when = now()->addMinutes(10);
+        //$when = Carbon::now()->addSeconds(10);
+
+        $founder = Report::with('user')->where('id' , '=' , $id)->get();
+        // $founderss = User::with('reports')->where('id' , '=' , $id)->get();
+       // dd($founder->user);
+        $loster = auth()->user()->id;
+        $desc = new DescriptionValidation;
+        // $user1 = User::find(4);
+        // $user2 = User::find(1);
+        foreach($founder as $f){
+            $desc->lost_id = $loster;
+            $desc->founder_id = $f->user_id;
+            $desc->description = $request->input('description');
+            $f->user->notify(new NotifyReport($loster));
+            // $f->user->notify((new NotifyReport($loster))->delay($when));
+            //dd(Notification::send($f, new NotifyReport($loster)));
+        }
+
+
+
+        //dd($user1->notify(new NotifyReport($user2)));
+        $desc->save();
+
+        return response()->json($desc);
+
+        //dd($founder);
+        // $founder = Report::with('user')->where('id' , '=' , );
+        // $founder = User::with('reports')->get();
+        // foreach($founder as $ff){
+        // dd($ff->name);
+        // }
+    }
+    public function sendEmailVerifyItems(Request $request , $id){
+        //$user->notify(new NotifyReport);
+        // or
+        //Notification::send($users , new NotifyReport());//for sending to users not one user
+        $founder = Item::with('user')->where('id' , '=' , $id)->get();
+        dd($founder);
 
 
     }
@@ -374,4 +499,17 @@ class reportController extends Controller
          //return $globalQuery;
          return $results = DB::select($globalQuery);
     }
+
+
+    public function getAreaList(Request $request)
+    {
+        $states = DB::table("areas")
+        ->where("city_id",$request->city_id)
+        ->pluck("area_name","id");
+        return response()->json($states);
+
+    }
+
+
+
 }

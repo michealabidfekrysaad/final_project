@@ -33,6 +33,11 @@
                                 <div class="modal-footer">
                                     <a href="/acceptOtherReport/{{$otherReport[0]->id}}"  type="button" class="btn btn-success" data-dismiss="modal">Contact With Report Owner</a>
                                     <a href="/RejectOtherReport" type="button" class="btn btn-danger" data-dismiss="modal">Close And Sumbit Report</a>
+
+                                        <h3><a href="{{ url('/people/details') }}">micheal</a></h3>
+
+                                        <p>5 mins ago</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>

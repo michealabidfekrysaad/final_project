@@ -48,4 +48,6 @@ public  function getImageResult($response){
         return view('people.form',['type'=>$type]);
     }
 
+
+    
 }

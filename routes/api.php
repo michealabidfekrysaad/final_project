@@ -35,3 +35,4 @@ Route::put('/people/myreports/update/{report}', 'reportController@update')->name
 Route::delete('/people/myreports/delete/{report}', 'reportController@destroy')->name('reports.destroy');
 Route::post('/report','reportController@store');
 Route::delete('/report/{report}','reportController@destroy');
+

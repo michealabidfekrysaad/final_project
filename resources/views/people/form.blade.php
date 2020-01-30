@@ -89,7 +89,7 @@
             }
         }
         if (lookfor) {
-            alert("inside lost since")
+            console.log("inside lost since")
             let inputlost_since = document.getElementById("inputlost_since");
             let LostErr = document.getElementById("LostErr");
             SplitLostSince = inputlost_since.value.split("-");
@@ -166,7 +166,8 @@
             WeightErr.innerHTML = "Weight is required ";
             return false;
         }
-        if (RegexWeight.test(inputWeight.value) == false || inputWeight.value > 100) {
+        if (R
+        egexWeight.test(inputWeight.value) == false || inputWeight.value > 100) {
             inputWeight.focus();
             WeightErr.classList.add("text-danger");
             WeightErr.innerHTML = "Weight is not valid";
@@ -261,10 +262,16 @@
                 <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png" required />
                 <span id="ImgError"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                 <label for="inputName">Name Of Person :</label>
                 <input type="text" class="form-control" id="inputName" placeholder="Name Of Person" name="name" required>
                 <span id="NameErr"></span>
+                @if ($errors->has('name'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                    @endif
             </div>
 
                 <div class="form-group">
@@ -282,46 +289,81 @@
                         <input type="text" class="form-control" id="inputregion" placeholder="region" name="region" required>
                         <span id="CityErr"></span>
                     </div>
+            <div class="form-group {{ $errors->has('location') ? ' has-error' : '' }}">
+                <label for="inputlocation">Location :</label>
+                <input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Person" required>
+                <span id="LocationErr"></span>
+                @if ($errors->has('location'))
+                <span class="help-block">
+                <strong>{{ $errors->first('location') }}</strong>
+            </span>
+            @endif
+            </div>
 
 
-            <div class="form-group">
+            <div class="form-group {{ $errors->has('special_mark') ? ' has-error' : '' }}">
                 <label for="inputspecial_mark">Special Mark :</label>
                 <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Person" name="special_mark" required>
                 <span id="SpecialErr"></span>
+                @if ($errors->has('special_mark'))
+                <span class="help-block">
+                <strong>{{ $errors->first('special_mark') }}</strong>
+            </span>
+            @endif
             </div>
 
             @if($type == 'lookfor')
-            <div class="form-group">
+            <div class="form-group {{ $errors->has('lost_since') ? ' has-error' : '' }}">
                 <label for="inputlost_since">Lost Since :</label>
                 <input type="date" class="form-control" id="inputlost_since" placeholder="Person Lost Since" max="2020-02-01" min="1920-02-01" name="lost_since" required>
                 <span id="LostErr"></span>
+                @if ($errors->has('lost_since'))
+                <span class="help-block">
+                <strong>{{ $errors->first('lost_since') }}</strong>
+            </span>
+            @endif
             </div>
 
             @endif
 
 
-            <div class="form-group ">
+            <div class="form-group {{ $errors->has('age') ? ' has-error' : '' }}">
                 <label for="inputAge">Age :</label>
                 <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=90 name="age" required>
                 <span id="NumberErr"></span>
+                @if ($errors->has('age'))
+                <span class="help-block">
+                <strong>{{ $errors->first('age') }}</strong>
+            </span>
+            @endif
             </div>
 
 
-            <div class="form-group ">
+            <div class="form-group {{ $errors->has('height') ? ' has-error' : '' }}">
                 <label for="inputHeight">Height :</label>
                 <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 name="height" required>
                 <span id="HeightErr"></span>
+                @if ($errors->has('height'))
+                <span class="help-block">
+                <strong>{{ $errors->first('height') }}</strong>
+            </span>
+            @endif
             </div>
 
 
-            <div class="form-group ">
+            <div class="form-group  {{ $errors->has('weight') ? ' has-error' : '' }}">
                 <label for="inputWeight">Weight :</label>
                 <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 name="weight"  required>
                 <span id="WeightErr"></span>
+                @if ($errors->has('weight'))
+                <span class="help-block">
+                <strong>{{ $errors->first('weight') }}</strong>
+            </span>
+            @endif
             </div>
 
 
-            <div class="form-group">
+            <div class="form-group {{ $errors->has('gender') ? ' has-error' : '' }}">
                 <label for="gender">select Gender :</label>
                 <select class="form-control" id="gender" name="gender" required>
                     <option value="">select your gender</option>
@@ -329,6 +371,30 @@
                     <option value="female">Female</option>
                 </select>
                 <span id="GenderErr"></span>
+                @if ($errors->has('gender'))
+                <span class="help-block">
+                <strong>{{ $errors->first('gender') }}</strong>
+            </span>
+            @endif
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <select class="form-control" id="city" name="city" required>
+                    <option value="none" selected disabled hidden>
+                        Select an Option
+                    </option>
+                    @foreach($cities as $key => $city)
+                    <option value="{{$key}}"> {{$city}}</option>
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">select region:</label>
+                <select name="state" id="state" class="form-control">
+
+                </select>
             </div>
 
             @if($type == 'lookfor')
@@ -345,6 +411,7 @@
 
                 </select>
             </div>
+
 
             <div class="form-group">
                 <label for="inputlast_seen_at">Last Seen At :</label>
@@ -393,4 +460,30 @@
     </div>
 </section>
 
+<script>
+    $('#city').change(function(){
+    var cityID = $(this).val();
+    if(cityID){
+        $.ajax({
+           type:"GET",
+           url:"{{url('get-area-list')}}?city_id="+cityID,
+           success:function(states){               
+            if(states){
+                $("#state").empty();
+                $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
+                $.each(states,function(key,value){
+                    $("#state").append('<option value="'+key+'">'+value+'</option>');
+                });
+           
+            }else{
+               $("#state").empty();
+            }
+           }
+        });
+    }else{
+        $("#state").empty();
+        $("#city").empty();
+    }      
+   });
+</script>
 @endsection

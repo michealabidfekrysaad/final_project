@@ -2,11 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Attribute;
+use App\AttributeValue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\NotifyReport;
+use Illuminate\Support\Facades\Notification;
 use App\Item;
+use App\City;
+use App\Area;
+use App\DescriptionValidation;
+use App\Category;
 class itemController extends Controller
 {
+    private $itemWithVal;
+    public function __construct()
+    {
+        $this->itemWithVal="";
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,16 +32,13 @@ class itemController extends Controller
     public function index()
     {
         $items = Item::paginate(10);
-        // return view('items/index', [
-        //     'items' => $items,
-        // ]);
-    }
-    public function myItems()
-    {
-        $items = auth()->user()->items ;//Report::paginate(10);
-        return view('items/index', [
-            'items' => $items,
-        ]);
+        $categories=Category::all();
+        $cities=City::all();
+         return view('items.find', [
+             'items' => $items,
+             'categories'=>$categories,
+             'cities'=>$cities,
+         ]);
     }
 
     /**
@@ -36,7 +48,15 @@ class itemController extends Controller
      */
     public function create()
     {
-        //
+        $items = Item::paginate(10);
+        $categories=Category::all();
+        $cities=City::all();
+        // return view('item.find');
+        return view('items.form', [
+            'items' => $items,
+            'categories'=>$categories,
+            'cities'=>$cities,
+        ]);
     }
 
     /**
@@ -47,13 +67,27 @@ class itemController extends Controller
      */
     public function store(Request $request)
     {
-        $item = Item::create([
-            'image' => $request->image->store('images'),
-            'city' => $request ->city,
-            'region' => $request ->region,
-            'found_since' => $request ->found_since,
-        ]);
-        return response()->json($item);
+        DB::transaction(function () use ($request) {
+            $item=new Item();
+            $item->city_id=$request->input('city_id');
+            $item->area_id=1;
+            $item->image=$this->uploadImageToS3("items/",$request->file('image'));
+            $item->category_id=$request->input('category_id');
+            $item->found_since=$request->input('found_since');
+            $item->user_id=auth()->user()->id;
+            $item->save();
+            foreach($request->all() as $attribute => $value) {
+                if($this->startsWith($attribute,"#")){
+                    $this->itemWithVal=DB::table("_item_attribute_values")->insert([
+                        'item_id'=>$item->id,
+                        'attribute_id'=>(Attribute::where('attribute_name','=',substr($attribute,1))->first())->id,
+                        'value_id'=> $value
+                    ]);
+                }
+            }
+        }, 1);
+        //return response()->json( $this->itemWithVal);
+        return Redirect::to("/items/search/found");
     }
 
     /**
@@ -64,7 +98,7 @@ class itemController extends Controller
      */
     public function show(Item $item)
     {
-        if(auth()->user()->id==$item->user()->id){
+        if(auth()->user()->id==$item->user->id){
             return response()->json($item);
          }
     }
@@ -77,9 +111,9 @@ class itemController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
+    //
     /**
      * Update the specified resource in storage.
      *
@@ -99,40 +133,30 @@ class itemController extends Controller
         if($request->has('region')){
             $item->region = $request->region;
         }
-        if($request->has('found_since')){    
+        if($request->has('found_since')){
             $item->found_since = $request->found_since;
         }
         $item->save();
     }
 
-    // micheal 3amel ajax request lel city fe el items report --start
-    public function ajaxRequest(Request $request){
-        // if($request->ajax()){
-        //     $query = $request->get('query');
-        //     if($query != ''){
-        //         $data = DB::table('reports')
-        //             ->where('name' , 'like' , '%'.$query.'%')
-        //             ->orWhere('city' , 'like' , '%'.$query.'%')
-        //             ->orWhere('region' , 'like' , '%'.$query.'%')
-        //             ->get();
-        //     }
-        //     else{
-        //         $data = DB::table('reports')->get();
-        //     }
-        //     return $data;
-            
-
-        //     // $data = array(
-        //     //     'div_data'  => $output
-        //     // );
-        //     // echo json_encode($data);
-            
-        // }
-        dd($request);
-        return "inside action";
-        
+    function fetch(Request $request)
+    {
+     $select = $request->get('select');
+     $value = $request->get('value');
+     $dependent = $request->get('dependent');
+     $data = DB::table('country_state_city')
+       ->where($select, $value)
+       ->groupBy($dependent)
+       ->get();
+     $output = '<option value="">Select '.ucfirst($dependent).'</option>';
+     foreach($data as $row)
+     {
+      $output .= '<option value="'.$row->$dependent.'">'.$row->$dependent.'</option>';
+     }
+     echo $output;
     }
-    public function ajaxRequestPost(){}
+
+
     // ---------end of ajax for city
 
     /**
@@ -145,5 +169,146 @@ class itemController extends Controller
     {
         $item->delete();
         return response()->json($item);
+    }
+
+
+
+
+
+
+        public function getAreaList(Request $request)
+        {
+            $states = DB::table("areas")
+            ->where("city_id",$request->city_id)
+            ->pluck("area_name","id");
+            return response()->json($states);
+
+            // $area = City::with('areas')->where('id' , '=' , $id)->get();
+            // foreach($area as $a){
+            //     return response()->json($a);
+            // }
+        }
+
+        public function CityCategory(){
+
+            // $cities = DB::table("cities")->pluck("city_name","id");
+            $cities = City::all();
+            $categories = Category::with('attributes')->get();
+            return view('items.form',compact('cities','categories'));
+        }
+
+        public function getAttributeList($id)
+        {
+           $category = Category::with('attributes')->where('id' , '=' , $id)->get();
+           return response()->json($category);
+
+        }
+
+        public function getAttributeValue($id)
+        {
+           $attribute = AttributeValue::with('attribute')->where('attribute_id','=',$id)->get();
+           return response()->json($attribute);
+
+
+        }
+        public function actionItem(Request $request){
+            // $output = '';
+            if($request->ajax()){
+                $query = $request->get('query');
+                if($query != ''){
+                    $data = DB::table('items')
+                        ->where('image' , 'like' , '%'.$query.'%')
+                        ->get();
+                }
+                else{
+                    $data = DB::table('items')->get();
+                }
+                $total_row = $data->count();
+                if($total_row > 0 ){
+
+                    // foreach($data as $row){
+                    //     $output .= '
+                    //     <div class="col-lg-4 col-md-6">
+                    // 			<div class="hotel text-center">
+                    // 				<a href="{{ url(/showRepo/'.$row->id.') }}">
+                    // 					<div class="hotel-img">
+                    // 						<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
+                    // 					</div>
+
+                    // 					<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
+
+                    // 					<p>'.$row->created_at.'</p>
+                    // 				</a>
+                    // 			</div>
+                    // 		</div>
+
+                    //     ';
+                    // }
+                }else{
+                    $output = '
+
+                            <div align="center" colspan="5">No Data Found</div>
+
+                    ';
+                }
+                return $data;
+
+
+                $data = array(
+                    'div_data'  => $output
+                );
+                echo json_encode($data);
+
+            }
+
+        }
+
+        public function showReportItems($id){
+            //$item = Item::findOrFail($id);
+            $item = Item::with('category')->where('id' , '=' , $id)->get();
+            dd($item);
+            // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
+            // dd($founder);
+            return view('items.itemDetails', ['item'=>$item]);
+        }
+    public function sendEmailVerifyItems(Request $request , $id){
+        //$user->notify(new NotifyReport);
+        // or
+        //Notification::send($users , new NotifyReport());//for sending to users not one user
+        $founder = Item::with('user')->where('id' , '=' , $id)->get();
+        dd($founder);
+
+         // $when = now()->addMinutes(10);
+        //$when = Carbon::now()->addSeconds(10);
+
+       // $founder = Report::with('user')->where('id' , '=' , $id)->get();
+        // $founderss = User::with('reports')->where('id' , '=' , $id)->get();
+       // dd($founder->user);
+        $loster = auth()->user()->id;
+        $desc = new DescriptionValidation;
+        // $user1 = User::find(4);
+        // $user2 = User::find(1);
+        foreach($founder as $f){
+            $desc->lost_id = $loster;
+            $desc->founder_id = $f->user_id;
+            $desc->description = $request->input('description');
+            $f->user->notify(new NotifyReport($loster));
+            // $f->user->notify((new NotifyReport($loster))->delay($when));
+            //dd(Notification::send($f, new NotifyReport($loster)));
+        }
+
+
+
+        //dd($user1->notify(new NotifyReport($user2)));
+        $desc->save();
+
+        return response()->json($desc);
+
+        //dd($founder);
+        // $founder = Report::with('user')->where('id' , '=' , );
+        // $founder = User::with('reports')->get();
+        // foreach($founder as $ff){
+        // dd($ff->name);
+        // }
     }
 }
