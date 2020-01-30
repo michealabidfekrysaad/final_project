@@ -167,3 +167,7 @@ Route::post('/storeFahmy' , 'itemController@store');
 Route::get('/error', function(){
     return view('error');
 });
+
+Route::get('/admin', function(){
+    return view('layouts.AdminPanel.app');
+});
