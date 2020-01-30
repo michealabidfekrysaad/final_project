@@ -22,6 +22,15 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('contact.index');
 });
+
+Route::get('/about', function () {
+    return view('about.index');
+});
+
+Route::get('/about/view1', function () {
+    return view('about.view1');
+});
+
 //Route::resource('reports', 'reportController');
 
 // Auth::routes();
