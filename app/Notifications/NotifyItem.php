@@ -7,22 +7,25 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\User;
-use App\Report;
 
-class NotifyReport extends Notification
+class NotifyItem extends Notification
 {
     use Queueable;
     public $user;
     public $founder;
+    public $description;
+    public $founderItem;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user , User $founder)
+    public function __construct(User $user , User $founder , $description , $founderItem)
     {
-       $this->user = $user;
-       $this->founder = $founder;
+        $this->user = $user;
+        $this->founder = $founder;
+        $this->description = $description;
+        $this->founderItem = $founderItem;
     }
 
     /**
@@ -44,16 +47,16 @@ class NotifyReport extends Notification
      */
     public function toMail($notifiable)
     {
-        $user = $this->user->name;
-        $founder = $this->founder->name;
+        $founder = $this->user->name;
+        $user = $this->founder->name;
         
         return (new MailMessage)
-                    ->subject('from Loster '. $user)
-                    ->line('hello '. $founder)
-                    ->action('close Rport', url('/'))
-                    ->action('Accept Report' , url('/'))
-                    ->action('Reject Report' , url('/'))
-                    ->line('Regards Laravel Fahmy');
+                    ->subject('message to founder Item')
+                    ->line('hello ' . $founder . ' My Name Is ' . $user)
+                    ->line('this Item ' . $this->founderItem->id)
+                    ->line('hello '. $founder . ' my description is ' . $this->description)
+                    ->action('Accept', url('/acceptMessage/'.$this->user->id.'/'.$this->founder->id))
+                    ->line('my Regards ' . $user);
     }
 
     /**
