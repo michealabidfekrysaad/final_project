@@ -18,11 +18,9 @@ class SendSmsMailToFounder extends Notification
      * @return void
      */
     public $report;
-    public $otherUser;
-    public function __construct($report,$otherUser)
+    public function __construct($report)
     {
         $this->report=$report;
-        $this->otherUser=$otherUser;
     }
 
     /**
@@ -50,9 +48,9 @@ class SendSmsMailToFounder extends Notification
             ->line('you are lately make a report
             for a lost person on our website and there is someone who
              searching for the same person and his information is:')->line(
-                 'Name : '.$this->otherUser->name
-                 .'Email : '.$this->otherUser->email
-                 .'Phone Number : '.$this->otherUser->phone
+                 'Name : '.auth()->user()->name
+                 .'Email : '.auth()->user()->email
+                 .'Phone Number : '.auth()->user()->phone
             )->line('please approve or disapprove after meeting')
 //            ->line(new Action('View Report', url('/people/reports/'.$this->report->id)))
             ->line(new Action('Close Report', url('api/closereport/'.$this->report->id)))

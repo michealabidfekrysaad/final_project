@@ -9,8 +9,6 @@
             ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
             return false;
         }
-
-
         ImgError.classList.add("text-success");
         ImgError.innerHTML = "Upload Image Successfully";
         Filevalidation();
@@ -99,12 +97,12 @@
             let year = today.getFullYear();
             let day = String(today.getDate()).padStart(2, '0');
             let month = String(today.getMonth() + 1).padStart(2, '0');
-            var dateformat = /^\d{4}-\d{2}-\d{2}$/;
-            if (!inputlost_since.value.match(dateformat) || SplitLostSince[0] > year) {
-                LostErr.classList.add("text-danger");
-                LostErr.innerHTML = "year is not valid";
-                return false;
-            }
+            // var dateformat = /^\d{4}-\d{2}-\d{2}$/;
+            // if (!inputlost_since.value.match(dateformat) || SplitLostSince[0] > year) {
+            //     LostErr.classList.add("text-danger");
+            //     LostErr.innerHTML = "year is not valid";
+            //     return false;
+            // }
             if (SplitLostSince[1] > month || SplitLostSince[2] > day) {
                 LostErr.classList.add("text-danger");
                 LostErr.innerHTML = "day or month is not valid";
@@ -211,7 +209,7 @@
 
                 const fsize = fileUpload.files.item(i).size;
                 const file = Math.round((fsize / 1024));
-                // The size of the file. 
+                // The size of the file.
                 if (file >= 4096) {
                     ImgError.classList.add("text-danger");
                     ImgError.innerHTML = "size of image is" + file + "MB is very large";
@@ -256,40 +254,46 @@
 
 
         </div>
-
-
-        <form onsubmit="return(validate());">
-
-
+            <form action="{{ route('report.store',['type'=>'lost'])}}" method="POST" name="add_report" class="m-5" enctype="multipart/form-data"  onsubmit="return(validate());">
+                @csrf
             <div class="form-group">
                 <label for="Select_file">Upload Image :</label>
-                <input type="file" class="form-control" name="select_file" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png" required />
+                <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png" required />
                 <span id="ImgError"></span>
             </div>
-
             <div class="form-group">
                 <label for="inputName">Name Of Person :</label>
-                <input type="text" class="form-control" id="inputName" placeholder="Name Of Person" required>
+                <input type="text" class="form-control" id="inputName" placeholder="Name Of Person" name="name" required>
                 <span id="NameErr"></span>
             </div>
 
-            <div class="form-group">
-                <label for="inputlocation">Location :</label>
-                <input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Person" required>
-                <span id="LocationErr"></span>
-            </div>
+                <div class="form-group">
+                    <label for="inputlocation">Location :</label>
+                    <input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Person" name="location" required>
+                    <span id="LocationErr"></span>
+                </div>
+                <div class="form-group">
+                    <label for="inputcity">city :</label>
+                    <input type="text" class="form-control" id="inputcity" placeholder="city" name="city" required>
+                    <span id="CityErr"></span>
+
+                    <div class="form-group">
+                        <label for="inputcity">region :</label>
+                        <input type="text" class="form-control" id="inputregion" placeholder="region" name="region" required>
+                        <span id="CityErr"></span>
+                    </div>
 
 
             <div class="form-group">
                 <label for="inputspecial_mark">Special Mark :</label>
-                <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Person" required>
+                <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Person" name="special_mark" required>
                 <span id="SpecialErr"></span>
             </div>
 
             @if($type == 'lookfor')
             <div class="form-group">
                 <label for="inputlost_since">Lost Since :</label>
-                <input type="date" class="form-control" id="inputlost_since" placeholder="Person Lost Since" max="2020-02-01" min="1920-02-01" required>
+                <input type="date" class="form-control" id="inputlost_since" placeholder="Person Lost Since" max="2020-02-01" min="1920-02-01" name="lost_since" required>
                 <span id="LostErr"></span>
             </div>
 
@@ -298,21 +302,21 @@
 
             <div class="form-group ">
                 <label for="inputAge">Age :</label>
-                <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=90 required>
+                <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=90 name="age" required>
                 <span id="NumberErr"></span>
             </div>
 
 
             <div class="form-group ">
                 <label for="inputHeight">Height :</label>
-                <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 required>
+                <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 name="height" required>
                 <span id="HeightErr"></span>
             </div>
 
 
             <div class="form-group ">
                 <label for="inputWeight">Weight :</label>
-                <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 required>
+                <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 name="weight"  required>
                 <span id="WeightErr"></span>
             </div>
 
@@ -344,7 +348,7 @@
 
             <div class="form-group">
                 <label for="inputlast_seen_at">Last Seen At :</label>
-                <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required>
+                <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" name="last_seen_at"  required>
             </div>
 
             @endif
@@ -352,7 +356,7 @@
             @if($type == 'found')
             <div class="form-group">
                 <label for="inputfound_since">found Since :</label>
-                <input type="date" class="form-control" id="inputfound_since" placeholder="Person found when" required>
+                <input type="date" class="form-control" id="inputfound_since" placeholder="Person found when"  name="found_since"  required>
             </div>
 
             @endif

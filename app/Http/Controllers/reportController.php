@@ -3,36 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Notifications\SendSmsMailToFounder;
+use App\Notifications\SendSummaryToUser;
 use App\Report;
 use Aws\Rekognition\RekognitionClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use App\User;
 
 class reportController extends Controller
 {
-
-    private $client;
     private $renderType;
+    private $localArray;
+    private $localQuery;
+    private $globalImage;
+
 
     public function __construct()
     {
+        $this->globalImage=" ";
+        //        $this->middleware(['role:Admin'])->only('index');
         $this->renderType=" ";
-//        $this->middleware(['role:Admin'])->only('index');
-        $this->client = new RekognitionClient(
-            [
-                'version' => 'latest',
-                'region' => 'us-east-2',
-                'credentials' => [
-                    'key' => 'AKIA5WVDM6FIA5253O7V',
-                    'secret' => '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'
-                ]]);
+        $this->localArray=array();
+        $this->localQuery=" ";
     }
     public function index()
     {
         $reports = Report::all();
-        return response()->json($reports);
+        return view('people.find');
+       // return view("people.find",['reports'=>$reports]);
 
     }
     public function myReports()
@@ -47,9 +47,9 @@ class reportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type)
     {
-        //
+        return view('people.form',['type'=>$type]);
     }
 
     /**
@@ -58,68 +58,88 @@ class reportController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request,$type)
     {
+        $data = [
+            'name' => $request->name,
+            'age' => $request->age,
+            'gender' => $request->gender,
+            'type' => $type,
+            'special_mark' => $request->special_mark,
+            'eye_color' => $request->eye_color,
+            'hair_color' => $request->hair_color,
+            'city' => $request->city,
+            'region' => $request->region,
+            'location' => $request->location,
+            'last_seen_on' => $request->last_seen_on,
+            'last_seen_at' => $request->last_seen_at,
+            'lost_since' => $request->lost_since,
+            'found_since' => $request->found_since,
+            'height' => $request->height,
+            'weight' => $request->weight,
+        ];
         $validateFace = $this->detectFace($request->file('image'));
         if (!$validateFace) {
             return response()->json(['message'=>'No face Found Of More than one Face']);
-        } else
-        {
-            $resonse = $this->searchByImage($request->type,$request->file('image'));
-            if ($resonse==false) {
-                $data=[
-                    'name' => $request->name,
-                    'age' => $request->age,
-                    'gender' => $request->gender,
-                    'type' => $request->type,
-                    'special_mark' => $request->special_mark,
-                    'eye_color' => $request->eye_color,
-                    'hair_color' => $request->hair_color,
-                    'city' => $request->city,
-                    'region' => $request->region,
-                    'location' => $request->location,
-                    'last_seen_on' => $request->last_seen_on,
-                    'last_seen_at' => $request->last_seen_at,
-                    'lost_since' => $request->lost_since,
-                    'found_since' => $request->found_since,
-                    'height' => $request->height,
-                    'weight' => $request->weight,
-                ];
+        } else {
+            $response = $this->searchByImage($type, $request->file('image'));
+            if ($response == false) {
+                $request->session()->put('report', $data);
                 $report = Report::create($data);
-                $request->session()->put('report',$data);
-                $responseFromS3Upload = $this->uploadImageToS3($report, $request->file('image'));
+                $report->image = $this->uploadImageToS3($request->file('image'));
+                $report->user_id = auth()->user()->getAuthIdentifier();
+                $report->save();
                 return response()->json([
                     'message' => 'sorry The person not exist and created report successfully',
-                    'your report' => $responseFromS3Upload
+                    'your report' => $report
                 ]);
-            }
-            else {
-                $otherReport = Report::with('user')->where('image', '=', $resonse)->get();
-                return response()->json(['otherReport'=>$otherReport]);
+            } else {
+                \request()->session()->put('report', $data);
+                \request()->session()->put('imageReport',$this->uploadImageToS3($request->file('image')));
+                auth()->user()->notify(new SendSummaryToUser($response));
+                return Redirect::to("/profile");
+               // return response()->json(['nearest' => $response]);
             }
 
-        }
+                //aceept or reject other report here
+//                $otherReport = Report::with('user')->where('image', '=', $resonse)->get();
+//                return response()->json(['otherReport'=>$otherReport]);
+            }
+
         }
         //accept other report from auth user
         public function acceptOtherReport(Report $report)
         {
-            \request()->session()->forget('report');
+            if(\request()->session()->exists('report')){
+                \request()->session()->forget('report');
+                \request()->session()->forget('imageReport');
+            }
             $otherUser = $report->user;
-            $otherUser->notify(new SendSmsMailToFounder($report,User::find(6)));
+            $otherUser->notify(new SendSmsMailToFounder($report));
+            return Redirect::to("/people/search");
+
 
         }
     public function RejectOtherReport(){
-        if (\request()->session()->has('report')) {
+        if (\request()->session()->exists('report')) {
             $data=\request()->session()->get('report');
             $report = Report::create($data);
+            $report->image =\request()->session()->get('imageReport');
+            $report->user_id = auth()->user()->getAuthIdentifier();
+            $report->save();
             \request()->session()->forget('report');
-            return response()->json($report);
+            \request()->session()->forget('imageReport');
+            return Redirect::to("/people/search");
+            //return response()->json($report);
+        }
+        else{
+            return Redirect::to("/people/search/lookfor");
         }
     }
         public function closeReport(Report $report){
         $report->is_found='1';
         $report->save();
-        dd($report);
+//        dd($report);
         return redirect('/');
 
         }
@@ -129,6 +149,10 @@ class reportController extends Controller
         if(auth()->user()->id==$report->user()->id){
            return response()->json($report);
         }
+    }
+    public function showReportDetails(Report $report){
+        return view('people.personDetails',['report'=>$report]);
+
     }
 
     public function edit($id)
@@ -201,81 +225,7 @@ class reportController extends Controller
             $report->delete();
         }
     }
-    public function detectFace($file){
-        {
-            $filenamewithextension = $file;
-            $result = $this->client->detectFaces([
-                'Image' => [
-                    'Bytes' => file_get_contents($filenamewithextension,true)
-                ],
-            ]);
-            if (count($result->get('FaceDetails'))==1){
-                return true;
-            }
-//            else if (count($result->get('FaceDetails'))>1){
-//                return 'there are more than one person';
-//            }
-            else{
-                return false;
-               // return response()->json('there are no person in image');
-            }
-        }
 
-    }
-    public function uploadImageToS3($report,$file){
-
-        $filenamewithextension = $file->getClientOriginalName();
-        $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-        $extension = $file->getClientOriginalExtension();
-        $filenametostore = 'people/'.$filename.'_'.time().'.'.$extension;
-        Storage::disk('s3')->put($filenametostore, fopen($file, 'r+'), 'public');
-       // $image_url='https://loseall.s3.us-east-2.amazonaws.com/'.$filenametostore;
-        $report->image= $filenametostore;
-        $report->user_id=6;
-        $report->save();
-        return $report;
-
-    }
-    public function searchByImage($type,$file){
-
-        if($type=="lost"){
-            $this->renderType="found";
-        }
-        if($type=="found"){
-            $this->renderType="lost";
-        }
-        foreach (DB::table('reports')->where('type','=',$this->renderType)->get(['image'])->toArray() as $value){
-            $result = $this->client->compareFaces([
-                'SimilarityThreshold' => 0,
-                'SourceImage' => [
-                    'Bytes' => file_get_contents($file,true)
-                ],
-                'TargetImage' => [
-                    'S3Object' => [
-                        'Bucket' => 'loseall',
-                        'Name' => $value->image,
-                    ],
-                ],
-
-            ]);
-            if ((int)$result->get('FaceMatches')[0]['Similarity'] > 90)
-            {
-                return  $value->image;
-            }
-        }
-        return false;
-    }
-    public function searchbyImageForLost(Request $request){
-        $response= $this->searchByImage('lost',$request->image);
-        if($response=false){
-            return response()->json('go to report image');
-        }
-        else{
-            $otherReport = Report::with('user')->where('image', '=', $response)->get();
-            return response()->json(['otherReport'=>$otherReport]);
-        }
-
-    }
 
     public function SearchReports(Request $request){
        $nameSearch = $request->input('search');
@@ -313,54 +263,21 @@ class reportController extends Controller
     }
 
     public function action(Request $request){
-        $output = '';
         if($request->ajax()){
             $query = $request->get('query');
             if($query != ''){
-                $data = DB::table('reports')
+                $data = DB::table('reports')->where('type','=','lost')
                     ->where('name' , 'like' , '%'.$query.'%')
                     ->orWhere('city' , 'like' , '%'.$query.'%')
                     ->orWhere('region' , 'like' , '%'.$query.'%')
                     ->get();
             }
             else{
-                $data = DB::table('reports')->get();
+                $data = DB::table('reports')->where('type','=','lost')->get();
             }
-            $total_row = $data->count();
-            if($total_row > 0 ){
-                foreach($data as $row){
-                    $output .= '
-                    <div class="col-lg-4 col-md-6">
-							<div class="hotel text-center">
-								<a href="{{ url(/showRepo/'.$row->id.') }}">
-									<div class="hotel-img">
-										<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
-									</div>
-
-									<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
-
-									<p>'.$row->created_at.'</p>
-								</a>
-							</div>
-						</div>
-
-                    ';
-                }
-            }else{
-                $output = '
-
-                        <div align="center" colspan="5">No Data Found</div>
-
-                ';
-            }
-            $data = array(
-                'div_data'  => $output
-            );
-            echo json_encode($data);
+            return $data;
         }
     }
-
-
     public function showReport($id){
         $repor = Report::findOrFail($id);
         return view('showReports', ['repor'=>$repor]);
@@ -370,7 +287,7 @@ class reportController extends Controller
 
     }
     public function doSearchingQuery($request) {
-        $globalQuery="SELECT * FROM reports WHERE ";
+        $globalQuery="SELECT * FROM reports WHERE type='lost' AND ";
         $array=array();
         // {"gender":["male","female"],"city":"Cairo","age":[]}
         $constraints= json_decode($request, true);
@@ -401,17 +318,15 @@ class reportController extends Controller
         if($constraints['age']){
             for($i=0;$i<count($constraints['age']);$i++) {
                 if ($constraints['age'][$i] == "below_10_years"){
-                    $query=" age <= 10";
+                    $query="age <= 10";
                     array_push($this->localArray,$query);
                 }
                 if ($constraints['age'][$i] == "below_20_years"){
-
-                    $query="age <= 20";
+                    $query="age <= 20 and age > 10";
                     array_push($this->localArray,$query);
-
                 }
                 if ($constraints['age'][$i] == "below_30_years"){
-                    $query=" age <= 30";
+                    $query=" age <= 30 and age > 20 ";
                     array_push($this->localArray,$query);
                 }
                 if ($constraints['age'][$i] == "other_above_30"){
@@ -456,7 +371,7 @@ class reportController extends Controller
                 $globalQuery.=$array[$i];
             }
         }
-        return $globalQuery;
-        // return $results = DB::select("SELECT * FROM reports WHERE   AND ( age <= 10 )");
+         //return $globalQuery;
+         return $results = DB::select($globalQuery);
     }
 }

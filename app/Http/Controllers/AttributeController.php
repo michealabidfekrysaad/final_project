@@ -21,9 +21,8 @@ class AttributeController extends Controller
     }
     public function index()
     {
-        $attr = Attribute::all();
-        $value = AttributeValue::all();
-        return view('items.find' , compact('attr' , 'value'));
+        $attrributeValue=Attribute::with('valuesofattributes')->get();
+         return view('items.find' , ['attrributeValue'=>$attrributeValue]);
     }
 
     public function indexAdmin()

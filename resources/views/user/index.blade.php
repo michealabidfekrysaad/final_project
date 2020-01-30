@@ -16,13 +16,16 @@
                     <a class="nav-link " id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link " id="notification-tab" data-toggle="tab" href="#notification" role="tab" aria-controls="notification" aria-selected="true">Notification - {{count($notifications)}}</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Your Reports</a>
                 </li>
             </ul>
             <div class="card-body">
                 <div class="tab-content profile-tab" id="myTabContent">
                     <div class="tab-pane fade show active bg-white" id="home" role="tabpanel" aria-labelledby="home-tab">
-                       
+
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Name</label>
@@ -67,6 +70,17 @@
                                 Update Profile
                         </a>
                     </div>
+                    <div class="tab-pane fade show active bg-white" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+
+                        <div class="row">
+                            @foreach($notifications as $notification)
+                                <span>View Result For Last Search </span>
+                                <a href="/viewResultFromNotification/{{$notification['id']}}" >View Results</a>
+                                <a href="/readNotification/{{$notification['id']}}" >Make As Read</a>
+                                @endforeach
+
+                    </div>
+                    </div>
                     <div class="tab-pane fade bg-white" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row">
 
@@ -101,7 +115,7 @@
                                     </a>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>

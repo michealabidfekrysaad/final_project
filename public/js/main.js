@@ -147,59 +147,58 @@ jQuery(document).ready(function ($) {
 
 $(document).ready(function () {
 
-  filter_data();
-
-  function filter_data() {
-    var action = 'fetch_data';
-    var gender = get_filter('gender');
-    var age = get_filter('age');
-      if($("#DropDownList1 :selected").text()!=" "){
-          var city = $("#DropDownList1 :selected").text();
-      }
-      var data = {gender,city,age};
-      $.ajax({
-          method:"GET",
-          url:"/api/filter/"+JSON.stringify(data),
-          traditional: true,
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          //data: JSON.stringify(data),
-          success:function(data){
-              //$('.filter_data').html(data);
-              console.log(data);
-          }}
-    );
-    var data = { "gender": gender, "age": age, "city": city };
-    console.log(data);
-
-    for (var key in data) {
-      if (data.hasOwnProperty(key)) {
-          console.log(key + " -> " + data[key]);
-      }
-  }
-
-  console.log(data);
-    $('.filter_data').html();
-  }
-
-  function get_filter(class_name) {
-    var filter = [];
-    $('.' + class_name + ':checked').each(function () {
-      filter.push($(this).val());
-    });
-    return filter;
-  }
-
-  $('.custom-control-input').click(function () {
-    filter_data();
-  });
-
-  $("#DropDownList1").change(function (e) {
-
-    filter_data();
-
-  })
+  // //filter_data();
+  //
+  // function filter_data() {
+  //   var action = 'fetch_data';
+  //   var gender = get_filter('gender');
+  //   var age = get_filter('age');
+  //     if($("#DropDownList1 :selected").text()!=" "){
+  //         var city = $("#DropDownList1 :selected").text();
+  //     }
+  //     var data = {gender,city,age};
+  //     $.ajax({
+  //         method:"GET",
+  //         url:"/filter/"+JSON.stringify(data),
+  //         traditional: true,
+  //         headers: {
+  //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  //         },
+  //         //data: JSON.stringify(data),
+  //         success:function(data){
+  //             console.log(data);
+  //         }}
+  //   );
+  //   var data = { "gender": gender, "age": age, "city": city };
+  //   console.log(data);
+  //
+  //   for (var key in data) {
+  //     if (data.hasOwnProperty(key)) {
+  //         console.log(key + " -> " + data[key]);
+  //     }
+  // }
+  //
+  // console.log(data);
+  //   $('.filter_data').html();
+  // }
+  //
+  // function get_filter(class_name) {
+  //   var filter = [];
+  //   $('.' + class_name + ':checked').each(function () {
+  //     filter.push($(this).val());
+  //   });
+  //   return filter;
+  // }
+  //
+  // $('.custom-control-input').click(function () {
+  //   filter_data();
+  // });
+  //
+  // $("#DropDownList1").change(function (e) {
+  //
+  //   filter_data();
+  //
+  // })
 
 });
 

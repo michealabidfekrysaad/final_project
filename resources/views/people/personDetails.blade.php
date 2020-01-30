@@ -6,76 +6,74 @@
       Speaker Details Section
     ============================-->
     <section id="speakers-details" class="wow fadeIn pt-5">
-            
+
       <div class="container  pt-5">
+
         <div class="section-header pt-2">
           <h2>Person Details</h2>
         </div>
-             <i class="fas fa-arrow-right"></i>
-
         <div class="row">
           <div class="col-md-6">
-            <img src="{{asset('img/speakers/1.jpg')}}" alt="Speaker 1" class="img-fluid">
+            <img src="https://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}" alt="Speaker 1" class="img-fluid">
           </div>
-
           <div class="col-md-6">
             <div class="details">
               <div class="row">
                       <h3>Name :</h3>
-                      <p> Ahmed</p>
+                      <p>{{$report->name}}</p>
               </div>
               <div class="row">
                       <h3>Location :</h3>
-                      <p> car</p>
+                      <p>{{$report->location}}</p>
               </div>
               <div class="row">
                       <h3>Special Mark :</h3>
-                      <p> dark birthmark on face</p>
+                      <p>{{$report->special_mark}}</p>
               </div>
               <div class="row">
                       <h3>Last Seen At :</h3>
-                      <p> 10:00 pm</p>
+                      <p> {{$report->last_seen_at}}</p>
               </div>
               <div class="row">
                       <h3>Lost Since :  </h3>
-                      <p> 01/05/2019</p>
+                      <p> {{$report->lost_since}}</p>
               </div>
               <div class="row">
                       <h3>Age :  </h3>
-                      <p> 12</p>
+                      <p> {{$report->age}}</p>
               </div>
               <div class="row">
                       <h3>Height :  </h3>
-                      <p>170 cm</p>
+                      <p>{{$report->height}}</p>
               </div>
               <div class="row">
                       <h3>Weight :  </h3>
-                      <p>50 kg</p>
+                      <p>{{$report->weight}}</p>
               </div>
               <div class="row">
-                      <h3>Gender :  </h3>
+                      <h3>{{$report->gender}}</h3>
                       <p>Male </p>
               </div>
               <div class="row">
                       <h3>Last Seen On :  </h3>
-                      <p> Saturday</p>
+                      <p> {{$report->last_seen_on}}</p>
               </div>
               <div class="row">
                       <h3>Eye Color :  </h3>
-                      <p>Black</p>
+                      <p>{{$report->eye_color}}</p>
               </div>
               <div class="row">
                       <h3>Hair Color :  </h3>
-                      <p> Black</p>
+                      <p> {{$report->hair_color}}</p>
               </div>
               <div class="row ">
-                      <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
+                      <a href="/acceptOtherReport/{{$report->id}}" type="submit" class="btn" id="lostButton">Contact With Report Owner</a>
               </div>
-              
-              
+
+
             </div>
           </div>
-          
+
         </div>
       </div>
 

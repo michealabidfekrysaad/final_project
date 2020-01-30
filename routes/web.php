@@ -22,7 +22,7 @@ Route::get('/', function () {
 //Route::get('/contact', function () {
 //    return view('contact.index');
 //});
-Route::resource('reports' , 'reportController');
+//Route::resource('reports' , 'reportController');
 Route::get('/contact', function () {
     return view('contact.index');
 });
@@ -37,21 +37,19 @@ Route::get('/contact', function () {
 //// Route::get('/search' , 'reportController@getFormSearch');
 //// Route::post('/search' , 'reportController@SearchReports');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/people/search', function(){
-    return view('people.find');
-});
-Route::get('/people/details', function(){
-    return view('people.personDetails');
-});
+Route::get('/people/search','reportController@index')->name("people.home");//done
+Route::get('/people/details/{report}','reportController@showReportDetails');//done
 Route::post('/filter/find','filterController@doSearchingQuery');
+Route::get('/filter/{request}','reportController@doSearchingQuery');//done
 // Route::get('/people/search/{type}', function($type){
 //     return view('people.form',['type' => $type]);
-// });
-Route::get('/people/search/{type}','UploadfileController@createReport');
+// }
 
-Route::post('/people/search/{type}','UploadfileController@report');
-Route::get('/people/image','UploadfileController@index');
-Route::post('uploadfile','UploadfileController@upload');
+Route::get('/people/search/{type}','reportController@create');
+Route::post('/people/search/{type}','reportController@store')->name('report.store');
+//Route::post('/people/search/{type}','UploadfileController@report');
+Route::get('/people/image','UploadfileController@index');//done
+Route::post('uploadfile','UploadfileController@upload');//done
 // Route::get('/users/{id}','UsersController@show')->name('users.show');
 
 
@@ -77,6 +75,8 @@ Route::get('/search' , 'reportController@getFormSearch');
 // Route::post('/search' , 'reportController@SearchReports');
 Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
+
+
 
 Route::get('/liveSearch/action' , 'reportController@action')->name('search.action');
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');
@@ -122,4 +122,8 @@ Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.dele
 
 
 /************* */
-Route::get('/api/filter/{request}','TestsController@doSearchingQuery');
+
+Route::get('/acceptOtherReport/{report}', 'reportController@acceptOtherReport')->name('reports.acceptOtherReport')->middleware('sessions');
+Route::get('/RejectOtherReport', 'reportController@RejectOtherReport')->name('reports.RejectOtherReport')->middleware('sessions');
+Route::get('/viewResultFromNotification/{results}','ProfileController@viewResultFromNotification');
+Route::get('/readNotification/{id}','ProfileController@readNotification');
