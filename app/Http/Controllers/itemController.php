@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\AttributeValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\NotifyReport;
+use Illuminate\Support\Facades\Notification;
 use App\Item;
+use App\City;
+use App\Area;
+use App\DescriptionValidation;
 use DB;
 use App\Category;
 class itemController extends Controller
@@ -19,23 +24,10 @@ class itemController extends Controller
      // isthere any role?
     public function index()
     {
-        $items = Item::paginate(10);
-       // return view('item.find');
-        // return view('items/index', [
-        //     'items' => $items,
-        // ]);
-        // $items = Item::paginate(10);
-        //return response()->json($items);
-    }
-
-    public function CityCategory(){
         
-        $cities = DB::table("cities")->pluck("city_name","id");
-        $categories = Category::with('attributes')->get();
-
-        return view('items.form',compact('cities','categories'));
+        // $items = Item::paginate(10);
+        // return response()->json($items);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -55,15 +47,16 @@ class itemController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $item = Item::create([
-            'image' => $request->image->store('images'),
-            'city' => $request ->city,
-            'region' => $request ->region,
-            'found_since' => $request ->found_since,
-            'user_id' => auth()->user()->id,
-           'category_id' => '',
-        ]);
+       // City::where('id','=',$request->input('city_name'))
+        $item = new Item;
+        $item->image = $request->input('image');
+        $item->category_id = $request->input('category_id');
+         $item->city = $request->input('city_name');
+        $item->region = $request->input('region');
+        $item->found_since = $request->input('found_since');
+        $item->user_id = auth()->user()->id;
+        dd($request);
+        $item->save();
         return response()->json($item);
     }
 
@@ -88,9 +81,9 @@ class itemController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
+    //
     /**
      * Update the specified resource in storage.
      *
@@ -159,13 +152,25 @@ class itemController extends Controller
             ->where("city_id",$request->city_id)
             ->pluck("area_name","id");
             return response()->json($states);
-            
+
+            // $area = City::with('areas')->where('id' , '=' , $id)->get();
+            // foreach($area as $a){
+            //     return response()->json($a);
+            // }
+        }
+
+        public function CityCategory(){
+        
+            // $cities = DB::table("cities")->pluck("city_name","id");
+            $cities = City::all();
+            $categories = Category::with('attributes')->get();
+    
+            return view('items.form',compact('cities','categories'));
         }
 
         public function getAttributeList($id)
         {
            $category = Category::with('attributes')->where('id' , '=' , $id)->get();
-        //    return response()->json(count($category));
            return response()->json($category);
             
         }
@@ -177,34 +182,82 @@ class itemController extends Controller
             
 
         }
+        public function actionItem(Request $request){
+            // $output = '';
+            if($request->ajax()){
+                $query = $request->get('query');
+                if($query != ''){
+                    $data = DB::table('items')
+                        ->where('image' , 'like' , '%'.$query.'%')
+                        ->get();
+                }
+                else{
+                    $data = DB::table('items')->get();
+                }
+                
+                return $data;
+                
+    
+                
+                echo json_encode($data);
+                
+            }
+            
+        }
+
+        public function showReportItems($id){
+            //$item = Item::findOrFail($id);
+            $item = Item::with('category')->where('id' , '=' , $id)->get();
+            dd($item);
+            // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
+            // dd($founder);
+            return view('items.itemDetails', ['item'=>$item]);
+        }
+    public function sendEmailVerifyItems(Request $request , $id){
+        //$user->notify(new NotifyReport);
+        // or
+        //Notification::send($users , new NotifyReport());//for sending to users not one user
+        $founder = Item::with('user')->where('id' , '=' , $id)->get();
+        dd($founder);
+
+         // $when = now()->addMinutes(10);
+        //$when = Carbon::now()->addSeconds(10);
+
+       // $founder = Report::with('user')->where('id' , '=' , $id)->get();
+        // $founderss = User::with('reports')->where('id' , '=' , $id)->get();
+       // dd($founder->user);
+        $loster = auth()->user()->id;
+        $desc = new DescriptionValidation;
+        // $user1 = User::find(4);
+        // $user2 = User::find(1);
+        foreach($founder as $f){
+            $desc->lost_id = $loster;
+            $desc->founder_id = $f->user_id;
+            $desc->description = $request->input('description');
+            $f->user->notify(new NotifyReport($loster));
+            // $f->user->notify((new NotifyReport($loster))->delay($when));
+            //dd(Notification::send($f, new NotifyReport($loster)));
+        }
+        
+        
+        
+        //dd($user1->notify(new NotifyReport($user2)));
+        $desc->save();
+        
+        return response()->json($desc);
+        
+        //dd($founder);
+        // $founder = Report::with('user')->where('id' , '=' , );
+        // $founder = User::with('reports')->get();
+        // foreach($founder as $ff){
+        // dd($ff->name);
+        // }
+    }
 
 
+    public function getCategory(){
+        
+        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }

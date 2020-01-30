@@ -22,6 +22,15 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('contact.index');
 });
+
+Route::get('/about', function () {
+    return view('about.index');
+});
+
+Route::get('/about/view1', function () {
+    return view('about.view1');
+});
+
 //Route::resource('reports', 'reportController');
 
 // Auth::routes();
@@ -80,11 +89,13 @@ Route::get('/search' , 'reportController@getFormSearch');
 Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 
-// the ajax of city in item by micheal
-Route::get('items/search/found','itemController@CityCategory');
-Route::get('get-state-list','itemController@getAreaList');
+// the ajax of city in item by micheal-------------------------------------------
+Route::get('/items/search/found','itemController@CityCategory');
+Route::get('/get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
+//Route::get('/items/search','itemController@getCategory');
+// ------------------------------------------------------------------------------
 
 //    Route::get('people/search/{type}','UploadfileController@CityCategory');
 
@@ -94,9 +105,10 @@ Route::get('get-area-list','reportController@getAreaList');
 
 // Route::get('/cat' , 'categoryController@index');
 // the ajax of city in item by micheal
-
+Route::get('/liveSearch/actionItem' , 'itemController@actionItem')->name('search.actionItem');
 Route::get('/liveSearch/action' , 'reportController@action')->name('search.action');
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');
+Route::get('/showRepoItems/{id}' , 'itemController@showReportItems')->name('showItems.action');
 Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
 Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
 // Route::get('/auth/facebook', 'Auth\LoginController@redirectToFacebook');
@@ -107,8 +119,8 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
- Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
- //Route::get('/items/search' , 'itemController@index')->name('attribute.index');
+  Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+ // Route::get('/items/search' , 'itemController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
@@ -145,6 +157,8 @@ Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.dele
 /************* */
 Route::post('/sendEmail/{id}' , 'reportController@SendEmailVerify');
 Route::get('/sendEmailItem/{id}' , 'reportController@sendEmailVerifyItems');
+
+Route::post('/storeFahmy' , 'itemController@store');
 
  
 Route::get('/error', function(){

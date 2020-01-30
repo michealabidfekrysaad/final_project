@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use App\Notifications\NotifyReport;
 use Illuminate\Support\Facades\Notification;
 use App\User;
@@ -61,14 +63,46 @@ class reportController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    { $type='lost';
+        if($type=='lost'){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:8|max:11',
+            'age' =>'required|min:1|max:90',
+            'gender' => 'required',
+            'image' =>'required|mimes:jpeg,jpg,png|max:2024',
+            'special_mark' => 'required',
+            'eye_color' => 'required',
+            'hair_color' => 'required',
+            'location' => 'required',
+            'last_seen_on' => 'required',
+            'last_seen_at' => 'required',
+            'lost_since' => 'required|date',
+            'height' => 'required|min:50|max:250',
+            'weight' => 'required|min:1|max:100',
+        ]);
+    }
+    else{
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:8',
+            'age' => 'required|min:1|max:90',
+            'gender' => 'required',
+            'image' => 'required|mimes:jpeg,jpg,png|max:2024',
+            'special_mark' => 'required',
+            'eye_color' => 'required',
+            'hair_color' => 'required',
+            'location' => 'required',
+            'found_since' => 'required|date',
+            'height' => 'required|min:50|max:250',
+            'weight' => 'required|min:1|max:100',
+        ]);
+    }
         {
             $report = Report::create([
                 'name' => $request->name,
                 'age' => $request->age,
                 'gender' => $request->gender,
-                'image' => $request->image->store('images'),
-                'type' => $request ->type,
+                'image' => $request->image,
+                'type' =>$type,
                 'special_mark' => $request ->special_mark,
                 'eye_color' => $request ->eye_color,
                 'hair_color' => $request ->hair_color,
@@ -335,7 +369,7 @@ class reportController extends Controller
             $desc->lost_id = $loster;
             $desc->founder_id = $f->user_id;
             $desc->description = $request->input('description');
-            $f->user->notify(new NotifyReport($loster));
+            $f->user->notify(new NotifyReport($loster , $f->user));
             // $f->user->notify((new NotifyReport($loster))->delay($when));
             //dd(Notification::send($f, new NotifyReport($loster)));
         }
@@ -372,6 +406,7 @@ class reportController extends Controller
         return response()->json($states);
         
     }
+
 
 
 
