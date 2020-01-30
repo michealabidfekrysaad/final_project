@@ -21,8 +21,17 @@ class AttributeController extends Controller
     }
     public function index()
     {
+        $items = Item::paginate(10);
+        $categories = Category::all();
+        // $cities = DB::table("cities")->pluck("city_name", "id");
+        $cities = City::all();
+
         $attrributeValue=Attribute::with('valuesofattributes')->get();
-         return view('items.find' , ['attrributeValue'=>$attrributeValue]);
+
+        return view('items.find' , ['attrributeValue'=>$attrributeValue ,
+            'items' => $items ,
+            'categories' => $categories,
+            'cities'=>$cities]);
     }
 
     public function indexAdmin()
@@ -104,6 +113,17 @@ class AttributeController extends Controller
     {
         $attr = Attribute::find($id)->delete();
         return redirect(route('attribute.index'));
+    }
+    public function getAreas($id){
+        $areas = Area::with('city')->where('city_id','=',$id)->get();
+        // return view('items.find',['areas'=>$areas]);
+        return response()->json($areas);
+    }
+    public function getAttributeList($id)
+    {
+        $category = Category::with('attributes')->where('id' , '=' , $id)->get();
+        return response()->json($category);
+
     }
 
 }

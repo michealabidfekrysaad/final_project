@@ -55,7 +55,7 @@ Route::get('/people/image','UploadfileController@index');
 
 Route::get('/items/search/found','itemController@create');
 });
-
+Route::get('/showReportItem/{item}','itemController@show');
 Route::get('/people/search', function(){
     return view('people.find');
 });
@@ -122,7 +122,7 @@ Route::get('get-area-list','reportController@getAreaList');
 Route::get('/liveSearch/actionItem' , 'itemController@actionItem')->name('search.actionItem');
 Route::get('/liveSearch/action' , 'reportController@action')->name('search.action');
 Route::get('/showRepo/{id}' , 'reportController@showReport')->name('show.action');
-Route::get('/showRepoItems/{id}' , 'itemController@showReportItems')->name('showItems.action');
+Route::get('/showRepoItem/{id}' , 'itemController@show')->name('showItems.action');
 Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
 Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
 // Route::get('/auth/facebook', 'Auth\LoginController@redirectToFacebook');
@@ -182,3 +182,4 @@ Route::post('/items' , 'itemController@store')->name('items.store');
 Route::get('/error', function(){
     return view('error');
 });
+Route::get('/getforitem/{category}','AttributeController@getAttributeList');

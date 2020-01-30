@@ -30,4 +30,7 @@ class Item extends Model
     {
         return $this->belongsTo(Area::class);
     }
+    public function ItemAttributeValue(){
+        return $this->hasMany(ItemAttributeValue::class,"item_id");
+    }
 }

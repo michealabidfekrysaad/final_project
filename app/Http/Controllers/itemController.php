@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Attribute;
 use App\AttributeValue;
+use App\ItemAttributeValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -96,11 +97,16 @@ class itemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Item $item)
+    public function show($item)
     {
-        if(auth()->user()->id==$item->user->id){
-            return response()->json($item);
-         }
+        $itemAtributeValue=ItemAttributeValue::with("attribute")->with("value")->where("item_id","=",$item)->get();
+        $item=Item::where("id","=",$item)->first();
+        //return response()->json($itemAtributeValue);
+//
+        return view('items.itemDetails', [
+            'data'=>$itemAtributeValue,
+            'item' =>$item,
+        ]);
     }
 
     /**
@@ -226,24 +232,6 @@ class itemController extends Controller
                 $total_row = $data->count();
                 if($total_row > 0 ){
 
-                    // foreach($data as $row){
-                    //     $output .= '
-                    //     <div class="col-lg-4 col-md-6">
-                    // 			<div class="hotel text-center">
-                    // 				<a href="{{ url(/showRepo/'.$row->id.') }}">
-                    // 					<div class="hotel-img">
-                    // 						<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
-                    // 					</div>
-
-                    // 					<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
-
-                    // 					<p>'.$row->created_at.'</p>
-                    // 				</a>
-                    // 			</div>
-                    // 		</div>
-
-                    //     ';
-                    // }
                 }else{
                     $output = '
 
@@ -263,14 +251,6 @@ class itemController extends Controller
 
         }
 
-        public function showReportItems($id){
-            //$item = Item::findOrFail($id);
-            $item = Item::with('category')->where('id' , '=' , $id)->get();
-            dd($item);
-            // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
-            // dd($founder);
-            return view('items.itemDetails', ['item'=>$item]);
-        }
     public function sendEmailVerifyItems(Request $request , $id){
         //$user->notify(new NotifyReport);
         // or

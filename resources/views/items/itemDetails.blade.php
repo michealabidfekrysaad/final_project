@@ -11,20 +11,16 @@
         <div class="section-header pt-2">
             <h2>Item Details</h2>
         </div>
-
         <div class="row">
             <div class="col-md-6">
-                <img src="{{asset('img/speakers/1.jpg')}}" alt="Speaker 1" class="img-fluid">
+                <img src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}" alt="Img Of Person" class="img-fluid">
             </div>
 
             <div class="col-md-6">
                 <div class="details">
                     <div class="row">
                         <h3>Category :</h3>
-                        @foreach($item->category as $items){
-                            <p> {{$items->category_name}}</p>
-                        }
-                        @endforeach
+                            <p> {{($item->category)->category_name}}</p>
                     </div>
                     <div class="row">
                         <h3>Color :</h3>
@@ -36,10 +32,15 @@
                     </div>
                     <div class="row">
                         <h3>City Where Found :</h3>
-                        <p> {{$item->city}}</p>
+                        <p> {{($item->city)->city_name}}</p>
                     </div>
-
-
+                    <div class="row">
+                        <h3>Attributes :</h3>
+                        @foreach($data as $one)
+                            <h3> {{($one->attribute)->attribute_name}}<h3/>
+                            <h3> {{($one->value)->value_name}}</h3>
+                            @endforeach
+                    </div>
                     <div class="row ">
                         <form action="" class="form">
                             <div class="form-group">

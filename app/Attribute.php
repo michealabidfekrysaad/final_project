@@ -28,6 +28,13 @@ class Attribute extends Model
     public function categoryAttribute(){
 
         return $this->belongsToMany('App\Category' , 'attribute_category' , 'attribute_id' , 'category_id');
-        
+
+    }
+
+
+
+
+    public function ItemAttributeValue(){//islam
+        return $this->hasMany(ItemAttributeValue::class,"attribute_id");
     }
 }
