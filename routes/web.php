@@ -89,11 +89,13 @@ Route::get('/search' , 'reportController@getFormSearch');
 Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 
-// the ajax of city in item by micheal
+// the ajax of city in item by micheal-------------------------------------------
 Route::get('/items/search/found','itemController@CityCategory');
 Route::get('/get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
+//Route::get('/items/search','itemController@getCategory');
+// ------------------------------------------------------------------------------
 
 //    Route::get('people/search/{type}','UploadfileController@CityCategory');
 
@@ -117,8 +119,8 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
- Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
- Route::get('/items/search' , 'itemController@index')->name('attribute.index');
+  Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+ // Route::get('/items/search' , 'itemController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
