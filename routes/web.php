@@ -48,9 +48,9 @@ Route::get('/items/search/found', function(){
 Route::get('/people/search', function(){
     return view('people.find');
 });
-// Route::get('/items/search', function(){
-//     return view('items.find');
-// });
+Route::get('/items/search', function(){
+    return view('items.find');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/details', function(){
@@ -93,7 +93,10 @@ Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 Route::get('/items/search/found','itemController@CityCategory');
 Route::get('/get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
+Route::get('/getforitem/{category}','AttributeController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
+Route::get('/get-area/{id}','AttributeController@getAreas');
+
 //Route::get('/items/search','itemController@getCategory');
 // ------------------------------------------------------------------------------
 
@@ -142,6 +145,7 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 
 Route::get('/edit/{id}' , 'reportController@edit')->name('repo.edit');
 Route::put('/update/{id}' , 'reportController@update')->name('repo.update');
+Route::delete('/report/{report}','reportController@destroy')->name('repo.delete');
 /***** Values CRUD *****/
 Route::get('/valuesAdmin' , 'ValuesController@indexAdmin')->name('value.index');
 Route::get('/values' , 'ValuesController@index')->name('value.index');
@@ -162,4 +166,8 @@ Route::get('/acceptMessage/{lost_id}/{founder_id}' , 'itemController@AcceptMessa
  Route::get('/acceptMessage' , 'itemController@AcceptMessage');
 Route::get('/error', function(){
     return view('error');
+});
+
+Route::get('/admin', function(){
+    return view('layouts.AdminPanel.app');
 });
