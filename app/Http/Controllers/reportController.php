@@ -219,7 +219,8 @@ class reportController extends Controller
         //     return response()->json($report);
         // }
         $report->delete();
-        return response()->json($report);
+        // return response()->json($report);
+        return redirect('/profile');
 
     }
 
