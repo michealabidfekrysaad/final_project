@@ -48,9 +48,9 @@ Route::get('/items/search/found', function(){
 Route::get('/people/search', function(){
     return view('people.find');
 });
-// Route::get('/items/search', function(){
-//     return view('items.find');
-// });
+Route::get('/items/search', function(){
+    return view('items.find');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/details', function(){
@@ -89,11 +89,13 @@ Route::get('/search' , 'reportController@getFormSearch');
 Route::post('/searchReports' , 'reportController@searchReports2');
 Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 
-// the ajax of city in item by micheal
+// the ajax of city in item by micheal-------------------------------------------
 Route::get('/items/search/found','itemController@CityCategory');
 Route::get('/get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
+//Route::get('/items/search','itemController@getCategory');
+// ------------------------------------------------------------------------------
 
 //    Route::get('people/search/{type}','UploadfileController@CityCategory');
 
@@ -117,8 +119,8 @@ Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback'
 Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
- Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
- Route::get('/items/search' , 'itemController@index')->name('attribute.index');
+  Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
+ // Route::get('/items/search' , 'itemController@index')->name('attribute.index');
 Route::get('/createAttribute' , 'AttributeController@create')->name('attribute.create');
 Route::post('/attribute' , 'AttributeController@store')->name('attribute.store');
 Route::get('/showAttribute/{id}' , 'AttributeController@show')->name('attribute.show');
@@ -140,6 +142,7 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 
 Route::get('/edit/{id}' , 'reportController@edit')->name('repo.edit');
 Route::put('/update/{id}' , 'reportController@update')->name('repo.update');
+Route::delete('/report/{report}','reportController@destroy')->name('repo.delete');
 /***** Values CRUD *****/
 Route::get('/valuesAdmin' , 'ValuesController@indexAdmin')->name('value.index');
 Route::get('/values' , 'ValuesController@index')->name('value.index');

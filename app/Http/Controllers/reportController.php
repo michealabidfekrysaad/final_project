@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -252,7 +253,8 @@ class reportController extends Controller
         //     return response()->json($report);
         // }
         $report->delete();
-        return response()->json($report);
+        // return response()->json($report);
+        return redirect('/profile');
 
     }
 
@@ -367,7 +369,7 @@ class reportController extends Controller
             $desc->lost_id = $loster;
             $desc->founder_id = $f->user_id;
             $desc->description = $request->input('description');
-            $f->user->notify(new NotifyReport($loster));
+            $f->user->notify(new NotifyReport($loster , $f->user));
             // $f->user->notify((new NotifyReport($loster))->delay($when));
             //dd(Notification::send($f, new NotifyReport($loster)));
         }
@@ -404,6 +406,7 @@ class reportController extends Controller
         return response()->json($states);
         
     }
+
 
 
 

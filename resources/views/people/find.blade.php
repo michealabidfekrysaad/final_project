@@ -18,29 +18,20 @@
 		<div class="col-lg-3  d-none d-lg-block">
 
 			<h4 class="text-muted">filter by</h4>
+			
 			<article class="card-group-item">
 				<header class="card-header">
-					<h6 class="title">Gender: </h6>
+					<h6 class="title">Category: </h6>
 				</header>
 				<div class="filter-content">
 					<div class="card-body">
-						<div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">52</span>
-							<input type="checkbox" class="custom-control-input gender" id="Check1" name="male"
-								value="male">
-							<label class="custom-control-label" for="Check1">male</label>
-						</div> <!-- form-check.// -->
-
-						<div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">132</span>
-							<input type="checkbox" class="custom-control-input gender" id="Check2" name="female"
-								value="female">
-							<label class="custom-control-label" for="Check2">female</label>
-						</div> <!-- form-check.// -->
+						{{-- kan feh male w female masa7to --}}
 
 					</div> <!-- card-body.// -->
 				</div>
 			</article>
+
+			
 
 			<article class="card-group-item">
 				<header class="card-header">

@@ -12,6 +12,7 @@ use App\Report;
 class NotifyReport extends Notification implements ShouldQueue
 {
     use Queueable;
+    
     /**
      * Create a new notification instance.
      *
@@ -19,7 +20,7 @@ class NotifyReport extends Notification implements ShouldQueue
      */
     public function __construct()
     {
-        
+       
     }
 
     /**
@@ -42,7 +43,7 @@ class NotifyReport extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('hello Fahmy')
+                    ->subject('from Loster ')
                     ->action('close Rport', url('/'))
                     ->action('Accept Report' , url('/'))
                     ->action('Reject Report' , url('/'))

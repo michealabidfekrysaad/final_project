@@ -13,7 +13,7 @@ class UploadfileController extends Controller
     function upload(Request $request)
     {
      $this->validate($request, [
-      'select_file'  => 'required|image|mimes:jpg,png,jpeg|max:1'
+      'select_file'  => 'required|image|mimes:jpg,png,jpeg|max:500'
      ]);
 
      $image = $request->file('select_file');

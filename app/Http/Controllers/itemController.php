@@ -24,13 +24,9 @@ class itemController extends Controller
      // isthere any role?
     public function index()
     {
-        $items = Item::paginate(10);
-       // return view('item.find');
-        // return view('items/index', [
-        //     'items' => $items,
-        // ]);
+        
         // $items = Item::paginate(10);
-        return response()->json($items);
+        // return response()->json($items);
     }
 
     /**
@@ -198,40 +194,11 @@ class itemController extends Controller
                 else{
                     $data = DB::table('items')->get();
                 }
-                $total_row = $data->count();
-                if($total_row > 0 ){
-                    
-                    // foreach($data as $row){
-                    //     $output .= '
-                    //     <div class="col-lg-4 col-md-6">
-                    // 			<div class="hotel text-center">
-                    // 				<a href="{{ url(/showRepo/'.$row->id.') }}">
-                    // 					<div class="hotel-img">
-                    // 						<img src="'.$row->image.'" alt="Img Of Person" class="img-fluid">
-                    // 					</div>
-    
-                    // 					<h3><a href="{{ url(/showRepo/'.$row->id.') }}">'.$row->name.'</a></h3>
-    
-                    // 					<p>'.$row->created_at.'</p>
-                    // 				</a>
-                    // 			</div>
-                    // 		</div>  
-                            
-                    //     ';
-                    // }
-                }else{
-                    $output = '
-                       
-                            <div align="center" colspan="5">No Data Found</div>
-                        
-                    ';
-                }
+                
                 return $data;
                 
     
-                $data = array(
-                    'div_data'  => $output
-                );
+                
                 echo json_encode($data);
                 
             }
@@ -285,5 +252,12 @@ class itemController extends Controller
         // foreach($founder as $ff){
         // dd($ff->name);
         // }
+    }
+
+
+    public function getCategory(){
+        
+        
+
     }
 }
