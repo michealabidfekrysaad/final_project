@@ -168,6 +168,15 @@ Route::get('/error', function(){
     return view('error');
 });
 
+
+// admin routes-------------------------------------------------------------------
 Route::get('/admin', function(){
     return view('layouts.AdminPanel.app');
 });
+Route::get('/admin/1', function(){
+    return view('layouts.AdminPanel.page');
+});
+Route::get('/admin/panel', function(){
+    return view('layouts.AdminPanel.index');
+});
+// admin routes---------------------------------------------------------------------

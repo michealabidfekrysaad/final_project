@@ -1000,3 +1000,5 @@
         <script src="{{ asset('admin_js/main.js') }}"></script>
 </body>
 </html>
+
+

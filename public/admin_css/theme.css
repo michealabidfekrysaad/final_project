@@ -281,7 +281,7 @@ section {
 
 @media (max-width: 991px) {
     .page-wrapper {
-    overflow: auto;
+    overflow: hidden; /* hena kanet auto w ana me3'ayarha*/
     background: #e5e5e5;
     padding-bottom: 12vh;
 }
