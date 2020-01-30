@@ -48,9 +48,9 @@ Route::get('/items/search/found', function(){
 Route::get('/people/search', function(){
     return view('people.find');
 });
-// Route::get('/items/search', function(){
-//     return view('items.find');
-// });
+Route::get('/items/search', function(){
+    return view('items.find');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/details', function(){
@@ -144,6 +144,7 @@ Route::delete('/deleteAttribute' , 'AttributeController@destroy')->name('attribu
 
 Route::get('/edit/{id}' , 'reportController@edit')->name('repo.edit');
 Route::put('/update/{id}' , 'reportController@update')->name('repo.update');
+Route::delete('/report/{report}','reportController@destroy')->name('repo.delete');
 /***** Values CRUD *****/
 Route::get('/valuesAdmin' , 'ValuesController@indexAdmin')->name('value.index');
 Route::get('/values' , 'ValuesController@index')->name('value.index');

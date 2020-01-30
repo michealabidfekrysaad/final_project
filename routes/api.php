@@ -22,5 +22,5 @@ Route::get('/test/index','TestsController@index');
 Route::delete('/test/delete/{image}','TestsController@destroy');
 
 Route::post('/report','reportController@store');
-Route::delete('/report/{report}','reportController@destroy');
+// Route::delete('/report/{report}','reportController@destroy');
 

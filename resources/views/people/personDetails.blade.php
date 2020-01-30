@@ -11,8 +11,6 @@
         <div class="section-header pt-2">
           <h2>Person Details</h2>
         </div>
-             <i class="fas fa-arrow-right"></i>
-
         <div class="row">
           <div class="col-md-6">
             <img src="{{asset('img/speakers/1.jpg')}}" alt="Speaker 1" class="img-fluid">
@@ -68,17 +66,18 @@
                       <h3>Hair Color :  </h3>
                       <p>{{$repor->hair_color}}</p>
                 </div>
-                <form action="/sendEmail/{{$repor->id}}" method="POST">
+                <div class="row ">
+                 <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
+              </div>
+                <!-- <form action="/sendEmail/{{$repor->id}}" method="POST">
                 @csrf
                 <div class="row">
                       <h3>Description:</h3>
                       <textarea name="description" cols="10" rows="5"></textarea>
                 </div>
                 <br>
-                <div class="row ">
-                 <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
-              </div>
-                </form>
+                
+                </form> -->
               </div>
               
               
