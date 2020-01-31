@@ -234,6 +234,7 @@ $(document).on('keyup' , '#search' , function(){
                     type:"GET",
                     url:"/valueofattribute/"+itemAttributes[key].id,
                     success:function(result){
+						console.log(result);
                         if(result){
                             $.each(result,function(key,value){
                                 $(`#`+result[key].attribute_id+``).append(`<option value = "`+result[key].id+`">`+result[key].value_name+`</option>`);
