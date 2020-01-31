@@ -5,6 +5,8 @@
     <!--==========================
       Speaker Details Section
     ============================-->
+    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0"></script>
     <section id="speakers-details" class="wow fadeIn pt-5">
             
       <div class="container  pt-5">
@@ -69,6 +71,8 @@
                 <div class="row ">
                  <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
               </div>
+              <div class="fb-share-button" data-href="http://127.0.0.1:8000/showRepo/{{$repor->id}}.com" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2FshowRepo%2F2.com&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+              
                 <!-- <form action="/sendEmail/{{$repor->id}}" method="POST">
                 @csrf
                 <div class="row">

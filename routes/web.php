@@ -7,6 +7,7 @@
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServicepoeProvider within a group which
+
 | contains the "web" middleware group. Now create something great!
 |
 */
@@ -36,7 +37,9 @@ Route::get('/about/view1', function () {
 // Auth::routes();
 
 Route::middleware('verified')->group(function () {
-    Route::get('/people/search/{type}','reportController@create');
+Route::get('/people/search/{type}','reportController@create');
+Route::post('/people/search','reportController@store');
+
 Route::get('/people/image','UploadfileController@index');
 
 Route::get('/items/search/found', function(){

@@ -1,6 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+@if(session()->has('message'))
+<div class="alert alert-success" role="alert">
+	<strong>Success</strong>{{session()->get('message')}}
+</div>
+@endif
 <div class="pt-5 container-fluid">
 	<div class="row mt-2 pt-5 section-header">
 		<h2 class="mx-auto">all lost people</h2>
@@ -25,7 +43,7 @@
 				</header>
 				<div class="filter-content">
 					<div class="card-body">
-						{{-- kan feh male w female masa7to --}}
+						{{-- kan feh male w female masa7to w ana 3ayezhom --}}
 
 					</div> <!-- card-body.// -->
 				</div>

@@ -168,8 +168,7 @@
             WeightErr.innerHTML = "Weight is required ";
             return false;
         }
-        if (R
-        egexWeight.test(inputWeight.value) == false || inputWeight.value > 100) {
+        if (RegexWeight.test(inputWeight.value) == false || inputWeight.value > 100) {
             inputWeight.focus();
             WeightErr.classList.add("text-danger");
             WeightErr.innerHTML = "Weight is not valid";
@@ -264,13 +263,13 @@
 @csrf
             <div class="form-group">
                 <label for="Select_file">Upload Image :</label>
-                <input type="file" class="form-control" name="select_file" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png" required />
+                <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png" required />
                 <span id="ImgError"></span>
             </div>
 
             <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                 <label for="inputName">Name Of Person :</label>
-                <input type="text" class="form-control" id="inputName" placeholder="Name Of Person" required>
+                <input type="text" class="form-control" id="inputName" name="name" placeholder="Name Of Person" required>
                 <span id="NameErr"></span>
                 @if ($errors->has('name'))
                                         <span class="help-block">
@@ -281,7 +280,7 @@
 
             <div class="form-group {{ $errors->has('location') ? ' has-error' : '' }}">
                 <label for="inputlocation">Location :</label>
-                <input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Person" required>
+                <input type="text" class="form-control" id="inputlocation" name="location" placeholder="Last Location Of Person" required>
                 <span id="LocationErr"></span>
                 @if ($errors->has('location'))
                 <span class="help-block">
@@ -293,7 +292,7 @@
 
             <div class="form-group {{ $errors->has('special_mark') ? ' has-error' : '' }}">
                 <label for="inputspecial_mark">Special Mark :</label>
-                <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Person" required>
+                <input type="text" class="form-control" id="inputspecial_mark" name="special_mark" placeholder="Special Mark Of Person" required>
                 <span id="SpecialErr"></span>
                 @if ($errors->has('special_mark'))
                 <span class="help-block">
@@ -305,7 +304,7 @@
             @if($type == 'lookfor')
             <div class="form-group {{ $errors->has('lost_since') ? ' has-error' : '' }}">
                 <label for="inputlost_since">Lost Since :</label>
-                <input type="date" class="form-control" id="inputlost_since" placeholder="Person Lost Since" max="2020-02-01" min="1920-02-01" required>
+                <input type="date" class="form-control" id="inputlost_since" name="lost_since" placeholder="Person Lost Since" max="2020-02-01" min="1920-02-01" required>
                 <span id="LostErr"></span>
                 @if ($errors->has('lost_since'))
                 <span class="help-block">
@@ -319,7 +318,7 @@
 
             <div class="form-group {{ $errors->has('age') ? ' has-error' : '' }}">
                 <label for="inputAge">Age :</label>
-                <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=90 required>
+                <input type="number" class="form-control" id="inputAge" name="age" placeholder="Age Of Person" min=1 max=90 required>
                 <span id="NumberErr"></span>
                 @if ($errors->has('age'))
                 <span class="help-block">
@@ -331,7 +330,7 @@
 
             <div class="form-group {{ $errors->has('height') ? ' has-error' : '' }}">
                 <label for="inputHeight">Height :</label>
-                <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 required>
+                <input type="number" class="form-control" name="height" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 required>
                 <span id="HeightErr"></span>
                 @if ($errors->has('height'))
                 <span class="help-block">
@@ -343,7 +342,7 @@
 
             <div class="form-group  {{ $errors->has('weight') ? ' has-error' : '' }}">
                 <label for="inputWeight">Weight :</label>
-                <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 required>
+                <input type="number" class="form-control" name="weight" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 required>
                 <span id="WeightErr"></span>
                 @if ($errors->has('weight'))
                 <span class="help-block">
@@ -382,7 +381,7 @@
 
             <div class="form-group">
                 <label for="title">select region:</label>
-                <select name="state" id="state" class="form-control">
+                <select name="region" id="state" class="form-control">
 
                 </select>
             </div>
@@ -405,7 +404,7 @@
 
             <div class="form-group">
                 <label for="inputlast_seen_at">Last Seen At :</label>
-                <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required>
+                <input type="time" class="form-control" name="last_seen_at" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required>
             </div>
 
             @endif
@@ -413,7 +412,7 @@
             @if($type == 'found')
             <div class="form-group">
                 <label for="inputfound_since">found Since :</label>
-                <input type="date" class="form-control" id="inputfound_since" placeholder="Person found when" required>
+                <input type="date" class="form-control" name="found_since" id="inputfound_since" placeholder="Person found when" required>
             </div>
 
             @endif
@@ -422,7 +421,7 @@
                 <label for="eye_color">Select Eye Color :</label>
                 <select class="form-control" id="eye_color" name="eye_color" required>
                     <option value="black">Black</option>
-                    <option value="browan">Browan</option>
+                    <option value="brown">Browan</option>
                     <option value="green">Green</option>
                     <option value="gry">Grey</option>
                     <option value="blue">Blue</option>

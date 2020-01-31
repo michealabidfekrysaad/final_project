@@ -14,6 +14,7 @@ use App\DescriptionValidation;
 use App\Item;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\Redirect;
 
 class reportController extends Controller
 {
@@ -63,23 +64,25 @@ class reportController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    { $type='lost';
-        if($type=='lost'){
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|min:8|max:11',
-            'age' =>'required|min:1|max:90',
-            'gender' => 'required',
-            'image' =>'required|mimes:jpeg,jpg,png|max:2024',
-            'special_mark' => 'required',
-            'eye_color' => 'required',
-            'hair_color' => 'required',
-            'location' => 'required',
-            'last_seen_on' => 'required',
-            'last_seen_at' => 'required',
-            'lost_since' => 'required|date',
-            'height' => 'required|min:50|max:250',
-            'weight' => 'required|min:1|max:100',
-        ]);
+    { 
+        $type='lookfor';
+        if($type=='lookfor'){
+            $request->validate(
+                [
+                    'name' => 'required|min:8|max:20',
+                    'age' =>'required|min:1|max:90',
+                    'gender' => 'required',
+                    'image' =>'required|mimes:jpeg,jpg,png|max:2024',
+                    'special_mark' => 'required',
+                    'eye_color' => 'required',
+                    'hair_color' => 'required',
+                    'location' => 'required',
+                    'last_seen_on' => 'required',
+                    'last_seen_at' => 'required',
+                    'lost_since' => 'required|date',
+                    'height' => 'required|integer|min:50|max:250',
+                    'weight' => 'required|integer|min:1|max:100',
+                ]);
     }
     else{
         $validator = Validator::make($request->all(), [
@@ -102,7 +105,7 @@ class reportController extends Controller
                 'age' => $request->age,
                 'gender' => $request->gender,
                 'image' => $request->image,
-                'type' =>$type,
+                'type' =>'lost',
                 'special_mark' => $request ->special_mark,
                 'eye_color' => $request ->eye_color,
                 'hair_color' => $request ->hair_color,
@@ -115,9 +118,11 @@ class reportController extends Controller
                 'found_since' => $request ->found_since,
                 'height' => $request ->height,
                 'weight' => $request ->weight,
-                'deleted_at' => $request ->deleted_at,
+
             ]);
-            return response()->json($report);
+
+            session()->flash('message','your report was succesfully submitted pls check your mail');
+            return redirect("/people/search");
         }
     }
 
