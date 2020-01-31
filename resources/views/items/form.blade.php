@@ -133,7 +133,7 @@
                         Select an Option
                     </option>
                     @foreach($cities as $key => $city)
-                    <option value="{{$key}}"> {{$city->city_name}}</option>
+                    <option value="{{$city->id}}"> {{$city->city_name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -164,17 +164,17 @@
 <script>
     $('#city').change(function(){
     var cityID = $(this).val();
-    console.log(cityID);
+    // console.log(cityID);
     if(cityID){
         $.ajax({
            type:"GET",
            url:"{{url('get-state-list')}}?city_id="+cityID,
            success:function(states){ 
-               //console.log(states);         
+            //    console.log(states);         
             if(states){
                 $("#state").empty();
                 $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
-                $.each(states[0],function(key,value){
+                $.each(states,function(key,value){
                     $("#state").append('<option value="'+value+'">'+value+'</option>');
                 });
            

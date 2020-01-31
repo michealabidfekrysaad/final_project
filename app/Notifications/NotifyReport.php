@@ -9,18 +9,20 @@ use Illuminate\Notifications\Notification;
 use App\User;
 use App\Report;
 
-class NotifyReport extends Notification implements ShouldQueue
+class NotifyReport extends Notification
 {
     use Queueable;
-    
+    public $user;
+    public $founder;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user , User $founder)
     {
-       
+       $this->user = $user;
+       $this->founder = $founder;
     }
 
     /**
@@ -42,8 +44,12 @@ class NotifyReport extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $user = $this->user->name;
+        $founder = $this->founder->name;
+        
         return (new MailMessage)
-                    ->subject('from Loster ')
+                    ->subject('from Loster '. $user)
+                    ->line('hello '. $founder)
                     ->action('close Rport', url('/'))
                     ->action('Accept Report' , url('/'))
                     ->action('Reject Report' , url('/'))

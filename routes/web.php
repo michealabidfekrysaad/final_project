@@ -96,7 +96,10 @@ Route::post('/searchCheckbox' , 'reportController@getSearchCheckbox');
 Route::get('/items/search/found','itemController@CityCategory');
 Route::get('/get-state-list','itemController@getAreaList');
 Route::get('/get/{category}','itemController@getAttributeList');
+Route::get('/getforitem/{category}','AttributeController@getAttributeList');
 Route::get('/valueofattribute/{id}','itemController@getAttributeValue');
+Route::get('/get-area/{id}','AttributeController@getAreas');
+
 //Route::get('/items/search','itemController@getCategory');
 // ------------------------------------------------------------------------------
 
@@ -159,11 +162,24 @@ Route::delete('/deleteValue/{id}' , 'ValuesController@delete')->name('value.dele
 
 /************* */
 Route::post('/sendEmail/{id}' , 'reportController@SendEmailVerify');
-Route::get('/sendEmailItem/{id}' , 'reportController@sendEmailVerifyItems');
+Route::post('/sendEmailItem/{id}' , 'itemController@sendEmailVerifyItems');
+Route::get('/acceptMessage/{lost_id}/{founder_id}' , 'itemController@AcceptMessage');
+//Route::post('/storeFahmy' , 'itemController@store');
 
-Route::post('/storeFahmy' , 'itemController@store');
-
- 
+ Route::get('/acceptMessage' , 'itemController@AcceptMessage');
 Route::get('/error', function(){
     return view('error');
 });
+
+
+// admin routes-------------------------------------------------------------------
+Route::get('/admin', function(){
+    return view('layouts.AdminPanel.app');
+});
+Route::get('/admin/1', function(){
+    return view('layouts.AdminPanel.page');
+});
+Route::get('/admin/panel', function(){
+    return view('layouts.AdminPanel.index');
+});
+// admin routes---------------------------------------------------------------------

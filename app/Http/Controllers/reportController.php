@@ -374,7 +374,8 @@ class reportController extends Controller
             $desc->lost_id = $loster;
             $desc->founder_id = $f->user_id;
             $desc->description = $request->input('description');
-            $f->user->notify(new NotifyReport($loster , $f->user));
+            $f->user->notify(new NotifyReport(auth()->user() , $f->user));
+           
             // $f->user->notify((new NotifyReport($loster))->delay($when));
             //dd(Notification::send($f, new NotifyReport($loster)));
         }
