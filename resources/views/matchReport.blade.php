@@ -12,7 +12,7 @@
         </button>
         <!-- The Modal -->
         <div class="modal fade" id="myModal">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog mw-100 w-75">
                 <div class="modal-content">
                     <!-- Modal Header -->
                     <div class="modal-header">
@@ -38,8 +38,51 @@
 
                                         <p>5 mins ago</p>
                                     </a>
+                                    <div class="row">
+                                        <button type="button" class="btn btn-success" data-dismiss="modal">Contact With Report Owner</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close And Sumbit Report</button>
+                                    </div>
+
                                 </div>
                             </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="hotel text-center">
+                                    <a href="{{ url('/people/details') }}">
+                                        <div class="hotel-img">
+                                            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
+                                        </div>
+
+                                        <h3><a href="{{ url('/people/details') }}">micheal</a></h3>
+
+                                        <p>5 mins ago</p>
+                                    </a>
+                                    <div class="row">
+                                        <button type="button" class="btn btn-success" data-dismiss="modal">Contact With Report Owner</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close And Sumbit Report</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="hotel text-center">
+                                    <a href="{{ url('/people/details') }}">
+                                        <div class="hotel-img">
+                                            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
+                                        </div>
+
+                                        <h3><a href="{{ url('/people/details') }}">micheal</a></h3>
+
+                                        <p>5 mins ago</p>
+                                    </a>
+                                    <div class="row">
+                                        <button type="button" class="btn btn-success" data-dismiss="modal">Contact With Report Owner</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close And Sumbit Report</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+
                         </div>
                     </div>
                     <!-- Modal footer -->

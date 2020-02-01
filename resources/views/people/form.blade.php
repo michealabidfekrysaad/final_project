@@ -255,7 +255,7 @@
 
 
         </div>
-            <form action="{{ route('report.store',['type'=>'lost'])}}" method="POST" name="add_report" class="m-5" enctype="multipart/form-data"  onsubmit="return(validate());">
+            <form action="{{ route('report.store',['type'=>$type])}}" method="POST" name="add_report" class="m-5" enctype="multipart/form-data"  onsubmit="return(validate());">
                 @csrf
             <div class="form-group">
                 <label for="Select_file">Upload Image :</label>
@@ -279,19 +279,7 @@
                     <input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Person" name="location" required>
                     <span id="LocationErr"></span>
                 </div>
-                <div class="form-group">
-                    <label for="inputcity">city :</label>
-                    <input type="text" class="form-control" id="inputcity" placeholder="city" name="city" required>
-                    <span id="CityErr"></span>
-
-                    <div class="form-group">
-                        <label for="inputcity">region :</label>
-                        <input type="text" class="form-control" id="inputregion" placeholder="region" name="region" required>
-                        <span id="CityErr"></span>
-                    </div>
             <div class="form-group {{ $errors->has('location') ? ' has-error' : '' }}">
-                <label for="inputlocation">Location :</label>
-                <input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Person" required>
                 <span id="LocationErr"></span>
                 @if ($errors->has('location'))
                 <span class="help-block">
@@ -467,14 +455,14 @@
         $.ajax({
            type:"GET",
            url:"{{url('get-area-list')}}?city_id="+cityID,
-           success:function(states){               
+           success:function(states){
             if(states){
                 $("#state").empty();
                 $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
                 $.each(states,function(key,value){
                     $("#state").append('<option value="'+key+'">'+value+'</option>');
                 });
-           
+
             }else{
                $("#state").empty();
             }
@@ -483,7 +471,7 @@
     }else{
         $("#state").empty();
         $("#city").empty();
-    }      
+    }
    });
 </script>
 @endsection

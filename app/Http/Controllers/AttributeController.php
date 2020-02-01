@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Attribute;
+use App\Item;
+use App\City;
+use App\Area;
+use App\Category;
 use App\AttributeValue;
 use DB;
 
@@ -114,8 +118,9 @@ class AttributeController extends Controller
         $attr = Attribute::find($id)->delete();
         return redirect(route('attribute.index'));
     }
+
     public function getAreas($id){
-        $areas = Area::with('city')->where('city_id','=',$id)->get();
+        $areas = Area::where('city_id','=',$id)->get();
         // return view('items.find',['areas'=>$areas]);
         return response()->json($areas);
     }

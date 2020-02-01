@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <a href="/edit/{{$profile->id}}" id="lostButton">
-                                Update Profile
+                            Update Profile
                         </a>
                     </div>
                     <div class="tab-pane fade show active bg-white" id="notification" role="tabpanel" aria-labelledby="notification-tab">
@@ -83,27 +83,30 @@
                     </div>
                     <div class="tab-pane fade bg-white" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row">
-
+                        @foreach($reports as $report)
                             <div class="col-lg-4 col-md-6">
                                 <div class="hotel text-center">
-                                    <a href="{{ url('/people/details') }}">
+                                    <a href="people/details/{{$report->id}}">
                                         <div class="hotel-img">
-                                            <img src="{{asset('img/speakers/1.jpg')}}" alt="Hotel 1" class="img-fluid">
+{{--                                         //   <img src="${element.image}" alt="Img Of Person" class="img-fluid">--}}
+                                            <img src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}">
                                         </div>
+                                        <h3><a href="/people/details/{{$report->id}}">{{$report->name}}</a></h3>
+                                        <p>Age is :{{$report->age}}</p>
+                                        <span>last seen on :{{$report->last_seen_on}}</span>
 
-                                        <h3><a href="{{ url('/people/details') }}">ahmed</a></h3>
-
-                                        <p>5 mins ago</p>
-                                        <p>the type of the report</p>
-                                        <p>5 mins ago</p>
                                     </a>
-                                    @foreach($report as $repo)
-                                <a class="btn btn-primary" href="/edit/{{$repo->id}}">Update Report</a>
-                                @endforeach
-                                    <button class="btn btn-danger" href="">delete</button>
+                                    <div class="row justify-content-center">
+                                    <a class="btn btn-primary" href="/editReport/{{$report->id}}">Update Report</a>
+                                    <form action="/report/delete/{{$report->id}}" method="POST">
+                                    @csrf
+                                    @method('Delete')
+                                    <input class="btn btn-danger" type="submit" value="Delete">
+                                    </form>
+                                    </div>
                                 </div>
-                                
                             </div>
+                            @endforeach
 
                         </div>
                     </div>

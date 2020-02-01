@@ -42,6 +42,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function reports()
     {
         return $this->hasMany(Report::class,'user_id');
@@ -60,5 +61,5 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Item::class);
     }
-    
+
 }

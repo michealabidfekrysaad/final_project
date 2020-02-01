@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\SendSmsMailToFounder;
+use App\Notifications\SendSmsMailToReporter;
 use App\Notifications\SendSummaryToUser;
+use App\Category;
 use App\Report;
 use Aws\Rekognition\RekognitionClient;
 use Illuminate\Http\Request;
@@ -68,10 +69,15 @@ class reportController extends Controller
      */
     public function store(Request $request,$type)
     {
-        $type='lost';
-        if($type=='lost'){
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|min:8|max:11',
+        if($type=="lookfor"){
+            $this->renderType="lost";
+        }
+        if($type=="found"){
+            $this->renderType="found";
+        }
+        if($type=='lookfor'){
+         $request->validate( [
+            'name' => 'required|min:3|max:20',
             'age' =>'required|min:1|max:90',
             'gender' => 'required',
             'image' =>'required|mimes:jpeg,jpg,png|max:2024',
@@ -82,13 +88,13 @@ class reportController extends Controller
             'last_seen_on' => 'required',
             'last_seen_at' => 'required',
             'lost_since' => 'required|date',
-            'height' => 'required|min:50|max:250',
-            'weight' => 'required|min:1|max:100',
+            'height' => 'required|max:250',
+            'weight' => 'required|max:100',
         ]);
     }
-    else{
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|min:8',
+    else if($type=="found"){
+            $request->validate( [
+            'name' => 'required|min:3',
             'age' => 'required|min:1|max:90',
             'gender' => 'required',
             'image' => 'required|mimes:jpeg,jpg,png|max:2024',
@@ -97,20 +103,20 @@ class reportController extends Controller
             'hair_color' => 'required',
             'location' => 'required',
             'found_since' => 'required|date',
-            'height' => 'required|min:50|max:250',
-            'weight' => 'required|min:1|max:100',
+            'height' => 'required|max:250',
+            'weight' => 'required|max:100',
         ]);
     }
         $data = [
             'name' => $request->name,
             'age' => $request->age,
             'gender' => $request->gender,
-            'type' => $type,
+            'type' => $this->renderType,
             'special_mark' => $request->special_mark,
             'eye_color' => $request->eye_color,
             'hair_color' => $request->hair_color,
-            'city' => $request->city,
-            'region' => $request->region,
+            'city_id' => $request->city,
+            'area_id' => $request->state,
             'location' => $request->location,
             'last_seen_on' => $request->last_seen_on,
             'last_seen_at' => $request->last_seen_at,
@@ -119,21 +125,23 @@ class reportController extends Controller
             'height' => $request->height,
             'weight' => $request->weight,
         ];
+
         $validateFace = $this->detectFace($request->file('image'));
         if (!$validateFace) {
             return response()->json(['message'=>'No face Found Of More than one Face']);
         } else {
             $response = $this->searchByImage($type, $request->file('image'));
             if ($response == false) {
-                $request->session()->put('report', $data);
+               // dd($data);
                 $report = Report::create($data);
                 $report->image = $this->uploadImageToS3("people/",$request->file('image'));
                 $report->user_id = auth()->user()->getAuthIdentifier();
                 $report->save();
-                return response()->json([
-                    'message' => 'sorry The person not exist and created report successfully',
-                    'your report' => $report
-                ]);
+//                return response()->json([
+//                    'message' => 'sorry The person not exist and created report successfully',
+//                    'your report' => $report
+//                ]);
+                return Redirect::to("/profile");
             } else {
                 \request()->session()->put('report', $data);
                 \request()->session()->put('imageReport',$this->uploadImageToS3("people/",$request->file('image')));
@@ -156,7 +164,7 @@ class reportController extends Controller
                 \request()->session()->forget('imageReport');
             }
             $otherUser = $report->user;
-            $otherUser->notify(new SendSmsMailToFounder($report));
+            $otherUser->notify(new SendSmsMailToReporter($report));
             return Redirect::to("/people/search");
 
 
@@ -171,7 +179,7 @@ class reportController extends Controller
             \request()->session()->forget('report');
             \request()->session()->forget('imageReport');
             return Redirect::to("/people/search");
-            //return response()->json($report);
+            return response()->json($report);
         }
         else{
             return Redirect::to("/people/search/lookfor");
@@ -202,11 +210,11 @@ class reportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Report $report)
     {
-        $report = Report::find($id);
-
+        if(auth()->user()->id==$report->user->id)
         return view('user.editReport' ,['report' => $report]);
+        else return $this->errorResponse("Unauthorize",403);
     }
 
 
@@ -217,95 +225,76 @@ class reportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Report $report)
     {
-        $report = Report::find($id);
-        // dd($repo);
-        // $repo->name = $request->input('name');
-        // $repo->age = $request->input('age');
-        // $repo->gender = $request->input('gender');
-        // $repo->image = $request->input('image');
-        // $repo->type = $request->input('type');
-        // $repo->special_mark = $request->input('special_mark');
-        // $repo->eye_color = $request->input('eye_color');
-        // $repo->hair_color = $request->input('hair_color');
-        // $repo->city = $request->input('city');
-        // $repo->location = $request->input('location');
-        // $repo->last_seen_on = $request->input('last_seen_on');
-        // $repo->last_seen_at = $request->input('last_seen_at');
-        // $repo->lost_since = $request->input('lost_since');
-        // $repo->found_since = $request->input('found_since');
-        // $repo->is_found = $request->input('is_found');
-        // $repo->height = $request->input('height');
-        // $repo->weight = $request->input('weight');
-        // $repo->name = auth()->user()->id;
-
-        // $repo->save();
-        // return redirect(route('profile.index'));
-
-
-
-                if($request->has('name')){
-                    $report->name = $request->name;
-                }
-                if($request->has('age')){
-                    $report->age = $request->age;
-                }
-                if($request->has('gender')){
-                    $report->gender = $request->gender;
-                }
-                if($request->hasFile('image')){
-
-                }
-                if($request->has('type')){
-                    $report->type = $request->type;
-                }
-                if($request->has('special_mark')){
-                    $report->special_mark = $request->special_mark;
-                }
-                if($request->has('eye_color')){
-                    $report->eye_color = $request->eye_color;
-                }
-                if($request->has('hair_color')){
-                    $report->hair_color = $request->hair_color;
-                }
-                if($request->has('city')){
-                    $report->city = $request->city;
-                }
-                if($request->has('region')){
-                    $report->region = $request->region;
-                }
-                if($request->has('location')){
-                    $report->location = $request->location;
-                }
-                if($request->has('last_seen_on')){
-                    $report->last_seen_on = $request->last_seen_on;
-                }
-                if($request->has('last_seen_at')){
-                    $report->last_seen_at = $request->last_seen_at;
-                }
-                if($request->has('lost_since')){
-                    $report->lost_since = $request->lost_since;
-                }
-                if($request->has('found_since')){
-                    $report->found_since = $request->found_since;
-                }
-                if($request->has('height')){
-                    $report->height = $request->height;
-                }
-                if($request->has('weight')){
-                    $report->weight = $request->weight;
-                }
-        if ($report->isClean()) {
-            return response()->json('You need to specify a different value to update', 422);
+        if (auth()->user()->id == $report->user->id) {
+            if ($request->has('name')) {
+                $report->name = $request->name;
+            }
+            if ($request->has('age')) {
+                $report->age = $request->age;
+            }
+            if ($request->has('gender')) {
+                $report->gender = $request->gender;
+            }
+            if ($request->hasFile('image')) {
+                $this->deleteImageFromS3($report->image);
+                $report->image = $this->uploadImageToS3("people/", $request->file('image'));
+            }
+            if ($request->has('type')) {
+                $report->type = $request->type;
+            }
+            if ($request->has('special_mark')) {
+                $report->special_mark = $request->special_mark;
+            }
+            if ($request->has('eye_color')) {
+                $report->eye_color = $request->eye_color;
+            }
+            if ($request->has('hair_color')) {
+                $report->hair_color = $request->hair_color;
+            }
+            if ($request->has('city')) {
+                $report->city = $request->city;
+            }
+            if ($request->has('region')) {
+                $report->region = $request->region;
+            }
+            if ($request->has('location')) {
+                $report->location = $request->location;
+            }
+            if ($request->has('last_seen_on')) {
+                $report->last_seen_on = $request->last_seen_on;
+            }
+            if ($request->has('last_seen_at')) {
+                $report->last_seen_at = $request->last_seen_at;
+            }
+            if ($request->has('lost_since')) {
+                $report->lost_since = $request->lost_since;
+            }
+            if ($request->has('found_since')) {
+                $report->found_since = $request->found_since;
+            }
+            if ($request->has('height')) {
+                $report->height = $request->height;
+            }
+            if ($request->has('weight')) {
+                $report->weight = $request->weight;
+            }
+            if ($report->isClean()) {
+                return response()->json('You need to specify a different value to update', 422);
+            }
+            $report->save();
+            return redirect(route('profile.index'));
         }
-             $report->save();
-             return redirect(route('profile.index')); }
+        else  return $this->errorResponse("Unauthorize",403);
+    }
 
     public function destroy(Report $report)
     {
-        if(auth()->user()->id==$report->user()->id||auth()->user()->hasRole('Admin')){
+        if(auth()->user()->id ==$report->user->id||auth()->user()->hasRole('Admin')){
+            $this->deleteImageFromS3($report->image);
             $report->delete();
+            return redirect(route('profile.index'));
         }
     }
 
@@ -383,7 +372,8 @@ class reportController extends Controller
             $desc->lost_id = $loster;
             $desc->founder_id = $f->user_id;
             $desc->description = $request->input('description');
-            $f->user->notify(new NotifyReport($loster));
+            $f->user->notify(new NotifyReport(auth()->user() , $f->user));
+
             // $f->user->notify((new NotifyReport($loster))->delay($when));
             //dd(Notification::send($f, new NotifyReport($loster)));
         }
@@ -509,6 +499,7 @@ class reportController extends Controller
         return response()->json($states);
 
     }
+
 
 
 

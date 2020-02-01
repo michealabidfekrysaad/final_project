@@ -6,6 +6,7 @@ use Aws\Rekognition\RekognitionClient;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -90,12 +91,39 @@ class Controller extends BaseController
         return $filenametostore;
 
     }
-    public function errorPage($code,$message){
-        return response()->json(['code'=>$code,'message'=>$message]);
-    }
     function startsWith ($string, $startString)
     {
         $len = strlen($startString);
         return (substr($string, 0, $len) === $startString);
     }
+    protected function paginate(Collection $collection)
+    {$rules = [
+            'per_page' => 'integer|min:1|max:50',
+        ];
+        Validator::validate(request()->all(), $rules);
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage =10;
+        if (request()->has('per_page')) {
+            $perPage = (int) request()->per_page;
+        }
+        $results = $collection->slice(($page - 1) * $perPage, $perPage)->values();
+        $paginated = new LengthAwarePaginator($results, $collection->count(), $perPage, $page, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+        ]);
+        $paginated->appends(request()->all());
+        return $paginated;
+    }
+    public function deleteImageFromS3($image)
+    {
+        if (Storage::disk('s3')->exists($image)) {
+            Storage::disk('s3')->delete($image);
+        }
+    }
+        public function errorResponse($message, $code)
+        {
+            return view("error",[
+                'message'=>$message,
+                'code'=>$code
+            ]);
+        }
 }

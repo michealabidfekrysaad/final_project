@@ -42,15 +42,15 @@
                             @endforeach
                     </div>
                     <div class="row ">
-                        <form action="" class="form">
-                            <div class="form-group">
+                        <form action="/sendEmailItem/{{$item->id}}" method="POST" class="form">
+                           @csrf
+                        <div class="form-group">
                                 <h3 for="exampleFormControlTextarea1">Description :</h3>
                                 <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" placeholder="Write Description To Founder To Know Your Are They Real Owner Of Item"></textarea>
                             </div>
                             <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
                         </form>
                     </div>
-
 
                 </div>
             </div>

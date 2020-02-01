@@ -16,9 +16,10 @@
 		<div class="col-lg-3  d-none d-lg-block">
 
 			<h4 class="text-muted">filter by</h4>
+			
 			<article class="card-group-item">
 				<header class="card-header">
-					<h6 class="title">Gender: </h6>
+					<h6 class="title">Category: </h6>
 				</header>
 				<div class="filter-content">
 					<div class="card-body">
@@ -39,6 +40,8 @@
 					</div> <!-- card-body.// -->
 				</div>
 			</article>
+
+			
 
 			<article class="card-group-item">
 				<header class="card-header">

@@ -23,8 +23,6 @@ class CreateReportsTable extends Migration
             $table->string('special_mark')->nullable();
             $table->enum('eye_color',['black' , 'brown' , 'green' , 'grey' ,  'blue']);
             $table->enum('hair_color' , ['black' , 'brown' , 'white' , 'golden'])->nullable();
-            $table->string('city');
-            $table->string('region');
             $table->string('location');
             $table->string('last_seen_on')->nullable();
             $table->string('last_seen_at')->nullable();

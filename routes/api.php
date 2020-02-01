@@ -34,5 +34,5 @@ Route::get('/people/myreports', 'reportController@myReports')->name('reports.myR
 Route::put('/people/myreports/update/{report}', 'reportController@update')->name('reports.update');
 Route::delete('/people/myreports/delete/{report}', 'reportController@destroy')->name('reports.destroy');
 Route::post('/report','reportController@store');
-Route::delete('/report/{report}','reportController@destroy');
+// Route::delete('/report/{report}','reportController@destroy');
 

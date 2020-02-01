@@ -165,7 +165,7 @@
 <script>
     $('#city').change(function(){
     var cityID = $(this).val();
-    console.log(cityID);
+    // console.log(cityID);
     if(cityID){
         $.ajax({
            type:"GET",
@@ -175,7 +175,7 @@
             if(states){
                 $("#state").empty();
                 $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
-                $.each(states[0],function(key,value){
+                $.each(states,function(key,value){
                     $("#state").append('<option value="'+value+'">'+value+'</option>');
                 });
 

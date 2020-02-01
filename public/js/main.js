@@ -172,6 +172,25 @@ $(document).ready(function () {
   //   var data = { "gender": gender, "age": age, "city": city };
   //   console.log(data);
   //
+  //filter_data_people();
+  //
+  // function filter_data_people() {
+  //   var gender = get_filter('gender');
+  //   var age = get_filter('age');
+  //   var city = $("#DropDownList1 :selected").text();
+  //   $.ajax({
+  //       url:"/filter/find",
+  //       method:"POST",
+  //       data:{ "gender": gender, "age": age, "city": city },
+  //       success:function(data){
+  //           // $('.filter_data_people').html(data);
+  //
+  //       }
+  //   }
+  //
+  //   );
+  //   var data = { "gender": gender, "age": age, "city": city };
+
   //   for (var key in data) {
   //     if (data.hasOwnProperty(key)) {
   //         console.log(key + " -> " + data[key]);
@@ -197,6 +216,73 @@ $(document).ready(function () {
   // $("#DropDownList1").change(function (e) {
   //
   //   filter_data();
+  //
+  // })
+  //
+  //   $('.filter_data_people').html();
+  // }
+
+  // function get_filter(class_name) {
+  //   var filter = [];
+  //   $('.' + class_name + ':checked').each(function () {
+  //     filter.push($(this).val());
+  //   });
+  //   return filter;
+  // }
+  //
+  // $('.custom-control-input').click(function () {
+  //   filter_data_people();
+  // });
+  //
+  // $("#DropDownList1").change(function (e) {
+  //
+  //   filter_data_people();
+  //
+  // })
+
+  //filter_data_item();
+
+  // function filter_data_item() {
+  //
+  //   var categoryList = $("#CategoryList :selected").text();
+  //   var city = $("#city :selected").text();
+  //   var region = $("#region :selected").text();
+  //   $.ajax({
+  //       url:"/filter/find",
+  //       method:"POST",
+  //       data:{ "category": categoryList , "city": city, "region": region},
+  //       success:function(data){
+  //           // $('.filter_data_item').html(data);
+  //
+  //       }
+  //   }
+  //
+  //   );
+  //   var data = { "category": categoryList , "city": city, "region": region};
+  //
+  //   for (var key in data) {
+  //     if (data.hasOwnProperty(key)) {
+  //         console.log(key + " -> " + data[key]);
+  //     }
+  // }
+  //
+  // }
+
+
+
+  // $("#CategoryList").change(function (e) {
+  //
+  //   filter_data_item();
+  //
+  // })
+  // $("#city").change(function (e) {
+  //
+  //   filter_data_item();
+  //
+  // })
+  // $("#region").change(function (e) {
+  //
+  //   filter_data_item();
   //
   // })
 

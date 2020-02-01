@@ -14,4 +14,7 @@ class Area extends Model
 
         return $this->hasMany(Item::class);
     }
+    public function reports (){
+        return $this->hasMany(Report::class,'region');
+    }
 }
