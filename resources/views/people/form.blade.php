@@ -166,8 +166,7 @@
             WeightErr.innerHTML = "Weight is required ";
             return false;
         }
-        if (R
-        egexWeight.test(inputWeight.value) == false || inputWeight.value > 100) {
+        if (RegexWeight.test(inputWeight.value) == false || inputWeight.value > 100) {
             inputWeight.focus();
             WeightErr.classList.add("text-danger");
             WeightErr.innerHTML = "Weight is not valid";
@@ -458,7 +457,7 @@
            success:function(states){
             if(states){
                 $("#state").empty();
-                $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
+                // $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
                 $.each(states,function(key,value){
                     $("#state").append('<option value="'+key+'">'+value+'</option>');
                 });

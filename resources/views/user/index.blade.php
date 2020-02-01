@@ -70,44 +70,49 @@
                             Update Profile
                         </a>
                     </div>
-                    <div class="tab-pane fade show active bg-white" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+                    <div class="tab-pane fade show  bg-white" id="notification" role="tabpanel" aria-labelledby="notification-tab">
 
                         <div class="row">
                             @foreach($notifications as $notification)
-                                <span>View Result For Last Search </span>
-                                <a href="/viewResultFromNotification/{{$notification['id']}}" >View Results</a>
-                                <a href="/readNotification/{{$notification['id']}}" >Make As Read</a>
-                                @endforeach
-
-                    </div>
-                    </div>
-                    <div class="tab-pane fade bg-white" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row">
-                        @foreach($reports as $report)
-                            <div class="col-lg-4 col-md-6">
-                                <div class="hotel text-center">
-                                    <a href="people/details/{{$report->id}}">
-                                        <div class="hotel-img">
-{{--                                         //   <img src="${element.image}" alt="Img Of Person" class="img-fluid">--}}
-                                            <img src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}">
-                                        </div>
-                                        <h3><a href="/people/details/{{$report->id}}">{{$report->name}}</a></h3>
-                                        <p>Age is :{{$report->age}}</p>
-                                        <span>last seen on :{{$report->last_seen_on}}</span>
-
-                                    </a>
-                                    <div class="row justify-content-center">
-                                    <a class="btn btn-primary" href="/editReport/{{$report->id}}">Update Report</a>
-                                    <form action="/report/delete/{{$report->id}}" method="POST">
-                                    @csrf
-                                    @method('Delete')
-                                    <input class="btn btn-danger" type="submit" value="Delete">
-                                    </form>
-                                    </div>
-                                </div>
+                            <div class="col-12">
+                            <h5>View Result For Last Search </h5>
+                            <a class="btn btn-primary" href="/viewResultFromNotification/{{$notification['id']}}">View Results</a>
+                            <a class="btn btn-danger" href="/readNotification/{{$notification['id']}}">Make As Read</a>
                             </div>
+                            
                             @endforeach
 
+                        </div>
+                    </div>
+                    <div class="tab-pane fade bg-white" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="container">
+                            <div class="row">
+                                @foreach($reports as $report)
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="hotel text-center">
+                                        <a href="people/details/{{$report->id}}">
+                                            <div class="hotel-img" style="width:348px;height:348px">
+                                                <img src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}" alt="Img Of Person" class="img-fluid">
+                                            </div>
+                                            <h3><a href="/people/details/{{$report->id}}">{{$report->name}}</a></h3>
+                                            <p>Age is :{{$report->age}}</p>
+                                            <span>{{$report->gender}}</span>
+                                            <p>Click On  Image for more details</p>
+
+                                        </a>
+                                        <div class="row justify-content-center">
+                                            <a class="btn btn-primary" href="/editReport/{{$report->id}}">Update Report</a>
+                                            <form action="/report/delete/{{$report->id}}" method="POST">
+                                                @csrf
+                                                @method('Delete')
+                                                <input class="btn btn-danger" type="submit" value="Delete">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+
+                            </div>
                         </div>
                     </div>
                 </div>

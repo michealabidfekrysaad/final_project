@@ -18,9 +18,9 @@
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                 @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -32,9 +32,9 @@
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -47,31 +47,34 @@
                                 <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
 
                                 @error('phone')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
                         {{-- end of phone --}}
-                        
+
                         {{-- start of city --}}
                         <div class="form-group row">
                             <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('Choose-city') }}</label>
 
                             <div class="col-md-6">
-                                <div class="dropdown">                
-                                    <select id="city" name="city" class="form-control">
-                                      <option selected>Choose your city</option>
-                                      <option>...</option>
-                                      <option>...</option>
-                                      <option>...</option>
+                                <div class="dropdown">
+                                    <select class="form-control" id="city" name="city" required>
+                                        <option value="none" selected disabled hidden>
+                                            Select an Option
+                                        </option>
+                                        @foreach($cities as $key => $city)
+                                        <option value="{{$key}}"> {{$city}}</option>
+                                        @endforeach
+
                                     </select>
-                                  </div>
+                                </div>
                                 @error('city')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -82,18 +85,15 @@
                             <label for="region" class="col-md-4 col-form-label text-md-right">{{ __('Choose-region') }}</label>
 
                             <div class="col-md-6">
-                                <div class="dropdown">                
-                                    <select id="region" name="region" class="form-control">
-                                      <option selected>Choose your region</option>
-                                      <option>...</option>
-                                      <option>...</option>
-                                      <option>...</option>
+                                <div class="dropdown">
+                                    <select name="state" id="state" class="form-control">
+
                                     </select>
-                                  </div>
+                                </div>
                                 @error('region')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -106,9 +106,9 @@
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -134,4 +134,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#city').change(function() {
+        var cityID = $(this).val();
+        if (cityID) {
+            $.ajax({
+                type: "GET",
+                url: "{{url('get-area-list')}}?city_id=" + cityID,
+                success: function(states) {
+                    if (states) {
+                        $("#state").empty();
+                        // $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
+                        $.each(states, function(key, value) {
+                            $("#state").append('<option value="' + key + '">' + value + '</option>');
+                        });
+
+                    } else {
+                        $("#state").empty();
+                    }
+                }
+            });
+        } else {
+            $("#state").empty();
+            $("#city").empty();
+        }
+    });
+</script>
 @endsection
