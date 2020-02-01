@@ -35,7 +35,7 @@
 
 								@foreach ($categories as $category)
 								<option value="{{$category->id}}">{{$category->category_name}} </option>
-								@endforeach  
+								@endforeach
 							</select>
 						</div>
 
@@ -44,7 +44,7 @@
 
 			</article>
 			<article>
-				
+
 				<div class="filter-content">
 					<div class="card-body">
 						<div class="form-group">
@@ -215,14 +215,14 @@ $(document).on('keyup' , '#search' , function(){
 
    $('#CategoryList').change(function(){
 	var category_id = $(this).val();
-	console.log(category_id);
+	// console.log(category_id);
     if(category_id){
         $.ajax({
            type:"GET",
            url:"/getforitem/"+category_id,
            success:function(category){   
             if(category){
-                $("#attribute").empty();
+				$("#attribute").empty();
                 $.each(category[0].attributes,function(key,value){
                     let itemAttributes=category[0].attributes;
                 $("#attribute").append( `<label>`+itemAttributes[key].attribute_name+`</label>
@@ -234,9 +234,10 @@ $(document).on('keyup' , '#search' , function(){
                     type:"GET",
                     url:"/valueofattribute/"+itemAttributes[key].id,
                     success:function(result){
-						console.log(result);
+						// console.log(result);
                         if(result){
                             $.each(result,function(key,value){
+								$(`#`+result[key].attribute_id+``).append('<option selected disabled hidden value="none"></option>');
                                 $(`#`+result[key].attribute_id+``).append(`<option value = "`+result[key].id+`">`+result[key].value_name+`</option>`);
                             })
                                 

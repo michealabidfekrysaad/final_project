@@ -165,7 +165,7 @@ function fetch_Data(query = ''){
 		success:function(data)
 		{
 			
-			 console.log(data);
+			//  console.log(data);
 			insertToHtml(data)
 		
 		}

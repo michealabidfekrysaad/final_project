@@ -193,17 +193,37 @@ $(document).ready(function () {
 
   })
 
+
+
   filter_data_item();
+
 
   function filter_data_item() {
 
     var categoryList = $("#CategoryList :selected").text();
     var city = $("#city :selected").text();
-    var region = $("#region :selected").text();
+    var region = $("#region :selected").text();    
+    // let attribute = $("#attribute :selected").text();
+    let attribute = $("#attribute :selected").filter();
+    let array=[];
+
+  for (let index = 0; index < attribute.prevObject.length; index++) {
+    const element = attribute.prevObject[index];
+    // console.log(element.innerHTML);
+    if(element.innerHTML != ""){
+    array.push(element.innerHTML);
+    }
+  }
+  // console.log("this array: "+array);
+
+    
+
     $.ajax({
         url:"/filter/find",
         method:"POST",
-        data:{ "category": categoryList , "city": city, "region": region},
+        data:{ "category": categoryList , "city": city, "region": region,
+                 "attributes": array
+      },
         success:function(data){
             // $('.filter_data_item').html(data);
 
@@ -211,11 +231,15 @@ $(document).ready(function () {
     }
       
     );
-    var data = { "category": categoryList , "city": city, "region": region};
+
+    
+
+    var data = { "category": categoryList , "city": city, "region": region,
+  "attributes": array};
 
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
-          console.log(key + " -> " + data[key]);
+             console.log(key + " -> " + data[key]);
       }
   }
 
@@ -229,13 +253,17 @@ $(document).ready(function () {
 
   })
   $("#city").change(function (e) {
-
     filter_data_item();
 
   })
   $("#region").change(function (e) {
 
     filter_data_item();
+
+  })
+  $("#attribute").change(function (e) {
+
+     filter_data_item();
 
   })
 
