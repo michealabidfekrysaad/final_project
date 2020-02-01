@@ -459,7 +459,7 @@
            success:function(states){
             if(states){
                 $("#state").empty();
-                $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
+                // $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
                 $.each(states,function(key,value){
                     $("#state").append('<option value="'+key+'">'+value+'</option>');
                 });

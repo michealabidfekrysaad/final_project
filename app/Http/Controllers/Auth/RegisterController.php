@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -42,6 +43,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        $cities = DB::table("cities")->pluck("city_name", "id");
+        return view('auth.register',['cities'=>$cities]);
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -77,7 +84,7 @@ class RegisterController extends Controller
             'region' => $data['region'],
             'password' => Hash::make($data['password']),
             //'verification_token' => base64_encode($data['verification_token']),
-            
+
 
         ]);
 

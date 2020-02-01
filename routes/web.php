@@ -56,9 +56,7 @@ Route::get('/people/image','UploadfileController@index');
 Route::get('/items/search/found','itemController@create');
 });
 Route::get('/showReportItem/{item}','itemController@show');
-Route::get('/people/search', function(){
-    return view('people.find');
-});
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/details', function(){
@@ -217,3 +215,5 @@ Route::get('/filter/find/item/{data}' , 'itemController@doSearchingQuery');
 Route::get('/acceptOtherReport/{report}', 'reportController@acceptOtherReport')->name('reports.acceptOtherReport')->middleware('sessions');
 Route::get('/RejectOtherReport', 'reportController@RejectOtherReport')->name('reports.RejectOtherReport')->middleware('sessions');
 Route::get('/closereport/{report}', 'reportController@closeReport')->name('reports.closeReport');
+
+

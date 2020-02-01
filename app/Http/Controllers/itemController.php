@@ -285,6 +285,6 @@ class itemController extends Controller
 
             $index++;
         }
-       return response()->json($query->paginate('1'));
+       return response()->json($query->paginate('3'));
     }
 }
