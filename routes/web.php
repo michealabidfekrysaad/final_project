@@ -179,4 +179,13 @@ Route::get('/admin/1', function(){
 Route::get('/admin/panel', function(){
     return view('layouts.AdminPanel.index');
 });
+Route::get('/admin/panel/table', function(){
+    return view('layouts.AdminPanel.table');
+});
+Route::get('/report/edit/id', function(){
+    return view('layouts.AdminPanel.edit');
+});
+Route::get('/report/id', function(){
+    return view('layouts.AdminPanel.show');
+});
 // admin routes---------------------------------------------------------------------
