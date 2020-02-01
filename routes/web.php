@@ -7,6 +7,7 @@
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServicepoeProvider within a group which
+
 | contains the "web" middleware group. Now create something great!
 |
 */
@@ -198,6 +199,9 @@ Route::get('/admin/1', function(){
 Route::get('/admin/panel', function(){
     return view('layouts.AdminPanel.index');
 });
+//da tab3 hamo hima 3ebs
+Route::get('layouts/AdminPanel/chartindex', 'chartsController@index');
+// admin routes---------------------------------------------------------------------
 // admin routes---------------------------------------------------------------------
 
 

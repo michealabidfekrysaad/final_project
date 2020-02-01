@@ -1,6 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+@if(session()->has('message'))
+<div class="alert alert-success" role="alert">
+	<strong>Success</strong>{{session()->get('message')}}
+</div>
+@endif
 <div class="pt-5 container-fluid">
 	<div class="row mt-2 pt-5 section-header">
 		<h2 class="mx-auto">all lost people</h2>
@@ -23,6 +41,9 @@
 				</header>
 				<div class="filter-content">
 					<div class="card-body">
+<<<<<<< HEAD
+						{{-- kan feh male w female masa7to w ana 3ayezhom --}}
+=======
 						<div class="custom-control custom-checkbox">
 							<span class="float-right badge badge-light round">52</span>
 							<input type="checkbox" class="custom-control-input gender" id="Check1" name="male"
@@ -36,6 +57,7 @@
 								value="female">
 							<label class="custom-control-label" for="Check2">Female</label>
 						</div> <!-- form-check.// -->
+>>>>>>> 440fab243270b1f8708cc72d9b30e490e071969d
 
 					</div> <!-- card-body.// -->
 				</div>

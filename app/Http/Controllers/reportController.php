@@ -18,6 +18,8 @@ use App\User;
 use App\DescriptionValidation;
 use App\Item;
 use Carbon\Carbon;
+use DB;
+use Illuminate\Support\Facades\Redirect;
 
 class reportController extends Controller
 {

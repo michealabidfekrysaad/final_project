@@ -279,6 +279,8 @@
                     <span id="LocationErr"></span>
                 </div>
             <div class="form-group {{ $errors->has('location') ? ' has-error' : '' }}">
+                <label for="inputlocation">Location :</label>
+                <input type="text" class="form-control" id="inputlocation" name="location" placeholder="Last Location Of Person" required>
                 <span id="LocationErr"></span>
                 @if ($errors->has('location'))
                 <span class="help-block">
@@ -379,7 +381,7 @@
 
             <div class="form-group">
                 <label for="title">select region:</label>
-                <select name="state" id="state" class="form-control">
+                <select name="region" id="state" class="form-control">
 
                 </select>
             </div>
@@ -419,7 +421,7 @@
                 <label for="eye_color">Select Eye Color :</label>
                 <select class="form-control" id="eye_color" name="eye_color" required>
                     <option value="black">Black</option>
-                    <option value="browan">Browan</option>
+                    <option value="brown">Browan</option>
                     <option value="green">Green</option>
                     <option value="gry">Grey</option>
                     <option value="blue">Blue</option>
