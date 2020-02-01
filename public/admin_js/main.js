@@ -1115,7 +1115,7 @@
         type: 'pie',
         data: {
           datasets: [{
-            data: [45, 25, 20, 10],
+            data: [60,40],
             backgroundColor: [
               "rgba(0, 123, 255,0.9)",
               "rgba(0, 123, 255,0.7)",
@@ -1133,7 +1133,6 @@
           labels: [
             "Green",
             "Green",
-            "Green"
           ]
         },
         options: {

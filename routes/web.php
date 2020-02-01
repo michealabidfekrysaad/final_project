@@ -182,4 +182,6 @@ Route::get('/admin/1', function(){
 Route::get('/admin/panel', function(){
     return view('layouts.AdminPanel.index');
 });
+//da tab3 hamo hima 3ebs
+Route::get('layouts/AdminPanel/chartindex', 'chartsController@index');
 // admin routes---------------------------------------------------------------------
