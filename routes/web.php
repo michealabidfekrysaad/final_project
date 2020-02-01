@@ -202,7 +202,10 @@ Route::get('/admin/panel', function(){
     return view('layouts.AdminPanel.index');
 });
 //da tab3 hamo hima 3ebs
-Route::get('layouts/AdminPanel/chartindex', 'chartsController@index');
+Route::get('/charts', 'chartsController@index');
+Route::get('/chartData', 'chartsController@chart');
+Route::get('/chartData1', 'chartsController@chart1');
+Route::get('/chartData2', 'chartsController@chart2');
 // admin routes---------------------------------------------------------------------
 // admin routes---------------------------------------------------------------------
 

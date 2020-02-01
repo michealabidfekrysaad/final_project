@@ -18,6 +18,7 @@
         google.charts.load('current', {'packages': ['corechart']});
 
         google.charts.setOnLoadCallback(drawChart);
+        console.log(analytics);
 
         function drawChart() {
             var data = google.visualization.arrayToDataTable(analytics);
@@ -27,7 +28,7 @@
             var chart = new google.visualization.PieChart(document.getElementById('pie_chart'));
             chart.draw(data, options);
         }
-        
+
         var analytic = <?php echo $is_found; ?>
 
         google.charts.load('current', {'packages': ['corechart']});

@@ -177,12 +177,12 @@
                             </li>
                         </ul>
                     </li> --}}
-                    
+
                     <li>
                         <a href="/admin/panel/table">
                             <i class="fas fa-table"></i>Tables</a>
                     </li>
-                   
+
                     <li>
                         <a href="map.html">
                             <i class="fas fa-map-marker-alt"></i>Maps</a>
@@ -419,7 +419,7 @@
             </div>
         </div>
     </header>
-    
+
     <div class="main-content">
         <main>
             @yield('content')
@@ -469,7 +469,6 @@
         <script src="{{ asset('vendor/chartjs/Chart.bundle.min.js') }}"></script>
         <script src="{{ asset('vendor/select2/select2.min.js') }}">
         </script>
-    
         <!-- Main JS-->
         <script src="{{ asset('admin_js/main.js') }}"></script>
 

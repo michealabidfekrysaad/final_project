@@ -255,15 +255,7 @@
                 var category_id = $("#CategoryList :selected").attr("value");
                 var city_id = $("#city :selected").attr("value");
                 var area_id = $("#region :selected").attr("value")
-                let attribute = $("#attribute :selected").filter();
-                let array=[];
-                for (let index = 0; index < attribute.prevObject.length; index++) {
-                    const element = attribute.prevObject[index];
-                    if(element.innerHTML != ""){
-                        array.push(element.innerHTML);
-                    }
-                }
-                var data = {category_id, city_id, area_id,array}
+                var data = {category_id, city_id, area_id}
                 if (data.category_id|| data.city_id || data.area_id) {
                     console.log(data);
                     $.ajax({
@@ -271,8 +263,8 @@
                             url: "/filter/find/item/" + JSON.stringify(data),
                             traditional: true,
                             success: function (data) {
-                                //console.log(data);
-                               // insertToHtml(data)
+                                console.log(data);
+                                insertToHtml(data)
                             }
                         }
                     );

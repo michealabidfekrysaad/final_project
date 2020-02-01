@@ -18,8 +18,6 @@ use App\User;
 use App\DescriptionValidation;
 use App\Item;
 use Carbon\Carbon;
-use DB;
-use Illuminate\Support\Facades\Redirect;
 
 class reportController extends Controller
 {
@@ -203,7 +201,6 @@ class reportController extends Controller
     }
     public function showReportDetails(Report $report){
         return view('people.personDetails',['report'=>$report]);
-
     }
 
     /**
