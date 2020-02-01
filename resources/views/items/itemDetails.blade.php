@@ -11,19 +11,16 @@
         <div class="section-header pt-2">
             <h2>Item Details</h2>
         </div>
-
         <div class="row">
             <div class="col-md-6">
-                <img src="{{asset('img/speakers/1.jpg')}}" alt="Speaker 1" class="img-fluid">
+                <img src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}" alt="Img Of Person" class="img-fluid">
             </div>
 
             <div class="col-md-6">
                 <div class="details">
                     <div class="row">
                         <h3>Category :</h3>
-                        @foreach($item as $items)
-                            <p> {{$items->category_id}}</p>
-                       
+                            <p> {{($item->category)->category_name}}</p>
                     </div>
                     <div class="row">
                         <h3>Color :</h3>
@@ -31,16 +28,21 @@
                     </div>
                     <div class="row">
                         <h3>Found Since :</h3>
-                        <p> {{$items->found_since}}</p>
+                        <p> {{$item->found_since}}</p>
                     </div>
                     <div class="row">
                         <h3>City Where Found :</h3>
-                        <p> {{$items->city}}</p>
+                        <p> {{($item->city)->city_name}}</p>
                     </div>
-
-                    
+                    <div class="row">
+                        <h3>Attributes :</h3>
+                        @foreach($data as $one)
+                            <h3> {{($one->attribute)->attribute_name}}<h3/>
+                            <h3> {{($one->value)->value_name}}</h3>
+                            @endforeach
+                    </div>
                     <div class="row ">
-                        <form action="/sendEmailItem/{{$items->id}}" method="POST" class="form">
+                        <form action="/sendEmailItem/{{$item->id}}" method="POST" class="form">
                            @csrf
                         <div class="form-group">
                                 <h3 for="exampleFormControlTextarea1">Description :</h3>
@@ -49,7 +51,6 @@
                             <button type="submit" class="btn" id="lostButton">Contact With Report Owner</button>
                         </form>
                     </div>
-@endforeach
 
                 </div>
             </div>

@@ -6,23 +6,20 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\User;
-use App\Report;
 
-class NotifyReport extends Notification
+class SendSummaryToUser extends Notification
 {
     use Queueable;
-    public $user;
-    public $founder;
+    private $result;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user , User $founder)
+    public function __construct($result)
     {
-       $this->user = $user;
-       $this->founder = $founder;
+        $this->result=$result;
     }
 
     /**
@@ -33,7 +30,7 @@ class NotifyReport extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -44,16 +41,10 @@ class NotifyReport extends Notification
      */
     public function toMail($notifiable)
     {
-        $user = $this->user->name;
-        $founder = $this->founder->name;
-        
         return (new MailMessage)
-                    ->subject('from Loster '. $user)
-                    ->line('hello '. $founder)
-                    ->action('close Rport', url('/'))
-                    ->action('Accept Report' , url('/'))
-                    ->action('Reject Report' , url('/'))
-                    ->line('Regards Laravel Fahmy');
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -65,7 +56,9 @@ class NotifyReport extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
-        ];
+            'id' => $this->id,
+            'read_at' => null,
+            'data' => $this->result
+            ];
     }
 }

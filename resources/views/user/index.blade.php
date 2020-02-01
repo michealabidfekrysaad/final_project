@@ -16,6 +16,9 @@
                     <a class="nav-link " id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link " id="notification-tab" data-toggle="tab" href="#notification" role="tab" aria-controls="notification" aria-selected="true">Notification - {{count($notifications)}}</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Your Reports</a>
                 </li>
             </ul>
@@ -67,24 +70,36 @@
                             Update Profile
                         </a>
                     </div>
+                    <div class="tab-pane fade show active bg-white" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+
+                        <div class="row">
+                            @foreach($notifications as $notification)
+                                <span>View Result For Last Search </span>
+                                <a href="/viewResultFromNotification/{{$notification['id']}}" >View Results</a>
+                                <a href="/readNotification/{{$notification['id']}}" >Make As Read</a>
+                                @endforeach
+
+                    </div>
+                    </div>
                     <div class="tab-pane fade bg-white" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row">
-                        @foreach($report as $repo)
+                        @foreach($reports as $report)
                             <div class="col-lg-4 col-md-6">
                                 <div class="hotel text-center">
-                                    <a href="/showRepo/{{$repo->id}}">
+                                    <a href="people/details/{{$report->id}}">
                                         <div class="hotel-img">
-                                            <img src="${element.image}" alt="Img Of Person" class="img-fluid">
+{{--                                         //   <img src="${element.image}" alt="Img Of Person" class="img-fluid">--}}
+                                            <img src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}">
                                         </div>
-                                        <h3><a href="/showRepo/{{$repo->id}}">{{$repo->name}}</a></h3>
-                                        <p>Age is :{{$repo->age}}</p>
-                                        <span>last seen on :{{$repo->last_seen_on}}</span>
+                                        <h3><a href="/people/details/{{$report->id}}">{{$report->name}}</a></h3>
+                                        <p>Age is :{{$report->age}}</p>
+                                        <span>last seen on :{{$report->last_seen_on}}</span>
 
                                     </a>
                                     <div class="row justify-content-center">
-                                    <a class="btn btn-primary" href="/edit/{{$repo->id}}">Update Report</a>
-                                    <form action="/report/{{$repo->id}}" method="POST">
-                                    @csrf 
+                                    <a class="btn btn-primary" href="/editReport/{{$report->id}}">Update Report</a>
+                                    <form action="/report/delete/{{$report->id}}" method="POST">
+                                    @csrf
                                     @method('Delete')
                                     <input class="btn btn-danger" type="submit" value="Delete">
                                     </form>

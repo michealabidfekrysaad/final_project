@@ -32,16 +32,16 @@ class AttributeController extends Controller
 
         $attrributeValue=Attribute::with('valuesofattributes')->get();
 
-         return view('items.find' , ['attrributeValue'=>$attrributeValue ,
-                                        'items' => $items , 
-                                        'categories' => $categories,
-                                        'cities'=>$cities]);
+        return view('items.find' , ['attrributeValue'=>$attrributeValue ,
+            'items' => $items ,
+            'categories' => $categories,
+            'cities'=>$cities]);
     }
 
     public function indexAdmin()
     {
         $attr = Attribute::all();
-        return view('attribute.index' , ['attr' -> $attr]);
+        return view('attribute.index' , ['attr' => $attr]);
     }
 
     /**
@@ -120,16 +120,15 @@ class AttributeController extends Controller
     }
 
     public function getAreas($id){
-        $areas = Area::with('city')->where('city_id','=',$id)->get();
+        $areas = Area::where('city_id','=',$id)->get();
         // return view('items.find',['areas'=>$areas]);
         return response()->json($areas);
     }
-
     public function getAttributeList($id)
     {
-       $category = Category::with('attributes')->where('id' , '=' , $id)->get();
-       return response()->json($category);
-        
+        $category = Category::with('attributes')->where('id' , '=' , $id)->get();
+        return response()->json($category);
+
     }
-    
+
 }

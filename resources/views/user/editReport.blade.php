@@ -21,13 +21,13 @@
             </ul>
         </div>
         @endif
-        <form action="/update/{{$report->id}}" method="POST">
+        <form action="/updateReport/{{$report->id}}" method="POST"  enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+{{--            @method('PUT')--}}
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{$report->image}}" alt="Speaker 1" class="img-fluid">
-                    <input type="file" class="form-control" name="select_file" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png"  value="{{$report->image}}"/>
+                    <img id="image" src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}">
+                    <input type="file" name="image">
                     <span id="ImgError"></span>
                 </div>
 

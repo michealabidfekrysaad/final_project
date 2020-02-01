@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Socialite;
-use Auth;
 use Exception;
 use App\User;
 use Spatie\Permission\Models\Role;
@@ -43,83 +43,24 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
-    public function redirectToGoogle()
+    public function redirect($provider)
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver($provider)->redirect();
     }
 
-    public function handleGoogleCallback()
+    public function callback($provider)
     {
-        try {
+        $userSocial = Socialite::driver($provider)->user();//info user
+        $existUser = User::where('email', $userSocial->email)->first();
+        if($existUser) {
+            Auth::loginUsingId($existUser->id);
+            return redirect()->to('/');
+        }
+        else{
+            return redirect()->to('/register');
 
-            $user = Socialite::driver('google')->user();
-    
-            $finduser = User::where('google_id', $user->id)->first();
-    
-            if($finduser){
-                
-                Auth::login($finduser);
-
-                return redirect('/');
-    
-            }else{
-                $newUser = User::create([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'password' => Hash::make('a1234567'),
-                    'phone' => 'null',
-                    'city' => 'null',
-                    'region' => 'null',
-                    'google_id'=> $user->id
-                ]);
-
-                Auth::login($newUser);
-    
-                return redirect('/');
-            }
-
-        } catch (Exception $e) {
-            dd($e->getMessage());
         }
     }
-    // public function redirectToFacebook()
-    // {
-    //     return Socialite::driver('facebook')->redirect();
-    // }
 
-    // public function handleFacebookCallback()
-    // {
-    //     try {
 
-    //         $user = Socialite::driver('facebook')->user();
-    
-    //         $finduser = User::where('facebook_id', $user->id)->first();
-    
-    //         if($finduser){
-    
-    //             Auth::login($finduser);
-
-    //             return redirect('/home');
-    
-    //         }else{
-    //             $newUser = User::create([
-    //                 'name' => $user->name,
-    //                 'email' => $user->email,
-    //                 'password' => Hash::make('a1234567'),
-    //                 'phone' => 'null',
-    //                 'city' => 'null',
-    //                 'region' => 'null',
-    //                 'facebook_id'=> $user->id
-    //             ]);
-
-    //             Auth::login($newUser);
-    
-    //             return redirect('/home');
-    //         }
-
-    //     } catch (Exception $e) {
-    //         dd($e->getMessage());
-    //     }
-    // }
 }

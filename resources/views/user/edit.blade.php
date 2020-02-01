@@ -24,7 +24,7 @@
                             </ul>
                         </div>
                         @endif
-                        <form method="POST" action="/update/{{$profile->id}}">
+                        <form method="POST" action="/update/profile/{{$profile->id}}">
                             @csrf
                             @method('PUT')
                             <div class="row">

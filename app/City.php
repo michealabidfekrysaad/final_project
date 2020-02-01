@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class City extends Model
 {
     protected $table = 'cities';
-
-    protected $fillable = ['city_name'];
-
     public function areas(){
+        $this->hasMany(Area::class,'city_id');
+    }
+    public function items (){
 
-        return $this->hasMany('App\Area' , 'city_id' , 'id');
-        
+        return $this->hasMany(Item::class);
+    }
+    public function reports (){
+
+        return $this->hasMany(Report::class,'city');
     }
 }

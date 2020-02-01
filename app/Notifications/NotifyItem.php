@@ -11,21 +11,19 @@ use App\User;
 class NotifyItem extends Notification
 {
     use Queueable;
-    public $user;
-    public $founder;
-    public $description;
-    public $founderItem;
+    private $item;
+    private $descriptionValidation;
+
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $item
+     * @param $descriptionValidation
      */
-    public function __construct(User $user , User $founder , $description , $founderItem)
+    public function __construct($item , $descriptionValidation)
     {
-        $this->user = $user;
-        $this->founder = $founder;
-        $this->description = $description;
-        $this->founderItem = $founderItem;
+        $this->item=$item;
+        $this->descriptionValidation=$descriptionValidation;
     }
 
     /**
@@ -47,16 +45,12 @@ class NotifyItem extends Notification
      */
     public function toMail($notifiable)
     {
-        $founder = $this->user->name;
-        $user = $this->founder->name;
-        
         return (new MailMessage)
                     ->subject('message to founder Item')
-                    ->line('hello ' . $founder . ' My Name Is ' . $user)
-                    ->line('this Item ' . $this->founderItem->id)
-                    ->line('hello '. $founder . ' my description is ' . $this->description)
-                    ->action('Accept', url('/acceptMessage/'.$this->user->id.'/'.$this->founder->id))
-                    ->line('my Regards ' . $user);
+            ->markdown('mail.notifyitem', [
+            'item'=>$this->item,
+                'descriptionValidation'=>$this->descriptionValidation
+            ]);
     }
 
     /**

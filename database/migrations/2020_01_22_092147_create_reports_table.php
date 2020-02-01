@@ -18,13 +18,11 @@ class CreateReportsTable extends Migration
             $table->string('name');
             $table->unsignedInteger('age');
             $table->enum('gender',['male','female']);
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->enum('type',['found','lost']);
             $table->string('special_mark')->nullable();
             $table->enum('eye_color',['black' , 'brown' , 'green' , 'grey' ,  'blue']);
             $table->enum('hair_color' , ['black' , 'brown' , 'white' , 'golden'])->nullable();
-            $table->string('city');
-            $table->string('region');
             $table->string('location');
             $table->string('last_seen_on')->nullable();
             $table->string('last_seen_at')->nullable();
@@ -33,9 +31,9 @@ class CreateReportsTable extends Migration
             $table->enum('is_found',[0,1])->default(0);
             $table->float('height')->max(250);
             $table->float('weight')->max(250);
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')
-            ->onDelete('set null');
+            $table->unsignedBigInteger('user_id')->nullable()
+                ->onUpdate('cascade')->onDelete('set null');;
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -9,13 +9,13 @@ class ItemAttributeValue extends Model
     protected $table = '_item_attribute_values';
     protected $fillable = ['attribute_id' , 'value_id' , 'item_id'];
 
-    public function attributeItem(){
-        return $this->belongsTo('App\Attribute');
+    public function attribute(){
+        return $this->belongsTo(Attribute::class);
     }
-    public function valueAttribute(){
-        return $this->belongsTo('App\AttributeValue');
+    public function value(){
+        return $this->belongsTo(AttributeValue::class);
     }
-    public function ItemsAttribute(){
-        return $this->belongsTo('App\Item');
+    public function Item(){
+        return $this->belongsTo(Item::class);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App;
 
+use App\Category;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-use App\Category;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
@@ -21,5 +21,16 @@ class Item extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+    public function ItemAttributeValue(){
+        return $this->hasMany(ItemAttributeValue::class,"item_id");
     }
 }

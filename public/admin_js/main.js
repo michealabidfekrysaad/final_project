@@ -689,7 +689,7 @@
     //Sales chart
     var ctx = document.getElementById("sales-chart");
     if (ctx) {
-      ctx.height = 150;
+      ctx.height = 300; //kanet 150 w ana mezawedha
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {

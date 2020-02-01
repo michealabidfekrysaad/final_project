@@ -9,8 +9,8 @@
                 ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
                 return false;
             }
-            
-            
+
+
             ImgError.classList.add("text-success");
             ImgError.innerHTML = "Upload Image Successfully";
             Filevalidation();
@@ -20,25 +20,25 @@
             let Name =document.getElementById("inputName");
             let NameErr=document.getElementById("NameErr");
             var re = /^[a-zA-Z ]*$/;
-            if (Name.value == "")                                  
-                { 
+            if (Name.value == "")
+                {
                     Name.focus();
                     NameErr.classList.add("text-danger");
                     NameErr.innerHTML = "name is required";
-                    return false; 
-                } 
+                    return false;
+                }
                 if(re.test(Name.value) == false){
-                    Name.focus(); 
+                    Name.focus();
                     NameErr.classList.add("text-danger");
                     NameErr.innerHTML = "name can not contain numbers";
-                    return false; 
+                    return false;
                 }
                 else{
                     NameErr.innerHTML = "";
 
                 }
 
-               
+
             return( true );
     }
 
@@ -46,19 +46,19 @@
 
 
 
-     Filevalidation = () => { 
-        
-        if (fileUpload.files.length > 0) { 
-            for (const i = 0; i <= fileUpload.files.length - 1; i++) { 
-  
-                const fsize = fileUpload.files.item(i).size; 
-                const file = Math.round((fsize / 1024)); 
-                // The size of the file. 
-                if (file >= 4096) { 
+     Filevalidation = () => {
+
+        if (fileUpload.files.length > 0) {
+            for (const i = 0; i <= fileUpload.files.length - 1; i++) {
+
+                const fsize = fileUpload.files.item(i).size;
+                const file = Math.round((fsize / 1024));
+                // The size of the file.
+                if (file >= 4096) {
                     ImgError.classList.add("text-danger");
                     ImgError.innerHTML = "size of image is" + file +"MB is very large";
                     break;
-                } 
+                }
                 var allowedFiles = [".jpg", ".jpeg", ".png"];
                 let regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
                 if (!regex.test(fileUpload.value.toLowerCase())) {
@@ -66,16 +66,16 @@
                 ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
                 break;
                 }
-                else { 
+                else {
                     ImgError.classList.remove('text-danger')
                     ImgError.classList.add("text-success");
                     ImgError.innerHTML = "Upload Image Successfully, size is "+file + "MB";
                     break;
 
-                } 
-            } 
-        } 
-    } 
+                }
+            }
+        }
+    }
 
 
 
@@ -98,10 +98,11 @@
         </div>
 
 
-        
+
             @csrf
 
-        <form action="/storeFahmy" method="POST" onsubmit="return(validate());" enctype="multipart/form-data">
+        <form action="{{route("items.store")}}" method="POST" onsubmit="return(validate());" enctype="multipart/form-data">
+            @csrf
             <div class="form-group">
                 <label for="image">Upload Image :</label>
                 <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()"
@@ -128,11 +129,11 @@
 
             <div class="form-group">
                 <label for="city">City:</label>
-                <select class="form-control" id="city" name="city" required>
+                <select class="form-control" id="city" name="city_id" required>
                     <option value="none" selected disabled hidden>
                         Select an Option
                     </option>
-                    @foreach($cities as $key => $city)
+                    @foreach($cities as $city)
                     <option value="{{$city->id}}"> {{$city->city_name}}</option>
                     @endforeach
                 </select>
@@ -140,8 +141,8 @@
 
             <div class="form-group">
                 <label for="title">select region:</label>
-                <select name="region" id="state" class="form-control">
-
+                <select name="area_id" id="state" class="form-control">
+                    <option value="1">sidibishr</option>
                 </select>
             </div>
 
@@ -169,15 +170,15 @@
         $.ajax({
            type:"GET",
            url:"{{url('get-state-list')}}?city_id="+cityID,
-           success:function(states){ 
-            //    console.log(states);         
+           success:function(states){
+               //console.log(states);
             if(states){
                 $("#state").empty();
                 $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
                 $.each(states,function(key,value){
                     $("#state").append('<option value="'+value+'">'+value+'</option>');
                 });
-           
+
             }else{
                $("#state").empty();
             }
@@ -186,7 +187,7 @@
     }else{
         $("#state").empty();
         $("#city").empty();
-    }      
+    }
    });
 
    $('#item').change(function(){
@@ -195,13 +196,13 @@
         $.ajax({
            type:"GET",
            url:"/get/"+category_id,
-           success:function(category){   
+           success:function(category){
             if(category){
                 $("#attribute").empty();
                 $.each(category[0].attributes,function(key,value){
                     let itemAttributes=category[0].attributes;
                 $("#attribute").append( `<label>`+itemAttributes[key].attribute_name+`</label>
-                                         <select class="form-control" name="`+itemAttributes[key].attribute_name+`" id = "`+itemAttributes[key].id+`">
+                                         <select class="form-control" name="#`+itemAttributes[key].attribute_name+`" id = "`+itemAttributes[key].id+`" value = "`+itemAttributes[key].id+`">
                                          </select>`);
 
 
@@ -213,17 +214,17 @@
                             $.each(result,function(key,value){
                                 $(`#`+result[key].attribute_id+``).append(`<option value = "`+result[key].id+`">`+result[key].value_name+`</option>`);
                             })
-                                
+
 
                         }
-                        //  console.log(result.value_name)  
-                         
+                        //  console.log(result.value_name)
+
                          }})
 
 
-                });                       
+                });
 
-           
+
             }else{
                $("#attribute").empty();
             }
@@ -232,7 +233,7 @@
     }else{
         $("#attribute").empty();
         $("#item").empty();
-    }      
+    }
    });
 
 
