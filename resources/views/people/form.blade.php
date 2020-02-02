@@ -166,8 +166,7 @@
             WeightErr.innerHTML = "Weight is required ";
             return false;
         }
-        if (R
-        egexWeight.test(inputWeight.value) == false || inputWeight.value > 100) {
+        if (RegexWeight.test(inputWeight.value) == false || inputWeight.value > 100) {
             inputWeight.focus();
             WeightErr.classList.add("text-danger");
             WeightErr.innerHTML = "Weight is not valid";
@@ -280,6 +279,8 @@
                     <span id="LocationErr"></span>
                 </div>
             <div class="form-group {{ $errors->has('location') ? ' has-error' : '' }}">
+                <label for="inputlocation">Location :</label>
+                <input type="text" class="form-control" id="inputlocation" name="location" placeholder="Last Location Of Person" required>
                 <span id="LocationErr"></span>
                 @if ($errors->has('location'))
                 <span class="help-block">
@@ -380,7 +381,7 @@
 
             <div class="form-group">
                 <label for="title">select region:</label>
-                <select name="state" id="state" class="form-control">
+                <select name="region" id="state" class="form-control">
 
                 </select>
             </div>
@@ -420,7 +421,7 @@
                 <label for="eye_color">Select Eye Color :</label>
                 <select class="form-control" id="eye_color" name="eye_color" required>
                     <option value="black">Black</option>
-                    <option value="browan">Browan</option>
+                    <option value="brown">Browan</option>
                     <option value="green">Green</option>
                     <option value="gry">Grey</option>
                     <option value="blue">Blue</option>
@@ -458,7 +459,7 @@
            success:function(states){
             if(states){
                 $("#state").empty();
-                $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
+                // $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
                 $.each(states,function(key,value){
                     $("#state").append('<option value="'+key+'">'+value+'</option>');
                 });
