@@ -256,6 +256,7 @@ class itemController extends Controller
             'description'=>$request->input('description')
         ]);
         $item->user->notify(new NotifyItem($item,$descriptionValidation));
+        $item->update(["status"=>1]);
         return redirect('/');
     }
 
@@ -284,6 +285,6 @@ class itemController extends Controller
 
             $index++;
         }
-       return response()->json($query->paginate('1'));
+       return response()->json($query->paginate('3'));
     }
 }

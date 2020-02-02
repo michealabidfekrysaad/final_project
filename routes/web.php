@@ -7,6 +7,7 @@
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServicepoeProvider within a group which
+
 | contains the "web" middleware group. Now create something great!
 |
 */
@@ -55,9 +56,7 @@ Route::get('/people/image','UploadfileController@index');
 Route::get('/items/search/found','itemController@create');
 });
 Route::get('/showReportItem/{item}','itemController@show');
-Route::get('/people/search', function(){
-    return view('people.find');
-});
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/people/details', function(){
@@ -200,6 +199,12 @@ Route::get('/admin/1', function(){
 Route::get('/admin/panel', function(){
     return view('layouts.AdminPanel.index');
 });
+//da tab3 hamo hima 3ebs
+Route::get('/charts', 'chartsController@index');
+Route::get('/chartData', 'chartsController@chart');
+Route::get('/chartData1', 'chartsController@chart1');
+Route::get('/chartData2', 'chartsController@chart2');
+// admin routes---------------------------------------------------------------------
 // admin routes---------------------------------------------------------------------
 
 
@@ -210,3 +215,5 @@ Route::get('/filter/find/item/{data}' , 'itemController@doSearchingQuery');
 Route::get('/acceptOtherReport/{report}', 'reportController@acceptOtherReport')->name('reports.acceptOtherReport')->middleware('sessions');
 Route::get('/RejectOtherReport', 'reportController@RejectOtherReport')->name('reports.RejectOtherReport')->middleware('sessions');
 Route::get('/closereport/{report}', 'reportController@closeReport')->name('reports.closeReport');
+
+
