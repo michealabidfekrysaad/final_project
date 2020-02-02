@@ -11,7 +11,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Auth::routes();
 
 Route::get('/', function () {
     return view('welcome');
@@ -126,7 +126,6 @@ Route::get('login/{provider}/callback', 'Auth\LoginController@callback');
 // Route::get('/search' , 'reportController@getFormSearch');
 // Route::post('/search' , 'reportController@SearchReports');
 
-Auth::routes(['verify' => true]);
 /******** Attribute CRUD *******/
 Route::get('/attributeAdmin' , 'AttributeController@indexAdmin')->name('attribute.index');
   //Route::get('/items/search' , 'AttributeController@index')->name('attribute.index');
