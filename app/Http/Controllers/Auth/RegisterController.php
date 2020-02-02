@@ -42,13 +42,6 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
-    public function showRegistrationForm()
-    {
-        $cities = DB::table("cities")->pluck("city_name", "id");
-        return view('auth.register',['cities'=>$cities]);
-    }
-
     /**
      * Get a validator for an incoming registration request.
      *
@@ -61,8 +54,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required'],
-            'city' => ['required'],
-            'region' => ['required'],
+//            'city' => ['required'],
+//            'region' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -80,8 +73,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'city' => $data['city'],
-            'region' => $data['region'],
+//            'city' => $data['city'],
+//            'region' => $data['region'],
             'password' => Hash::make($data['password']),
             //'verification_token' => base64_encode($data['verification_token']),
 
@@ -91,14 +84,4 @@ class RegisterController extends Controller
         $user->assignRole([(Role::where('name', '=', 'User')->first())->id]);
         return $user;
     }
-    // public function verify($token)
-    // {
-    //     $user = User::where('verification_token', $token)->firstOrFail();
-    //     $user->verified = true;
-    //     $user->verification_token = null;
-    //     $user->save();
-    //     //redirect('/home');
-    //     return response()->json('The account has been verified succesfully');
-
-    // }
 }
