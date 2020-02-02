@@ -201,6 +201,7 @@ class reportController extends Controller
     }
     public function showReportDetails(Report $report){
         return view('people.personDetails',['report'=>$report]);
+
     }
 
     /**

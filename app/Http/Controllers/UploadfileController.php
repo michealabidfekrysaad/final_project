@@ -15,7 +15,6 @@ class UploadfileController extends Controller
 
     function upload(Request $request)
     {
-//        dd($request->all());
      $this->validate($request, [
       'select_file'  => 'required|image|mimes:jpg,png,jpeg|max:2024'
      ]);
@@ -32,13 +31,11 @@ class UploadfileController extends Controller
         $response= $this->searchByImage('lost',$image);
         if($response !=false) {
                 auth()->user()->notify(new SendSummaryToUser($response));
-          //  return \redirect()->to('/profile');
+            return \redirect()->to('/profile');
                 return response()->json(['nearest' => $response]);
             }
             else{
-                 return response()->json(['message' => "go to report page"]);
-
-              //  return \redirect()->to('/people/search/lookfor');
+                return \redirect()->to('/people/search/lookfor');
                // return response()->json(['message' => "go to report page"]);
 
             }

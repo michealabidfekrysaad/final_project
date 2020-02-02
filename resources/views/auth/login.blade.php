@@ -62,22 +62,16 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
-
-                            </div>
-
-                        </div>
-                        <div class="form-group row mb-0 justify-content-center">
-
-                            <a href="/auth/redirect/google" class="btn btn-lg btn-danger d-inline-block m-3">
+                                <a href="{{ url('auth/redirect/google') }}" class="btn btn-lg btn-primary btn-block">
                                     <strong>Login With Google</strong>
                                 </a>
-                                <a href="/auth/redirect/facebook" class="btn btn-lg btn-primary d-inline-block m-3">
+                                <a href="{{ url('auth/redirect/facebook') }}" class="btn btn-lg btn-primary btn-block">
                                     <strong>Login With Facebook</strong>
                                 </a>
 
 
-
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "ext-json": "*",
         "algolia/algoliasearch-client-php": "^2.2",
         "aws/aws-sdk-php-laravel": "^3.4",
         "fideloper/proxy": "^4.0",
@@ -17,10 +16,10 @@
         "laravel/scout": "^7.2",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
-        "laravelcollective/html": "^6.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "pusher/pusher-php-server": "^4.1",
-        "spatie/laravel-permission": "^3.6"
+        "spatie/laravel-permission": "^3.6",
+      "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

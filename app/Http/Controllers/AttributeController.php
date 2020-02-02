@@ -65,7 +65,6 @@ class AttributeController extends Controller
         $attr = new Attribute;
         $attr->attribute_name = $request->input('attribute_name');
         $attr->save();
-
         return redirect(route('attribute.index'));
     }
 

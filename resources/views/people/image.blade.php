@@ -5,7 +5,7 @@
  <div class="row pt-5 justify-content-center">
      <div class="col-md-6 col-sm-10 mt-5 text-center">
 
-    <form method="post" action="/uploadfile" enctype="multipart/form-data">
+    <form method="post" action="{{url('/uploadfile')}}" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group">
             <input type="file" name="select_file" />
