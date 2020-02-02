@@ -50,7 +50,7 @@ class Controller extends BaseController
     }
     public function searchByImage($type,$file){
         $nearest=array();
-        if($type=="lost"){
+        if($type=="lookfor"){
             $this->renderType="found";
         }
         if($type=="found"){

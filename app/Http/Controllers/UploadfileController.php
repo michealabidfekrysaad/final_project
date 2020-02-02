@@ -24,11 +24,11 @@ class UploadfileController extends Controller
           return $this->searchbyImageForLost($image);
      }
      else{
-        return $this->errorPage(422,"No Face Found or more than One Face");
+        return $this->errorResponse(422,"No Face Found or more than One Face");
      }
     }
     public function searchbyImageForLost($image){
-        $response= $this->searchByImage('lost',$image);
+        $response= $this->searchByImage('lookfor',$image);
         if($response !=false) {
                 auth()->user()->notify(new SendSummaryToUser($response));
             return \redirect()->to('/profile');

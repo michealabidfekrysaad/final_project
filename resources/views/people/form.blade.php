@@ -254,7 +254,7 @@
 
 
         </div>
-            <form action="{{ route('report.store',['type'=>$type])}}" method="POST" name="add_report" class="m-5" enctype="multipart/form-data"  onsubmit="return(validate());">
+            <form action="/people/search/post/{{$type}}" method="POST" name="add_report" class="m-5" enctype="multipart/form-data"  onsubmit="return(validate());">
                 @csrf
             <div class="form-group">
                 <label for="Select_file">Upload Image :</label>

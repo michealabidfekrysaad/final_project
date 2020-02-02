@@ -218,15 +218,15 @@ class itemController extends Controller
 
     public function actionItem(Request $request)
     {
-        // $output = '';
+
         if ($request->ajax()) {
             $query = $request->get('query');
             if ($query != '') {
-                $data = DB::table('items')
+                $data = Item::with("category")
                     ->where('image', 'like', '%' . $query . '%')
                     ->get();
             } else {
-                $data = DB::table('items')->get();
+                $data = Item::with("category")->get();
             }
 
             return $data;
@@ -285,6 +285,6 @@ class itemController extends Controller
 
             $index++;
         }
-       return response()->json($query->paginate('3'));
+       return response()->json($query->paginate('5'));
     }
 }

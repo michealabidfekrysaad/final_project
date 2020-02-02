@@ -18,6 +18,7 @@ use App\User;
 use App\DescriptionValidation;
 use App\Item;
 use Carbon\Carbon;
+use function MongoDB\BSON\toJSON;
 
 class reportController extends Controller
 {
@@ -75,38 +76,38 @@ class reportController extends Controller
         if($type=="found"){
             $this->renderType="found";
         }
-        if($type=='lookfor'){
-         $request->validate( [
-            'name' => 'required|min:3|max:20',
-            'age' =>'required|min:1|max:90',
-            'gender' => 'required',
-            'image' =>'required|mimes:jpeg,jpg,png|max:2024',
-            'special_mark' => 'required',
-            'eye_color' => 'required',
-            'hair_color' => 'required',
-            'location' => 'required',
-            'last_seen_on' => 'required',
-            'last_seen_at' => 'required',
-            'lost_since' => 'required|date',
-            'height' => 'required|max:250',
-            'weight' => 'required|max:100',
-        ]);
-    }
-    else if($type=="found"){
-            $request->validate( [
-            'name' => 'required|min:3',
-            'age' => 'required|min:1|max:90',
-            'gender' => 'required',
-            'image' => 'required|mimes:jpeg,jpg,png|max:2024',
-            'special_mark' => 'required',
-            'eye_color' => 'required',
-            'hair_color' => 'required',
-            'location' => 'required',
-            'found_since' => 'required|date',
-            'height' => 'required|max:250',
-            'weight' => 'required|max:100',
-        ]);
-    }
+//        if($type=='lookfor'){
+//         $request->validate( [
+//            'name' => 'required|min:3|max:20',
+//            'age' =>'required|min:1|max:90',
+//            'gender' => 'required',
+//            'image' =>'required|mimes:jpeg,jpg,png|max:2024',
+//            'special_mark' => 'required',
+//            'eye_color' => 'required',
+//            'hair_color' => 'required',
+//            'location' => 'required',
+//            'last_seen_on' => 'required',
+//            'last_seen_at' => 'required',
+//            'lost_since' => 'required|date',
+//            'height' => 'required|max:250',
+//            'weight' => 'required|max:100',
+//        ]);
+//    }
+//    else if($type=="found"){
+//            $request->validate( [
+//            'name' => 'required|min:3',
+//            'age' => 'required|min:1|max:90',
+//            'gender' => 'required',
+//            'image' => 'required|mimes:jpeg,jpg,png|max:2024',
+//            'special_mark' => 'required',
+//            'eye_color' => 'required',
+//            'hair_color' => 'required',
+//            'location' => 'required',
+//            'found_since' => 'required|date',
+//            'height' => 'required|max:250',
+//            'weight' => 'required|max:100',
+//        ]);
+//    }
         $data = [
             'name' => $request->name,
             'age' => $request->age,
@@ -125,34 +126,30 @@ class reportController extends Controller
             'height' => $request->height,
             'weight' => $request->weight,
         ];
-
         $validateFace = $this->detectFace($request->file('image'));
-        if (!$validateFace) {
+        if ($validateFace==false) {
             return response()->json(['message'=>'No face Found Of More than one Face']);
         } else {
+
             $response = $this->searchByImage($type, $request->file('image'));
             if ($response == false) {
-               // dd($data);
                 $report = Report::create($data);
                 $report->image = $this->uploadImageToS3("people/",$request->file('image'));
                 $report->user_id = auth()->user()->getAuthIdentifier();
                 $report->save();
-//                return response()->json([
-//                    'message' => 'sorry The person not exist and created report successfully',
-//                    'your report' => $report
-//                ]);
-                return Redirect::to("/profile");
-            } else {
+                return redirect()->to("/profile");
+            } else
+                {
                 \request()->session()->put('report', $data);
                 \request()->session()->put('imageReport',$this->uploadImageToS3("people/",$request->file('image')));
-                auth()->user()->notify(new SendSummaryToUser($response));
-                return Redirect::to("/profile");
+                  auth()->user()->notify(new SendSummaryToUser($response));
+                  return redirect()->to("/profile");
                // return response()->json(['nearest' => $response]);
             }
-
-                //aceept or reject other report here
-//                $otherReport = Report::with('user')->where('image', '=', $resonse)->get();
-//                return response()->json(['otherReport'=>$otherReport]);
+//                aceept or reject other report here
+                $otherReport = Report::with('user')->where('image', '=', $resonse)->get();
+                return response()->json(['otherReport'=>$otherReport]);
+            return redirect()->to("/profile");
             }
 
         }
@@ -339,8 +336,6 @@ class reportController extends Controller
             if($query != ''){
                 $data = DB::table('reports')->where('type','=','lost')
                     ->where('name' , 'like' , '%'.$query.'%')
-                    ->orWhere('city' , 'like' , '%'.$query.'%')
-                    ->orWhere('region' , 'like' , '%'.$query.'%')
                     ->get();
             }
             else{
