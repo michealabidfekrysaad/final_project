@@ -18,6 +18,7 @@ use App\User;
 use App\DescriptionValidation;
 use App\Item;
 use Carbon\Carbon;
+use App\City;
 use function MongoDB\BSON\toJSON;
 
 class reportController extends Controller
@@ -39,7 +40,8 @@ class reportController extends Controller
     public function index()
     {
         $reports = Report::all();
-        return view('people.find');
+        $cities = City::all();
+        return view('people.find',['cities'=>$cities]);
        // return view("people.find",['reports'=>$reports]);
 
     }
@@ -421,7 +423,7 @@ class reportController extends Controller
             else{
                 $city="'".$constraints['city']."'";
             }
-            $query="city=".$city;
+            $query="city_id=".$city;
             array_push($array,$query);
         }
         if($constraints['age']){

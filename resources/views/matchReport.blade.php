@@ -25,7 +25,7 @@
                                 <div class="hotel text-center">
 {{--                                    <a href="{{ url('/people/details') }}">--}}
                                         <div class="hotel-img">
-                                            <img src="https://loseall.s3.us-east-2.amazonaws.com/{{$otherReport[0]->image}}" alt="Hotel 1" class="img-fluid">
+                                            <img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$otherReport[0]->image}}" alt="Hotel 1" class="img-fluid">
                                         </div>
                                         <h3>{{$otherReport[0]->name}}</h3>
 {{--                                    </a>--}}

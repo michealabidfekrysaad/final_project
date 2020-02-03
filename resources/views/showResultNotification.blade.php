@@ -14,7 +14,9 @@
         <div class="col-lg-4 col-md-6">
             <div class="hotel text-center">
                 <div class="hotel-img">
-                    <a href="/people/details/{{$one->id}}"><img src="https://loseall.s3.us-east-2.amazonaws.com/{{$one->image}}" alt="Img Of Person" class="img-fluid "></a>
+                    <a href="/people/details/{{$one->id}}"><img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$one->image}}" alt="Img Of Person" class="img-fluid "></a>
+                    <h3><a href="/people/details/{{$one->id}}">{{$one->name}}</a></h3>
+                    <p>Click On  Image for more details</p>
                 </div>
                 <a href="/acceptOtherReport/{{$one->id}}" type="button" class="btn btn-success mt-2" data-dismiss="modal">Contact With Report Owner</a>
             </div>

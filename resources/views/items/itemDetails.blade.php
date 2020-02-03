@@ -13,7 +13,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <img src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}" alt="Img Of Person" class="img-fluid">
+                <img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}" alt="Img Of Person" class="img-fluid">
             </div>
 
             <div class="col-md-6">
@@ -34,13 +34,14 @@
                         <h3>City Where Found :</h3>
                         <p> {{($item->city)->city_name}}</p>
                     </div>
-                    <div class="row">
-                        <h3>Attributes :</h3>
+                    
                         @foreach($data as $one)
-                            <h3> {{($one->attribute)->attribute_name}}<h3/>
-                            <h3> {{($one->value)->value_name}}</h3>
+                        <div class="row">
+                            <h3> {{($one->attribute)->attribute_name}} :</h3>
+                            <p> {{($one->value)->value_name}} </p>
+                            </div>
                             @endforeach
-                    </div>
+                    
                     <div class="row ">
                         <form action="/sendEmailItem/{{$item->id}}" method="POST" class="form">
                            @csrf

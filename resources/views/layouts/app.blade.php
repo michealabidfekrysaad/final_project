@@ -54,11 +54,11 @@
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Find People </a>
                         <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1);" aria-labelledby="navbarDropdown">
-                            <a class="{{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All People</a>
+                            <a class="{{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All Lost People</a>
                             <div class="divider"></div>
-                            <a class="" value="lookfor" href="{{ url('people/search', 'lookfor')}}">Search for missing</a>
+                            <a class="" value="lookfor" href="{{ url('people/search', 'lookfor')}}">Report For Missing Person</a>
                             <div class="divider"></div>
-                            <a class="" value="found" href="{{ url('people/search', 'found')}}">found a missing</a>
+                            <a class="" value="found" href="{{ url('people/search', 'found')}}">Report For Found Person</a>
                             <div class="divider"></div>
                             <a class="" href="/people/image">search by image</a>
                         </div>
@@ -136,7 +136,7 @@
 
 
     <div>
-        <main>
+        <main class="wow fadeIn">
             @yield('content')
 
         </main>
