@@ -11,16 +11,6 @@ use Illuminate\Support\Facades\DB;
 class chartsController extends Controller
 {
     public function index(){
-
-//    return view('layouts/AdminPanel/chartindex',[
-//        'type'=> json_encode( $array),
-//        'is_found'=> json_encode($array1)
-//
-//    ]);
-//        return  [
-//            'type'=> json_encode( $array),
-//            'is_found'=> json_encode($array1)
-//        ];
         return view('layouts/AdminPanel/index');
 }
 public function chart(){

@@ -121,7 +121,10 @@ Route::post('uploadfile','UploadfileController@upload');//done
 Route::get('/', function () {
     return view('welcome');
 });
-//item
+Route::get('/charts' , 'chartsController@index');
+Route::get('/chartData' , 'chartsController@chart');
+Route::get('/chartData1' , 'chartsController@chart1');
+Route::get('/chartData2' , 'chartsController@chart2');
 
 Route::get('/items/search' , 'itemController@index')->name('items.index');
 Route::get('/filter/find/item/{data}' , 'itemController@doSearchingQuery');

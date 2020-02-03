@@ -250,11 +250,12 @@ class itemController extends Controller
     public function sendEmailVerifyItems(Request $request, $id)
     {
         $item = Item::with('user')->where('id', '=', $id)->first();
-        $descriptionValidation=DescriptionValidation::create([
-            'lost_id'=>auth()->user()->id,
-            'founder_id'=>$item->user->id,
-            'description'=>$request->input('description')
-        ]);
+        $descriptionValidation=new DescriptionValidation();
+        $descriptionValidation->lost_id=auth()->user()->id;
+        $descriptionValidation->founder_id=$item->user->id;
+            $descriptionValidation-> description=$request->input('description');
+            $descriptionValidation->item_id=$item->id;
+        $descriptionValidation->save();
         $item->user->notify(new NotifyItem($item,$descriptionValidation));
         $item->update(["status"=>1]);
         return redirect('/');
@@ -262,12 +263,19 @@ class itemController extends Controller
 
     public function AcceptMessage($decision,DescriptionValidation $descriptionValidation)
     {
+
+
         $value='';
         if($decision=="accept")
             $value='1';
             else if($decision=="reject")
                 $value='0';
-        $descriptionValidation->update(['status' => $value]);
+        DB::transaction(function () use ($value,$descriptionValidation) {
+            $descriptionValidation->update(['status' => $value]);
+            $item = Item::where("id", "=", $descriptionValidation->item_id)->first();
+            $item->status=1;
+            $item->save();
+        });
         return redirect('/');
     }
 

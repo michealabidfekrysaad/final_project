@@ -79,7 +79,9 @@
                 </div>
               <div class="row ">
                       <a href="/acceptOtherReport/{{$report->id}}" type="submit" class="btn" id="lostButton">Contact With Report Owner</a>
-                  <div class="fb-share-button" data-href="#" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2FshowRepo%2F2.com&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+
+                  <div class="fb-share-button" data-href="http://localhost:8000/people/details/{{$report->id}}.com" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A8000%2Fpeople%2Fdetails%2F.com&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+
               </div>
 
 

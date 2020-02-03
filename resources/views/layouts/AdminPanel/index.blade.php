@@ -130,7 +130,7 @@
                             n = array2[i][1];
                         }
                     }
-                    getChart("pieChart2",m,n,"Percentage Of Found items","Percentage Of lost items");
+                    getChart("pieChart2",m,n,"Percentage Of lost items","Percentage Of found items");
 
                 });
             function getChart(id,value1,value2,x,y) {
