@@ -16,7 +16,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{asset('fonts/material-icon/css/material-design-iconic-font.min.css')}}">
     <!-- Bootstrap CSS File -->
 
     <link href="{{asset('js/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -29,11 +29,12 @@
 
     <!-- Main Stylesheet File -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/reg_style.css')}}">
 
 </head>
 
 
-<body>
+<body style="background: #f8f8f8;">
     <!--==========================
     Header
   ============================-->
@@ -71,9 +72,9 @@
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Find Items </a>
                         <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1)" aria-labelledby="navbarDropdown">
-                            <a class=" {{ Request::is('items/search') ? 'menu-active' : '' }}" href="/items/search">All Items</a>
+                            <a class=" {{ Request::is('items/search') ? 'menu-active' : '' }}" href="/items/search">All Found Items</a>
                             <div class="divider"></div>
-                            <a class="" value="found" href="{{ url('items/search', 'found')}}">Found a missing</a>
+                            <a class="" value="found" href="{{ url('items/search', 'found')}}">Report For Found Item</a>
                         </div>
                     </li>
 
@@ -136,7 +137,7 @@
 
 
     <div>
-        <main class="wow fadeIn">
+        <main class="wow fadeIn" >
             @yield('content')
 
         </main>

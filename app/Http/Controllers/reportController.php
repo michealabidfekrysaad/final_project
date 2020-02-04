@@ -119,7 +119,7 @@ class reportController extends Controller
             'eye_color' => $request->eye_color,
             'hair_color' => $request->hair_color,
             'city_id' => $request->city,
-            'area_id' => $request->state,
+            'area_id' => $request->area_id,
             'location' => $request->location,
             'last_seen_on' => $request->last_seen_on,
             'last_seen_at' => $request->last_seen_at,

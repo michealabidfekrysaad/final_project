@@ -84,7 +84,8 @@
                         </div>
                 </div>
                 <div class="row justify-content-center">
-                        <a href="/acceptOtherReport/{{$report->id}}" type="submit" class="btn" id="lostButton">Contact With Report Owner</a>
+                        <a href="/acceptOtherReport/{{$report->id}}" type="submit" class="btn" id="lostButton"
+                        onclick="confirm('Are You Sure You Want To Contact With Report Owner');">Contact With Report Owner</a>
                 </div>
         </div>
 

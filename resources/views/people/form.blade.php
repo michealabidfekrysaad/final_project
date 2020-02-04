@@ -381,7 +381,7 @@
 
             <div class="form-group">
                 <label for="title">select region:</label>
-                <select name="region" id="state" class="form-control">
+                <select name="area_id" id="state" class="form-control">
 
                 </select>
             </div>
@@ -423,7 +423,7 @@
                     <option value="black">Black</option>
                     <option value="brown">Browan</option>
                     <option value="green">Green</option>
-                    <option value="gry">Grey</option>
+                    <option value="grey">Grey</option>
                     <option value="blue">Blue</option>
                 </select>
             </div>
@@ -437,7 +437,7 @@
                     <option value="black">Black</option>
                     <option value="browan">Browan</option>
                     <option value="white">White</option>
-                    <option value="gry">Golden</option>
+                    <option value="golden">Golden</option>
                 </select>
             </div>
             <div class="text-center">
