@@ -14,8 +14,6 @@
                     <div class="hotel-img text-center">
                         <h1>Sorry No found Data</h1>
                     </div>
-                </div>
-            </div>
             @else
             @foreach($results as $result)
                 @foreach($result as $one)
@@ -34,6 +32,5 @@
     <div class="row justify-content-center mt-5 pt-3">
         <a href="/RejectOtherReport" type="button" class="btn btn-danger" data-dismiss="modal">Close all And Sumbit Report</a>
     </div>
-
 </div>
 @endsection

@@ -22,6 +22,7 @@ use App\User;
 use App\DescriptionValidation;
 use App\Item;
 use Carbon\Carbon;
+use App\City;
 use function MongoDB\BSON\toJSON;
 
 class reportController extends Controller
@@ -43,7 +44,8 @@ class reportController extends Controller
     public function index()
     {
         $reports = Report::withoutTrashed();
-        return view('people.find');
+        $cities = City::all();
+        return view('people.find',['cities'=>$cities]);
        // return view("people.find",['reports'=>$reports]);
 
     }
@@ -120,7 +122,7 @@ class reportController extends Controller
             'eye_color' => $request->eye_color,
             'hair_color' => $request->hair_color,
             'city_id' => $request->city,
-            'area_id' => $request->state,
+            'area_id' => $request->area_id,
             'location' => $request->location,
             'last_seen_on' => $request->last_seen_on,
             'last_seen_at' => $request->last_seen_at,
@@ -129,6 +131,7 @@ class reportController extends Controller
             'height' => $request->height,
             'weight' => $request->weight,
         ];
+
         $validateFace = $this->detectFace($request->file('image'));
         if ($validateFace == false) {
             return $this->errorResponse('No face Found Of More than one Face', 404);
@@ -152,9 +155,9 @@ class reportController extends Controller
 
         }
     public function RejectOtherReport(){
-        if (\request()->session()->exists('report')) {
+        if (\request()->session()->exists('report')&& \request()->session()->exists('report')!=" " ) {
             $data=(array)\request()->session()->get('report');
-            $report = Report::create($data);
+             Report::create($data);
             \request()->session()->forget('report');
             return Redirect::to("/people/search");
         }
@@ -401,7 +404,7 @@ class reportController extends Controller
             else{
                 $city="'".$constraints['city']."'";
             }
-            $query="city=".$city;
+            $query="city_id=".$city;
             array_push($array,$query);
         }
         if($constraints['age']){

@@ -34,7 +34,8 @@ class UploadfileController extends Controller
     public function searchbyImageForLost($image){
         $tempUrl=$this->uploadImageToS3("temp/",$image);
         SearchByImage::dispatch("lookfor",$tempUrl,auth()->user())->onQueue('high');
-        return \redirect()->to('/');
+      //  return view("popup",['message'=>'Notification will be sent as soon as possible']);
+        return redirect()->to('/');
         }
 public  function getImageResult($response){
     return Report::where('image', '=', $response);

@@ -75,7 +75,7 @@ class SearchByImage implements ShouldQueue
                 array_push($nearest,$value->image);
             }
         }
-        $this->user->notify(new SendSummaryToUser($nearest));
+        $this->user->notify(new SendSummaryToUser($nearest,""));
     }
 
     public function getClient()

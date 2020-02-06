@@ -1,7 +1,8 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+@extends('layouts.app')
+@section('content')
+<button id="modalclick" hidden type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
     Open modal
 </button>
-
 <!-- The Modal -->
 <div class="modal" id="myModal">
     <div class="modal-dialog">
@@ -9,18 +10,22 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Notification</h4>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                Modal body..
+             {{$message}}
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <a href="/" type="button" class="btn btn-danger"  >Close</a>
             </div>
-
         </div>
     </div>
 </div>
+    <script>
+        $( document ).ready(function() {
+            $( "#modalclick" ).click();
+        });
+    </script>
+@endsection

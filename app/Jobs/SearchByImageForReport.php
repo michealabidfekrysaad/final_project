@@ -58,7 +58,7 @@ class SearchByImageForReport implements ShouldQueue
         if ($this->type == "found") {
             $this->renderType = "lost";
         }
-        foreach (DB::table('reports')->where('type', '=', $this->renderType)->where("is_found","=",0)->get(['image'])->toArray() as $value) {
+        foreach (DB::table('reports')->where('type', '=', $this->renderType)->get(['image'])->toArray() as $value) {
             $result = $this->getClient()->compareFaces([
                 'SimilarityThreshold' => 0,
                 'SourceImage' => [
@@ -79,18 +79,20 @@ class SearchByImageForReport implements ShouldQueue
             if ($similarity > 80) {
                 array_push($nearest, $value->image);
             }
+        }
             $fileAsByte = $this->convertUrlToImageFile($this->file);
             $newArray = array(
                 'image' => $this->uploadImageToS3("people/", $fileAsByte),
                 'user_id' => $this->user->id);
             $finalArray = array_merge($this->data, $newArray);
             if (count($nearest) != 0) {
-                $this->user->notify(new SendSummaryToUser($nearest,$finalArray));
+                $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
             }
-            else {
-                DB::table('reports')->insertGetId($finalArray);
+            else
+                {
+                    DB::table('reports')->insertGetId($finalArray);
             }
-        }
+
     }
     public function getClient()
     {

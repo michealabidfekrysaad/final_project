@@ -1,6 +1,5 @@
 <!doctype html>
-<html dir="rtl" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+<html dir="rtl"  lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +15,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{asset('fonts/material-icon/css/material-design-iconic-font.min.css')}}">
     <!-- Bootstrap CSS File -->
 
     <link href="{{asset('js/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -29,11 +28,12 @@
 
     <!-- Main Stylesheet File -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/reg_style.css')}}">
 
 </head>
 
 
-<body>
+<body style="background: #f8f8f8;">
     <!--==========================
     Header
   ============================-->
@@ -54,13 +54,13 @@
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ __('messages.Find People') }} </a>
                         <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1);" aria-labelledby="navbarDropdown">
-                            <a class="{{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All People</a>
+                            <a class="{{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">{{ __('messages.All Lost People') }}</a>
                             <div class="divider"></div>
-                            <a class="" value="lookfor" href="{{ url('people/search', 'lookfor')}}">Search for missing</a>
+                            <a class="" value="lookfor" href="{{ url('people/search', 'lookfor')}}">{{ __('messages.Report For Missing Person') }}</a>
                             <div class="divider"></div>
-                            <a class="" value="found" href="{{ url('people/search', 'found')}}">found a missing</a>
+                            <a class="" value="found" href="{{ url('people/search', 'found')}}">{{ __('messages.Report For Found Person') }}</a>
                             <div class="divider"></div>
-                            <a class="" href="/people/image">search by image</a>
+                            <a class="" href="/people/image">{{ __('messages.search by image') }}</a>
                         </div>
                     </li>
 
@@ -71,9 +71,9 @@
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ __('messages.Find Items') }}</a>
                         <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1)" aria-labelledby="navbarDropdown">
-                            <a class=" {{ Request::is('items/search') ? 'menu-active' : '' }}" href="/items/search">All Items</a>
+                            <a class=" {{ Request::is('items/search') ? 'menu-active' : '' }}" href="/items/search">{{ __('messages.All Found Items') }}</a>
                             <div class="divider"></div>
-                            <a class="" value="found" href="{{ url('items/search', 'found')}}">Found a missing</a>
+                            <a class="" value="found" href="{{ url('items/search', 'found')}}">{{ __('messages.Report For Found Item') }}</a>
                         </div>
                     </li>
 
@@ -99,11 +99,13 @@
 
                         <div class="dropdown-menu dropdown-menu-right mt-2" style="border: 0px;background:none;">
                             <a class="dropdown-item d-block" href="/profile">
-                                {{ __('MyProfile') }}
+{{--                                {{ __('MyProfile') }}--}}
+                                {{ __('messages.MyProfile') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+{{--                                {{ __('Logout') }}--}}
+                                {{ __('messages.Logout') }}
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -136,7 +138,8 @@
 
 
     <div>
-        <main class="text-right">
+{{--        text-right--}}
+        <main class="wow fadeIn " >
             @yield('content')
 
         </main>
