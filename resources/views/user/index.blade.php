@@ -79,7 +79,6 @@
                             <a class="btn btn-primary" href="/viewResultFromNotification/{{$notification['id']}}">View Results</a>
                             <a class="btn btn-danger" href="/readNotification/{{$notification['id']}}">Make As Read</a>
                             </div>
-                            
                             @endforeach
 
                         </div>

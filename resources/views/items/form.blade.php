@@ -142,7 +142,6 @@
             <div class="form-group">
                 <label for="title">select region:</label>
                 <select name="area_id" id="state" class="form-control">
-                    <option value="1">sidibishr</option>
                 </select>
             </div>
 
@@ -176,7 +175,7 @@
                 $("#state").empty();
                 $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
                 $.each(states,function(key,value){
-                    $("#state").append('<option value="'+value+'">'+value+'</option>');
+                    $("#state").append('<option value="'+key+'">'+value+'</option>');
                 });
 
             }else{

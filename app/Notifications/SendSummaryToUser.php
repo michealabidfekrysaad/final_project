@@ -11,15 +11,17 @@ class SendSummaryToUser extends Notification
 {
     use Queueable;
     private $result;
+    private $insertedData;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($result)
+    public function __construct($result,$insertedData)
     {
         $this->result=$result;
+        $this->insertedData=$insertedData;
     }
 
     /**
@@ -58,7 +60,10 @@ class SendSummaryToUser extends Notification
         return [
             'id' => $this->id,
             'read_at' => null,
-            'data' => $this->result
-            ];
+            'data' => [
+                'result'=>$this->result,
+                'insertedData'=>$this->insertedData
+            ]
+        ];
     }
 }

@@ -98,7 +98,6 @@ Route::post('/sendEmail/{id}' , 'reportController@SendEmailVerify');
 Route::get('/editReport/{report}' , 'reportController@edit')->name('repo.edit');
 Route::post('/updateReport/{report}' , 'reportController@update')->name('repo.update');
 Route::delete('/report/delete/{report}','reportController@destroy')->name('repo.delete');;
-Route::get('/viewResultFromNotification/{results}','ProfileController@viewResultFromNotification');
 Route::get('/readNotification/{id}','ProfileController@readNotification');
 Route::get('/filter/{request}','reportController@doSearchingQuery');//done
 Route::get('/profile' , 'ProfileController@index')->name('profile.index');
@@ -141,3 +140,10 @@ Route::get('/showRepoItem/{id}' , 'itemController@show')->name('showItems.action
 Route::get('/items/search/found','itemController@create');
 Route::get('/showReportItem/{item}','itemController@show');
 Route::post('/sendEmailItem/{id}' , 'itemController@sendEmailVerifyItems');
+
+
+
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale', $locale);
+    return redirect()->back();
+});

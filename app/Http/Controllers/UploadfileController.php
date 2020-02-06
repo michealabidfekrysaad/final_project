@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SearchByImage;
 use App\Notifications\SendSummaryToUser;
 use App\Report;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadfileController extends Controller
 {
@@ -28,18 +32,9 @@ class UploadfileController extends Controller
      }
     }
     public function searchbyImageForLost($image){
-        $response= $this->searchByImage('lookfor',$image);
-        if($response !=false) {
-                auth()->user()->notify(new SendSummaryToUser($response));
-            return \redirect()->to('/profile');
-                return response()->json(['nearest' => $response]);
-            }
-            else{
-                return \redirect()->to('/people/search/lookfor');
-               // return response()->json(['message' => "go to report page"]);
-
-            }
-
+        $tempUrl=$this->uploadImageToS3("temp/",$image);
+        SearchByImage::dispatch("lookfor",$tempUrl,auth()->user())->onQueue('high');
+        return \redirect()->to('/');
         }
 public  function getImageResult($response){
     return Report::where('image', '=', $response);

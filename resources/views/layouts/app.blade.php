@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html dir="rtl" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -48,11 +48,11 @@
 
             <nav id="nav-menu-container">
                 <ul class="nav-menu ">
-                    <li class=" {{ Request::is('/') ? 'menu-active' : '' }}"><a href="/">Home</a></li>
+                    <li class=" {{ Request::is('/') ? 'menu-active' : '' }}"><a href="/"> {{ __('messages.Home') }}</a></li>
 
                     <li class="dropdown {{ Request::is('people/search') ? 'menu-active' : '' }}">
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Find People </a>
+                            {{ __('messages.Find People') }} </a>
                         <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1);" aria-labelledby="navbarDropdown">
                             <a class="{{ Request::is('people/search') ? 'menu-active' : '' }}" href="/people/search">All People</a>
                             <div class="divider"></div>
@@ -69,7 +69,7 @@
 
                     <li class="dropdown {{ Request::is('items/search') ? 'menu-active' : '' }}">
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Find Items </a>
+                            {{ __('messages.Find Items') }}</a>
                         <div class="dropdown-menu" style="background:rgba(110, 110, 110, 1)" aria-labelledby="navbarDropdown">
                             <a class=" {{ Request::is('items/search') ? 'menu-active' : '' }}" href="/items/search">All Items</a>
                             <div class="divider"></div>
@@ -78,8 +78,8 @@
                     </li>
 
 
-                    <li class="{{ Request::is('about') ? 'menu-active' : '' }}"><a href="/about">About</a></li>
-                    <li class="{{ Request::is('contact') ? 'menu-active' : '' }}"><a href="/contact">Contact Us</a></li>
+                    <li class="{{ Request::is('about') ? 'menu-active' : '' }}"><a href="/about"> {{ __('messages.about') }}</a></li>
+                    <li class="{{ Request::is('contact') ? 'menu-active' : '' }}"><a href="/contact"> {{ __('messages.Contact Us') }}</a></li>
 
                     @guest
                     <li class="buy-tickets ">
@@ -136,13 +136,14 @@
 
 
     <div>
-        <main>
+        <main class="text-right">
             @yield('content')
 
         </main>
     </div>
 
-
+    <li><a href="{{ url('locale/en') }}" ><i class="fa fa-language"></i> EN</a></li>
+    <li><a href="{{ url('locale/ar') }}" ><i class="fa fa-language"></i> AR</a></li>
 </body>
 
 </html>
