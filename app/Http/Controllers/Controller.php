@@ -60,7 +60,11 @@ class Controller extends BaseController
             $result = $this->getClient()->compareFaces([
                 'SimilarityThreshold' => 0,
                 'SourceImage' => [
-                    'Bytes' => file_get_contents($file,true)
+//                    'Bytes' => file_get_contents($file,true)
+                    'S3Object' => [
+                        'Bucket' => 'loseall',
+                        'Name' => $file,
+                    ],
                 ],
                 'TargetImage' => [
                     'S3Object' => [
@@ -97,7 +101,8 @@ class Controller extends BaseController
         return (substr($string, 0, $len) === $startString);
     }
     protected function paginate(Collection $collection)
-    {$rules = [
+    {
+        $rules = [
             'per_page' => 'integer|min:1|max:50',
         ];
         Validator::validate(request()->all(), $rules);

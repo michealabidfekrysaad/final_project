@@ -113,9 +113,9 @@
                             </div>
                             <div class="col">
                                 <select class="form-control" id="gender" name="gender" required>
-                                    <option value="">select your gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option disabled value="">select your gender</option>
+                                    <option {{ $report->gender=="male" ? 'selected' : '' }} value="male">Male</option>
+                                    <option {{ $report->gender=="female" ? 'selected' : '' }}  value="female">Female</option>
                                 </select>
                                 <span id="GenderErr"></span>
                             </div>
@@ -146,11 +146,11 @@
                             </div>
                             <div class="col">
                                 <select class="form-control" id="eye_color" name="eye_color" required>
-                                    <option value="black">Black</option>
-                                    <option value="brown">Browan</option>
-                                    <option value="green">Green</option>
-                                    <option value="grey">Grey</option>
-                                    <option value="blue">Blue</option>
+                                    <option {{ $report->eye_color=="black" ? 'selected' : '' }} value="black">Black</option>
+                                    <option {{ $report->eye_color=="brown" ? 'selected' : '' }} value="brown">Browan</option>
+                                    <option {{ $report->eye_color=="green" ? 'selected' : '' }} value="green">Green</option>
+                                    <option {{ $report->eye_color=="grey" ? 'selected' : '' }} value="grey">Grey</option>
+                                    <option {{ $report->eye_color=="blue" ? 'selected' : '' }} value="blue">Blue</option>
                                 </select>
                             </div>
 
@@ -161,10 +161,10 @@
                             </div>
                             <div class="col">
                                 <select class="form-control" id="hair_color" name="hair_color">
-                                    <option value="black">Black</option>
-                                    <option value="brown">Brown</option>
-                                    <option value="white">White</option>
-                                    <option value="golden">Golden</option>
+                                    <option {{ $report->hair_color=="black" ? 'selected' : '' }} value="black">Black</option>
+                                    <option {{ $report->hair_color=="brown" ? 'selected' : '' }} value="brown">Brown</option>
+                                    <option {{ $report->hair_color=="white" ? 'selected' : '' }} value="white">White</option>
+                                    <option {{ $report->hair_color=="golden" ? 'selected' : '' }} value="golden">Golden</option>
                                 </select>
                             </div>
 

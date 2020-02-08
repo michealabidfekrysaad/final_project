@@ -26,8 +26,6 @@ class ProfileController extends Controller
         ]
         );
 
-
-
         return view('user.index' , compact('profile' , 'report'));
     }
 
@@ -107,10 +105,12 @@ class ProfileController extends Controller
     }
     public function viewResultFromNotification($results){
        $response= DB::table("notifications")->where("id","=",$results)->get();
-       $arrayOfResults=json_decode($response[0]->data)->data;
-       $this->getQueryReportsForResults($arrayOfResults);
+       $arrayOfResults=json_decode($response[0]->data);
+        $arrayOfResultsAfterEncode= ($arrayOfResults->data)->result;
+        $insertedData=($arrayOfResults->data)->insertedData;
+        session()->put('report',$insertedData);
        return view("showResultNotification",[
-           "results"=>$this->getQueryReportsForResults($arrayOfResults)
+           "results"=>$this->getQueryReportsForResults($arrayOfResultsAfterEncode)
     ]);
     }
     public function getQueryReportsForResults($arrayOfResults)

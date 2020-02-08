@@ -74,7 +74,7 @@ class itemController extends Controller
         DB::transaction(function () use ($request) {
             $item = new Item();
             $item->city_id = $request->input('city_id');
-            $item->area_id = 1;
+            $item->area_id = $request->input('area_id');
             $item->image = $this->uploadImageToS3("items/", $request->file('image'));
             $item->category_id = $request->input('category_id');
             $item->found_since = $request->input('found_since');

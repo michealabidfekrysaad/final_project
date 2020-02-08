@@ -88,7 +88,6 @@
                             <a class="btn btn-primary" href="/viewResultFromNotification/{{$notification['id']}}">View Results</a>
                             <a class="btn btn-danger" href="/readNotification/{{$notification['id']}}">Make As Read</a>
                             </div>
-                            
                             @endforeach
 
                         </div>
@@ -97,11 +96,11 @@
                         <div class="container">
                             <div class="row">
                                 @foreach($reports as $report)
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-6 pb-3">
                                     <div class="hotel text-center">
                                         <a href="people/details/{{$report->id}}">
-                                            <div class="hotel-img" style="width:348px;height:348px">
-                                                <img src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}" alt="Img Of Person" class="img-fluid">
+                                            <div class="hotel-img">
+                                                <img style="width:348px;height:348px" src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}" alt="Img Of Person" class="img-fluid">
                                             </div>
                                             <h3><a href="/people/details/{{$report->id}}">{{$report->name}}</a></h3>
                                             <p>Age is :{{$report->age}}</p>
@@ -110,7 +109,7 @@
 
                                         </a>
                                         <div class="row justify-content-center">
-                                            <a class="btn btn-primary" href="/editReport/{{$report->id}}">Update Report</a>
+                                            <a class="btn btn-primary mr-2" href="/editReport/{{$report->id}}">Update Report</a>
                                             <form action="/report/delete/{{$report->id}}" method="POST">
                                                 @csrf
                                                 @method('Delete')

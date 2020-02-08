@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Seacrh</title>
+<title>Search</title>
 <link href="{{asset('js/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 
 </head>
@@ -10,7 +10,7 @@
     <input type="text" name="search" />
     <input type="submit" name="submit"/>
     </form>
-    
+
     <div>
     @if(isset($_POST['submit']))
     @foreach($FilterSearch as $search)
@@ -25,30 +25,30 @@
        @endif
     </div>
 
-    
+
         <input type="checkbox" name="checkbox" value="male" id="male">male</label>
-        <input type="checkbox" name="checkbox" value="female" id="female">Female</label>
+        <input type="checkbox" name="checkbox" value="female" id="female">female</label>
         <input type="checkbox" name="checkbox" value="city" id="city">city</label>
         <input type="checkbox" name="checkbox" value="age" id="age">10</label>
 
 
 
     <h5>***********************************</h5>
-    
+
     <div class="container">
         <div class="row mt-5">
             <div class="col-md-12">
                 <input type="text" id="search" name="searchAjax" placeholder="Enter Text To Search" class="form-control"/>
             </div>
         </div>
-        
+
         <div class="row mt-5">
             <div class="col-md-12">
 
                     <div id="datas">
-                       
+
                     </div>
-                    
+
             </div>
     </div>
 
@@ -62,9 +62,9 @@
     <script src="{{ asset('js/wow/wow.min.js') }}"></script>
     <script src="{{ asset('js/venobox/venobox.min.js') }}"></script>
     <script src="{{ asset('js/owlcarousel/owl.carousel.min.js') }}"></script>
-    
+
     <script>
-   
+
    $(document).ready(function(){
     var obj = [];
     var gendeo=[];
@@ -73,10 +73,10 @@
     var city = $('#city').val();
     var age = $('#age').val();
 
-    $("input:checkbox[name=checkbox]:checked").each(function() { 
-                console.log('fahmy') 
+    $("input:checkbox[name=checkbox]:checked").each(function() {
+                console.log('fahmy')
     });
-    
+
     // $('input[type="checkbox"]').click(function(){
     //         if($(this).prop("checked") == true){
 
@@ -89,7 +89,7 @@
     //         }
     //         console.log(obj);
     //     });
-        
+
     // $.each($("input[type='checkbox']:checked"), function(){
     //     obj.push($(this).val());
     //  });
@@ -97,13 +97,13 @@
 
    });
 
-    
+
 
 
 
 // $(document).ready(function(){
 
-    
+
 // function fetch_Data(query = ''){
     // //fetch_Data();
 // 	$.ajax({

@@ -2,19 +2,29 @@
 
 namespace App\Jobs;
 
+use App\Notifications\SendSummaryToUser;
+use App\User;
+use Aws\Rekognition\RekognitionClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
-class searchByImage implements ShouldQueue
+
+class SearchByImage implements ShouldQueue
 {
+
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $type;
     public $file;
     public $renderType=" ";
+    public $user;
 
 
     /**
@@ -22,12 +32,12 @@ class searchByImage implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($type,$file)
+    public function __construct($type,$file,$user)
     {
         $this->type=$type;
         $this->file=$file;
+        $this->user=$user;
     }
-
     /**
      * Execute the job.
      *
@@ -35,7 +45,8 @@ class searchByImage implements ShouldQueue
      */
     public function handle()
     {
-        if($this->type=="lost"){
+        $nearest=array();
+        if($this->type=="lookfor"){
             $this->renderType="found";
         }
         if($this->type=="found"){
@@ -45,7 +56,10 @@ class searchByImage implements ShouldQueue
             $result = $this->getClient()->compareFaces([
                 'SimilarityThreshold' => 0,
                 'SourceImage' => [
-                    'Bytes' => file_get_contents($this->file,true)
+                    'S3Object' => [
+                        'Bucket' => 'loseall',
+                        'Name' => $this->file,
+                    ],
                 ],
                 'TargetImage' => [
                     'S3Object' => [
@@ -58,11 +72,29 @@ class searchByImage implements ShouldQueue
             $similarity=(int)$result->get('FaceMatches')[0]['Similarity'];
             if ($similarity > 80)
             {
-
-                return $similarity;
-               // return $value->image;
+                array_push($nearest,$value->image);
             }
         }
-       // return false;
+        $this->user->notify(new SendSummaryToUser($nearest,""));
     }
+
+    public function getClient()
+    {
+        return $this->client = new RekognitionClient(
+            [
+                'version' => 'latest',
+                'region' => 'us-east-2',
+                'credentials' => [
+                    'key' => 'AKIA5WVDM6FIA5253O7V',
+                    'secret' => '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'
+                ]]);
+    }
+
+    /**
+     * @return mixed
+     */
+
+    /**
+     * @inheritDoc
+     */
 }

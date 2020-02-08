@@ -10,7 +10,7 @@
   
       ============================-->
   
-      <section id="speakers" class="wow fadeInUp pt-5">
+      <section id="speakers" class="pt-5">
   
         <div class="container pt-5">
   
