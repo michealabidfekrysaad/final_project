@@ -137,6 +137,7 @@ class reportController extends Controller
                 $report->image = $this->uploadImageToS3("people/",$request->file('image'));
                 $report->user_id = auth()->user()->getAuthIdentifier();
                 $report->save();
+                session()->flash('message','pls open your mail');
                 return redirect()->to("/profile");
             } else
                 {
@@ -147,8 +148,9 @@ class reportController extends Controller
                // return response()->json(['nearest' => $response]);
             }
 //                aceept or reject other report here
-                $otherReport = Report::with('user')->where('image', '=', $resonse)->get();
+                $otherReport = Report::with('user')->where('image', '=', $response)->get();
                 return response()->json(['otherReport'=>$otherReport]);
+                $request->session()->flash('message', 'check your mail pls!');
             return redirect()->to("/profile");
             }
 

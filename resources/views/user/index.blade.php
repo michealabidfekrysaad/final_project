@@ -5,6 +5,15 @@
 <!--==========================
       Speaker Details Section
     ============================-->
+<br>
+<br>
+<br>
+<br>
+<br>
+
+@if (session('message'))
+<div class="alert alert-warning">{{ session('message') }}</div>
+@endif
 <section id="speakers-details" class="wow fadeIn pt-5">
     <div class="container  pt-5">
         <div class="card pt-2">

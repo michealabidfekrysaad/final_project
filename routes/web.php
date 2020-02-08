@@ -11,6 +11,8 @@
 |
 */
 
+// use Illuminate\Routing\Route;
+
 Route::get('/contact', function () {
     return view('contact.index');
 });
@@ -83,7 +85,41 @@ Route::get('/getforitem/{category}','AttributeController@getAttributeList');
 Route::get('/people/search/{type}','reportController@create');
 Route::post('/people/search/post/{type}','reportController@store');
 Route::get('get-area-list','reportController@getAreaList');
-Route::get('/people/search','reportController@index')->name("people.home");//done
+
+//hima by7awel arabic
+Route::get('/people/search/lang/{lang}',function($lang){
+    if(in_array($lang,['ar','en'])){
+        if(auth()->user()){
+            $user =auth()->user();
+            $user->lang =$lang;
+            $user->save();
+        }
+        else{
+            if(session()->has('lang')){
+                session()->forget('lang');
+            }
+        session()->put('lang',$lang); 
+        }
+    }else{
+        if(auth()->user()){
+            $user =auth()->user();
+            $user->lang =$lang;
+            $user->save();
+        }
+        else{
+            if(session()->has('lang')){
+                session()->forget('lang');
+            }
+        session()->put('lang',$lang);  
+        }
+        
+    }
+    return back();
+});
+Route::group(['middleware'=>'lang'],function(){
+    Route::get('/people/search','reportController@index')->name("people.home");//done
+});
+
 Route::get('/people/details/{report}','reportController@showReportDetails');//done
 Route::get('/search' , 'reportController@getFormSearch');
 Route::post('/search' , 'reportController@SearchReports');
@@ -141,3 +177,8 @@ Route::get('/showRepoItem/{id}' , 'itemController@show')->name('showItems.action
 Route::get('/items/search/found','itemController@create');
 Route::get('/showReportItem/{item}','itemController@show');
 Route::post('/sendEmailItem/{id}' , 'itemController@sendEmailVerifyItems');
+
+//hamo hima 3ebs route for visitor chart
+Route::get('/google-line-chart', 'LinechartController@googleLineChart');
+Route::get('/usercharts', 'userchartsController@index');
+Route::get('/data' , 'userchartsController@lineChart');
