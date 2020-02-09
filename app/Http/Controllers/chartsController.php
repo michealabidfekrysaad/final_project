@@ -57,7 +57,34 @@ public function chart(){
         }
         return $array2;
         return [
-            'status'=> response()->json($array2)
+            'status' => response()->json($array2)
         ];
+    }
+
+    public function viewAndClick()
+    {
+        $viewsArray = array();
+        $clicksArray = array();
+        $timesArray = array();
+        $views = DB::table('visitor')->get(['viewer'])->toArray();
+        $clicks = DB::table('visitor')->get(['click'])->toArray();
+        $times = DB::table('visitor')
+            ->select(DB::raw("DATE_FORMAT(created_at, '%m-%Y') as time"))
+            ->orderBy("created_at")
+            ->get()->toArray();
+        foreach ($views as $view) {
+            array_push($viewsArray, $view->viewer);
+        }
+        foreach ($clicks as $click) {
+            array_push($clicksArray, $click->click);
+        }
+        foreach ($times as $time) {
+            array_push($timesArray, $time->time);
+        }
+        return response()->json([
+            'views' => $viewsArray,
+            'clicks' => $clicksArray,
+            'times' => $timesArray
+        ]);
     }
 }
