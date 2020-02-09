@@ -61,83 +61,93 @@
 						<div class="custom-control custom-checkbox">
 							{{-- <span class="float-right badge badge-light round">number from database</span>--}}
 							<input type="checkbox" class="custom-control-input age" name="below_20_years" id="CheckAge2" value="below_20_years">
-							<label class="custom-control-label" for="CheckAge2">Between 11 and 20 Years old</label>
-						</div>
+                            <label class="custom-control-label" for="CheckAge2">Between 11 and 20 Years old</label>
+                        </div>
 
-						<div class="custom-control custom-checkbox">
-							{{-- <span class="float-right badge badge-light round">number from database</span>--}}
-							<input type="checkbox" class="custom-control-input age" name="below_30_years" id="CheckAge3" value="below_30_years">
-							<label class="custom-control-label" for="CheckAge3">Between 21 and 30 Years old</label>
-						</div>
+                        <div class="custom-control custom-checkbox">
+                            {{-- <span class="float-right badge badge-light round">number from database</span>--}}
+                            <input type="checkbox" class="custom-control-input age" name="below_30_years" id="CheckAge3"
+                                   value="below_30_years">
+                            <label class="custom-control-label" for="CheckAge3">Between 21 and 30 Years old</label>
+                        </div>
 
-						<div class="custom-control custom-checkbox">
-							{{-- <span class="float-right badge badge-light round">number from database</span>--}}
-							<input type="checkbox" class="custom-control-input age" name="other_above_30" id="CheckAge4" value="other_above_30">
-							<label class="custom-control-label" for="CheckAge4">Above 30 Years old</label>
-						</div>
+                        <div class="custom-control custom-checkbox">
+                            {{-- <span class="float-right badge badge-light round">number from database</span>--}}
+                            <input type="checkbox" class="custom-control-input age" name="other_above_30" id="CheckAge4"
+                                   value="other_above_30">
+                            <label class="custom-control-label" for="CheckAge4">Above 30 Years old</label>
+                        </div>
 
-					</div> <!-- card-body.// -->
-				</div>
-			</article>
-
-
-			<article class="card-group-item">
-				<header class="card-header">
-					<h6 class="title">City:</h6>
-				</header>
-				<div class="filter-content">
-					<div class="card-body">
-						<div class="form-group">
-							<select class="form-control " id="DropDownList1" name="city">
-								<option value="" >All</option>
-								@foreach ($cities as $city)
-								<option value="{{$city->id}}">{{$city->city_name}} </option>
-								@endforeach
-							</select>
-						</div>
-						<!-- <div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">52</span>
-							<input type="checkbox" class="custom-control-input" id="City1">
-							<label class="custom-control-label" for="City1">Alexandria</label>
-						</div>
-
-						<div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">132</span>
-							<input type="checkbox" class="custom-control-input" id="City2">
-							<label class="custom-control-label" for="City2">Cairo</label>
-						</div>
-
-						<div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">17</span>
-							<input type="checkbox" class="custom-control-input" id="City3">
-							<label class="custom-control-label" for="City3">Portsaid</label>
-						</div>
-
-						<div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">7</span>
-							<input type="checkbox" class="custom-control-input" id="City4">
-							<label class="custom-control-label" for="City4">Minia</label>
-						</div> -->
-					</div> <!-- card-body.// -->
-				</div>
-			</article>
+                    </div> <!-- card-body.// -->
+                </div>
+            </article>
 
 
-			<article class="card-group-item">
-				<header class="card-header">
-					<h6 class="title">Region :</h6>
-				</header>
-				<div class="filter-content">
-					<div class="card-body">
-						<div class="form-group">
-							<label for="title">select region:</label>
-							<select name="region" id="region" class="form-control">
-								<option hidden value="">Select City First</option>
-							</select>
-						</div>
-					</div> <!-- card-body.// -->
-				</div>
-			</article>
+            <article class="card-group-item">
+                <header class="card-header">
+                    <h6 class="title">City:</h6>
+                </header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <select class="form-control " id="DropDownList1" name="city">
+                                @if(app()->getLocale()=='ar')
+                                    <option value="">الكل</option>
+                                @else
+                                    <option value="">All</option>
+                                @endif
+                                @foreach ($cities as $city)
+                                    @if(app()->getLocale()=='ar')
+                                        <option value="{{$city->id}}">{{$city->city_name_ar}} </option>
+                                    @else
+                                        <option value="{{$city->id}}">{{$city->city_name}} </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <!-- <div class="custom-control custom-checkbox">
+                            <span class="float-right badge badge-light round">52</span>
+                            <input type="checkbox" class="custom-control-input" id="City1">
+                            <label class="custom-control-label" for="City1">Alexandria</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <span class="float-right badge badge-light round">132</span>
+                            <input type="checkbox" class="custom-control-input" id="City2">
+                            <label class="custom-control-label" for="City2">Cairo</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <span class="float-right badge badge-light round">17</span>
+                            <input type="checkbox" class="custom-control-input" id="City3">
+                            <label class="custom-control-label" for="City3">Portsaid</label>
+                        </div>
+
+                        <div class="custom-control custom-checkbox">
+                            <span class="float-right badge badge-light round">7</span>
+                            <input type="checkbox" class="custom-control-input" id="City4">
+                            <label class="custom-control-label" for="City4">Minia</label>
+                        </div> -->
+                    </div> <!-- card-body.// -->
+                </div>
+            </article>
+
+
+            <article class="card-group-item">
+                <header class="card-header">
+                    <h6 class="title">Region :</h6>
+                </header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="title">select region:</label>
+                            <select name="region" id="region" class="form-control">
+                                <option hidden value="">Select City First</option>
+                            </select>
+                        </div>
+                    </div> <!-- card-body.// -->
+                </div>
+            </article>
 
 		</div>
 
@@ -212,7 +222,7 @@
 			var age = get_filter('age');
 			if ($("#DropDownList1 :selected").text() != "All") {
 				var city = $("#DropDownList1 :selected").val();
-				
+
 			}else{
 				var city ="";
 			}
@@ -226,72 +236,75 @@
 				$.ajax({
 
 					method: "GET",
-					url: "/filter/" + JSON.stringify(data),
-					traditional: true,
-					headers: {
-						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					},
-					//data: JSON.stringify(data),
-					success: function(data) {
-						console.log(data);
-						insertToHtml(data);
-					}
-				});
-			} else {
-				fetch_Data()
-			}
-		}
+                    url: "/filter/" + JSON.stringify(data),
+                    traditional: true,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    //data: JSON.stringify(data),
+                    success: function (data) {
+                        console.log(data);
+                        insertToHtml(data);
+                    }
+                });
+            } else {
+                fetch_Data()
+            }
+        }
 
-		function get_filter(class_name) {
-			var filter = [];
-			$('.' + class_name + ':checked').each(function() {
-				filter.push($(this).val());
-			});
-			return filter;
-		}
-		$('.custom-control-input').click(function() {
-			filter_data();
-		});
+        function get_filter(class_name) {
+            var filter = [];
+            $('.' + class_name + ':checked').each(function () {
+                filter.push($(this).val());
+            });
+            return filter;
+        }
 
-		$("#DropDownList1").change(function(e) {
+        $('.custom-control-input').click(function () {
+            filter_data();
+        });
 
-			filter_data();
-		})
+        $("#DropDownList1").change(function (e) {
 
-		$("#DropDownList1").change(function(e) {
-			var cityID = $(this).val();
-			if (cityID) {
-				$.ajax({
-					type: "GET",
-					url: "/get-area/" + cityID,
-					success: function(regions) {
-						if (regions) {
-							$("#region").empty();
-							$("#region").append('<option selected value="">All</option>');
-							$.each(regions, function(key, value) {
-								$("#region").append('<option value="' + regions[key].id + '">' + regions[key].area_name + '</option>');
-							});
-						} else {
-							$("#region").empty();
-						}
-					}
-				});
-			} else {
-				$("#region").empty();
-				$("#region").append('<option hidden value="">Select City First</option>');
-				$("#city").empty();
-			}
-			// filter_data_item();
+            filter_data();
+        });
 
-		});
+        $("#DropDownList1").change(function (e) {
+            var cityID = $(this).val();
+            if (cityID) {
+                $.ajax({
+                    type: "GET",
+                    url: "/get-area/" + cityID,
+                    success: function (regions) {
+                        if (regions) {
+                            $("#region").empty();
+                            $("#region").append('' + '' + '' + '' +
+                                '@if(app()->getLocale()=="ar")
+                                    <option selected value="">الكل</option>@else
+                                    <option selected value="">All</option>@endif'
+                            );
+                            $.each(regions, function (key, value) {
+                                $("#region").append('@if(app()->getLocale()=="ar")<option value="' + regions[key].id + '">' + regions[key].area_name_ar + '</option>@else"<option value="' + regions[key].id + '">' + regions[key].area_name + '</option>"@endif');
+                            });
+                        } else {
+                            $("#region").empty();
+                        }
+                    }
+                });
+            } else {
+                $("#region").empty();
+                $("#region").append('<option hidden value="">Select City First</option>');
+                $("#city").empty();
+            }
+            // filter_data_item();
+        });
 
+        $("#region").change(function (e) {
 
-		$("#region").change(function(e) {
+            // filter_data_item();
 
-			// filter_data_item();
-
-		})
-	});
+        })
+    });
 </script>
 
 @endsection

@@ -470,7 +470,7 @@
         <script src="{{ asset('vendor/select2/select2.min.js') }}">
         </script>
         <!-- Main JS-->
-        <script src="{{ asset('admin_js/main.js') }}"></script>
+{{--        <script src="{{ asset('admin_js/main.js') }}"></script>--}}
 
 
 

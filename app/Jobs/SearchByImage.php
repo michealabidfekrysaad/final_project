@@ -15,6 +15,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Nexmo\Client;
+use Nexmo\Client\Credentials\Basic;
 
 
 class SearchByImage implements ShouldQueue
@@ -23,7 +25,7 @@ class SearchByImage implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $type;
     public $file;
-    public $renderType=" ";
+    public $renderType = " ";
     public $user;
 
 
@@ -69,13 +71,17 @@ class SearchByImage implements ShouldQueue
                 ],
 
             ]);
-            $similarity=(int)$result->get('FaceMatches')[0]['Similarity'];
-            if ($similarity > 80)
-            {
-                array_push($nearest,$value->image);
+            $similarity = (int)$result->get('FaceMatches')[0]['Similarity'];
+            if ($similarity > 80) {
+                array_push($nearest, $value->image);
             }
         }
-        $this->user->notify(new SendSummaryToUser($nearest,""));
+        $this->getClientForSms()->message()->send([
+            'to' => '20' . $this->user->phone,
+            'from' => 'ToFind',
+            'text' => 'You Received Notification On Our Site For Results'
+        ]);
+        $this->user->notify(new SendSummaryToUser($nearest, ""));
     }
 
     public function getClient()
@@ -89,6 +95,13 @@ class SearchByImage implements ShouldQueue
                     'secret' => 'j2LSHHct7RPBixDxU/sXuzwt7tedafZv6pfrcZhJ'
                 ]]);
     }
+
+    public function getClientForSms()
+    {
+        $basic = new Basic('9d0cd4d6', 'LzIsAfazHBBHN7fl');
+        return new Client($basic);
+    }
+
 
     /**
      * @return mixed

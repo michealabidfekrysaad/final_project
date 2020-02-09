@@ -89,7 +89,7 @@
             }
         }
         if (lookfor) {
-            console.log("inside lost since")
+            console.log("inside lost since");
             let inputlost_since = document.getElementById("inputlost_since");
             let LostErr = document.getElementById("LostErr");
             SplitLostSince = inputlost_since.value.split("-");
@@ -218,12 +218,12 @@
                 var allowedFiles = [".jpg", ".jpeg", ".png"];
                 let regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
                 if (!regex.test(fileUpload.value.toLowerCase())) {
-                    console.log("inside")
+                    console.log("inside");
                     ImgError.classList.add("text-danger");
                     ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
                     break;
                 } else {
-                    ImgError.classList.remove('text-danger')
+                    ImgError.classList.remove('text-danger');
                     ImgError.classList.add("text-success");
                     ImgError.innerHTML = "Upload Image Successfully, size is " + file + "MB";
                     break;
@@ -366,7 +366,7 @@
                 <label for="city">City:</label>
                 <select class="form-control" id="city" name="city" required>
                     <option value="none" selected disabled hidden>
-                        Select an Option
+                        {{ __('messages.Select an Option') }}
                     </option>
                     @foreach($cities as $key => $city)
                     <option value="{{$key}}"> {{$city}}</option>

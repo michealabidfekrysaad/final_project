@@ -9,7 +9,9 @@ use App\Notifications\SendSummaryToUser;
 use App\Category;
 use App\Report;
 use Aws\Rekognition\RekognitionClient;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -23,6 +25,7 @@ use App\DescriptionValidation;
 use App\Item;
 use Carbon\Carbon;
 use App\City;
+use Illuminate\View\View;
 use function MongoDB\BSON\toJSON;
 
 class reportController extends Controller
@@ -56,26 +59,34 @@ class reportController extends Controller
             'reports' => $reports,
         ]);
     }
+
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create($type)
     {
-        $cities = DB::table("cities")->pluck("city_name", "id");
-        // return view('people.form', compact('cities'));
-        return view('people.form',['type'=>$type,'cities'=>$cities]);
+        if (app()->getLocale() == 'ar') {
+            $cities = DB::table("cities")->pluck("city_name_ar", "id");
+            // return view('people.form', compact('cities'));
+            return view('people.form', ['type' => $type, 'cities' => $cities]);
+        } else {
+            $cities = DB::table("cities")->pluck("city_name", "id");
+            // return view('people.form', compact('cities'));
+            return view('people.form', ['type' => $type, 'cities' => $cities]);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param Request $request
+     * @return Factory|View
      */
     public function store(Request $request,$type)
     {
+        //dd($request->all());
         if ($type == "lookfor") {
             $this->renderType = "lost";
         }
@@ -186,8 +197,8 @@ class reportController extends Controller
     /**
      * Show the form for editing the specified resource.o
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit(Report $report)
     {
@@ -200,9 +211,9 @@ class reportController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, Report $report)
     {
@@ -470,11 +481,17 @@ class reportController extends Controller
 
     public function getAreaList(Request $request)
     {
-        $states = DB::table("areas")
-        ->where("city_id",$request->city_id)
-        ->pluck("area_name","id");
-        return response()->json($states);
-
+        if (app()->getLocale() == 'ar') {
+            $states = DB::table("areas")
+                ->where("city_id", $request->city_id)
+                ->pluck("area_name_ar", "id");
+            return response()->json($states);
+        } else {
+            $states = DB::table("areas")
+                ->where("city_id", $request->city_id)
+                ->pluck("area_name", "id");
+            return response()->json($states);
+        }
     }
 
 

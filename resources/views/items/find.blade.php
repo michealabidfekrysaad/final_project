@@ -29,11 +29,20 @@
                         <div class="form-group">
                             <label for="title">Select Category:</label>
                             <select class="form-control " id="CategoryList" name="category">
-                                <option value="" selected>All</option>
-
-                                @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->category_name}} </option>
-                                @endforeach
+                                @if(app()->getLocale()=='ar')
+                                    <option value="" selected>الكل</option>
+                                @else
+                                    <option value="" selected>All</option>
+                                @endif
+                                @if(app()->getLocale()=='ar')
+                                    @foreach ($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->category_name_ar}} </option>
+                                    @endforeach
+                                @else
+                                    @foreach ($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->category_name}} </option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
 
@@ -72,10 +81,21 @@
                         <div class="form-group">
                             <label for="title">Select City:</label>
                             <select class="form-control " id="city" name="city">
-                                <option value="">All</option>
-                                @foreach ($cities as $city)
-                                <option value="{{$city->id}}">{{$city->city_name}} </option>
-                                @endforeach
+                                @if(app()->getLocale()=='ar')
+                                    <option value="">الكل</option>
+                                @else
+                                    <option value="">All</option>
+                                @endif
+                                @if(app()->getLocale()=='ar')
+                                    @foreach ($cities as $city)
+                                        <option value="{{$city->id}}">{{$city->city_name_ar}} </option>
+                                    @endforeach
+                                @else
+                                    @foreach ($cities as $city)
+                                        <option value="{{$city->id}}">{{$city->city_name}} </option>
+                                    @endforeach
+
+                                @endif
 
                             </select>
                         </div>
@@ -96,7 +116,7 @@
                         <div class="form-group">
                             <label for="title">select region:</label>
                             <select name="region" id="region" class="form-control">
-                                <option hidden value="">Select City First</option>
+                                <option hidden value="">{{__('messages.Select City First') }}</option>
                             </select>
                         </div>
                     </div>
@@ -111,16 +131,23 @@
                 <div class="container">
                     <div class="row" id="lost">
                         @foreach($items as $item)
-                        <div class="col-lg-4 col-md-6">
-                            <div class="hotel text-center">
-                                <div class="hotel-img">
-                                    <a href="/showReportItem/{{$item->id}}"><img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}" alt="Img Of Person" class="img-fluid"></a>
-                                </div>
-                                <h3>{{($item->category)->category_name}}</h3>
-                                <h3>Found Since : {{$item->found_since}}</h3>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="hotel text-center">
+                                    <div class="hotel-img">
+                                        <a href="/showReportItem/{{$item->id}}"><img style="width:348px;height:348px"
+                                                                                     src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}"
+                                                                                     alt="Img Of Person"
+                                                                                     class="img-fluid"></a>
+                                    </div>
+                                    @if(app()->getLocale()=='ar')
+                                        <h3>{{($item->category)->category_name_ar}}</h3>
+                                    @else
+                                        <h3>{{($item->category)->category_name}}</h3>
+                                    @endif
+                                    <h3>Found Since : {{$item->found_since}}</h3>
 
+                                </div>
                             </div>
-                        </div>
                         @endforeach
 
                     </div>
@@ -142,7 +169,7 @@
 
 <script>
     let d1 = document.getElementById('lost');
-    $(document).ready(function() {
+    $(document).ready(function () {
         //fetch_Data();
         function fetch_Data(query = '') {
             $.ajax({
@@ -152,8 +179,8 @@
                     query: query
                 },
                 dataType: 'json',
-                success: function(data) {
-                    console.log(data)
+                success: function (data) {
+                    console.log(data);
                     //$('#lost').html(data.div_data);
                     insertToHtml(data);
 
@@ -161,30 +188,45 @@
             });
         }
 
-        $("#CategoryList").change(function(e) {
-            console.log($(this).val())
+        $("#CategoryList").change(function (e) {
+            console.log($(this).val());
             var category_id = $(this).val();
             if (category_id) {
                 $.ajax({
                     type: "GET",
                     url: "/getforitem/" + category_id,
-                    success: function(category) {
+                    success: function (category) {
                         if (category) {
                             $("#attribute").empty();
-                            $.each(category[0].attributes, function(key, value) {
+                            $.each(category[0].attributes, function (key, value) {
                                 let itemAttributes = category[0].attributes;
-                                $("#attribute").append(`<label>` + itemAttributes[key].attribute_name + `</label>
+                                $("#attribute").append(`
+@if(app()->getLocale()=='ar')
+                                <label>` + itemAttributes[key].attribute_name + `</label>
+                                         <select class=" form-control" name="` + itemAttributes[key].attribute_name + `" id = "` + itemAttributes[key].id + `">
+                                         <option value = " ">الكل</option>
+                                         </select>
+                                         @else
+                                <label>` + itemAttributes[key].attribute_name + `</label>
                                          <select class=" form-control" name="` + itemAttributes[key].attribute_name + `" id = "` + itemAttributes[key].id + `">
                                          <option value = " ">All</option>
-                                         </select>`);
+                                         </select>
+                                    @endif
+                                `);
                                 $.ajax({
                                     type: "GET",
                                     url: "/valueofattribute/" + itemAttributes[key].id,
-                                    success: function(result) {
+                                    success: function (result) {
                                         if (result) {
-                                            $.each(result, function(key, value) {
-                                                console.log("isalm" + result[key].value_name)
-                                                $(`#` + result[key].attribute_id + ``).append(`<option value = " ` + result[key].id + `"> ` + result[key].value_name + `</option>`);
+                                            $.each(result, function (key, value) {
+                                                console.log("isalm" + result[key].value_name);
+                                                $(`#` + result[key].attribute_id + ``).append(`
+@if(app()->getLocale()=='ar')
+                                                <option value = " ` + result[key].id + `"> ` + result[key].value_name_ar + `</option>
+@else
+                                                <option value = " ` + result[key].id + `"> ` + result[key].value_name + `</option>
+                                                @endif
+                                                `);
                                             })
 
 
@@ -208,8 +250,8 @@
 
             filter_data_item();
 
-        })
-        $("#city").change(function(e) {
+        });
+        $("#city").change(function (e) {
             var cityID = $(this).val();
             console.log(cityID);
 
@@ -217,12 +259,13 @@
                 $.ajax({
                     type: "GET",
                     url: "/get-area/" + cityID,
-                    success: function(regions) {
+                    success: function (regions) {
                         if (regions) {
                             $("#region").empty();
-                            $("#region").append('<option selected  value="">All</option>');
-                            $.each(regions, function(key, value) {
-                                $("#region").append('<option value="' + regions[key].id + '">' + regions[key].area_name + '</option>');
+                            $("#region").append('@if(app()->getLocale()=="ar")<option selected  value="">الكل</option>@else<option selected  value="">All</option> @endif');
+                            $.each(regions, function (key, value) {
+                                $("#region").append('' +
+                                    '@if(app()->getLocale()=="ar")<option value="' + regions[key].id + '">' + regions[key].area_name_ar + '</option>@else <option value="' + regions[key].id + '">' + regions[key].area_name + '</option>@endif');
                             });
                         } else {
                             $("#region").empty();
@@ -231,7 +274,7 @@
                 });
             } else {
                 $("#region").empty();
-                $("#region").append('<option hidden value="">Select City First</option>');
+                $("#region").append('<option hidden value="">{{__('messages.Select City First') }}</option>');
                 fetch_Data();
                 // $("#city").empty();
             }
@@ -240,35 +283,35 @@
         });
 
 
-        $("#region").change(function(e) {
+        $("#region").change(function (e) {
 
             filter_data_item();
 
-        })
-        $("#search").keyup(function(e) {
-            console.log(document.getElementById("search").value)
+        });
+        $("#search").keyup(function (e) {
+            console.log(document.getElementById("search").value);
             fetch_Data(document.getElementById("search").value)
 
-        })
+        });
         // $("#attribute").change(function (e) {
         //
         //     // filter_data_item();
         //
         // })
-        $("#attribueselect").select(function(e) {
+        $("#attribueselect").select(function (e) {
             console.log("jjj");
             filter_data_item();
-        })
+        });
 
         function filter_data_item() {
             var category_id = $("#CategoryList :selected").val();
             var city_id = $("#city :selected").val();
-            var area_id = $("#region :selected").val()
+            var area_id = $("#region :selected").val();
             var data = {
                 category_id,
                 city_id,
                 area_id
-            }
+            };
             console.log(data);
             if (data.category_id || data.city_id || data.area_id) {
                 console.log(data);
@@ -276,7 +319,7 @@
                     method: "GET",
                     url: "/filter/find/item/" + JSON.stringify(data),
                     traditional: true,
-                    success: function(data) {
+                    success: function (data) {
                         console.log(data.data);
                         insertToHtml(data.data)
                     }
@@ -296,9 +339,13 @@
                                         <div class="hotel-img" >
                                             <a href="/showReportItem/${element.id}"><img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/${element.image}" alt="Img Of Person" class="img-fluid"></a>
                                         </div>
-                                            <h3>${(element.category).category_name}</h3>
+{{--@if(app()->getLocale()=='ar')--}}
+                {{--                <h3>${element.category_name_ar}</h3>--}}
+                {{--                    @else--}}
+                {{--                <h3>${element.category_name}</h3>--}}
+                {{--                    @endif--}}
 
-                                        <h3>Found Since : ${element.found_since}</h3>
+                <h3>Found Since : ${element.found_since}</h3>
 
                                     </div>
                                 </div>
