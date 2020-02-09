@@ -26,7 +26,6 @@ use App\Item;
 use App\City;
 use App\Area;
 use Carbon\Carbon;
-use App\City;
 use Illuminate\View\View;
 use function MongoDB\BSON\toJSON;
 use App\Http\Requests\StorePostRequest;
@@ -645,6 +644,10 @@ class reportController extends Controller
         return view('layouts.AdminPanel.reportsAdmin.table' , ['reports' => $reports]);
        // return view("people.find",['reports'=>$reports]);
 
+    }
+    public function adminUsers() {
+        $users=User::all();
+        return view('layouts.AdminPanel.user.userstable',['users' =>$users]);
     }
  
 
