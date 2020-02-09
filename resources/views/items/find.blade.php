@@ -174,10 +174,9 @@
                         success: function(category) {
                             if (category) {
                                 $("#attribute").empty();
-                                $("#attribute").append(' <option value="" selected disabled hidden>\n' +
-                                    '                                </option>');
-
+                                $("#attribute").append(' <option value="" selected disabled hidden>\n' +'</option>');
                                 $.each(category[0].attributes, function(key, value) {
+
                                     let itemAttributes = category[0].attributes;
                                     $("#attribute").append(`<label>` + itemAttributes[key].attribute_name + `</label>
                                          <select class=" form-control" name="`+ itemAttributes[key].attribute_name +`" id = "`+ itemAttributes[key].id +`">
@@ -188,13 +187,11 @@
                                         success: function(result) {
                                             if (result) {
                                                 $.each(result, function(key, value) {
-                                                    console.log("isalm"+result[key].value_name )
                                                     $(`#` + result[key].attribute_id + ``).append(`<option value = " `+ result[key].id + `"> `+ result[key].value_name + `</option>`);
                                                 })
 
 
                                             }
-                                            //  console.log(result.value_name)
 
                                         }
                                     })

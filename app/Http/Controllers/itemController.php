@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Item;
 use App\City;
 use App\Area;
+use App\User;
 use App\DescriptionValidation;
 use App\Category;
 use App\Notifications\NotifyItem;
@@ -71,6 +72,7 @@ class itemController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->file('image'));
         DB::transaction(function () use ($request) {
             $item = new Item();
             $item->city_id = $request->input('city_id');
@@ -90,8 +92,7 @@ class itemController extends Controller
                 }
             }
         }, 1);
-        //return response()->json( $this->itemWithVal);
-        return Redirect::to("/items/search/found");
+        return Redirect::to("/items/search");
     }
 
     /**
@@ -287,4 +288,6 @@ class itemController extends Controller
         }
        return response()->json($query->paginate('5'));
     }
+
+
 }

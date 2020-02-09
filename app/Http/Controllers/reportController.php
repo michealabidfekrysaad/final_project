@@ -17,8 +17,12 @@ use Illuminate\Support\Facades\Notification;
 use App\User;
 use App\DescriptionValidation;
 use App\Item;
+use App\City;
+use App\Area;
 use Carbon\Carbon;
 use function MongoDB\BSON\toJSON;
+use App\Http\Requests\StorePostRequest;
+
 
 class reportController extends Controller
 {
@@ -30,22 +34,22 @@ class reportController extends Controller
 
     public function __construct()
     {
-        $this->globalImage=" ";
+        $this->globalImage = " ";
         //        $this->middleware(['role:Admin'])->only('index');
-        $this->renderType=" ";
-        $this->localArray=array();
-        $this->localQuery=" ";
+        $this->renderType = " ";
+        $this->localArray = array();
+        $this->localQuery = " ";
     }
     public function index()
     {
         $reports = Report::all();
         return view('people.find');
-       // return view("people.find",['reports'=>$reports]);
+        // return view("people.find",['reports'=>$reports]);
 
     }
     public function myReports()
     {
-        $reports = auth()->user()->reports;//Report::paginate(10);
+        $reports = auth()->user()->reports; //Report::paginate(10);
         return view('reports/index', [
             'reports' => $reports,
         ]);
@@ -59,7 +63,7 @@ class reportController extends Controller
     {
         $cities = DB::table("cities")->pluck("city_name", "id");
         // return view('people.form', compact('cities'));
-        return view('people.form',['type'=>$type,'cities'=>$cities]);
+        return view('people.form', ['type' => $type, 'cities' => $cities]);
     }
 
     /**
@@ -68,46 +72,14 @@ class reportController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request,$type)
+    public function store(Request $request, $type)
     {
-        if($type=="lookfor"){
-            $this->renderType="lost";
+        if ($type == "lookfor") {
+            $this->renderType = "lost";
         }
-        if($type=="found"){
-            $this->renderType="found";
+        if ($type == "found") {
+            $this->renderType = "found";
         }
-//        if($type=='lookfor'){
-//         $request->validate( [
-//            'name' => 'required|min:3|max:20',
-//            'age' =>'required|min:1|max:90',
-//            'gender' => 'required',
-//            'image' =>'required|mimes:jpeg,jpg,png|max:2024',
-//            'special_mark' => 'required',
-//            'eye_color' => 'required',
-//            'hair_color' => 'required',
-//            'location' => 'required',
-//            'last_seen_on' => 'required',
-//            'last_seen_at' => 'required',
-//            'lost_since' => 'required|date',
-//            'height' => 'required|max:250',
-//            'weight' => 'required|max:100',
-//        ]);
-//    }
-//    else if($type=="found"){
-//            $request->validate( [
-//            'name' => 'required|min:3',
-//            'age' => 'required|min:1|max:90',
-//            'gender' => 'required',
-//            'image' => 'required|mimes:jpeg,jpg,png|max:2024',
-//            'special_mark' => 'required',
-//            'eye_color' => 'required',
-//            'hair_color' => 'required',
-//            'location' => 'required',
-//            'found_since' => 'required|date',
-//            'height' => 'required|max:250',
-//            'weight' => 'required|max:100',
-//        ]);
-//    }
         $data = [
             'name' => $request->name,
             'age' => $request->age,
@@ -127,77 +99,74 @@ class reportController extends Controller
             'weight' => $request->weight,
         ];
         $validateFace = $this->detectFace($request->file('image'));
-        if ($validateFace==false) {
-            return response()->json(['message'=>'No face Found Of More than one Face']);
+        if ($validateFace == false) {
+            return response()->json(['message' => 'No face Found Of More than one Face']);
         } else {
 
             $response = $this->searchByImage($type, $request->file('image'));
             if ($response == false) {
                 $report = Report::create($data);
-                $report->image = $this->uploadImageToS3("people/",$request->file('image'));
+                $report->image = $this->uploadImageToS3("people/", $request->file('image'));
                 $report->user_id = auth()->user()->getAuthIdentifier();
                 $report->save();
                 return redirect()->to("/profile");
-            } else
-                {
+            } else {
                 \request()->session()->put('report', $data);
-                \request()->session()->put('imageReport',$this->uploadImageToS3("people/",$request->file('image')));
-                  auth()->user()->notify(new SendSummaryToUser($response));
-                  return redirect()->to("/profile");
-               // return response()->json(['nearest' => $response]);
+                \request()->session()->put('imageReport', $this->uploadImageToS3("people/", $request->file('image')));
+                auth()->user()->notify(new SendSummaryToUser($response));
+                return redirect()->to("/profile");
+                // return response()->json(['nearest' => $response]);
             }
-//                aceept or reject other report here
-                $otherReport = Report::with('user')->where('image', '=', $resonse)->get();
-                return response()->json(['otherReport'=>$otherReport]);
+            //                aceept or reject other report here
+            $otherReport = Report::with('user')->where('image', '=', $resonse)->get();
+            return response()->json(['otherReport' => $otherReport]);
             return redirect()->to("/profile");
-            }
-
         }
-        //accept other report from auth user
-        public function acceptOtherReport(Report $report)
-        {
-            if(\request()->session()->exists('report')){
-                \request()->session()->forget('report');
-                \request()->session()->forget('imageReport');
-            }
-            $otherUser = $report->user;
-            $otherUser->notify(new SendSmsMailToReporter($report));
-            return Redirect::to("/people/search");
-
-
-        }
-    public function RejectOtherReport(){
+    }
+    //accept other report from auth user
+    public function acceptOtherReport(Report $report)
+    {
         if (\request()->session()->exists('report')) {
-            $data=\request()->session()->get('report');
+            \request()->session()->forget('report');
+            \request()->session()->forget('imageReport');
+        }
+        $otherUser = $report->user;
+        $otherUser->notify(new SendSmsMailToReporter($report));
+        return Redirect::to("/people/search");
+    }
+    public function RejectOtherReport()
+    {
+        if (\request()->session()->exists('report')) {
+            $data = \request()->session()->get('report');
             $report = Report::create($data);
-            $report->image =\request()->session()->get('imageReport');
+            $report->image = \request()->session()->get('imageReport');
             $report->user_id = auth()->user()->getAuthIdentifier();
             $report->save();
             \request()->session()->forget('report');
             \request()->session()->forget('imageReport');
             return Redirect::to("/people/search");
             return response()->json($report);
-        }
-        else{
+        } else {
             return Redirect::to("/people/search/lookfor");
         }
     }
-        public function closeReport(Report $report){
-        $report->is_found='1';
+    public function closeReport(Report $report)
+    {
+        $report->is_found = '1';
         $report->save();
-//        dd($report);
+        //        dd($report);
         return redirect('/');
-
-        }
+    }
 
     public function show(Report $report)
     {
-        if(auth()->user()->id==$report->user()->id){
-           return response()->json($report);
+        if (auth()->user()->id == $report->user()->id) {
+            return response()->json($report);
         }
     }
-    public function showReportDetails(Report $report){
-        return view('people.personDetails',['report'=>$report]);
+    public function showReportDetails(Report $report)
+    {
+        return view('people.personDetails', ['report' => $report]);
     }
 
     /**
@@ -208,9 +177,9 @@ class reportController extends Controller
      */
     public function edit(Report $report)
     {
-        if(auth()->user()->id==$report->user->id)
-        return view('user.editReport' ,['report' => $report]);
-        else return $this->errorResponse("Unauthorize",403);
+        if (auth()->user()->id == $report->user->id)
+            return view('user.editReport', ['report' => $report]);
+        else return $this->errorResponse("Unauthorize", 403);
     }
 
 
@@ -281,13 +250,12 @@ class reportController extends Controller
             }
             $report->save();
             return redirect(route('profile.index'));
-        }
-        else  return $this->errorResponse("Unauthorize",403);
+        } else  return $this->errorResponse("Unauthorize", 403);
     }
 
     public function destroy(Report $report)
     {
-        if(auth()->user()->id ==$report->user->id||auth()->user()->hasRole('Admin')){
+        if (auth()->user()->id == $report->user->id || auth()->user()->hasRole('Admin')) {
             $this->deleteImageFromS3($report->image);
             $report->delete();
             return redirect(route('profile.index'));
@@ -295,78 +263,83 @@ class reportController extends Controller
     }
 
 
-    public function SearchReports(Request $request){
-       $nameSearch = $request->input('search');
-       $FilterSearch = Report::where('name' , 'like' , '%'.$nameSearch.'%')->get();
-       dd($FilterSearch);
+    public function SearchReports(Request $request)
+    {
+        $nameSearch = $request->input('search');
+        $FilterSearch = Report::where('name', 'like', '%' . $nameSearch . '%')->get();
+        dd($FilterSearch);
     }
-    public function getFormSearch(){
+    public function getFormSearch()
+    {
 
         return view('search');
     }
 
-    public function searchReports2(Request $request){
-        if($request->has('search')){
+    public function searchReports2(Request $request)
+    {
+        if ($request->has('search')) {
 
-        $searchName = $request->input('search');
+            $searchName = $request->input('search');
 
-        $FilterSearch = Report::search($searchName)->get();
+            $FilterSearch = Report::search($searchName)->get();
 
-        return view('search' , ['FilterSearch'=>$FilterSearch]);
-
-        }else{
+            return view('search', ['FilterSearch' => $FilterSearch]);
+        } else {
 
             return response()->json('Not Found');
         }
     }
-    public function getSearchCheckbox(Request $request){
-        if($request->input('locationfilter1')){
+    public function getSearchCheckbox(Request $request)
+    {
+        if ($request->input('locationfilter1')) {
             $reports = DB::table('reports')->whereIn('gender', ['male'])
-            ->get();
-        }else{
+                ->get();
+        } else {
             $reports = DB::table('reports')->whereIn('gender', ['female'])
-            ->get();
+                ->get();
         }
         return response()->json($reports);
     }
 
-    public function action(Request $request){
-        if($request->ajax()){
+    public function action(Request $request)
+    {
+        if ($request->ajax()) {
             $query = $request->get('query');
-            if($query != ''){
-                $data = DB::table('reports')->where('type','=','lost')
-                    ->where('name' , 'like' , '%'.$query.'%')
+            if ($query != '') {
+                $data = DB::table('reports')->where('type', '=', 'lost')
+                    ->where('name', 'like', '%' . $query . '%')
                     ->get();
-            }
-            else{
-                $data = DB::table('reports')->where('type','=','lost')->get();
+            } else {
+                $data = DB::table('reports')->where('type', '=', 'lost')->get();
             }
             return $data;
         }
     }
-    public function showReport($id){
+    public function showReport($id)
+    {
         $repor = Report::findOrFail($id);
         // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
         // dd($founder);
-        return view('people.personDetails', ['repor'=>$repor]);
+        return view('people.personDetails', ['repor' => $repor]);
     }
 
-    public function SendEmailVerify(Request $request , $id){
-       // $when = now()->addMinutes(10);
+    public function SendEmailVerify(Request $request, $id)
+    {
+        // $when = now()->addMinutes(10);
         //$when = Carbon::now()->addSeconds(10);
 
-        $founder = Report::with('user')->where('id' , '=' , $id)->get();
+        $founder = Report::with('user')->where('id', '=', $id)->get();
         // $founderss = User::with('reports')->where('id' , '=' , $id)->get();
-       // dd($founder->user);
+        // dd($founder->user);
         $loster = auth()->user()->id;
         $desc = new DescriptionValidation;
         // $user1 = User::find(4);
         // $user2 = User::find(1);
-        foreach($founder as $f){
+        foreach ($founder as $f) {
             $desc->lost_id = $loster;
             $desc->founder_id = $f->user_id;
             $desc->description = $request->input('description');
-            $f->user->notify(new NotifyReport(auth()->user() , $f->user));
+            $f->user->notify(new NotifyReport(auth()->user(), $f->user));
 
             // $f->user->notify((new NotifyReport($loster))->delay($when));
             //dd(Notification::send($f, new NotifyReport($loster)));
@@ -386,115 +359,265 @@ class reportController extends Controller
         // dd($ff->name);
         // }
     }
-    public function sendEmailVerifyItems(Request $request , $id){
+    public function sendEmailVerifyItems(Request $request, $id)
+    {
         //$user->notify(new NotifyReport);
         // or
         //Notification::send($users , new NotifyReport());//for sending to users not one user
-        $founder = Item::with('user')->where('id' , '=' , $id)->get();
+        $founder = Item::with('user')->where('id', '=', $id)->get();
         dd($founder);
-
-
     }
-    public function doSearchingQuery($request) {
-        $globalQuery="SELECT * FROM reports WHERE type='lost' AND ";
-        $array=array();
+    public function doSearchingQuery($request)
+    {
+        $globalQuery = "SELECT * FROM reports WHERE type='lost' AND ";
+        $array = array();
         // {"gender":["male","female"],"city":"Cairo","age":[]}
-        $constraints= json_decode($request, true);
-        if(count($constraints['gender'])==2){
-            $firstGender="'".$constraints['gender'][0]."'";
-            $secondGender="'".$constraints['gender'][1]."'";
-            $query=" (gender=".$firstGender." OR gender=".$secondGender.")";
-            array_push($array,$query);
+        $constraints = json_decode($request, true);
+        if (count($constraints['gender']) == 2) {
+            $firstGender = "'" . $constraints['gender'][0] . "'";
+            $secondGender = "'" . $constraints['gender'][1] . "'";
+            $query = " (gender=" . $firstGender . " OR gender=" . $secondGender . ")";
+            array_push($array, $query);
         }
-        if(count($constraints['gender'])==1){
-            $gender="'".$constraints['gender'][0]."'";
-            $query=" gender=".$gender;
-            array_push($array,$query);
-
+        if (count($constraints['gender']) == 1) {
+            $gender = "'" . $constraints['gender'][0] . "'";
+            $query = " gender=" . $gender;
+            array_push($array, $query);
         }
         //
-        if($constraints['city']){
-            if(count($constraints['age']) == 1){
-                $city="'".$constraints['city']."'"." AND";
-
+        if ($constraints['city']) {
+            if (count($constraints['age']) == 1) {
+                $city = "'" . $constraints['city'] . "'" . " AND";
+            } else {
+                $city = "'" . $constraints['city'] . "'";
             }
-            else{
-                $city="'".$constraints['city']."'";
-            }
-            $query="city=".$city;
-            array_push($array,$query);
+            $query = "city=" . $city;
+            array_push($array, $query);
         }
-        if($constraints['age']){
-            for($i=0;$i<count($constraints['age']);$i++) {
-                if ($constraints['age'][$i] == "below_10_years"){
-                    $query="age <= 10";
-                    array_push($this->localArray,$query);
+        if ($constraints['age']) {
+            for ($i = 0; $i < count($constraints['age']); $i++) {
+                if ($constraints['age'][$i] == "below_10_years") {
+                    $query = "age <= 10";
+                    array_push($this->localArray, $query);
                 }
-                if ($constraints['age'][$i] == "below_20_years"){
-                    $query="age <= 20 and age > 10";
-                    array_push($this->localArray,$query);
+                if ($constraints['age'][$i] == "below_20_years") {
+                    $query = "age <= 20 and age > 10";
+                    array_push($this->localArray, $query);
                 }
-                if ($constraints['age'][$i] == "below_30_years"){
-                    $query=" age <= 30 and age > 20 ";
-                    array_push($this->localArray,$query);
+                if ($constraints['age'][$i] == "below_30_years") {
+                    $query = " age <= 30 and age > 20 ";
+                    array_push($this->localArray, $query);
                 }
-                if ($constraints['age'][$i] == "other_above_30"){
+                if ($constraints['age'][$i] == "other_above_30") {
 
-                    $query=" age > 30";
-                    array_push($this->localArray,$query);
+                    $query = " age > 30";
+                    array_push($this->localArray, $query);
                 }
             }
-            for ($i=0;$i<count($this->localArray);$i++){
-                if($i > 0){
-                    if($i==count($this->localArray) - 1){
-                        $this->localQuery .= " OR ".$this->localArray[$i]." )";
+            for ($i = 0; $i < count($this->localArray); $i++) {
+                if ($i > 0) {
+                    if ($i == count($this->localArray) - 1) {
+                        $this->localQuery .= " OR " . $this->localArray[$i] . " )";
+                    } else {
+                        $this->localQuery .= " OR " . $this->localArray[$i];
                     }
-                    else{
-                        $this->localQuery .= " OR ".$this->localArray[$i];
-                    }
-                }
-                else
-                {
-                    if(count($this->localArray)==1){
-                        $this->localQuery.=" (".$this->localArray[$i]." )";
-                    }
-                    else{
-                        if($constraints['city']){
-                            $this->localQuery.=" AND (".$this->localArray[$i];
-                        }
-                        else{
-                            $this->localQuery.=" (".$this->localArray[$i];
+                } else {
+                    if (count($this->localArray) == 1) {
+                        $this->localQuery .= " (" . $this->localArray[$i] . " )";
+                    } else {
+                        if ($constraints['city']) {
+                            $this->localQuery .= " AND (" . $this->localArray[$i];
+                        } else {
+                            $this->localQuery .= " (" . $this->localArray[$i];
                         }
                     }
                 }
             }
-            array_push($array,$this->localQuery);
+            array_push($array, $this->localQuery);
             //return $this->localQuery;
         }
 
-        for($i=0;$i<count($array);$i++){
-            if($i==1){
-                $globalQuery.=" AND ".$array[$i];
-            }
-            else{
-                $globalQuery.=$array[$i];
+        for ($i = 0; $i < count($array); $i++) {
+            if ($i == 1) {
+                $globalQuery .= " AND " . $array[$i];
+            } else {
+                $globalQuery .= $array[$i];
             }
         }
-         //return $globalQuery;
-         return $results = DB::select($globalQuery);
+        //return $globalQuery;
+        return $results = DB::select($globalQuery);
     }
 
 
     public function getAreaList(Request $request)
     {
         $states = DB::table("areas")
-        ->where("city_id",$request->city_id)
-        ->pluck("area_name","id");
+            ->where("city_id", $request->city_id)
+            ->pluck("area_name", "id");
         return response()->json($states);
+    }
+
+    // el fn de makanha mosh hena el controller mosh mazbot
+    public function adminUsers()
+    {
+        $users = User::all();
+        // dd($users);
+        return view('layouts.AdminPanel.user.userstable', ['users' => $users]);
+    }
+
+    public function showuser($id)
+    {
+        $user = User::find($id);
+        // dd($user);
+        return view('layouts.AdminPanel.user.show', ['user' => $user]);
+    }
+    public function editUser($id)
+    {
+        $user = User::find($id);
+        // dd($user);
+
+        return view('layouts.AdminPanel.user.edit', ['user' => $user]);
+    }
+
+    public function updateUser($id)
+    {
+
+        // $post->update(request()->all());
+        $user = User::find($id);
+
+        $user->name = request()->name;
+        $user->email = request()->email;
+        $user->phone = request()->phone;
+        $user->save();
+        
+         return redirect('/admin/panel/userstable');
+    }
+
+    public function destroyUser($id){
+        User::find($id)->delete();
+        return redirect('/admin/panel/userstable');
+    }
+
+    public function ban(Request $request , $id)
+    {
+        $user = User::find($id);
+        if(!empty($user)){
+            
+            $user->bans()->create([
+			    'expired_at' => '+1 month',
+			    'comment'=>$request->baninfo
+			]);
+        }
+        return redirect('/admin/panel/userstable')->with('success','Ban Successfully..');
+    }
+
+    public function revoke($id)
+    {
+        $user = User::find($id);
+        if(!empty($user)){
+            $user->unban();
+        }
+        return redirect('/admin/panel/userstable')
+        				->with('success','User Revoke Successfully.');
+    }
+    // el fn ale fo2 makanha user controller   mosh hena
+
+    public function create2Admin(){
+        $cities = DB::table("cities")->pluck("city_name", "id");
+
+       return view ('layouts.AdminPanel.reportsAdmin.create' , ['cities' => $cities]);
+    }
+
+    public function Stores2Admin(Request $request){
+        $report = new Report;
+
+        // $report->name = $request->input('name');
+        // $report->age = $request->input('age');
+        // $report->gender = $request->input('gender');
+        // $report->image = $request->input('image');
+        // $report->type = $request->input('type');
+        // $report->special_mark = $request->input('special_mark');
+        // $report->eye_color = $request->input('eye_color');
+        // $report->hair_color = $request->input('hair_color');
+        // $report->location = $request->input('location');
+        // $report->last_seen_on = $request->input('last_seen_on');
+        // $report->last_seen_at = $request->input('last_seen_at');
+        // $report->lost_since = $request->input('lost_since');
+        // $report->found_since = $request->input('found_since');
+        // $report->height = $request->input('height');
+        // $report->weight = $request->input('weight');
+        // // $report->user_id = auth()->user()->id;
+        // $report->city_id = $request->input('city_id');
+        // $report->area_id = $request->input('area_id');
+        // $report->save();
+       
+        return redirect(route('reports.index'));
+    }
+
+    public function show2Admin($id){
+        $report = Report::find($id);
+        // dd($report->found_since);
+        return view('layouts.AdminPanel.reportsAdmin.show' , ['report'=>$report]);
+    }
+    public function edit2Admin($id){
+
+        $report = Report::find($id);
+        $cities = City::all();
+        $area = Area::all()->where('city_id','=',$report->city_id); //all areas
+        $user =User::all()->where('id','=',$report->user_id);
+        // dd($user[0]->name);
+        return view('layouts.AdminPanel.reportsAdmin.edit', compact('report'
+        ,'cities','area','user'));
 
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public  function Update2Admin(Request $request , $id){
+        $report = Report::find($id);
+        // dd($request->input('name'));
+
+        $report->name = $request->input('name');
+        $report->age = $request->input('age');
+        $report->gender = $request->input('gender');
+        $report->image = $this->uploadImageToS3("people/", $request->file('image'));
+        $report->type = $request->input('type');
+        $report->special_mark = $request->input('special_mark');
+        $report->eye_color = $request->input('eye_color');
+        $report->hair_color = $request->input('hair_color');
+        $report->last_seen_on = $request->input('last_seen_on');
+        $report->last_seen_at = $request->input('last_seen_at');
+        $report->lost_since = $request->input('lost_since');
+        $report->found_since = $request->input('found_since');
+        $report->height = $request->input('height');
+        $report->weight = $request->input('weight');
+        $report->user_id = auth()->user()->id;
+        
+        $report->save();
+        return redirect(route('reports.index'));
+    }
+    public function indexAdmin()
+    {
+        $reports = Report::all();
+        //return view('people.find');
+        return view('layouts.AdminPanel.reportsAdmin.table' , ['reports' => $reports]);
+       // return view("people.find",['reports'=>$reports]);
+
+    }
+ 
 
 
 }

@@ -142,7 +142,6 @@
             <div class="form-group">
                 <label for="title">select region:</label>
                 <select name="area_id" id="state" class="form-control">
-                    <option value="1">sidibishr</option>
                 </select>
             </div>
 
@@ -202,7 +201,8 @@
                 $.each(category[0].attributes,function(key,value){
                     let itemAttributes=category[0].attributes;
                 $("#attribute").append( `<label>`+itemAttributes[key].attribute_name+`</label>
-                                         <select class="form-control" name="#`+itemAttributes[key].attribute_name+`" id = "`+itemAttributes[key].id+`" value = "`+itemAttributes[key].id+`">
+                                         <select class="form-control" name="#`+itemAttributes[key].attribute_name+`" 
+                                         id = "`+itemAttributes[key].id+`" value = "`+itemAttributes[key].id+`">
                                          </select>`);
 
 

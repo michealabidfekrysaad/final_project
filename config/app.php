@@ -173,7 +173,7 @@ return [
         App\Providers\AppServiceProvider::class,
 
         App\Providers\AuthServiceProvider::class,
-
+        Cog\Laravel\Ban\Providers\BanServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Aws\Laravel\AwsServiceProvider::class,

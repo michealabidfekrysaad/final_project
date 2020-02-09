@@ -89,27 +89,27 @@
             }
         }
         if (lookfor) {
-            console.log("inside lost since")
-            let inputlost_since = document.getElementById("inputlost_since");
-            let LostErr = document.getElementById("LostErr");
-            SplitLostSince = inputlost_since.value.split("-");
-            let today = new Date();
-            let year = today.getFullYear();
-            let day = String(today.getDate()).padStart(2, '0');
-            let month = String(today.getMonth() + 1).padStart(2, '0');
-            // var dateformat = /^\d{4}-\d{2}-\d{2}$/;
-            // if (!inputlost_since.value.match(dateformat) || SplitLostSince[0] > year) {
+            // console.log("inside lost since")
+            // let inputlost_since = document.getElementById("inputlost_since");
+            // let LostErr = document.getElementById("LostErr");
+            // SplitLostSince = inputlost_since.value.split("-");
+            // let today = new Date();
+            // let year = today.getFullYear();
+            // let day = String(today.getDate()).padStart(2, '0');
+            // let month = String(today.getMonth() + 1).padStart(2, '0');
+            // // var dateformat = /^\d{4}-\d{2}-\d{2}$/;
+            // // if (!inputlost_since.value.match(dateformat) || SplitLostSince[0] > year) {
+            // //     LostErr.classList.add("text-danger");
+            // //     LostErr.innerHTML = "year is not valid";
+            // //     return false;
+            // // }
+            // if (SplitLostSince[1] > month || SplitLostSince[2] > day) {
             //     LostErr.classList.add("text-danger");
-            //     LostErr.innerHTML = "year is not valid";
+            //     LostErr.innerHTML = "day or month is not valid";
             //     return false;
+            // } else {
+            //     LostErr.innerHTML = "";
             // }
-            if (SplitLostSince[1] > month || SplitLostSince[2] > day) {
-                LostErr.classList.add("text-danger");
-                LostErr.innerHTML = "day or month is not valid";
-                return false;
-            } else {
-                LostErr.innerHTML = "";
-            }
 
 
         }

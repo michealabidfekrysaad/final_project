@@ -106,6 +106,7 @@ Route::get('/edit/{id}' , 'ProfileController@edit')->name('profile.edit');
 Route::put('/update/profile/{user}' , 'ProfileController@update')->name('profile.update');
 Route::get('auth/redirect/{provider}', 'Auth\LoginController@redirect');
 Route::get('login/{provider}/callback', 'Auth\LoginController@callback');
+// admin panel routes---------------------------------------------------------------
 Route::get('/admin', function(){
     return view('layouts.AdminPanel.app');
 });
@@ -115,6 +116,66 @@ Route::get('/admin/1', function(){
 Route::get('/admin/panel', function(){
     return view('layouts.AdminPanel.index');
 });
+
+Route::get('/admin/panel/userstable','reportController@adminUsers');
+Route::get('/user/{id}','reportController@showUser');
+Route::get('user/edit/{id}','reportController@editUser');
+Route::put('user/update/{id}','reportController@updateUser')->name('user.update');
+Route::delete('user/{id}','reportController@destroyUser');
+Route::get('/admin/panel/categorytable','categoryController@admincategory');
+Route::get('category/create','categoryController@createCategory')->name('category.create');
+Route::post('category/store','categoryController@storeCategory')->name('posts.store');
+Route::delete('category/{id}','categoryController@destroyCategory');
+
+
+
+Route::group(['middleware'=>'is-ban'], function(){
+    Route::get('/home', 'HomeController@index')->name('home');
+    //Route::get('/users' , 'UserController@index')->name('user.index');
+    Route::get('/userUserRevoke/{id}', 'reportController@revoke')->name('users.revokeuser');
+    Route::post('/userBan/{id}', 'reportController@ban')->name('users.ban');
+});
+
+
+// abdo routes admin ----------------------------------------------
+/*********Admin Panel Table Category*********/
+
+Route::get('/category/admin' , 'categoryController@index22Admin')->name('category.index22Admin');
+Route::get('/category/create/admin' , 'categoryController@create22Admin')->name('category.create22Admin');
+Route::post('/category/admin' , 'categoryController@stores22Admin')->name('category.stores22Admin');
+// Route::get('/category/showAdmin/{id}' , 'categoryController@show22Admin')->name('category.show22Admin');
+Route::get('/category/editAdmin/{category}' , 'categoryController@edit22Admin')->name('category.edit22Admin');
+Route::put('/category/updateAdmin/{category}' , 'categoryController@update22Admin')->name('category.update22Admin');
+Route::delete('/category/deleteAdmin/{id}' , 'categoryController@delete22Admin')->name('category.delete22Admin');
+Route::post('/create/category/admin','categoryController@createCategoryAdmin');
+
+
+/*********Admin Panel Table Items*********/
+
+Route::get('/items/index' , 'itemController2@index2Admin')->name('items.index2Admin');
+Route::get('/item/create' , 'itemController2@create2Admin')->name('items.create2Admin');
+Route::post('/itemsStore' , 'itemController2@stores')->name('items.stores');
+Route::get('/item/show/{id}' , 'itemController2@show2Admin')->name('items.show');
+Route::get('/item/edit/{id}' , 'itemController2@edit2Admin')->name('items.edit');
+Route::put('/item/update/{id}' , 'itemController2@update2Admin')->name('items.update2Admin');
+Route::delete('/item/delete/{id}' , 'itemController2@delete2Admin')->name('items.delete2Admin');
+
+/*************************/
+
+/*********Admin Panel Table Reports*********/
+
+Route::get('/admin/panel/report', 'reportController@indexAdmin')->name('reports.index');
+Route::get('/report/create' , 'reportController@create2Admin')->name('reports.create');
+// Route::post('/report/Add' , 'reportController@Stores2Admin')->name('reports.store'); micheal comment create
+Route::get('/reportShow/{id}', 'reportController@show2Admin')->name('reports.show');
+Route::get('/report/edit/{id}', 'reportController@edit2Admin')->name('reports.edit');
+Route::put('/reportUpdate/{id}', 'reportController@Update2Admin')->name('reports.update');
+Route::delete('/reportDelete/{id}' , 'reportController@DestroyByAdmin')->name('reports.delete');
+
+
+
+
+// end of admin panel routes----------------------------------------------------------
 Route::get('/people/image','UploadfileController@index');//done
 Route::post('uploadfile','UploadfileController@upload');//done
 
