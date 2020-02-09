@@ -60,7 +60,11 @@ class Controller extends BaseController
             $result = $this->getClient()->compareFaces([
                 'SimilarityThreshold' => 0,
                 'SourceImage' => [
-                    'Bytes' => file_get_contents($file,true)
+//                    'Bytes' => file_get_contents($file,true)
+                    'S3Object' => [
+                        'Bucket' => 'loseall',
+                        'Name' => $file,
+                    ],
                 ],
                 'TargetImage' => [
                     'S3Object' => [
@@ -97,7 +101,8 @@ class Controller extends BaseController
         return (substr($string, 0, $len) === $startString);
     }
     protected function paginate(Collection $collection)
-    {$rules = [
+    {
+        $rules = [
             'per_page' => 'integer|min:1|max:50',
         ];
         Validator::validate(request()->all(), $rules);
@@ -113,17 +118,39 @@ class Controller extends BaseController
         $paginated->appends(request()->all());
         return $paginated;
     }
+
     public function deleteImageFromS3($image)
     {
         if (Storage::disk('s3')->exists($image)) {
             Storage::disk('s3')->delete($image);
         }
     }
-        public function errorResponse($message, $code)
-        {
-            return view("error",[
-                'message'=>$message,
-                'code'=>$code
-            ]);
-        }
+
+    public function errorResponse($message, $code)
+    {
+        return view("error", [
+            'message' => $message,
+            'code' => $code
+        ]);
+    }
+
+    public function increaseView()
+    {
+        $value = 0;
+        $row = DB::table('visitor')->where(DB::raw("year(created_at)"), '=', now()->year)->first();
+        $value = $row->viewer + 1;
+        DB::table('visitor')->where(DB::raw("year(created_at)"), '=', now()->year)
+            ->update(['viewer' => $value]);
+        return response()->json($row);
+    }
+
+    public function increaseClick()
+    {
+        $value = 0;
+        $row = DB::table('visitor')->where(DB::raw("year(created_at)"), '=', now()->year)->first();
+        $value = $row->click + 1;
+        DB::table('visitor')->where(DB::raw("year(created_at)"), '=', now()->year)
+            ->update(['click' => $value]);
+        return response()->json($row);
+    }
 }

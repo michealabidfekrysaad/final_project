@@ -15,7 +15,7 @@ class Report extends Model
 
     protected $table = 'reports';
 
-    protected $fillable = ['name', 'age', 'gender', 'image', 'type', 'special_mark','eye_color','hair_color','city_id','area_id','location','last_seen_on','last_seen_at','lost_since','found_since','height','weight'];
+    protected $fillable = ['name', 'age', 'gender', 'image', 'type', 'special_mark','eye_color','hair_color','city_id','area_id','location','last_seen_on','last_seen_at','lost_since','found_since','height','weight','user_id'];
 
     public function user()
     {

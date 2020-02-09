@@ -50,36 +50,38 @@
                                 <p>{{$profile->phone}}</p>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>City</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>{{$profile->city}}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Region</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>{{$profile->region}}</p>
-                            </div>
-                        </div>
+                        {{--                        <div class="row">--}}
+                        {{--                            <div class="col-md-6">--}}
+                        {{--                                <label>City</label>--}}
+                        {{--                            </div>--}}
+                        {{--                            <div class="col-md-6">--}}
+                        {{--                                <p>{{$profile->city}}</p>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
+                        {{--                        <div class="row">--}}
+                        {{--                            <div class="col-md-6">--}}
+                        {{--                                <label>Region</label>--}}
+                        {{--                            </div>--}}
+                        {{--                            <div class="col-md-6">--}}
+                        {{--                                <p>{{$profile->region}}</p>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                         <a href="/edit/{{$profile->id}}" id="lostButton">
                             Update Profile
                         </a>
                     </div>
-                    <div class="tab-pane fade show  bg-white" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+                    <div class="tab-pane fade show  bg-white" id="notification" role="tabpanel"
+                         aria-labelledby="notification-tab">
 
                         <div class="row">
                             @foreach($notifications as $notification)
-                            <div class="col-12">
-                            <h5>View Result For Last Search </h5>
-                            <a class="btn btn-primary" href="/viewResultFromNotification/{{$notification['id']}}">View Results</a>
-                            <a class="btn btn-danger" href="/readNotification/{{$notification['id']}}">Make As Read</a>
-                            </div>
-                            
+                                <div class="col-12">
+                                    <h5>View Result For Last Search </h5>
+                                    <a class="btn btn-primary"
+                                       href="/viewResultFromNotification/{{$notification['id']}}">View Results</a>
+                                    <a class="btn btn-danger" href="/readNotification/{{$notification['id']}}">Make As
+                                        Read</a>
+                                </div>
                             @endforeach
 
                         </div>
@@ -88,11 +90,11 @@
                         <div class="container">
                             <div class="row">
                                 @foreach($reports as $report)
-                                <div class="col-lg-4 col-md-6">
-                                    <div class="hotel text-center">
+                                    <div class="col-lg-4 col-md-6 pb-3">
+                                        <div class="hotel text-center">
                                         <a href="people/details/{{$report->id}}">
-                                            <div class="hotel-img" style="width:348px;height:348px">
-                                                <img src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}" alt="Img Of Person" class="img-fluid">
+                                            <div class="hotel-img">
+                                                <img style="width:348px;height:348px" src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}" alt="Img Of Person" class="img-fluid">
                                             </div>
                                             <h3><a href="/people/details/{{$report->id}}">{{$report->name}}</a></h3>
                                             <p>Age is :{{$report->age}}</p>
@@ -101,7 +103,7 @@
 
                                         </a>
                                         <div class="row justify-content-center">
-                                            <a class="btn btn-primary" href="/editReport/{{$report->id}}">Update Report</a>
+                                            <a class="btn btn-primary mr-2" href="/editReport/{{$report->id}}">Update Report</a>
                                             <form action="/report/delete/{{$report->id}}" method="POST">
                                                 @csrf
                                                 @method('Delete')
