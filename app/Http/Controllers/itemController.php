@@ -184,10 +184,17 @@ class itemController extends Controller
 
     public function getAreaList(Request $request)
     {
-        $states = DB::table("areas")
-            ->where("city_id", $request->city_id)
-            ->pluck("area_name", "id");
-        return response()->json($states);
+        if (app()->getLocale() == 'ar') {
+            $states = DB::table("areas")
+                ->where("city_id", $request->city_id)
+                ->pluck("area_name_ar", "id");
+            return response()->json($states);
+        } else {
+            $states = DB::table("areas")
+                ->where("city_id", $request->city_id)
+                ->pluck("area_name", "id");
+            return response()->json($states);
+        }
 
         // $area = City::with('areas')->where('id' , '=' , $id)->get();
         // foreach($area as $a){
