@@ -246,10 +246,10 @@
 
         <div class="section-header pt-5">
             @if($type == 'lookfor')
-            <h2>Report For Lost Person</h2>
+            <h2>{{ __('messages.Report For Lost Person') }}</h2>
             @endif
             @if($type == 'found')
-            <h2>Report For found Person</h2>
+            <h2>{{ __('messages.Report For found Person') }}</h2>
             @endif
 
 
@@ -257,14 +257,14 @@
             <form action="/people/search/post/{{$type}}" method="POST" name="add_report" class="m-5" enctype="multipart/form-data"  onsubmit="return(validate());">
                 @csrf
             <div class="form-group">
-                <label for="Select_file">Upload Image :</label>
+                <label for="Select_file">{{ __('messages.Upload Image :') }}</label>
                 <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png" required />
                 <span id="ImgError"></span>
             </div>
 
             <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
-                <label for="inputName">Name Of Person :</label>
-                <input type="text" class="form-control" id="inputName" placeholder="Name Of Person" name="name" required>
+                <label for="inputName">{{ __('messages.Name Of Person :') }}</label>
+                <input type="text" class="form-control" id="inputName" placeholder="{{ __('messages.Name Of Person') }}" name="name" required>
                 <span id="NameErr"></span>
                 @if ($errors->has('name'))
                                         <span class="help-block">
@@ -275,8 +275,8 @@
 
 
             <div class="form-group {{ $errors->has('location') ? ' has-error' : '' }}">
-                <label for="inputlocation">Location :</label>
-                <input type="text" class="form-control" id="inputlocation" name="location" placeholder="Last Location Of Person" required>
+                <label for="inputlocation">{{ __('messages.Location :') }}</label>
+                <input type="text" class="form-control" id="inputlocation" name="location" placeholder="{{ __('messages.Last Location Of Person') }}" required>
                 <span id="LocationErr"></span>
                 @if ($errors->has('location'))
                 <span class="help-block">
@@ -287,8 +287,8 @@
 
 
             <div class="form-group {{ $errors->has('special_mark') ? ' has-error' : '' }}">
-                <label for="inputspecial_mark">Special Mark :</label>
-                <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Person" name="special_mark" required>
+                <label for="inputspecial_mark">{{ __('messages.Special Mark :') }}</label>
+                <input type="text" class="form-control" id="inputspecial_mark" placeholder="{{ __('messages.Special Mark Of Person') }}" name="special_mark" required>
                 <span id="SpecialErr"></span>
                 @if ($errors->has('special_mark'))
                 <span class="help-block">
@@ -299,7 +299,7 @@
 
             @if($type == 'lookfor')
             <div class="form-group {{ $errors->has('lost_since') ? ' has-error' : '' }}">
-                <label for="inputlost_since">Lost Since :</label>
+                <label for="inputlost_since">{{ __('messages.Lost Since :') }}</label>
                 <input type="date" class="form-control" id="inputlost_since" placeholder="Person Lost Since" max="2020-02-01" min="1920-02-01" name="lost_since" required>
                 <span id="LostErr"></span>
                 @if ($errors->has('lost_since'))
@@ -313,8 +313,8 @@
 
 
             <div class="form-group {{ $errors->has('age') ? ' has-error' : '' }}">
-                <label for="inputAge">Age :</label>
-                <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=90 name="age" required>
+                <label for="inputAge">{{ __('messages.Age :') }}</label>
+                <input type="number" class="form-control" id="inputAge" placeholder="{{ __('messages.Age Of Person') }}" min=1 max=90 name="age" required>
                 <span id="NumberErr"></span>
                 @if ($errors->has('age'))
                 <span class="help-block">
@@ -325,8 +325,8 @@
 
 
             <div class="form-group {{ $errors->has('height') ? ' has-error' : '' }}">
-                <label for="inputHeight">Height :</label>
-                <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 name="height" required>
+                <label for="inputHeight">{{ __('messages.Height :') }}</label>
+                <input type="number" class="form-control" id="inputHeight" placeholder="{{ __('messages.height Of Person In CM ex:125') }}" min=1 max=250 name="height" required>
                 <span id="HeightErr"></span>
                 @if ($errors->has('height'))
                 <span class="help-block">
@@ -337,8 +337,8 @@
 
 
             <div class="form-group  {{ $errors->has('weight') ? ' has-error' : '' }}">
-                <label for="inputWeight">Weight :</label>
-                <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 name="weight"  required>
+                <label for="inputWeight">{{ __('messages.Weight :') }}</label>
+                <input type="number" class="form-control" id="inputWeight" placeholder="{{ __('messages.Weight Of Person In KG') }}" min=5 max=100 name="weight"  required>
                 <span id="WeightErr"></span>
                 @if ($errors->has('weight'))
                 <span class="help-block">
@@ -349,11 +349,11 @@
 
 
             <div class="form-group {{ $errors->has('gender') ? ' has-error' : '' }}">
-                <label for="gender">select Gender :</label>
+                <label for="gender">{{ __('messages.select Gender :') }}</label>
                 <select class="form-control" id="gender" name="gender" required>
-                    <option value="">select your gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                    <option value="">{{ __('messages.select your gender') }}</option>
+                    <option value="male">{{ __('messages.Male') }}</option>
+                    <option value="female">{{ __('messages.Female') }}</option>
                 </select>
                 <span id="GenderErr"></span>
                 @if ($errors->has('gender'))
@@ -363,10 +363,10 @@
             @endif
             </div>
             <div class="form-group">
-                <label for="city">City:</label>
+                <label for="city">{{ __('messages.City:') }}</label>
                 <select class="form-control" id="city" name="city" required>
                     <option value="none" selected disabled hidden>
-                        Select an Option
+                        {{ __('messages.Select an Option') }} 
                     </option>
                     @foreach($cities as $key => $city)
                     <option value="{{$key}}"> {{$city}}</option>
@@ -376,7 +376,7 @@
             </div>
 
             <div class="form-group">
-                <label for="title">select region:</label>
+                <label for="title">{{ __('messages.select region:') }}</label>
                 <select name="area_id" id="state" class="form-control">
 
                 </select>
@@ -384,22 +384,22 @@
 
             @if($type == 'lookfor')
             <div class="form-group">
-                <label for="last_seen_on">Last Seen On :</label>
+                <label for="last_seen_on">{{ __('messages.Last Seen On :') }}</label>
                 <select class="form-control" id="last_seen_on" name="last_seen_on" required>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
+                    <option value="Saturday">{{ __('messages.Saturday') }}</option>
+                    <option value="Sunday">{{ __('messages.Sunday') }}</option>
+                    <option value="Monday">{{ __('messages.Monday') }}</option>
+                    <option value="Tuesday">{{ __('messages.Tuesday') }}</option>
+                    <option value="Wednesday">{{ __('messages.Wednesday') }}</option>
+                    <option value="Thursday">{{ __('messages.Thursday') }}</option>
+                    <option value="Friday">{{ __('messages.Friday') }}</option>
 
                 </select>
             </div>
 
 
             <div class="form-group">
-                <label for="inputlast_seen_at">Last Seen At :</label>
+                <label for="inputlast_seen_at">{{ __('messages.Last Seen At :') }}</label>
                 <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" name="last_seen_at"  required>
             </div>
 
@@ -407,20 +407,20 @@
 
             @if($type == 'found')
             <div class="form-group">
-                <label for="inputfound_since">found Since :</label>
+                <label for="inputfound_since">{{ __('messages.found Since :') }}</label>
                 <input type="date" class="form-control" id="inputfound_since" placeholder="Person found when"  name="found_since"  required>
             </div>
 
             @endif
 
             <div class="form-group">
-                <label for="eye_color">Select Eye Color :</label>
+                <label for="eye_color">{{ __('messages.Select Eye Color :') }}</label>
                 <select class="form-control" id="eye_color" name="eye_color" required>
-                    <option value="black">Black</option>
-                    <option value="brown">Browan</option>
-                    <option value="green">Green</option>
-                    <option value="grey">Grey</option>
-                    <option value="blue">Blue</option>
+                    <option value="black">{{ __('messages.Black') }}</option>
+                    <option value="brown">{{ __('messages.Brown') }}</option>
+                    <option value="green">{{ __('messages.Green') }}</option>
+                    <option value="grey">{{ __('messages.Grey') }}</option>
+                    <option value="blue">{{ __('messages.Blue') }}</option>
                 </select>
             </div>
 
@@ -428,16 +428,16 @@
 
 
             <div class="form-group">
-                <label for="hair_color">Select Hair Color :</label>
+                <label for="hair_color">{{ __('messages.Select Hair Color :') }}</label>
                 <select class="form-control" id="hair_color" name="hair_color">
-                    <option value="black">Black</option>
-                    <option value="browan">Browan</option>
-                    <option value="white">White</option>
-                    <option value="golden">Golden</option>
+                    <option value="black">{{ __('messages.Black') }}</option>
+                    <option value="browan">{{ __('messages.Brown') }}</option>
+                    <option value="white">{{ __('messages.White') }}</option>
+                    <option value="golden">{{ __('messages.Golden') }}</option>
                 </select>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn" id="lostButton">Send Report</button>
+                <button type="submit" class="btn" id="lostButton">{{ __('messages.Send Report') }}</button>
             </div>
 
         </form>

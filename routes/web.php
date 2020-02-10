@@ -177,16 +177,13 @@ Route::get('/items/search/found','itemController@create');
 Route::get('/showReportItem/{item}','itemController@show');
 Route::post('/sendEmailItem/{id}' , 'itemController@sendEmailVerifyItems');
 
-<<<<<<< HEAD
 //hamo hima 3ebs route for visitor chart
 Route::get('/google-line-chart', 'LinechartController@googleLineChart');
 Route::get('/usercharts', 'userchartsController@index');
 Route::get('/data' , 'userchartsController@lineChart');
-=======
 
 
 Route::get('locale/{locale}', function ($locale){
     Session::put('locale', $locale);
     return redirect()->back();
 });
->>>>>>> 5d948bf026b8e41079c0b6c118254f38c8f10665

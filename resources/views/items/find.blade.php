@@ -4,7 +4,7 @@
 
 <div class="pt-5 container-fluid">
     <div class="row mt-2 pt-5 section-header">
-        <h2 class="mx-auto">all Found Items</h2>
+        <h2 class="mx-auto">{{ __('messages.all Found Items') }}</h2>
     </div>
     <h2 class="filter_data d-block"></h2>
     <div class="row justify-content-end ">
@@ -12,24 +12,24 @@
 
 
 
-            <input type="text" id="search" class="form-control mb-3 " placeholder="searching for lost Item by name "> </div>
+            <input type="text" id="search" class="form-control mb-3 " placeholder="{{ __('messages.searching for lost Item by name ') }} "> </div>
     </div>
     <div class="row w-100 mx-auto ">
         {{-- d-none --}}
         <div class="col-lg-3   d-lg-block">
-            <h4 class="text-muted">filter by</h4>
+            <h4 class="text-muted">{{ __('messages.filter by') }}</h4>
 
             <article class="card-group-item">
                 <header class="card-header">
-                    <h6 class="title">Category :</h6>
+                    <h6 class="title">{{ __('messages.Category :') }}</h6>
                 </header>
 
                 <div class="filter-content">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="title">Select Category:</label>
+                            <label for="title">{{ __('messages.Select Category:') }}</label>
                             <select class="form-control " id="CategoryList" name="category">
-                                <option value="" selected>All</option>
+                                <option value="" selected>{{ __('messages.All') }}</option>
 
                                 @foreach ($categories as $category)
                                 <option value="{{$category->id}}">{{$category->category_name}} </option>
@@ -64,15 +64,15 @@
 
             <article class="card-group-item">
                 <header class="card-header">
-                    <h6 class="title">City :</h6>
+                    <h6 class="title">{{ __('messages.City :') }}</h6>
                 </header>
 
                 <div class="filter-content">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="title">Select City:</label>
+                            <label for="title">{{ __('messages.Select City:') }}</label>
                             <select class="form-control " id="city" name="city">
-                                <option value="">All</option>
+                                <option value="">{{ __('messages.All') }}</option>
                                 @foreach ($cities as $city)
                                 <option value="{{$city->id}}">{{$city->city_name}} </option>
                                 @endforeach
@@ -87,16 +87,16 @@
 
             <article class="card-group-item">
                 <header class="card-header">
-                    <h6 class="title">region :</h6>
+                    <h6 class="title">{{ __('messages.region :') }}</h6>
                 </header>
 
                 <div class="filter-content">
                     <div class="card-body">
 
                         <div class="form-group">
-                            <label for="title">select region:</label>
+                            <label for="title">{{ __('messages.select region:') }}</label>
                             <select name="region" id="region" class="form-control">
-                                <option hidden value="">Select City First</option>
+                                <option hidden value="">{{ __('messages.Select City First') }}</option>
                             </select>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                                     <a href="/showReportItem/{{$item->id}}"><img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}" alt="Img Of Person" class="img-fluid"></a>
                                 </div>
                                 <h3>{{($item->category)->category_name}}</h3>
-                                <h3>Found Since : {{$item->found_since}}</h3>
+                                <h3>{{ __('messages.Found Since :') }} {{$item->found_since}}</h3>
 
                             </div>
                         </div>

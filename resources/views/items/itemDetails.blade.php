@@ -9,7 +9,7 @@
 
     <div class="container  pt-5">
         <div class="section-header pt-2">
-            <h2>Item Details</h2>
+            <h2>{{ __('messages.Item Details') }}</h2>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -19,15 +19,15 @@
             <div class="col-md-6">
                 <div class="details">
                     <div class="row">
-                        <h3>Category :</h3>
+                        <h3>{{ __('messages.Category :') }}</h3>
                         <p> {{($item->category)->category_name}}</p>
                     </div>
                     <div class="row">
-                        <h3>Found Since :</h3>
+                        <h3>{{ __('messages.Found Since :') }}</h3>
                         <p> {{$item->found_since}}</p>
                     </div>
                     <div class="row">
-                        <h3>City Where Found :</h3>
+                        <h3>{{ __('messages.City Where Found :') }}</h3>
                         <p> {{($item->city)->city_name}}</p>
                     </div>
 
@@ -40,14 +40,14 @@
 
                     <div class="row ">
                         <button id="lostButton" type="button" class="btn" data-toggle="modal" data-target="#myModal">
-                            Contact With Report Owner
+                            {{ __('messages.Contact With Report Owner') }}  
                         </button>
                         <div class="modal fade" id="myModal">
                             <div class="modal-dialog  mw-100 w-50">
                                 <div class="modal-content">
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Description</h4>
+                                        <h4 class="modal-title">{{ __('messages.Description') }}</h4>
                                     </div>
                                     <!-- Modal body -->
                                     <div class="modal-body text-center">
@@ -56,7 +56,7 @@
                                             <div class="form-group">
                                                 <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" placeholder="Write Description To Founder To Know Your Are They Real Owner Of Item"></textarea>
                                             </div>
-                                            <button type="submit" class="btn" id="lostButton">Send Description To Report Owner</button>
+                                            <button type="submit" class="btn" id="lostButton">{{ __('messages.Send Description To Report Owner') }}</button>
                                         </form>
                                     </div>
                                 </div>

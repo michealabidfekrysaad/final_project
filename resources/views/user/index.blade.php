@@ -18,7 +18,7 @@
     <div class="container  pt-5">
         <div class="card pt-2">
             <div class="card-header">
-                Your Profile
+                {{ __('messages.Your Profile') }}  
             </div>
             <ul class="nav nav-tabs pt-3" id="myTab" role="tablist">
                 <li class="nav-item">
@@ -37,7 +37,7 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Name</label>
+                                <label> {{ __('messages.Name') }}</label>
                             </div>
                             <div class="col-md-6">
                                 <p>{{$profile->name}}</p>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Email</label>
+                                <label>{{ __('messages.Email') }}</label>
                             </div>
                             <div class="col-md-6">
                                 <p>{{$profile->email}}</p>
@@ -53,7 +53,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Phone</label>
+                                <label>{{ __('messages.Phone') }}Phone</label>
                             </div>
                             <div class="col-md-6">
                                 <p>{{$profile->phone}}</p>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>City</label>
+                                <label>{{ __('messages.City') }}</label>
                             </div>
                             <div class="col-md-6">
                                 <p>{{$profile->city}}</p>
@@ -69,14 +69,14 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Region</label>
+                                <label>{{ __('messages.Region') }}</label>
                             </div>
                             <div class="col-md-6">
                                 <p>{{$profile->region}}</p>
                             </div>
                         </div>
                         <a href="/edit/{{$profile->id}}" id="lostButton">
-                            Update Profile
+                            {{ __('messages.Update Profile') }}  
                         </a>
                     </div>
                     <div class="tab-pane fade show  bg-white" id="notification" role="tabpanel" aria-labelledby="notification-tab">
@@ -84,9 +84,9 @@
                         <div class="row">
                             @foreach($notifications as $notification)
                             <div class="col-12">
-                            <h5>View Result For Last Search </h5>
-                            <a class="btn btn-primary" href="/viewResultFromNotification/{{$notification['id']}}">View Results</a>
-                            <a class="btn btn-danger" href="/readNotification/{{$notification['id']}}">Make As Read</a>
+                            <h5>{{ __('messages.View Result For Last Search') }}   </h5>
+                            <a class="btn btn-primary" href="/viewResultFromNotification/{{$notification['id']}}">{{ __('messages.View Results') }}</a>
+                            <a class="btn btn-danger" href="/readNotification/{{$notification['id']}}">{{ __('messages.Make As Read') }}</a>
                             </div>
                             @endforeach
 
@@ -105,7 +105,7 @@
                                             <h3><a href="/people/details/{{$report->id}}">{{$report->name}}</a></h3>
                                             <p>Age is :{{$report->age}}</p>
                                             <span>{{$report->gender}}</span>
-                                            <p>Click On  Image for more details</p>
+                                            <p>{{ __('messages.Click On  Image for more details') }}  </p>
 
                                         </a>
                                         <div class="row justify-content-center">

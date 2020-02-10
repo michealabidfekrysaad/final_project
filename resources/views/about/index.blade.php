@@ -16,7 +16,7 @@
   
           <div class="section-header pt-5">
   
-            <h2>Founders</h2>
+          <h2>{{ __('messages.Founders') }}</h2>
   
             {{-- <p>Here are some of our speakers</p> --}}
   
@@ -205,26 +205,24 @@
   
             <div class="col-md-4 ">
   
-              <h2>About Us</h2>
+              <h2>{{ __('messages.About Us') }}</h2>
               <ul style="list-style:none">
               <li>
-              <p>Our website helps users to find missing people 
-                  , things and trying to facilate connection between the one
-                   who find and the other who search</p>
+              <p>{{ __('messages.aboutWeb') }}</p>
                 </li>
                 </ul>
         </div>
   
             <div class="col-md-4 ">
-             <h2>FAQ's</h2>
+             <h2>{{ __('messages.FAQ`s') }}</h2>
               <ul style="list-style:none">
-              <li><a class="text-white" href="/people/search">searching about people</a></li>
-              <li><a class="text-white" href="/people/image">searching of people by image</a></li>
-              <li><a class="text-white" href="/items/search">searching about Items</a></li>
+              <li><a class="text-white" href="/people/search">{{ __('messages.searching about people') }}</a></li>
+              <li><a class="text-white" href="/people/image">{{ __('messages.searching of people by image') }}</a></li>
+              <li><a class="text-white" href="/items/search">{{ __('messages.searching about Items') }}</a></li>
               </ul>
             </div>
             <div class="col-md-4 ">
-                <h2>Contacts</h2>
+                <h2>{{ __('messages.Contacts') }}</h2>
                 <ul style="list-style:none">
                 <li><i class="fa fa-phone"></i> +91 9169490000</li>
                 <li><i class="fa fa-envelope-o"></i> info@tofind@gmail.com</li>

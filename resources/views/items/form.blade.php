@@ -94,7 +94,7 @@
     <div class="container py-5">
 
         <div class="section-header pt-5">
-            <h2>Report For Lost Item</h2>
+            <h2>{{ __('messages.Report For Lost Item') }}</h2>
         </div>
 
 
@@ -104,17 +104,17 @@
         <form action="{{route("items.store")}}" method="POST" onsubmit="return(validate());" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label for="image">Upload Image :</label>
+                <label for="image">{{ __('messages.Upload Image :') }}</label>
                 <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()"
                     accept=".jpg,.jpeg,.png" required />
                 <span id="ImgError"></span>
             </div>
 
             <div class="form-group">
-                <label for="category_id">item name:</label>
+                <label for="category_id">{{ __('messages.item name:') }}</label>
                 <select class="form-control" id="item" name="category_id" required>
                     <option value="none" selected disabled hidden>
-                        Select an Option
+                        {{ __('messages.Select an Option') }} 
                     </option>
                     @foreach($categories as $category)
                     <option value="{{$category->id}}"> {{$category->category_name}}</option>
@@ -128,10 +128,10 @@
             </div>
 
             <div class="form-group">
-                <label for="city">City:</label>
+                <label for="city">{{ __('messages.City:') }}</label>
                 <select class="form-control" id="city" name="city_id" required>
                     <option value="none" selected disabled hidden>
-                        Select an Option
+                        {{ __('messages.Select an Option') }}
                     </option>
                     @foreach($cities as $city)
                     <option value="{{$city->id}}"> {{$city->city_name}}</option>
@@ -140,19 +140,19 @@
             </div>
 
             <div class="form-group">
-                <label for="title">select region:</label>
+                <label for="title">{{ __('messages.select region:') }}</label>
                 <select name="area_id" id="state" class="form-control">
                 </select>
             </div>
 
 
             <div class="form-group">
-                <label for="inputfound_since">found Since :</label>
+                <label for="inputfound_since">{{ __('messages.found Since :') }}</label>
                 <input type="date" class="form-control" id="inputfound_since" name="found_since" placeholder="Item found when" required>
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn" id="lostButton">Send Report</button>
+                <button type="submit" class="btn" id="lostButton">{{ __('messages.Send Report') }}</button>
             </div>
 
         </form>

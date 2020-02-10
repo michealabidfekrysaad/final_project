@@ -1,5 +1,5 @@
 <!doctype html>
-<html dir="rtl"  lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html   lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,10 +39,17 @@
   ============================-->
     <header id="header">
         <div class="container">
-
-            <div id="logo" class="pull-left">
+ {{-- if( url('locale/ar') ){
+    <div id="logo" class="pull-left rightNav">
+ }
+ else{
+    <div id="logo" class="pull-left">
+ }
+ 
+            --}}
                 <!-- Uncomment below if you prefer to use a text logo -->
                 <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
+                <div id="logo" class="pull-left ">
                 <a href="/" class="scrollto"><img src="{{asset('img/logo.png') }}" alt="" title=""></a>
             </div>
 
@@ -83,11 +90,11 @@
 
                     @guest
                     <li class="buy-tickets ">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('messages.Login') }}</a>
                     </li>
                     @if (Route::has('register'))
                     <li class="buy-tickets">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('messages.Register') }}</a>
                     </li>
                     @endif
                     @else

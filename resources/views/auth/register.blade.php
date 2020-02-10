@@ -6,7 +6,7 @@
         <div class="container justify-content-center">
             <div class="signup-content">
                 <div class="signup-form">
-                    <h2 class="form-title">Sign up</h2>
+                    <h2 class="form-title">{{ __('messages.Sign up') }}</h2>
                     <form method="POST" class="register-form" id="register-form" action="{{ route('register') }}">
                         @csrf
 
