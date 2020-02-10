@@ -179,8 +179,26 @@
                     </li> --}}
 
                     <li>
-                        <a href="/admin/panel/table">
+                        {{-- <a href="/admin/panel/table">
+                            <i class="fas fa-table"></i>Tables</a> --}}
+                            <li>
+                        <a class="js-arrow" href="#">
                             <i class="fas fa-table"></i>Tables</a>
+                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                            <li>
+                                <a href="/admin/panel/userstable">Users Table</a>
+                            </li>
+                            <li>
+                                <a href="/items/index">Items Table</a>
+                            </li>
+                            <li>
+                                <a href="/admin/panel/report">Reports Table</a>
+                            </li>
+                            <li>
+                                <a href="/category/admin">Category Table</a>
+                            </li>
+                        </ul>
+                    </li>
                     </li>
 
                     <li>
@@ -420,6 +438,28 @@
         </div>
     </header>
 
+    <!-- Jquery JS-->
+    <script src="{{ asset('vendor/jquery-3.2.1.min.js') }}"></script>
+    <!-- Bootstrap JS-->
+    <script src="{{ asset('vendor/bootstrap-4.1/popper.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap-4.1/bootstrap.min.js') }}"></script>
+    <!-- Vendor JS       -->
+    <script src="{{ asset('vendor/slick/slick.min.js') }}">
+    </script>
+    <script src="{{ asset('vendor/wow/wow.min.js') }}"></script>
+    <script src="{{ asset('vendor/animsition/animsition.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap-progressbar/bootstrap-progressbar.min.js') }}">
+    </script>
+    <script src="{{ asset('vendor/counter-up/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('vendor/counter-up/jquery.counterup.min.js') }}">
+    </script>
+    <script src="{{ asset('vendor/circle-progress/circle-progress.min.js') }}"></script>
+    <script src="{{ asset('vendor/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('vendor/chartjs/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/select2/select2.min.js') }}">
+    </script>
+    <!-- Main JS-->
+    <script src="{{ asset('admin_js/main.js') }}"></script>
     <div class="main-content">
         <main>
             @yield('content')
@@ -431,47 +471,6 @@
 
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- Jquery JS-->
-        <script src="{{ asset('vendor/jquery-3.2.1.min.js') }}"></script>
-        <!-- Bootstrap JS-->
-        <script src="{{ asset('vendor/bootstrap-4.1/popper.min.js') }}"></script>
-        <script src="{{ asset('vendor/bootstrap-4.1/bootstrap.min.js') }}"></script>
-        <!-- Vendor JS       -->
-        <script src="{{ asset('vendor/slick/slick.min.js') }}">
-        </script>
-        <script src="{{ asset('vendor/wow/wow.min.js') }}"></script>
-        <script src="{{ asset('vendor/animsition/animsition.min.js') }}"></script>
-        <script src="{{ asset('vendor/bootstrap-progressbar/bootstrap-progressbar.min.js') }}">
-        </script>
-        <script src="{{ asset('vendor/counter-up/jquery.waypoints.min.js') }}"></script>
-        <script src="{{ asset('vendor/counter-up/jquery.counterup.min.js') }}">
-        </script>
-        <script src="{{ asset('vendor/circle-progress/circle-progress.min.js') }}"></script>
-        <script src="{{ asset('vendor/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
-        <script src="{{ asset('vendor/chartjs/Chart.bundle.min.js') }}"></script>
-        <script src="{{ asset('vendor/select2/select2.min.js') }}">
-        </script>
-        <!-- Main JS-->
-        <script src="{{ asset('admin_js/main.js') }}"></script>
-
 
 
 

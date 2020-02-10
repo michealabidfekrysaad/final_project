@@ -21,15 +21,16 @@ return [
     'Close all And Sumbit Report' => 'Close all And Sumbit Report',
     'All Lost People' => 'All Lost People',
     'Report For Missing Person' => 'Report For Missing Person',
-    'Report For Found Person' => 'Report For Found Person' ,
+    'Report For Found Person' => 'Report For Found Person',
     'search by image' => 'search by image',
     'All Found Items' => 'All Found Items',
     'Report For Found Item' => 'Report For Found Item',
-    'MyProfile'=>'MyProfile',
-    'Logout'=> 'Logout',
+    'MyProfile' => 'MyProfile',
+    'Logout' => 'Logout',
     'Search By Image' => 'Search By Image',
     'Upload Image For Lost Person To Search If There Is Match Or Not' => 'Upload Image For Lost Person To Search If There Is Match Or Not',
     'Plz Make Sure Image is jpg, jpeg, png' => 'Plz Make Sure Image is jpg, jpeg, png',
+<<<<<<< HEAD
     'Founders' => 'Founders',
     'About Us' => 'About Us',
     'aboutWeb' => 'Our website helps users to find missing people , things and trying to facilate connection between the one who find and the other who search',
@@ -186,4 +187,9 @@ return [
      
      
     ]
+=======
+    'Select City First' => 'Select City First',
+    'Select an Option' => 'Select an Option'
+]
+>>>>>>> 2c028dc661b34abdc322725a298434a7b7851686
 ?>

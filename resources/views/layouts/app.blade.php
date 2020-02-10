@@ -1,5 +1,9 @@
 <!doctype html>
+<<<<<<< HEAD
 <html   lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+=======
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+>>>>>>> 2c028dc661b34abdc322725a298434a7b7851686
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

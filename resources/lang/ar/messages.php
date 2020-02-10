@@ -21,12 +21,12 @@ return [
     'Close all And Sumbit Report' => 'إغلاق الكل و إرسال التقرير',
     'All Lost People' => 'كل الأشخاص المفقودين',
     'Report For Missing Person' => 'الإبلاغ عن شخص مفقود',
-    'Report For Found Person' => 'الإبلاغ عن شخص موجود' ,
+    'Report For Found Person' => 'الإبلاغ عن شخص موجود',
     'search by image' => 'البحث بالصورة',
     'All Found Items' => 'الأشياء التي عثر عليها',
     'Report For Found Item' => 'الإبلاغ عن الأشياء التي وجدت ',
-    'MyProfile'=>'الصفحة الشخصية',
-    'Logout'=> 'تسجيل خروج',
+    'MyProfile' => 'الصفحة الشخصية',
+    'Logout' => 'تسجيل خروج',
     'Search By Image' => 'البحث بالصورة',
     'Upload Image For Lost Person To Search If There Is Match Or Not' => 'قم بتحميل صورة الشخص المفقود للبحث إذا كان موجود ام لا',
     'Plz Make Sure Image is jpg, jpeg, png' => 'من فضلك تأكد من صيغة الصورة jpg,jpeg,png',
@@ -183,12 +183,7 @@ return [
      'Password' => 'الرقم السري',
      'Login' => 'تسجيل الدخول',
      'Forgot Your Password?' => 'هل نسيت رقمك السري',
-     
-
-
-
-
-
-
-    ];
+    'Select City First' => 'اختر المدينة اولا',
+    'Select an Option' => 'اخترالمدينة اولا'
+];
 ?>

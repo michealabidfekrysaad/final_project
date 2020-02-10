@@ -36,3 +36,6 @@ Route::delete('/people/myreports/delete/{report}', 'reportController@destroy')->
 Route::post('/report','reportController@store');
 // Route::delete('/report/{report}','reportController@destroy');
 
+
+Route::get('/fahmy' , 'itemController@getAreaList');
+

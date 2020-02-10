@@ -89,27 +89,27 @@
             }
         }
         if (lookfor) {
-            console.log("inside lost since")
-            let inputlost_since = document.getElementById("inputlost_since");
-            let LostErr = document.getElementById("LostErr");
-            SplitLostSince = inputlost_since.value.split("-");
-            let today = new Date();
-            let year = today.getFullYear();
-            let day = String(today.getDate()).padStart(2, '0');
-            let month = String(today.getMonth() + 1).padStart(2, '0');
-            // var dateformat = /^\d{4}-\d{2}-\d{2}$/;
-            // if (!inputlost_since.value.match(dateformat) || SplitLostSince[0] > year) {
+            // console.log("inside lost since")
+            // let inputlost_since = document.getElementById("inputlost_since");
+            // let LostErr = document.getElementById("LostErr");
+            // SplitLostSince = inputlost_since.value.split("-");
+            // let today = new Date();
+            // let year = today.getFullYear();
+            // let day = String(today.getDate()).padStart(2, '0');
+            // let month = String(today.getMonth() + 1).padStart(2, '0');
+            // // var dateformat = /^\d{4}-\d{2}-\d{2}$/;
+            // // if (!inputlost_since.value.match(dateformat) || SplitLostSince[0] > year) {
+            // //     LostErr.classList.add("text-danger");
+            // //     LostErr.innerHTML = "year is not valid";
+            // //     return false;
+            // // }
+            // if (SplitLostSince[1] > month || SplitLostSince[2] > day) {
             //     LostErr.classList.add("text-danger");
-            //     LostErr.innerHTML = "year is not valid";
+            //     LostErr.innerHTML = "day or month is not valid";
             //     return false;
+            // } else {
+            //     LostErr.innerHTML = "";
             // }
-            if (SplitLostSince[1] > month || SplitLostSince[2] > day) {
-                LostErr.classList.add("text-danger");
-                LostErr.innerHTML = "day or month is not valid";
-                return false;
-            } else {
-                LostErr.innerHTML = "";
-            }
 
 
         }
@@ -218,12 +218,12 @@
                 var allowedFiles = [".jpg", ".jpeg", ".png"];
                 let regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
                 if (!regex.test(fileUpload.value.toLowerCase())) {
-                    console.log("inside")
+                    console.log("inside");
                     ImgError.classList.add("text-danger");
                     ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
                     break;
                 } else {
-                    ImgError.classList.remove('text-danger')
+                    ImgError.classList.remove('text-danger');
                     ImgError.classList.add("text-success");
                     ImgError.innerHTML = "Upload Image Successfully, size is " + file + "MB";
                     break;
@@ -366,7 +366,11 @@
                 <label for="city">{{ __('messages.City:') }}</label>
                 <select class="form-control" id="city" name="city" required>
                     <option value="none" selected disabled hidden>
+<<<<<<< HEAD
                         {{ __('messages.Select an Option') }} 
+=======
+                        {{ __('messages.Select an Option') }}
+>>>>>>> 2c028dc661b34abdc322725a298434a7b7851686
                     </option>
                     @foreach($cities as $key => $city)
                     <option value="{{$key}}"> {{$city}}</option>

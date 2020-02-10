@@ -4,16 +4,19 @@ namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\NotifyReport;
 use Spatie\Permission\Traits\HasRoles;
 
 
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail , BannableContract
 {
     use Notifiable;
     use HasRoles;
+    use Bannable;
 
 
     /**

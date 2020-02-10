@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Attribute;
 use App\AttributeValue;
 use App\ItemAttributeValue;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -14,9 +16,11 @@ use Illuminate\Support\Facades\Notification;
 use App\Item;
 use App\City;
 use App\Area;
+use App\User;
 use App\DescriptionValidation;
 use App\Category;
 use App\Notifications\NotifyItem;
+use Illuminate\View\View;
 
 class itemController extends Controller
 {
@@ -29,7 +33,7 @@ class itemController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
 
     // isthere any role?
@@ -48,7 +52,7 @@ class itemController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -66,11 +70,12 @@ class itemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
+        dd($request->file('image'));
         DB::transaction(function () use ($request) {
             $item = new Item();
             $item->city_id = $request->input('city_id');
@@ -90,15 +95,14 @@ class itemController extends Controller
                 }
             }
         }, 1);
-        //return response()->json( $this->itemWithVal);
-        return Redirect::to("/items/search/found");
+        return Redirect::to("/items/search");
     }
 
     /**
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function show($item)
     {
@@ -114,7 +118,7 @@ class itemController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -125,9 +129,9 @@ class itemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Item $item)
     {
@@ -170,7 +174,7 @@ class itemController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Item $item)
     {
@@ -181,10 +185,17 @@ class itemController extends Controller
 
     public function getAreaList(Request $request)
     {
-        $states = DB::table("areas")
-            ->where("city_id", $request->city_id)
-            ->pluck("area_name", "id");
-        return response()->json($states);
+        if (app()->getLocale() == 'ar') {
+            $states = DB::table("areas")
+                ->where("city_id", $request->city_id)
+                ->pluck("area_name_ar", "id");
+            return response()->json($states);
+        } else {
+            $states = DB::table("areas")
+                ->where("city_id", $request->city_id)
+                ->pluck("area_name", "id");
+            return response()->json($states);
+        }
 
         // $area = City::with('areas')->where('id' , '=' , $id)->get();
         // foreach($area as $a){
@@ -222,14 +233,14 @@ class itemController extends Controller
         if ($request->ajax()) {
             $query = $request->get('query');
             if ($query != '') {
-                $data = Item::with("category")
-                    ->where('image', 'like', '%' . $query . '%')
-                    ->get();
+                $category = Category::with("items")->where('category_name', 'like', '%' . $query . '%')->first();
+                if ($category) {
+                    return $category->items;
+                } else return [];
             } else {
-                $data = Item::with("category")->get();
+                return Item::with("category")->get();
             }
 
-            return $data;
 
 
             // echo json_encode($data);
@@ -295,4 +306,6 @@ class itemController extends Controller
         }
        return response()->json($query->paginate('5'));
     }
+
+
 }

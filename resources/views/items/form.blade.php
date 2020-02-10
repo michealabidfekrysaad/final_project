@@ -43,10 +43,7 @@
     }
 
 
-
-
-
-     Filevalidation = () => {
+    Filevalidation = () => {
 
         if (fileUpload.files.length > 0) {
             for (const i = 0; i <= fileUpload.files.length - 1; i++) {
@@ -56,29 +53,25 @@
                 // The size of the file.
                 if (file >= 4096) {
                     ImgError.classList.add("text-danger");
-                    ImgError.innerHTML = "size of image is" + file +"MB is very large";
+                    ImgError.innerHTML = "size of image is" + file + "MB is very large";
                     break;
                 }
                 var allowedFiles = [".jpg", ".jpeg", ".png"];
                 let regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
                 if (!regex.test(fileUpload.value.toLowerCase())) {
-                ImgError.classList.add("text-danger");
-                ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
-                break;
-                }
-                else {
-                    ImgError.classList.remove('text-danger')
+                    ImgError.classList.add("text-danger");
+                    ImgError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
+                    break;
+                } else {
+                    ImgError.classList.remove('text-danger');
                     ImgError.classList.add("text-success");
-                    ImgError.innerHTML = "Upload Image Successfully, size is "+file + "MB";
+                    ImgError.innerHTML = "Upload Image Successfully, size is " + file + "MB";
                     break;
 
                 }
             }
         }
     }
-
-
-
 
 
 </script>
@@ -106,7 +99,7 @@
             <div class="form-group">
                 <label for="image">{{ __('messages.Upload Image :') }}</label>
                 <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()"
-                    accept=".jpg,.jpeg,.png" required />
+                       accept=".jpg,.jpeg,.png" required/>
                 <span id="ImgError"></span>
             </div>
 
@@ -116,9 +109,17 @@
                     <option value="none" selected disabled hidden>
                         {{ __('messages.Select an Option') }} 
                     </option>
-                    @foreach($categories as $category)
-                    <option value="{{$category->id}}"> {{$category->category_name}}</option>
-                    @endforeach
+                    @if(app()->getLocale()=='ar')
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}"> {{$category->category_name_ar}}</option>
+                        @endforeach
+                    @else
+
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}"> {{$category->category_name}}</option>
+                        @endforeach
+                    @endif
+
 
                 </select>
             </div>
@@ -133,9 +134,15 @@
                     <option value="none" selected disabled hidden>
                         {{ __('messages.Select an Option') }}
                     </option>
-                    @foreach($cities as $city)
-                    <option value="{{$city->id}}"> {{$city->city_name}}</option>
-                    @endforeach
+                    @if(app()->getLocale()=='ar')
+                        @foreach($cities as $city)
+                            <option value="{{$city->id}}"> {{$city->city_name_ar}}</option>
+                        @endforeach
+                    @else
+                        @foreach($cities as $city)
+                            <option value="{{$city->id}}"> {{$city->city_name}}</option>
+                        @endforeach
+                    @endif
                 </select>
             </div>
 
@@ -168,74 +175,77 @@
     if(cityID){
         $.ajax({
            type:"GET",
-           url:"{{url('get-state-list')}}?city_id="+cityID,
-           success:function(states){
-               //console.log(states);
-            if(states){
-                $("#state").empty();
-                $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
-                $.each(states,function(key,value){
-                    $("#state").append('<option value="'+key+'">'+value+'</option>');
-                });
+           url:"{{url('get-state-list')}}?city_id=" + cityID,
+            success: function (states) {
+                //console.log(states);
+                if (states) {
+                    $("#state").empty();
+                    $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
+                    $.each(states, function (key, value) {
+                        $("#state").append('<option value="' + key + '">' + value + '</option>');
+                    });
 
-            }else{
-               $("#state").empty();
+                } else {
+                    $("#state").empty();
+                }
             }
-           }
         });
-    }else{
+    } else {
         $("#state").empty();
         $("#city").empty();
     }
-   });
+    });
 
-   $('#item').change(function(){
-    var category_id = $(this).val();
-    if(category_id){
-        $.ajax({
-           type:"GET",
-           url:"/get/"+category_id,
-           success:function(category){
-            if(category){
-                $("#attribute").empty();
-                $.each(category[0].attributes,function(key,value){
-                    let itemAttributes=category[0].attributes;
-                $("#attribute").append( `<label>`+itemAttributes[key].attribute_name+`</label>
-                                         <select class="form-control" name="#`+itemAttributes[key].attribute_name+`" id = "`+itemAttributes[key].id+`" value = "`+itemAttributes[key].id+`">
-                                         </select>`);
+    $('#item').change(function () {
+        var category_id = $(this).val();
+        if (category_id) {
+            $.ajax({
+                type: "GET",
+                url: "/get/" + category_id,
+                success: function (category) {
+                    console.log(category);
+                    if (category) {
+                        $("#attribute").empty();
+                        $.each(category[0].attributes, function (key, value) {
+                            let itemAttributes = category[0].attributes;
+                            $("#attribute").append(`@if(app()->getLocale()=='ar')<label>` + itemAttributes[key].attribute_name_ar + `</label>
+                                         <select class="form-control" name="#` + itemAttributes[key].attribute_name + `" id = "` + itemAttributes[key].id + `" value = "` + itemAttributes[key].id + `">
+                                         </select>@else <label>` + itemAttributes[key].attribute_name + `</label>
+                                         <select class="form-control" name="#` + itemAttributes[key].attribute_name + `" id = "` + itemAttributes[key].id + `" value = "` + itemAttributes[key].id + `">
+                                         </select> @endif`);
 
 
-                    $.ajax({
-                    type:"GET",
-                    url:"/valueofattribute/"+itemAttributes[key].id,
-                    success:function(result){
-                        if(result){
-                            $.each(result,function(key,value){
-                                $(`#`+result[key].attribute_id+``).append(`<option value = "`+result[key].id+`">`+result[key].value_name+`</option>`);
+                            $.ajax({
+                                type: "GET",
+                                url: "/valueofattribute/" + itemAttributes[key].id,
+                                success: function (result) {
+                                    if (result) {
+                                        $.each(result, function (key, value) {
+                                            $(`#` + result[key].attribute_id + ``).append(`@if(app()->getLocale()=='ar')<option value = "` + result[key].id + `">` + result[key].value_name_ar + `</option>
+@else<option value = "` + result[key].id + `">` + result[key].value_name + `</option>@endif`);
+                                        })
+
+
+                                    }
+                                    //  console.log(result.value_name)
+
+                                }
                             })
 
 
-                        }
-                        //  console.log(result.value_name)
-
-                         }})
+                        });
 
 
-                });
-
-
-            }else{
-               $("#attribute").empty();
-            }
-           }
-        });
-    }else{
-        $("#attribute").empty();
-        $("#item").empty();
-    }
-   });
-
-
+                    } else {
+                        $("#attribute").empty();
+                    }
+                }
+            });
+        } else {
+            $("#attribute").empty();
+            $("#item").empty();
+        }
+    });
 
 
 </script>

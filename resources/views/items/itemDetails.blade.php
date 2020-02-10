@@ -13,29 +13,53 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}" alt="Img Of Person" class="img-fluid">
+                <img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}"
+                     alt="Img Of Person" class="img-fluid">
             </div>
 
             <div class="col-md-6">
                 <div class="details">
                     <div class="row">
+<<<<<<< HEAD
                         <h3>{{ __('messages.Category :') }}</h3>
                         <p> {{($item->category)->category_name}}</p>
+=======
+                        <h3>Category :</h3>
+                        @if(app()->getLocale()=='ar')
+                            <p> {{($item->category)->category_name_ar}}</p>
+                        @else
+                            <p> {{($item->category)->category_name}}</p>
+                        @endif
+>>>>>>> 2c028dc661b34abdc322725a298434a7b7851686
                     </div>
                     <div class="row">
                         <h3>{{ __('messages.Found Since :') }}</h3>
                         <p> {{$item->found_since}}</p>
                     </div>
                     <div class="row">
+<<<<<<< HEAD
                         <h3>{{ __('messages.City Where Found :') }}</h3>
                         <p> {{($item->city)->city_name}}</p>
+=======
+                        <h3>City Where Found :</h3>
+                        @if(app()->getLocale()=='ar')
+                            <p> {{($item->city)->city_name_ar}}</p>
+                        @else
+                            <p> {{($item->city)->city_name}}</p>
+                        @endif
+>>>>>>> 2c028dc661b34abdc322725a298434a7b7851686
                     </div>
 
                     @foreach($data as $one)
-                    <div class="row">
-                        <h3> {{($one->attribute)->attribute_name}} :</h3>
-                        <p> {{($one->value)->value_name}} </p>
-                    </div>
+                        <div class="row">
+                            @if(app()->getLocale()=='ar')
+                                <h3> {{($one->attribute)->attribute_name_ar}} :</h3>
+                                <p> {{($one->value)->value_name_ar}} </p>
+                            @else
+                                <h3> {{($one->attribute)->attribute_name}} :</h3>
+                                <p> {{($one->value)->value_name}} </p>
+                            @endif
+                        </div>
                     @endforeach
 
                     <div class="row ">

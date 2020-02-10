@@ -6,6 +6,8 @@ use App\Notifications\SendSummaryToUser;
 use App\Report;
 use App\User;
 use Aws\Rekognition\RekognitionClient;
+use Exception;
+use http\Exception\RuntimeException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Session\Session;
@@ -18,6 +20,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Nexmo\Client;
+use Nexmo\Client\Credentials\Basic;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
@@ -26,7 +30,7 @@ class SearchByImageForReport implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $type;
     public $file;
-    public $renderType=" ";
+    public $renderType = " ";
     public $user;
     public $data;
 
@@ -80,19 +84,34 @@ class SearchByImageForReport implements ShouldQueue
                 array_push($nearest, $value->image);
             }
         }
-            $fileAsByte = $this->convertUrlToImageFile($this->file);
-            $newArray = array(
-                'image' => $this->uploadImageToS3("people/", $fileAsByte),
-                'user_id' => $this->user->id);
-            $finalArray = array_merge($this->data, $newArray);
-            if (count($nearest) != 0) {
-                $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
+        $fileAsByte = $this->convertUrlToImageFile($this->file);
+        $newArray = array(
+            'image' => $this->uploadImageToS3("people/", $fileAsByte),
+            'user_id' => $this->user->id);
+        $finalArray = array_merge($this->data, $newArray);
+        if (count($nearest) != 0) {
+            try {
+                $this->getClientForSms()->message()->send([
+                    'to' => '20' . $this->user->phone,
+                    'from' => 'ToFind',
+                    'text' => 'You Received Notification On Our Site For Results'
+                ]);
+            } catch (Exception $exception) {
             }
-            else
-                {
-                    DB::table('reports')->insertGetId($finalArray);
-            }
+            $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
+        } else {
+            try {
+                $this->getClientForSms()->message()->send([
+                    'to' => '20' . $this->user->phone,
+                    'from' => 'ToFind',
+                    'text' => 'Sorry Not Found And Created Report Successfully'
+                ]);
+            } catch (Exception $exception) {
 
+            }
+            DB::table('reports')->insert($finalArray);
+            $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
+        }
     }
     public function getClient()
     {
@@ -105,18 +124,28 @@ class SearchByImageForReport implements ShouldQueue
                     'secret' => 'j2LSHHct7RPBixDxU/sXuzwt7tedafZv6pfrcZhJ'
                 ]]);
     }
-    public function uploadImageToS3($path,$file){
+
+    public function getClientForSms()
+    {
+        $basic = new Basic('9d0cd4d6', 'LzIsAfazHBBHN7fl');
+        return new Client($basic);
+    }
+
+    public function uploadImageToS3($path, $file)
+    {
 
         $filenamewithextension = $file->getClientOriginalName();
         $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
         $extension = $file->getClientOriginalExtension();
-        $filenametostore = $path.$filename.'_'.time().'.'.$extension;
+        $filenametostore = $path . $filename . '_' . time() . '.' . $extension;
         Storage::disk('s3')->put($filenametostore, fopen($file, 'r+'), 'public');
         return $filenametostore;
 
     }
-    public function convertUrlToImageFile($tempUrl){
-        $url = 'https://loseall.s3.us-east-2.amazonaws.com/'.$tempUrl;
+
+    public function convertUrlToImageFile($tempUrl)
+    {
+        $url = 'https://loseall.s3.us-east-2.amazonaws.com/' . $tempUrl;
         $info = pathinfo($url);
         $contents = file_get_contents($url);
         $file = '/tmp/' . $info['basename'];
