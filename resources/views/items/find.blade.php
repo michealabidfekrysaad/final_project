@@ -4,37 +4,34 @@
 
 <div class="pt-5 container-fluid">
     <div class="row mt-2 pt-5 section-header">
-        <h2 class="mx-auto">all Found Items</h2>
+        <h2 class="mx-auto">{{ __('messages.all Found Items') }}</h2>
     </div>
     <h2 class="filter_data d-block"></h2>
-{{--    <div class="row justify-content-end ">--}}
-{{--        <div class="col-lg-9 col-md-12">--}}
 
 
 
-{{--            <input type="text" id="search" class="form-control mb-3 " placeholder="searching for lost Item by name ">--}}
-{{--        </div>--}}
-{{--    </div>--}}
+
+
+            <input type="text" id="search" class="form-control mb-3 " placeholder="{{ __('messages.searching for lost Item by name ') }} "> </div>
+    </div>
     <div class="row w-100 mx-auto ">
         {{-- d-none --}}
         <div class="col-lg-3   d-lg-block">
-            <h4 class="text-muted">filter by</h4>
+            <h4 class="text-muted">{{ __('messages.filter by') }}</h4>
 
             <article class="card-group-item">
                 <header class="card-header">
-                    <h6 class="title">Category :</h6>
+                    <h6 class="title">{{ __('messages.Category :') }}</h6>
                 </header>
 
                 <div class="filter-content">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="title">Select Category:</label>
+                            <label for="title">{{ __('messages.Select Category:') }}</label>
                             <select class="form-control " id="CategoryList" name="category">
-                                @if(app()->getLocale()=='ar')
-                                <option value="" selected>الكل</option>
-                                @else
-                                <option value="" selected>All</option>
-                                @endif
+                                <option value="" selected>{{ __('messages.All') }}</option>
+
+                    
                                 @if(app()->getLocale()=='ar')
                                 @foreach ($categories as $category)
                                 <option value="{{$category->id}}">{{$category->category_name_ar}} </option>
@@ -74,19 +71,16 @@
 
             <article class="card-group-item">
                 <header class="card-header">
-                    <h6 class="title">City :</h6>
+                    <h6 class="title">{{ __('messages.City :') }}</h6>
                 </header>
 
                 <div class="filter-content">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="title">Select City:</label>
+                            <label for="title">{{ __('messages.Select City:') }}</label>
                             <select class="form-control " id="city" name="city">
-                                @if(app()->getLocale()=='ar')
-                                <option value="">الكل</option>
-                                @else
-                                <option value="">All</option>
-                                @endif
+                                <option value="">{{ __('messages.All') }}</option>
+                            
                                 @if(app()->getLocale()=='ar')
                                 @foreach ($cities as $city)
                                 <option value="{{$city->id}}">{{$city->city_name_ar}} </option>
@@ -108,14 +102,14 @@
 
             <article class="card-group-item">
                 <header class="card-header">
-                    <h6 class="title">region :</h6>
+                    <h6 class="title">{{ __('messages.region :') }}</h6>
                 </header>
 
                 <div class="filter-content">
                     <div class="card-body">
 
                         <div class="form-group">
-                            <label for="title">select region:</label>
+                            <label for="title">{{ __('messages.select region:') }}</label>
                             <select name="region" id="region" class="form-control">
                                 <option hidden value="">{{__('messages.Select City First') }}</option>
                             </select>
@@ -131,6 +125,28 @@
 
                 <div class="container">
                     <div class="row" id="lost">
+                        @foreach($items as $item)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="hotel text-center">
+                                <div class="hotel-img">
+                                    <a href="/showReportItem/{{$item->id}}"><img style="width:348px;height:348px"
+                                            src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}"
+                                            alt="Img Of Person" class="img-fluid"></a>
+                                </div>
+                                @if(app()->getLocale()=='ar')
+                                <h3>{{($item->category)->category_name_ar}}</h3>
+                                @else
+                                <h3>{{($item->category)->category_name}}</h3>
+
+                                <h3>{{ __('messages.Found Since :') }} {{$item->found_since}}</h3>
+
+                                @endif
+                                <h3>Found Since : {{$item->found_since}}</h3>
+
+                            </div>
+                        </div>
+                        @endforeach
+
                     </div>
                     <div class="row justify-content-center" id="pages">
 

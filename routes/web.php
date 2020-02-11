@@ -17,7 +17,7 @@ use App\Http\Middleware\increaseView;
 Route::get('/contact', function () {
     return view('contact.index');
 })->middleware(increaseView::class);
-    Route::post('/contact','contactController@store')->middleware(increaseClick::class);
+    Route::post('/contact/store','contactController@store')->middleware(increaseClick::class);
 
 Route::get('/about', function () {
     return view('about.index');

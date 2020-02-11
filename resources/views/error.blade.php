@@ -22,8 +22,8 @@
 				<h1>{{$message}}</h1>
 			</div>
 			<h2>{{$code}}</h2>
-			<a href="/" class="home-btn">Go Home</a>
-			<a href="/contact" class="contact-btn">Contact us</a>
+			<a href="/" class="home-btn">{{ __('messages.Go Home') }}</a>
+			<a href="/contact" class="contact-btn">{{ __('messages.Contact us') }}</a>
 
 		</div>
 	</div>

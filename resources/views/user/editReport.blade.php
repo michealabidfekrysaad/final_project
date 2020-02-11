@@ -10,7 +10,7 @@
     <div class="container py-5">
 
         <div class="section-header pt-5">
-            <h2>Edit Report</h2>
+            <h2>{{ __('messages.Edit Report') }}</h2>
         </div>
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -35,7 +35,7 @@
                     <div class="details">
                         <div class="row">
                             <div class="col">
-                                <h3>Name Of Person :</h3>
+                                <h3>{{ __('messages.Name Of Person :') }}</h3>
                             </div>
                             <div class="col"><input type="text" class="form-control" id="inputName" placeholder="Name Of Person" required name="name" value="{{$report->name}}">
                                 <span id="NameErr"></span>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Location :</h3>
+                                <h3>{{ __('messages.Location :') }}</h3>
                             </div>
                             <div class="col"><input type="text" class="form-control" id="inputlocation" placeholder="Last Location Of Person" required name="location" value="{{$report->location}}">
                                 <span id="LocationErr"></span>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Special Mark :</h3>
+                                <h3>{{ __('messages.Special Mark :') }}</h3>
                             </div>
                             <div class="col">
                                 <input type="text" class="form-control" id="inputspecial_mark" placeholder="Special Mark Of Person" required name="special_mark" value="{{$report->special_mark}}">
@@ -62,7 +62,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Last Seen At :</h3>
+                                <h3>{{ __('messages.Last Seen At :') }}</h3>
                             </div>
                             <div class="col">
                                 <input type="text" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required name="last_seen_at" value="{{$report->last_seen_at}}">
@@ -71,7 +71,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Lost Since : </h3>
+                                <h3>{{ __('messages.Lost Since : ') }}</h3>
                             </div>
                             <div class="col">
                             <input type="date" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required name="last_seen_on" value="{{$report->last_seen_on}}">
@@ -79,7 +79,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Age : </h3>
+                                <h3>{{ __('messages.Age : ') }}</h3>
                             </div>
                             <div class="col">
                                 <input type="number" class="form-control" id="inputAge" placeholder="Age Of Person" min=1 max=90 required name="age" value="{{$report->age}}">
@@ -89,7 +89,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Height : </h3>
+                                <h3>{{ __('messages.Height : ') }}</h3>
                             </div>
                             <div class="col">
                                 <input type="number" class="form-control" id="inputHeight" placeholder="height Of Person In CM ex:125" min=1 max=250 required name="height" value="{{$report->height}}">
@@ -99,7 +99,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Weight : </h3>
+                                <h3>{{ __('messages.Weight : ') }}</h3>
                             </div>
                             <div class="col">
                                 <input type="number" class="form-control" id="inputWeight" placeholder="Weight Of Person In KG" min=5 max=100 required name="weight" value="{{$report->weight}}">
@@ -109,13 +109,13 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Gender : </h3>
+                                <h3>{{ __('messages.Gender : ') }}</h3>
                             </div>
                             <div class="col">
                                 <select class="form-control" id="gender" name="gender" required>
-                                    <option disabled value="">select your gender</option>
-                                    <option {{ $report->gender=="male" ? 'selected' : '' }} value="male">Male</option>
-                                    <option {{ $report->gender=="female" ? 'selected' : '' }}  value="female">Female</option>
+                                    <option disabled value="">{{ __('messages.select your gender') }}</option>
+                                    <option {{ $report->gender=="male" ? 'selected' : '' }} value="male">{{ __('messages.Male') }}</option>
+                                    <option {{ $report->gender=="female" ? 'selected' : '' }}  value="female">{{ __('messages.Female') }}</option>
                                 </select>
                                 <span id="GenderErr"></span>
                             </div>
@@ -124,17 +124,17 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Last Seen On : </h3>
+                                <h3>{{ __('messages.Last Seen On : ') }}</h3>
                             </div>
                             <div class="col">
                                 <select class="form-control" id="last_seen_on" name="last_seen_on" required>
-                                    <option value="Saturday">Saturday</option>
-                                    <option value="Sunday">Sunday</option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wednesday">Wednesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">{{ __('messages.Saturday') }}</option>
+                                    <option value="Sunday">{{ __('messages.Sunday') }}</option>
+                                    <option value="Monday">{{ __('messages.Monday') }}</option>
+                                    <option value="Tuesday">{{ __('messages.Tuesday') }}</option>
+                                    <option value="Wednesday">{{ __('messages.Wednesday') }}</option>
+                                    <option value="Thursday">{{ __('messages.Thursday') }}</option>
+                                    <option value="Friday">{{ __('messages.Friday') }}</option>
 
                                 </select>
                             </div>
@@ -142,36 +142,36 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Eye Color : </h3>
+                                <h3>{{ __('messages.Eye Color : ') }}</h3>
                             </div>
                             <div class="col">
                                 <select class="form-control" id="eye_color" name="eye_color" required>
-                                    <option {{ $report->eye_color=="black" ? 'selected' : '' }} value="black">Black</option>
-                                    <option {{ $report->eye_color=="brown" ? 'selected' : '' }} value="brown">Browan</option>
-                                    <option {{ $report->eye_color=="green" ? 'selected' : '' }} value="green">Green</option>
-                                    <option {{ $report->eye_color=="grey" ? 'selected' : '' }} value="grey">Grey</option>
-                                    <option {{ $report->eye_color=="blue" ? 'selected' : '' }} value="blue">Blue</option>
+                                    <option {{ $report->eye_color=="black" ? 'selected' : '' }} value="black">{{ __('messages.Black') }}</option>
+                                    <option {{ $report->eye_color=="brown" ? 'selected' : '' }} value="brown">{{ __('messages.Brown') }}</option>
+                                    <option {{ $report->eye_color=="green" ? 'selected' : '' }} value="green">{{ __('messages.Green') }}</option>
+                                    <option {{ $report->eye_color=="grey" ? 'selected' : '' }} value="grey">{{ __('messages.Grey') }}</option>
+                                    <option {{ $report->eye_color=="blue" ? 'selected' : '' }} value="blue">{{ __('messages.Blue') }}</option>
                                 </select>
                             </div>
 
                         </div>
                         <div class="row">
                             <div class="col">
-                                <h3>Hair Color : </h3>
+                                <h3>{{ __('messages.Hair Color : ') }}</h3>
                             </div>
                             <div class="col">
                                 <select class="form-control" id="hair_color" name="hair_color">
-                                    <option {{ $report->hair_color=="black" ? 'selected' : '' }} value="black">Black</option>
-                                    <option {{ $report->hair_color=="brown" ? 'selected' : '' }} value="brown">Brown</option>
-                                    <option {{ $report->hair_color=="white" ? 'selected' : '' }} value="white">White</option>
-                                    <option {{ $report->hair_color=="golden" ? 'selected' : '' }} value="golden">Golden</option>
+                                    <option {{ $report->hair_color=="black" ? 'selected' : '' }} value="black">{{ __('messages.Black') }}</option>
+                                    <option {{ $report->hair_color=="brown" ? 'selected' : '' }} value="brown">{{ __('messages.Brown') }}</option>
+                                    <option {{ $report->hair_color=="white" ? 'selected' : '' }} value="white">{{ __('messages.White') }}</option>
+                                    <option {{ $report->hair_color=="golden" ? 'selected' : '' }} value="golden">{{ __('messages.Golden') }}</option>
                                 </select>
                             </div>
 
 
                         </div>
                         <div class="row ">
-                            <button type="submit" class="btn" id="lostButton">Update Report</button>
+                            <button type="submit" class="btn" id="lostButton">{{ __('messages.Update Report') }}</button>
                         </div>
 
 

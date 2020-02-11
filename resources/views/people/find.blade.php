@@ -8,36 +8,36 @@
 @endif
 <div class="pt-5 container-fluid">
 	<div class="row mt-2 pt-5 section-header">
-		<h2 class="mx-auto">all lost people</h2>
+		<h2 class="mx-auto">{{ __('messages.all lost people') }}</h2>
 	</div>
 	<h2 class="filter_data d-block"></h2>
 	<div class="row justify-content-end ">
 		<div class="col-lg-9 col-md-12">
-			<input type="text" id="search" class="form-control mb-3 " placeholder="searching for lost people by name ">
+			<input type="text" id="search" class="form-control mb-3 " placeholder="{{ __('messages.searching for lost people by name ') }}">
 		</div>
 	</div>
 	<div class="row w-100 mx-auto ">
 
 		<div class="col-lg-3  d-none d-lg-block">
 
-			<h4 class="text-muted">filter by</h4>
+			<h4 class="text-muted">{{ __('messages.filter by') }}</h4>
 
 			<article class="card-group-item">
 				<header class="card-header">
-					<h6 class="title">Category: </h6>
+					<h6 class="title">{{ __('messages.Category :') }}</h6>
 				</header>
 				<div class="filter-content">
 					<div class="card-body">
 						<div class="custom-control custom-checkbox">
 							<!-- <span class="float-right badge badge-light round">52</span> -->
 							<input type="checkbox" class="custom-control-input gender" id="Check1" name="male" value="male">
-							<label class="custom-control-label" for="Check1">Male</label>
+							<label class="custom-control-label" for="Check1">{{ __('messages.Male') }}</label>
 						</div> <!-- form-check.// -->
 
 						<div class="custom-control custom-checkbox">
 							<!-- <span class="float-right badge badge-light round">132</span> -->
 							<input type="checkbox" class="custom-control-input gender" id="Check2" name="female" value="female">
-							<label class="custom-control-label" for="Check2">Female</label>
+							<label class="custom-control-label" for="Check2">{{ __('messages.Female') }}</label>
 						</div> <!-- form-check.// -->
 
 					</div> <!-- card-body.// -->
@@ -48,54 +48,46 @@
 
 			<article class="card-group-item">
 				<header class="card-header">
-					<h6 class="title">Age: </h6>
+					<h6 class="title">{{ __('messages.Age: ') }}</h6>
 				</header>
 				<div class="filter-content">
 					<div class="card-body">
 						<div class="custom-control custom-checkbox">
 							{{-- <span class="float-right badge badge-light round">number from database</span>--}}
 							<input type="checkbox" class="custom-control-input age" name="below_10_years" id="CheckAge1" value="below_10_years">
-							<label class="custom-control-label" for="CheckAge1">Under 10 Years old</label>
+							<label class="custom-control-label" for="CheckAge1">{{ __('messages.Under 10 Years old') }}</label>
 						</div> <!-- form-check.// -->
 
 						<div class="custom-control custom-checkbox">
 							{{-- <span class="float-right badge badge-light round">number from database</span>--}}
 							<input type="checkbox" class="custom-control-input age" name="below_20_years" id="CheckAge2" value="below_20_years">
-                            <label class="custom-control-label" for="CheckAge2">Between 11 and 20 Years old</label>
-                        </div>
+							<label class="custom-control-label" for="CheckAge2">{{ __('messages.Between 11 and 20 Years old') }}</label>
+						</div>
 
-                        <div class="custom-control custom-checkbox">
-                            {{-- <span class="float-right badge badge-light round">number from database</span>--}}
-                            <input type="checkbox" class="custom-control-input age" name="below_30_years" id="CheckAge3"
-                                   value="below_30_years">
-                            <label class="custom-control-label" for="CheckAge3">Between 21 and 30 Years old</label>
-                        </div>
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input age" name="below_30_years" id="CheckAge3" value="below_30_years">
+							<label class="custom-control-label" for="CheckAge3">{{ __('messages.Between 21 and 30 Years old') }}</label>
+						</div>
 
-                        <div class="custom-control custom-checkbox">
-                            {{-- <span class="float-right badge badge-light round">number from database</span>--}}
-                            <input type="checkbox" class="custom-control-input age" name="other_above_30" id="CheckAge4"
-                                   value="other_above_30">
-                            <label class="custom-control-label" for="CheckAge4">Above 30 Years old</label>
-                        </div>
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input age" name="other_above_30" id="CheckAge4" value="other_above_30">
+							<label class="custom-control-label" for="CheckAge4">{{ __('messages.Above 30 Years old') }}</label>
+						</div>
 
-                    </div> <!-- card-body.// -->
-                </div>
-            </article>
+					</div> <!-- card-body.// -->
+				</div>
+			</article>
 
 
-            <article class="card-group-item">
-                <header class="card-header">
-                    <h6 class="title">City:</h6>
-                </header>
-                <div class="filter-content">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <select class="form-control " id="DropDownList1" name="city">
-                                @if(app()->getLocale()=='ar')
-                                    <option value="">الكل</option>
-                                @else
-                                    <option value="">All</option>
-                                @endif
+			<article class="card-group-item">
+				<header class="card-header">
+					<h6 class="title">{{ __('messages.City:') }}</h6>
+				</header>
+				<div class="filter-content">
+					<div class="card-body">
+						<div class="form-group">
+							<select class="form-control " id="DropDownList1" name="city">
+								<option value="" >{{ __('messages.All') }}</option>
                                 @foreach ($cities as $city)
                                     @if(app()->getLocale()=='ar')
                                         <option value="{{$city->id}}">{{$city->city_name_ar}} </option>
@@ -103,51 +95,51 @@
                                         <option value="{{$city->id}}">{{$city->city_name}} </option>
                                     @endif
                                 @endforeach
-                            </select>
-                        </div>
-                        <!-- <div class="custom-control custom-checkbox">
-                            <span class="float-right badge badge-light round">52</span>
-                            <input type="checkbox" class="custom-control-input" id="City1">
-                            <label class="custom-control-label" for="City1">Alexandria</label>
-                        </div>
+							</select>
+						</div>
+						<!-- <div class="custom-control custom-checkbox">
+							<span class="float-right badge badge-light round">52</span>
+							<input type="checkbox" class="custom-control-input" id="City1">
+							<label class="custom-control-label" for="City1">Alexandria</label>
+						</div>
 
-                        <div class="custom-control custom-checkbox">
-                            <span class="float-right badge badge-light round">132</span>
-                            <input type="checkbox" class="custom-control-input" id="City2">
-                            <label class="custom-control-label" for="City2">Cairo</label>
-                        </div>
+						<div class="custom-control custom-checkbox">
+							<span class="float-right badge badge-light round">132</span>
+							<input type="checkbox" class="custom-control-input" id="City2">
+							<label class="custom-control-label" for="City2">Cairo</label>
+						</div>
 
-                        <div class="custom-control custom-checkbox">
-                            <span class="float-right badge badge-light round">17</span>
-                            <input type="checkbox" class="custom-control-input" id="City3">
-                            <label class="custom-control-label" for="City3">Portsaid</label>
-                        </div>
+						<div class="custom-control custom-checkbox">
+							<span class="float-right badge badge-light round">17</span>
+							<input type="checkbox" class="custom-control-input" id="City3">
+							<label class="custom-control-label" for="City3">Portsaid</label>
+						</div>
 
-                        <div class="custom-control custom-checkbox">
-                            <span class="float-right badge badge-light round">7</span>
-                            <input type="checkbox" class="custom-control-input" id="City4">
-                            <label class="custom-control-label" for="City4">Minia</label>
-                        </div> -->
-                    </div> <!-- card-body.// -->
-                </div>
-            </article>
+						<div class="custom-control custom-checkbox">
+							<span class="float-right badge badge-light round">7</span>
+							<input type="checkbox" class="custom-control-input" id="City4">
+							<label class="custom-control-label" for="City4">Minia</label>
+						</div> -->
+					</div> <!-- card-body.// -->
+				</div>
+			</article>
 
 
-{{--            <article class="card-group-item">--}}
-{{--                <header class="card-header">--}}
-{{--                    <h6 class="title">Region :</h6>--}}
-{{--                </header>--}}
-{{--                <div class="filter-content">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <div class="form-group">--}}
-{{--                            <label for="title">select region:</label>--}}
-{{--                            <select name="region" id="region" class="form-control">--}}
-{{--                                <option hidden value="">Select City First</option>--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
-{{--                    </div> <!-- card-body.// -->--}}
-{{--                </div>--}}
-{{--            </article>--}}
+			<article class="card-group-item">
+				<header class="card-header">
+					<h6 class="title">{{ __('messages.Region :') }}</h6>
+				</header>
+				<div class="filter-content">
+					<div class="card-body">
+						<div class="form-group">
+							<label for="title">{{ __('messages.select region:') }}</label>
+							<select name="region" id="region" class="form-control">
+								<option hidden value="">{{ __('messages.Select City First') }}</option>
+							</select>
+						</div>
+					</div> <!-- card-body.// -->
+				</div>
+			</article>
 
 		</div>
 

@@ -18,7 +18,7 @@ class contactController extends Controller
             'message'=>$request->message,
             'created_at'=>now()
         ]);
-        return redirect()->to('/')->with('message','Your message has been sent. Thank you!');
+        return redirect()->to('/contact')->with('message','Your message has been sent. Thank you!');
 
 
     }

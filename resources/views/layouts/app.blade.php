@@ -1,5 +1,9 @@
 <!doctype html>
+@if(app()->getLocale()=='ar')
+<html dir="rtl"   lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@else
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@endif
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,10 +43,17 @@
   ============================-->
     <header id="header">
         <div class="container">
+ {{-- if( url('locale/ar') ){
+    <div id="logo" class="pull-left rightNav">
+ }
+ else{
+    <div id="logo" class="pull-left">
+ }
 
-            <div id="logo" class="pull-left">
+            --}}
                 <!-- Uncomment below if you prefer to use a text logo -->
                 <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
+                <div id="logo" class="pull-left ">
                 <a href="/" class="scrollto"><img src="{{asset('img/logo.png') }}" alt="" title=""></a>
             </div>
 
@@ -83,11 +94,11 @@
 
                     @guest
                     <li class="buy-tickets ">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('messages.Login') }}</a>
                     </li>
                     @if (Route::has('register'))
                     <li class="buy-tickets">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('messages.Register') }}</a>
                     </li>
                     @endif
                     @else
@@ -138,15 +149,22 @@
 
 
     <div>
-{{--        text-right--}}
-        <main class="wow fadeIn " >
-            @yield('content')
+        <!-- text-right -->
+        @if(app()->getLocale()=='ar')
+            <main class="wow fadeIn text-right" >
+                @yield('content')
 
-        </main>
+            </main>
+            @else
+            <main class="wow fadeIn" >
+                @yield('content')
+
+            </main>
+                @endif
     </div>
 
-{{--    <li><a href="{{ url('locale/en') }}" ><i class="fa fa-language"></i> EN</a></li>--}}
-{{--    <li><a href="{{ url('locale/ar') }}" ><i class="fa fa-language"></i> AR</a></li>--}}
+    <li><a href="{{ url('locale/en') }}" ><i class="fa fa-language"></i> EN</a></li>
+    <li><a href="{{ url('locale/ar') }}" ><i class="fa fa-language"></i> AR</a></li>
 </body>
 
 </html>

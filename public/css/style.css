@@ -143,7 +143,9 @@ h6 {
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
-
+.rightNav{
+  float: right;
+}
 #header {
   height: 90px;
   padding: 25px 0;
@@ -258,7 +260,7 @@ h6 {
 #nav-menu-container {
   float: right;
   margin: 0;
-  width: 70%;
+  width: 77%;
 }
 
 /* Nav Meu Styling */
