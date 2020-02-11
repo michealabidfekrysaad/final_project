@@ -133,21 +133,21 @@
             </article>
 
 
-            <article class="card-group-item">
-                <header class="card-header">
-                    <h6 class="title">Region :</h6>
-                </header>
-                <div class="filter-content">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="title">select region:</label>
-                            <select name="region" id="region" class="form-control">
-                                <option hidden value="">Select City First</option>
-                            </select>
-                        </div>
-                    </div> <!-- card-body.// -->
-                </div>
-            </article>
+{{--            <article class="card-group-item">--}}
+{{--                <header class="card-header">--}}
+{{--                    <h6 class="title">Region :</h6>--}}
+{{--                </header>--}}
+{{--                <div class="filter-content">--}}
+{{--                    <div class="card-body">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label for="title">select region:</label>--}}
+{{--                            <select name="region" id="region" class="form-control">--}}
+{{--                                <option hidden value="">Select City First</option>--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
+{{--                    </div> <!-- card-body.// -->--}}
+{{--                </div>--}}
+{{--            </article>--}}
 
 		</div>
 
@@ -156,43 +156,49 @@
 
 				<div class="container">
 					<div class="row" id="lost">
-
-
 					</div>
+                    <div class="row justify-content-center" id="pages">
 
-			</section>
+                    </div>
 		</div>
-		</article>
+            </section>
+        </div>
 
-	</div>
+    </div>
 </div>
 
 
+
+
 <script>
-	$(document).ready(function() {
-		filter_data();
+    let globalArray=[];
+    function paginate (array) {
+        document.getElementById("lost").innerHTML="";
+        document.getElementById("pages").innerHTML="";
+        globalArray=[];
+        let slicedArray;
+        let pageNumber=0;
+        let SPAN=document.getElementById('pages')
+        for (let i=0;i<array.length;i+=6) {
+            pageNumber++
 
-		function fetch_Data(query = '') {
-			$.ajax({
-				url: "{{route('search.action')}}",
-				method: 'GET',
-				data: {
-					query: query
-				},
-				dataType: 'json',
-				success: function(data) {
-					console.log(data);
-					insertToHtml(data)
-				}
-			});
-		}
-
-		function insertToHtml(data) {
-
-			let d1 = document.getElementById('lost');
-			d1.innerHTML = " ";
-			data.forEach(element => {
-				d1.insertAdjacentHTML('beforeend', `
+            SPAN.insertAdjacentHTML("beforeend",
+                `<button id='${i/6}' class="pn btn" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='#00bcc1'">${pageNumber}</button>
+`)
+            slicedArray = array.slice(i,i+6);
+            // console.log(slicedArray);
+            globalArray.push(slicedArray);
+        }
+          document.getElementById("0").style.backgroundColor="#00bcc1"
+    }
+    function setHtmlAndInsert(id) {
+         insertToHtml(globalArray[id]);
+    }
+    function insertToHtml(data) {
+         let d1 = document.getElementById('lost');
+         d1.innerHTML = " ";
+        data.forEach(element => {
+            d1.insertAdjacentHTML('beforeend', `
 	<div class="col-lg-4 col-md-6" >
 		<div class="hotel text-center">
 		<div class="hotel-img" >
@@ -207,9 +213,34 @@
 	</div>
 
 	`)
-
+        });
+    }
+    function changeColor() {
+        let elements = document.getElementsByClassName("pn");
+        for (let i=0; i<elements.length; i++ ) {
+            document.getElementById(elements[i].id).style.backgroundColor = "white";
+            // console.log(elements[i].id)
+        }
+    }
+	$(document).ready(function() {
+		fetch_Data();
+		function fetch_Data(query = '') {
+			$.ajax({
+				url: "{{route('search.action')}}",
+				method: 'GET',
+				data: {
+					query: query
+				},
+				dataType: 'json',
+				success: function(data) {
+				   let d1= document.getElementById("lost")
+                    let SPAN= document.getElementById("pages")
+                    d1.innerHTML=" ";
+                    SPAN.innerHTML = " ";
+                    paginate(data)
+                    insertToHtml(globalArray[0]);
+				}
 			});
-
 		}
 		$(document).on('keyup', '#search', function() {
 			var query = $(this).val();
@@ -223,18 +254,26 @@
 			if ($("#DropDownList1 :selected").text() != "All") {
 				var city = $("#DropDownList1 :selected").val();
 
-			}else{
+			}
+			else{
 				var city ="";
 			}
+            if ($("#region :selected").text() != "All") {
+                var region = $("#region :selected").val();
+            }
+            else{
+                var region ="";
+            }
 			var data = {
 				gender,
 				city,
-				age
+				age,
+                region
 			};
-			console.log(data);
-			if ((data.gender).length != 0 || (data.city).length != 0 || (data.age).length != 0) {
+			// console.log(data);
+			if ((data.gender).length != 0 || (data.city).length != 0 || (data.region).length != 0 || (data.age).length != 0) {
+                console.log(JSON.stringify(data));
 				$.ajax({
-
 					method: "GET",
                     url: "/filter/" + JSON.stringify(data),
                     traditional: true,
@@ -243,9 +282,12 @@
                     },
                     //data: JSON.stringify(data),
                     success: function (data) {
-                        console.log(data);
-                        insertToHtml(data);
-                    }
+                        console.log(data)
+                        console.log("islam")
+                        paginate(data)
+                        console.log(globalArray[0])
+                         insertToHtml(globalArray[0]);
+					}
                 });
             } else {
                 fetch_Data()
@@ -301,7 +343,7 @@
 
         $("#region").change(function (e) {
 
-            // filter_data_item();
+             filter_data();
 
         })
     });

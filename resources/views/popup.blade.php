@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<button id="modalclick" hidden type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+<button id="modalclick" hidden type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" >
     Open modal
 </button>
 <!-- The Modal -->
@@ -14,7 +14,7 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-             {{$message}}
+                Notification will be sent as soon as possible
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">

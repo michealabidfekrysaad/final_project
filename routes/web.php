@@ -17,9 +17,7 @@ use App\Http\Middleware\increaseView;
 Route::get('/contact', function () {
     return view('contact.index');
 })->middleware(increaseView::class);
-Route::get('/contact', function () {
-    return view('contact.index');
-})->middleware(increaseView::class);
+    Route::post('/contact','contactController@store')->middleware(increaseClick::class);
 
 Route::get('/about', function () {
     return view('about.index');
@@ -67,7 +65,7 @@ Route::get('/edit/{id}', 'AttributeController@edit')->name('attribute.edit');
 Route::put('/updateAttribute/{id}', 'AttributeController@update')->name('attribute.update');
 
 
-Route::delete('/deleteAttribute', 'AttributeController@destroy')->name('attribute.destroy');
+Route::delete('/deleteAttribute/{id}', 'AttributeController@destroy')->name('attribute.destroy');
 
 /***** Values CRUD *****/
 Route::get('/valuesAdmin', 'ValuesController@indexAdmin')->name('value.index');
@@ -118,11 +116,11 @@ Route::get('/admin/panel', function () {
     return view('layouts.AdminPanel.index');
 });
 
-Route::get('/admin/panel/userstable','reportController@adminUsers');
-Route::get('/user/{id}','reportController@showUser');
-Route::get('user/edit/{id}','reportController@editUser');
-Route::put('user/update/{id}','reportController@updateUser')->name('user.update');
-Route::delete('user/{id}','reportController@destroyUser');
+Route::get('/admin/panel/userstable','UserController@adminUsers');
+Route::get('/user/{id}','UserController@showUser');
+Route::get('user/edit/{id}','UserController@editUser');
+Route::put('user/update/{id}','UserController@updateUser')->name('user.update');
+Route::delete('user/{id}','UserController@destroyUser');
 Route::get('/admin/panel/categorytable','categoryController@admincategory');
 Route::get('category/create','categoryController@createCategory')->name('category.create');
 Route::post('category/store','categoryController@storeCategory')->name('posts.store');
@@ -130,12 +128,12 @@ Route::delete('category/{id}','categoryController@destroyCategory');
 
 
 
-Route::group(['middleware'=>'is-ban'], function(){
-    Route::get('/home', 'HomeController@index')->name('home');
-    //Route::get('/users' , 'UserController@index')->name('user.index');
-    Route::get('/userUserRevoke/{id}', 'reportController@revoke')->name('users.revokeuser');
-    Route::post('/userBan/{id}', 'reportController@ban')->name('users.ban');
-});
+//Route::group(['middleware'=>'is-ban'], function(){
+//    Route::get('/home', 'HomeController@index')->name('home');
+//});
+Route::get('/home', 'HomeController@index')->name('home')->middleware(\App\Http\Middleware\CheckBanned::class);
+Route::get('/userUserRevoke/{id}', 'UserController@revoke')->name('users.revokeuser');
+Route::get('/userBan/{id}', 'UserController@ban')->name('users.ban');
 
 
 // abdo routes admin ----------------------------------------------
@@ -211,3 +209,10 @@ Route::get('locale/{locale}', function ($locale) {
     Session::put('locale', $locale);
     return redirect()->back();
 });
+
+Route::get('/attribute/index', function(){
+    return view('layouts.AdminPanel.attribute.index');
+});
+Route::get('/attribute/admin' , 'AttributeController@indexAdmin');
+Route::get('/addvalueadmin','AttributeController@create');
+Route::post('/addvalueadmin/store','AttributeController@store');

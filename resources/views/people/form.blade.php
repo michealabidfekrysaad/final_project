@@ -431,7 +431,7 @@
                 <label for="hair_color">Select Hair Color :</label>
                 <select class="form-control" id="hair_color" name="hair_color">
                     <option value="black">Black</option>
-                    <option value="browan">Browan</option>
+                    <option value="brown">Brown</option>
                     <option value="white">White</option>
                     <option value="golden">Golden</option>
                 </select>

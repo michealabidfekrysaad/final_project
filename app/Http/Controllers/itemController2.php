@@ -29,9 +29,9 @@ class itemController2 extends Controller
         // $area = Item::with('area')->get();
         // $user = Item::with('user')->get();
         // $category = Item::with('category')->get();
-        
+
         return view('layouts.AdminPanel.ItemsAdmin.index' , [
-          'items' => $items 
+          'items' => $items
         ]);
     }
     public function create2Admin(){
@@ -42,7 +42,7 @@ class itemController2 extends Controller
         // $attr = Attribute::all();
         // $value = AttributeValue::all();
         // return view('layouts.AdminPanel.ItemsAdmin.create' , [
-        //     'city' => $city 
+        //     'city' => $city
         //   , 'area' => $area
         //   , 'user' => $user
         //   , 'category' => $category
@@ -91,24 +91,24 @@ class itemController2 extends Controller
         // $category = Category::all();
         // $attr = Attribute::all();
         // $value = AttributeValue::all();
-        return view('layouts.AdminPanel.ItemsAdmin.edit' , compact('item' 
+        return view('layouts.AdminPanel.ItemsAdmin.edit' , compact('item'
         , 'city','area','category','attributes' , 'values'));
     }
     public function update2Admin(Request $request , $id){
-    
 
         DB::transaction(function() use ($request , $id) {
-
             $item = Item::where('id' , '=' , $id)->first();
             $item->update([
-                'image' => 'aaaa',//$this->uploadImageToS3('items/',$request->file('image')),
+                'image' => $this->uploadImageToS3('items/',$request->file('image')),
                 'city_id' => $request->input('city_id'),
                 'area_id' => $request->input('area_id'),
-                'found_since' => $request->input('found_since'),   
+                'found_since' => $request->input('found_since'),
                 'category_id' => $request->input('category_id')
             ]);
-            $item_attribute_values=ItemAttributeValue::whereIn('item_id',[$item->id])->delete();
-            dd($item_attribute_values);
+            $item_attribute_values=ItemAttributeValue::where('item_id','=',$item->id);
+            $item_attribute_values->each(function ($collection, $alphabet) {
+                $collection->delete();
+            });
            foreach ($request->all() as $attribute => $value) {
                 if ($this->startsWith($attribute, "#")) {
                     $this->itemWithVal = DB::table("_item_attribute_values")->insert([
@@ -117,11 +117,11 @@ class itemController2 extends Controller
                         'value_id' => $value
                     ]);
                 }
-            } 
-            
+            }
+
   });
   return redirect()->route('items.index2Admin');
-  
+
     }
 
     public function delete2Admin($id){
@@ -168,10 +168,10 @@ class itemController2 extends Controller
 //                 'attribute_id' => $request->input('attribute_id'),
 //                 'value_id' => $request->input('value_id'),
 //                  'item_id' => $item->id
-//             ]); 
-                
+//             ]);
+
 //    });
-   
+
 //    return redirect()->route('items.index2Admin');
 
     }

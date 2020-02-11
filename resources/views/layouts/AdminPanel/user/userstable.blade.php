@@ -10,7 +10,7 @@
 <div class="section__content section__content--p30">
   <div class="container-fluid">
     <div class="row">
-     
+
       <div class="col-lg-12">
         <!-- DATA TABLE-->
         <table class="table text-center">
@@ -43,11 +43,7 @@
                 @if($user->isBanned())
                 <a href="/userUserRevoke/{{$user->id}}" class="btn btn-danger m-1"> Unban</a>
                 @else
-                <form class="d-inline" action="/userBan/{{$user->id}}" method="POST">
-                  {{ csrf_field() }}
-                  <button type="submit" class="btn btn-success ban m-1">BAN</button>
-
-                </form>
+                    <a href="/userBan/{{$user->id}}" class="btn btn-danger m-1"> BAN</a>
                 @endif
               </td>
               @endif
@@ -72,6 +68,7 @@
 
 
       </div>
+        {{$users->links()}}
 
 
 

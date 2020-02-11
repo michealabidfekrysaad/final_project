@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -29,6 +30,7 @@ use Carbon\Carbon;
 use Illuminate\View\View;
 use function MongoDB\BSON\toJSON;
 use App\Http\Requests\StorePostRequest;
+use Mailgun\Mailgun;
 
 
 class reportController extends Controller
@@ -49,11 +51,8 @@ class reportController extends Controller
     }
     public function index()
     {
-        $reports = Report::withoutTrashed();
-        $cities = City::all();
-        return view('people.find',['cities'=>$cities]);
-       // return view("people.find",['reports'=>$reports]);
-
+            $cities = City::all();
+            return view('people.find',['cities'=>$cities]);
     }
     public function myReports()
     {
@@ -153,6 +152,7 @@ class reportController extends Controller
         else {
             $tempUrl = $this->uploadImageToS3("temp/", $request->file('image'));
             SearchByImageForReport::dispatch(\auth()->user(),$tempUrl,$type,$data)->onQueue('high');
+            return view("popup");
             return redirect('/');
         }
     }
@@ -163,7 +163,8 @@ class reportController extends Controller
                 \request()->session()->forget('report');
             }
             $otherUser = $report->user;
-            $otherUser->notify(new SendSmsMailToReporter($report));
+	         Mail::to($otherUser->email)->send(new \App\Mail\SendSmsMailToReporter($report));
+          //   $otherUser->notify(new SendSmsMailToReporter($report));
             return Redirect::to("/people/search");
 
 
@@ -333,16 +334,18 @@ class reportController extends Controller
     public function action(Request $request)
     {
         if ($request->ajax()) {
+            $cities = City::all();
             $query = $request->get('query');
             if($query != ''){
-                $data =Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')
+                $reports =Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')
                     ->where('name' , 'like' , '%'.$query.'%')
                     ->get();
+                return $reports;
             }
             else{
-                $data = Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')->get();
+                $reports = Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')->get();
+                return $reports;
             }
-            return $data;
         }
     }
     public function showReport($id)
@@ -389,14 +392,14 @@ class reportController extends Controller
         // dd($ff->name);
         // }
     }
-    public function sendEmailVerifyItems(Request $request, $id)
-    {
-        //$user->notify(new NotifyReport);
-        // or
-        //Notification::send($users , new NotifyReport());//for sending to users not one user
-        $founder = Item::with('user')->where('id', '=', $id)->get();
-        dd($founder);
-    }
+//    public function sendEmailVerifyItems(Request $request, $id)
+//    {
+//        //$user->notify(new NotifyReport);
+//        // or
+//        //Notification::send($users , new NotifyReport());//for sending to users not one user
+//        $founder = Item::with('user')->where('id', '=', $id)->get();
+//        dd($founder);
+//    }
     public function doSearchingQuery($request) {
         $globalQuery="SELECT * FROM reports WHERE is_found='0' AND type='lost' AND ";
         $array=array();
@@ -416,7 +419,7 @@ class reportController extends Controller
         //
         if ($constraints['city']) {
             if (count($constraints['age']) == 1) {
-                $city = "'" . $constraints['city'] . "'" . " AND";
+                $city = "'" . $constraints['city'] . "'" . " AND ";
             } else {
                 $city = "'" . $constraints['city'] . "'";
             }
@@ -457,7 +460,7 @@ class reportController extends Controller
                         if ($constraints['city']) {
                             $this->localQuery .= " AND (" . $this->localArray[$i];
                         } else {
-                            $this->localQuery .= " (" . $this->localArray[$i];
+                            $this->localQuery .= "(" . $this->localArray[$i];
                         }
                     }
                 }
@@ -473,8 +476,16 @@ class reportController extends Controller
                 $globalQuery .= $array[$i];
             }
         }
-        //return $globalQuery;
-        return $results = DB::select($globalQuery);
+        $runQuery=$this->cleanQuery($globalQuery);
+        if($runQuery!=false){
+//            return $this->cleanQuery($globalQuery);
+            return $results = DB::select($this->cleanQuery($globalQuery));
+        }
+        else
+            {
+//            return $globalQuery;
+            return $results = DB::select($globalQuery);
+        }
     }
 
 
@@ -493,61 +504,8 @@ class reportController extends Controller
         }
     }
 
-    public function showuser($id)
-    {
-        $user = User::find($id);
-        // dd($user);
-        return view('layouts.AdminPanel.user.show', ['user' => $user]);
-    }
-    public function editUser($id)
-    {
-        $user = User::find($id);
-        // dd($user);
 
-        return view('layouts.AdminPanel.user.edit', ['user' => $user]);
-    }
 
-    public function updateUser($id)
-    {
-
-        // $post->update(request()->all());
-        $user = User::find($id);
-
-        $user->name = request()->name;
-        $user->email = request()->email;
-        $user->phone = request()->phone;
-        $user->save();
-        
-         return redirect('/admin/panel/userstable');
-    }
-
-    public function destroyUser($id){
-        User::find($id)->delete();
-        return redirect('/admin/panel/userstable');
-    }
-
-    public function ban(Request $request , $id)
-    {
-        $user = User::find($id);
-        if(!empty($user)){
-            
-            $user->bans()->create([
-			    'expired_at' => '+1 month',
-			    'comment'=>$request->baninfo
-			]);
-        }
-        return redirect('/admin/panel/userstable')->with('success','Ban Successfully..');
-    }
-
-    public function revoke($id)
-    {
-        $user = User::find($id);
-        if(!empty($user)){
-            $user->unban();
-        }
-        return redirect('/admin/panel/userstable')
-        				->with('success','User Revoke Successfully.');
-    }
     // el fn ale fo2 makanha user controller   mosh hena
 
     public function create2Admin(){
@@ -556,31 +514,6 @@ class reportController extends Controller
        return view ('layouts.AdminPanel.reportsAdmin.create' , ['cities' => $cities]);
     }
 
-    public function Stores2Admin(Request $request){
-        $report = new Report;
-
-        // $report->name = $request->input('name');
-        // $report->age = $request->input('age');
-        // $report->gender = $request->input('gender');
-        // $report->image = $request->input('image');
-        // $report->type = $request->input('type');
-        // $report->special_mark = $request->input('special_mark');
-        // $report->eye_color = $request->input('eye_color');
-        // $report->hair_color = $request->input('hair_color');
-        // $report->location = $request->input('location');
-        // $report->last_seen_on = $request->input('last_seen_on');
-        // $report->last_seen_at = $request->input('last_seen_at');
-        // $report->lost_since = $request->input('lost_since');
-        // $report->found_since = $request->input('found_since');
-        // $report->height = $request->input('height');
-        // $report->weight = $request->input('weight');
-        // // $report->user_id = auth()->user()->id;
-        // $report->city_id = $request->input('city_id');
-        // $report->area_id = $request->input('area_id');
-        // $report->save();
-       
-        return redirect(route('reports.index'));
-    }
 
     public function show2Admin($id){
         $report = Report::find($id);
@@ -598,58 +531,18 @@ class reportController extends Controller
         ,'cities','area','user'));
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public  function Update2Admin(Request $request , $id){
-        $report = Report::find($id);
-        // dd($request->input('name'));
-
-        $report->name = $request->input('name');
-        $report->age = $request->input('age');
-        $report->gender = $request->input('gender');
-        $report->image = $this->uploadImageToS3("people/", $request->file('image'));
-        $report->type = $request->input('type');
-        $report->special_mark = $request->input('special_mark');
-        $report->eye_color = $request->input('eye_color');
-        $report->hair_color = $request->input('hair_color');
-        $report->last_seen_on = $request->input('last_seen_on');
-        $report->last_seen_at = $request->input('last_seen_at');
-        $report->lost_since = $request->input('lost_since');
-        $report->found_since = $request->input('found_since');
-        $report->height = $request->input('height');
-        $report->weight = $request->input('weight');
-        $report->user_id = auth()->user()->id;
-        
-        $report->save();
-        return redirect(route('reports.index'));
+    public  function indexAdmin(){
+        return view('layouts.AdminPanel.reportsAdmin.table',['reports'=>Report::paginate(5)]);
     }
-    public function indexAdmin()
+
+    private function cleanQuery(string $globalQuery)
     {
-        $reports = Report::all();
-        //return view('people.find');
-        return view('layouts.AdminPanel.reportsAdmin.table' , ['reports' => $reports]);
-       // return view("people.find",['reports'=>$reports]);
-
+      if(strpos($globalQuery, 'AND   AND'))
+       return str_replace("AND   AND","AND",$globalQuery);
+        elseif(strpos($globalQuery, 'ANDAND'))
+        return str_replace("ANDAND","AND",$globalQuery);
+        else return false;
     }
-    public function adminUsers() {
-        $users=User::all();
-        return view('layouts.AdminPanel.user.userstable',['users' =>$users]);
-    }
- 
 
 
 }

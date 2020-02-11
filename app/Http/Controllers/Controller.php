@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -100,24 +101,6 @@ class Controller extends BaseController
         $len = strlen($startString);
         return (substr($string, 0, $len) === $startString);
     }
-    protected function paginate(Collection $collection)
-    {
-        $rules = [
-            'per_page' => 'integer|min:1|max:50',
-        ];
-        Validator::validate(request()->all(), $rules);
-        $page = LengthAwarePaginator::resolveCurrentPage();
-        $perPage =10;
-        if (request()->has('per_page')) {
-            $perPage = (int) request()->per_page;
-        }
-        $results = $collection->slice(($page - 1) * $perPage, $perPage)->values();
-        $paginated = new LengthAwarePaginator($results, $collection->count(), $perPage, $page, [
-            'path' => LengthAwarePaginator::resolveCurrentPath(),
-        ]);
-        $paginated->appends(request()->all());
-        return $paginated;
-    }
 
     public function deleteImageFromS3($image)
     {
@@ -152,5 +135,21 @@ class Controller extends BaseController
         DB::table('visitor')->where(DB::raw("year(created_at)"), '=', now()->year)
             ->update(['click' => $value]);
         return response()->json($row);
+    }
+    protected function paginate(Collection $collection)
+    {
+
+        $page = LengthAwarePaginator::resolveCurrentPage();//11
+        $perPage =6;
+        if (request()->has('per_page')) {
+            $perPage = (int) request()->per_page;
+        }
+        $results = $collection->slice(($page - 1) * $perPage, $perPage)->values();//split every page to 15 1..15  16..30
+        $paginated = new LengthAwarePaginator($results, $collection->count(), $perPage, $page, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),//links to previous and next pages
+        ]);
+        $paginated->appends(request()->all());//Add a set of query string values to the paginator.
+        return $paginated;
+
     }
 }

@@ -76,11 +76,15 @@ class SearchByImage implements ShouldQueue
                 array_push($nearest, $value->image);
             }
         }
-        $this->getClientForSms()->message()->send([
-            'to' => '20' . $this->user->phone,
-            'from' => 'ToFind',
-            'text' => 'You Received Notification On Our Site For Results'
-        ]);
+//            try {
+//                $this->getClientForSms()->message()->send([
+//                    'to' => '20' . $this->user->phone,
+//                    'from' => 'ToFind',
+//                    'text' => 'Sorry Not Found And Created Report Successfully'
+//                ]);
+//            } catch (Exception $exception) {
+//
+//            }
         $this->user->notify(new SendSummaryToUser($nearest, ""));
     }
 

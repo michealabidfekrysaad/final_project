@@ -495,7 +495,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   right: 0;
   display: -webkit-box;
   display: -ms-flexbox;
-  
+
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
@@ -1345,13 +1345,13 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #contact .form #errormessage {
-  color: red;
-  display: none;
-  border: 1px solid red;
-  text-align: center;
-  padding: 15px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  /*color: red;*/
+  /*display: none;*/
+  /*border: 1px solid red;*/
+  /*text-align: center;*/
+  /*padding: 15px;*/
+  /*font-weight: 600;*/
+  /*margin-bottom: 15px;*/
 }
 
 #contact .form #sendmessage.show,
@@ -1700,7 +1700,7 @@ body.mobile-nav-active #mobile-nav-toggle {
    width: 80%;
    background-color: red;
    margin-left: 10%;
-    
+
   }
 }
 

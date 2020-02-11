@@ -145,8 +145,8 @@
         </main>
     </div>
 
-    <li><a href="{{ url('locale/en') }}" ><i class="fa fa-language"></i> EN</a></li>
-    <li><a href="{{ url('locale/ar') }}" ><i class="fa fa-language"></i> AR</a></li>
+{{--    <li><a href="{{ url('locale/en') }}" ><i class="fa fa-language"></i> EN</a></li>--}}
+{{--    <li><a href="{{ url('locale/ar') }}" ><i class="fa fa-language"></i> AR</a></li>--}}
 </body>
 
 </html>

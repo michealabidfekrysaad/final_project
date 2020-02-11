@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBannedAtColumnToUsers extends Migration
+class CreateContactTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class AddBannedAtColumnToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->timestamp('banned_at')->nullable();
+        Schema::create('contact', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('email');
+            $table->string('subject');
+            $table->text('message');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ class AddBannedAtColumnToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropIfExists('banned_at');
-        });
+        Schema::dropIfExists('contact');
     }
 }

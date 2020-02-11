@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AttributeValue extends Model
 {
     protected $table = 'values_of_attributes';
-    protected $fillable = ['value_name' , 'attribute_id'];
+    protected $fillable = ['value_name','value_name_ar','attribute_id'];
 
     public function attribute(){
 
@@ -20,5 +20,5 @@ class AttributeValue extends Model
         return $this->hasMany('App\ItemAttributeValue' , 'value_id' , 'id');
 
     }
-    
+
 }

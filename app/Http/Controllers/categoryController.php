@@ -108,7 +108,7 @@ class categoryController extends Controller
 
     public function createCategory()
     {
-        
+
         return view('layouts.AdminPanel.category.create');
     }
 
@@ -132,7 +132,7 @@ class categoryController extends Controller
         $attributes=Attribute::with('categoryAttribute')->get();
         return view('layouts.AdminPanel.categoryAdmin.edit', [
             'category'=>$category,
-            'attributeOfCategory' => $attributeOfCategory, 
+            'attributeOfCategory' => $attributeOfCategory,
             'attributes' => $attributes
         ]);
     }
@@ -190,7 +190,7 @@ class categoryController extends Controller
             $category=Category::create([
                 'category_name'=> $request->input('category')
                 ]);
-                
+
                 foreach ($request->input('attribute') as $attribute){
                     $category->attributes()->attach($attribute);
             }

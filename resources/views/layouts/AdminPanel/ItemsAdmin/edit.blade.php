@@ -8,8 +8,8 @@
                 <div class="m-b-40">
 
                     <form action="/item/update/{{$item->id}}" method="POST" enctype="multipart/form-data">
-                        @csrf
                         @METHOD('PUT')
+                        @csrf
                         <div class="row">
                             <div class="text-center col-md-12 mb-3">
                                 <h4 class="text-muted">it is not the best choice to update the report of the item
@@ -158,7 +158,7 @@
                 $.each(category[0].attributes,function(key,value){
                     let itemAttributes=category[0].attributes;
                 $("#attribute").append( `<label>`+itemAttributes[key].attribute_name+`</label>
-                                         <select class="form-control" name="#`+itemAttributes[key].attribute_name+`" 
+                                         <select class="form-control" name="#`+itemAttributes[key].attribute_name+`"
                                          id = "`+itemAttributes[key].id+`" value = "`+itemAttributes[key].id+`">
                                          </select>`);
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Attribute extends Model
 {
     protected $table = 'attributes';
-    protected $fillable = ['name'];
+    protected $fillable = ['attribute_name','attribute_name_ar'];
 
     public function category(){
 

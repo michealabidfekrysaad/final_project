@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\NotifyReport;
@@ -236,8 +237,10 @@ class itemController extends Controller
                 $category = Category::with("items")->where('category_name', 'like', '%' . $query . '%')->first();
                 if ($category) {
                     return $category->items;
-                } else return [];
-            } else {
+                }
+                else return [];
+            }
+            else {
                 return Item::with("category")->get();
             }
 
@@ -267,7 +270,8 @@ class itemController extends Controller
             $descriptionValidation-> description=$request->input('description');
             $descriptionValidation->item_id=$item->id;
         $descriptionValidation->save();
-        $item->user->notify(new NotifyItem($item,$descriptionValidation));
+        Mail::to($item->user->email)->send(new \App\Mail\NotifyItem($item,$descriptionValidation));
+      //  $item->user->notify(new NotifyItem($item,$descriptionValidation));
         $item->update(["status"=>1]);
         return redirect('/');
     }
@@ -304,8 +308,7 @@ class itemController extends Controller
 
             $index++;
         }
-       return response()->json($query->paginate('5'));
+       return response()->json($query->get());
     }
-
 
 }

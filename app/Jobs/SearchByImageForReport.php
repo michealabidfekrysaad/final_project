@@ -100,15 +100,15 @@ class SearchByImageForReport implements ShouldQueue
             }
             $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
         } else {
-            try {
-                $this->getClientForSms()->message()->send([
-                    'to' => '20' . $this->user->phone,
-                    'from' => 'ToFind',
-                    'text' => 'Sorry Not Found And Created Report Successfully'
-                ]);
-            } catch (Exception $exception) {
-
-            }
+//            try {
+//                $this->getClientForSms()->message()->send([
+//                    'to' => '20' . $this->user->phone,
+//                    'from' => 'ToFind',
+//                    'text' => 'Sorry Not Found And Created Report Successfully'
+//                ]);
+//            } catch (Exception $exception) {
+//
+//            }
             DB::table('reports')->insert($finalArray);
             $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
         }

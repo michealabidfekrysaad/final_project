@@ -171,16 +171,15 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-
         App\Providers\AuthServiceProvider::class,
-        Cog\Laravel\Ban\Providers\BanServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Aws\Laravel\AwsServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        App\Providers\BroadcastServiceProvider::class
+        App\Providers\BroadcastServiceProvider::class,
+        Cog\Laravel\Ban\Providers\BanServiceProvider::class,
 
     ],
 

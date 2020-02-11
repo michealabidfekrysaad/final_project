@@ -7,14 +7,14 @@
         <h2 class="mx-auto">all Found Items</h2>
     </div>
     <h2 class="filter_data d-block"></h2>
-    <div class="row justify-content-end ">
-        <div class="col-lg-9 col-md-12">
+{{--    <div class="row justify-content-end ">--}}
+{{--        <div class="col-lg-9 col-md-12">--}}
 
 
 
-            <input type="text" id="search" class="form-control mb-3 " placeholder="searching for lost Item by name ">
-        </div>
-    </div>
+{{--            <input type="text" id="search" class="form-control mb-3 " placeholder="searching for lost Item by name ">--}}
+{{--        </div>--}}
+{{--    </div>--}}
     <div class="row w-100 mx-auto ">
         {{-- d-none --}}
         <div class="col-lg-3   d-lg-block">
@@ -131,46 +131,75 @@
 
                 <div class="container">
                     <div class="row" id="lost">
-                        @foreach($items as $item)
-                        <div class="col-lg-4 col-md-6">
-                            <div class="hotel text-center">
-                                <div class="hotel-img">
-                                    <a href="/showReportItem/{{$item->id}}"><img style="width:348px;height:348px"
-                                            src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}"
-                                            alt="Img Of Person" class="img-fluid"></a>
-                                </div>
-                                @if(app()->getLocale()=='ar')
-                                <h3>{{($item->category)->category_name_ar}}</h3>
-                                @else
-                                <h3>{{($item->category)->category_name}}</h3>
-                                @endif
-                                <h3>Found Since : {{$item->found_since}}</h3>
-
-                            </div>
-                        </div>
-                        @endforeach
+                    </div>
+                    <div class="row justify-content-center" id="pages">
 
                     </div>
-                    <div class="row">
-                        {{$items->links()}}
-                    </div>
-                    <div class="row justify-content-center" id="footer1">
-
-                    </div>
-
                 </div>
 
             </section>
         </div>
-        </article>
     </div>
 </div>
-
-
 <script>
-    let d1 = document.getElementById('lost');
+    let globalArray=[];
+    function paginate (array) {
+        document.getElementById("lost").innerHTML="";
+        document.getElementById("pages").innerHTML="";
+        globalArray=[];
+        let slicedArray;
+        let pageNumber=0;
+        let SPAN=document.getElementById('pages')
+        for (let i=0;i<array.length;i+=2) {
+            pageNumber++
+                SPAN.insertAdjacentHTML("beforeend",
+                    `<button id='${i / 2}' class="pn btn" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='#00bcc1'">${pageNumber}</button>
+`)
+
+            slicedArray = array.slice(i,i+2);
+            // console.log(slicedArray);
+            globalArray.push(slicedArray);
+        }
+        document.getElementById("0").style.backgroundColor="#00bcc1"
+    }
+    function setHtmlAndInsert(id) {
+        insertToHtml(globalArray[id]);
+    }
+    function insertToHtml(data) {
+        let d1 = document.getElementById('lost');
+        d1.innerHTML = " ";
+        data.forEach(element => {
+            d1.insertAdjacentHTML('beforeend', `
+
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="hotel text-center">
+                                            <div class="hotel-img">
+                                                <a href="/showReportItem/${element.id}"><img style="width:348px;height:348px"
+                                                        src="https://loseall.s3.us-east-2.amazonaws.com/${element.image}"
+                                                        alt="Img Of Person" class="img-fluid"></a>
+                                            </div>
+                                            @if(app()->getLocale()=='ar')
+                                            <h3>${(element.category).category_name_ar}</h3>
+                                            @else
+                                            <h3>${(element.category).category_name}</h3>
+                                            @endif
+                                            <h3>Found Since : ${element.found_since}</h3>
+
+                                        </div>
+                                    </div>
+
+
+	`)
+        });
+    }
+    function changeColor() {
+        let elements = document.getElementsByClassName("pn");
+        for (let i=0; i<elements.length; i++ ) {
+            document.getElementById(elements[i].id).style.backgroundColor = "white";
+        }
+    }
     $(document).ready(function () {
-        //fetch_Data();
+        fetch_Data();
         function fetch_Data(query = '') {
             $.ajax({
                 method: 'GET',
@@ -181,8 +210,14 @@
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
+                    let d1= document.getElementById("lost")
+                    let SPAN= document.getElementById("pages")
+                    d1.innerHTML=" ";
+                    SPAN.innerHTML = " ";
+                    paginate(data)
+                    insertToHtml(globalArray[0]);
                     //$('#lost').html(data.div_data);
-                    insertToHtml(data);
+                    // insertToHtml(data);
 
                 }
             });
@@ -247,7 +282,6 @@
                 // $("#CategoryList").empty();
                 fetch_Data();
             }
-
             filter_data_item();
 
         });
@@ -312,7 +346,6 @@
                 city_id,
                 area_id
             };
-            console.log(data);
             if (data.category_id || data.city_id || data.area_id) {
                 console.log(data);
                 $.ajax({
@@ -320,15 +353,18 @@
                     url: "/filter/find/item/" + JSON.stringify(data),
                     traditional: true,
                     success: function (data) {
-                        console.log(data.data);
-                        insertToHtml(data.data)
+                        let d1= document.getElementById("lost")
+                        let SPAN= document.getElementById("pages")
+                        d1.innerHTML=" ";
+                        SPAN.innerHTML = " ";
+                        paginate(data)
+                        insertToHtml(globalArray[0]);
                     }
                 });
             }
         }
-
-
         function insertToHtml(data) {
+            let d1=document.getElementById("lost")
             d1.innerHTML = " ";
             $("#next").remove();
             $("#pre").remove();
@@ -339,11 +375,11 @@
                                         <div class="hotel-img" >
                                             <a href="/showReportItem/${element.id}"><img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/${element.image}" alt="Img Of Person" class="img-fluid"></a>
                                         </div>
-{{--@if(app()->getLocale()=='ar')--}}
-                {{--                <h3>${element.category_name_ar}</h3>--}}
-                {{--                    @else--}}
-                {{--                <h3>${element.category_name}</h3>--}}
-                {{--                    @endif--}}
+@if(app()->getLocale()=='ar')
+                                <h3>${(element.category).category_name_ar}</h3>
+                                    @else
+                                <h3>${(element.category).category_name}</h3>
+                                    @endif
 
                 <h3>Found Since : ${element.found_since}</h3>
 

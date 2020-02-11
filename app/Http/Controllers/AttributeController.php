@@ -20,7 +20,7 @@ class AttributeController extends Controller
      */
     public function __construct(){
 
-        $this->middleware('role:Admin')->only('indexAdmin');
+       // $this->middleware('role:Admin')->only('indexAdmin');
 
     }
     public function index()
@@ -40,8 +40,11 @@ class AttributeController extends Controller
 
     public function indexAdmin()
     {
-        $attr = Attribute::all();
-        return view('attribute.index' , ['attr' => $attr]);
+        $attrributeValues=Attribute::with('valuesofattributes')->paginate(3);
+       // return response()->json($attrributeValues);
+        return view('layouts.AdminPanel.attribute.index' , [
+            'attrributeValues'=>$attrributeValues ,
+        ]);
     }
 
     /**
@@ -51,7 +54,7 @@ class AttributeController extends Controller
      */
     public function create()
     {
-        return view ('attribute.create');
+        return view ('layouts.AdminPanel.attribute.create');
     }
 
     /**
@@ -62,11 +65,18 @@ class AttributeController extends Controller
      */
     public function store(Request $request)
     {
-        $attr = new Attribute;
-        $attr->attribute_name = $request->input('attribute_name');
-        $attr->save();
-
-        return redirect(route('attribute.index'));
+        $attribute =Attribute::create([
+            'attribute_name'=>$request->attribute,
+            'attribute_name_ar'=>$request->attribute_ar,
+    ]);
+        for ($i=0;$i<count($request->valueEn);$i++){
+            AttributeValue::create([
+                'value_name'=>$request->valueEn[$i],
+                'value_name_ar'=>$request->valueAr[$i],
+                'attribute_id'=>$attribute->id
+            ]);
+    }
+        return redirect()->back();
     }
 
     /**
@@ -116,8 +126,8 @@ class AttributeController extends Controller
      */
     public function destroy($id)
     {
-        $attr = Attribute::find($id)->delete();
-        return redirect(route('attribute.index'));
+        Attribute::find($id)->delete();
+        return redirect()->back();
     }
 
     public function getAreas($id){
