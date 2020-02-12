@@ -185,6 +185,12 @@ return [
      'Forgot Your Password?' => 'Forgot Your Password?' ,
      
     'Select City First' => 'Select City First',
-    'Select an Option' => 'Select an Option'
+    'Select an Option' => 'Select an Option',
+    'Your Profile' => 'Your Profile',
+    'About' => 'About',
+    'Notification' => 'Notification',
+    'Your Reports' => 'Your Reports',
+    'Update Report' => 'Update Report',
+    'Update Profile' => 'Update Profile',
 ]
 ?>

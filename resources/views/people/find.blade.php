@@ -10,7 +10,6 @@
 	<div class="row mt-2 pt-5 section-header">
 		<h2 class="mx-auto">{{ __('messages.all lost people') }}</h2>
 	</div>
-	<h2 class="filter_data d-block"></h2>
 	<div class="row justify-content-end ">
 		<div class="col-lg-9 col-md-12">
 			<input type="text" id="search" class="form-control mb-3 " placeholder="{{ __('messages.searching for lost people by name ') }}">
