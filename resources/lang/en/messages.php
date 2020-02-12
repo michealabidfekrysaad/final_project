@@ -186,6 +186,11 @@ return [
 
     'Select City First' => 'Select City First',
     'Select an Option' => 'Select an Option',
-    'Update Profile' =>'Update Profile'
+    'Your Profile' => 'Your Profile',
+    'About' => 'About',
+    'Notification' => 'Notification',
+    'Your Reports' => 'Your Reports',
+    'Update Report' => 'Update Report',
+    'Update Profile' => 'Update Profile',
 ]
 ?>

@@ -34,9 +34,7 @@
                         <p> {{$item->found_since}}</p>
                     </div>
                     <div class="row">
-
                         <h3>{{ __('messages.City Where Found :') }}</h3>
-
                         @if(app()->getLocale()=='ar')
                             <p> {{($item->city)->city_name_ar}}</p>
                         @else

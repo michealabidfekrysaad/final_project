@@ -6,6 +6,11 @@
     <div class="row mt-2 pt-5 section-header">
         <h2 class="mx-auto">{{ __('messages.all Found Items') }}</h2>
     </div>
+	<!-- <div class="row justify-content-end ">
+		<div class="col-lg-9 col-md-12">    
+            <input type="text" id="search" class="form-control mb-3 " placeholder="{{ __('messages.searching for lost Item by name ') }} "> 
+        </div>
+    </div> -->
     <div class="row w-100 mx-auto ">
         {{-- d-none --}}
         <div class="col-lg-3   d-lg-block">

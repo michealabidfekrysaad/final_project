@@ -260,7 +260,7 @@ h6 {
 #nav-menu-container {
   float: right;
   margin: 0;
-  width: 77%;
+  
 }
 
 /* Nav Meu Styling */
@@ -1337,8 +1337,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #contact .form #sendmessage {
-  color: #f82249;
-  border: 1px solid #f82249;
+  color: rgb(0, 255, 0);
+  border: 1px solid rgb(0, 255, 0);
   display: none;
   text-align: center;
   padding: 15px;
@@ -1347,13 +1347,13 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #contact .form #errormessage {
-  /*color: red;*/
-  /*display: none;*/
-  /*border: 1px solid red;*/
-  /*text-align: center;*/
-  /*padding: 15px;*/
-  /*font-weight: 600;*/
-  /*margin-bottom: 15px;*/
+  color: red;
+  display: none;
+  border: 1px solid red;
+  text-align: center;
+  padding: 15px;
+  font-weight: 600;
+  margin-bottom: 15px;
 }
 
 #contact .form #sendmessage.show,
@@ -1391,6 +1391,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 #contact .form button[type="submit"]:hover {
   background: #e0072f;
 }
+
 
 /*--------------------------------------------------------------
 # Footer

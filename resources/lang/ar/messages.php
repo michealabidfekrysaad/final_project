@@ -185,6 +185,11 @@ return [
      'Forgot Your Password?' => 'هل نسيت رقمك السري',
     'Select City First' => 'اختر المدينة اولا',
     'Select an Option' => 'اخترالمدينة اولا',
-    'Update Profile' =>'حدث صفحتك الشخصية'
+    'Your Profile' => 'الصفحة الشخصية',
+    'About' => 'بياناتك',
+    'Notification' => 'اشعارات',
+    'Your Reports' => 'البلاغات',
+    'Update Report' => 'تعديل البلاغ',
+    'Update Profile' => 'تعديل البيانات الشخصية',
 ];
 ?>
