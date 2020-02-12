@@ -181,6 +181,7 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         Cog\Laravel\Ban\Providers\BanServiceProvider::class,
 
+
     ],
 
     /*

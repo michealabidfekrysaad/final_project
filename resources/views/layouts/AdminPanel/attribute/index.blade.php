@@ -8,9 +8,9 @@
                 <div class="col-lg-12">
                     <div class=" m-b-40">
                         <div class="text-center">
-                            {{-- <a class="btn btn-default" href="/category/create/admin">Add New Category</a> --}}
                             <a type="button" href="/addvalueadmin" class="btn btn-dark mb-2">
-                                <i class="fa fa-lightbulb-o"></i>&nbsp; Add New Attribute</a>
+                                <i class="fa fa-lightbulb-o"></i>&nbsp; Add New Attribute
+                            </a>
                         </div>
                         <table class="table text-center">
                             <thead class="thead-dark">

@@ -20,34 +20,29 @@
             <div class="col-md-6">
                 <div class="details">
                     <div class="row">
-<<<<<<< HEAD
+
                         <h3>{{ __('messages.Category :') }}</h3>
-                        <p> {{($item->category)->category_name}}</p>
-=======
-                        <h3>Category :</h3>
                         @if(app()->getLocale()=='ar')
                             <p> {{($item->category)->category_name_ar}}</p>
                         @else
                             <p> {{($item->category)->category_name}}</p>
                         @endif
->>>>>>> 2c028dc661b34abdc322725a298434a7b7851686
+
                     </div>
                     <div class="row">
                         <h3>{{ __('messages.Found Since :') }}</h3>
                         <p> {{$item->found_since}}</p>
                     </div>
                     <div class="row">
-<<<<<<< HEAD
+
                         <h3>{{ __('messages.City Where Found :') }}</h3>
-                        <p> {{($item->city)->city_name}}</p>
-=======
-                        <h3>City Where Found :</h3>
+
                         @if(app()->getLocale()=='ar')
                             <p> {{($item->city)->city_name_ar}}</p>
                         @else
                             <p> {{($item->city)->city_name}}</p>
                         @endif
->>>>>>> 2c028dc661b34abdc322725a298434a7b7851686
+
                     </div>
 
                     @foreach($data as $one)
@@ -64,7 +59,7 @@
 
                     <div class="row ">
                         <button id="lostButton" type="button" class="btn" data-toggle="modal" data-target="#myModal">
-                            {{ __('messages.Contact With Report Owner') }}  
+                            {{ __('messages.Contact With Report Owner') }}
                         </button>
                         <div class="modal fade" id="myModal">
                             <div class="modal-dialog  mw-100 w-50">

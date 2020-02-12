@@ -183,8 +183,9 @@ return [
      'Password' => 'Password',
      'Login' => 'Login',
      'Forgot Your Password?' => 'Forgot Your Password?' ,
-     
+
     'Select City First' => 'Select City First',
-    'Select an Option' => 'Select an Option'
+    'Select an Option' => 'Select an Option',
+    'Update Profile' =>'Update Profile'
 ]
 ?>

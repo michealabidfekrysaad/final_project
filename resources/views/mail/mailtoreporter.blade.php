@@ -8,7 +8,6 @@
     name : {{auth()->user()->name}}
     email : {{auth()->user()->email}}
     phone : {{auth()->user()->phone}}
-
     @component('mail::button', ['url' => 'http://localhost:8000/people/details/'.$report->id])
         View Report
     @endcomponent
@@ -16,7 +15,7 @@
     @component('mail::button', ['url' => 'http://localhost:8000/closereport/'.$report->id])
         Close Report
     @endcomponent
-    @component('mail::button', ['url' => 'http://localhost:8000'])
+    @component('mail::button', ['url' => 'http://localhost:8000/stillreport/'.$report->id])
       Still Report
     @endcomponent
     Thanks,<br>

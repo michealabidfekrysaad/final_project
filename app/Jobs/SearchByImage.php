@@ -76,16 +76,27 @@ class SearchByImage implements ShouldQueue
                 array_push($nearest, $value->image);
             }
         }
-//            try {
-//                $this->getClientForSms()->message()->send([
-//                    'to' => '20' . $this->user->phone,
-//                    'from' => 'ToFind',
-//                    'text' => 'Sorry Not Found And Created Report Successfully'
-//                ]);
-//            } catch (Exception $exception) {
-//
-//            }
-        $this->user->notify(new SendSummaryToUser($nearest, ""));
+        if(count($nearest)==0){
+            $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+            $client = new \Nexmo\Client($basic);
+
+            $message = $client->message()->send([
+                'to' =>'20'.substr(($this->user)->phone,1),
+                'from' => 'Nexmo',
+                'text' => 'Sorry These person doesnt exist please make report'
+            ]);
+        }
+        else{
+            $this->user->notify(new SendSummaryToUser($nearest, ""));
+            $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+            $client = new \Nexmo\Client($basic);
+
+            $message = $client->message()->send([
+                'to' =>'20'.substr(($this->user)->phone,1),
+                'from' => 'Nexmo',
+                'text' => 'Check Your Notification In ToFind Website'
+            ]);
+        }
     }
 
     public function getClient()
@@ -102,8 +113,8 @@ class SearchByImage implements ShouldQueue
 
     public function getClientForSms()
     {
-        $basic = new Basic('9d0cd4d6', 'LzIsAfazHBBHN7fl');
-        return new Client($basic);
+        $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+        return new \Nexmo\Client($basic);
     }
 
 

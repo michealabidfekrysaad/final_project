@@ -48,8 +48,10 @@ class categoryController extends Controller
     }
     public function store(Request $request)
     {
+
         $category = Category::create([
             'category_name' => $request->category_name,
+            'category_name_ar' => $request->category_ar,
         ]);
         return response()->json($category);
     }
@@ -186,9 +188,11 @@ class categoryController extends Controller
 
     public function createCategoryAdmin(Request $request)
     {
+//        dd($request->all());
         DB::transaction(function () use ($request) {
             $category=Category::create([
-                'category_name'=> $request->input('category')
+                'category_name'=> $request->category,
+                'category_name_ar'=>$request->category_ar
                 ]);
 
                 foreach ($request->input('attribute') as $attribute){

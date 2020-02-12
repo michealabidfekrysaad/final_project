@@ -6,14 +6,6 @@
     <div class="row mt-2 pt-5 section-header">
         <h2 class="mx-auto">{{ __('messages.all Found Items') }}</h2>
     </div>
-    <h2 class="filter_data d-block"></h2>
-
-
-
-
-
-            <input type="text" id="search" class="form-control mb-3 " placeholder="{{ __('messages.searching for lost Item by name ') }} "> </div>
-    </div>
     <div class="row w-100 mx-auto ">
         {{-- d-none --}}
         <div class="col-lg-3   d-lg-block">
@@ -31,7 +23,7 @@
                             <select class="form-control " id="CategoryList" name="category">
                                 <option value="" selected>{{ __('messages.All') }}</option>
 
-                    
+
                                 @if(app()->getLocale()=='ar')
                                 @foreach ($categories as $category)
                                 <option value="{{$category->id}}">{{$category->category_name_ar}} </option>
@@ -80,7 +72,7 @@
                             <label for="title">{{ __('messages.Select City:') }}</label>
                             <select class="form-control " id="city" name="city">
                                 <option value="">{{ __('messages.All') }}</option>
-                            
+
                                 @if(app()->getLocale()=='ar')
                                 @foreach ($cities as $city)
                                 <option value="{{$city->id}}">{{$city->city_name_ar}} </option>
@@ -125,28 +117,6 @@
 
                 <div class="container">
                     <div class="row" id="lost">
-                        @foreach($items as $item)
-                        <div class="col-lg-4 col-md-6">
-                            <div class="hotel text-center">
-                                <div class="hotel-img">
-                                    <a href="/showReportItem/{{$item->id}}"><img style="width:348px;height:348px"
-                                            src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}"
-                                            alt="Img Of Person" class="img-fluid"></a>
-                                </div>
-                                @if(app()->getLocale()=='ar')
-                                <h3>{{($item->category)->category_name_ar}}</h3>
-                                @else
-                                <h3>{{($item->category)->category_name}}</h3>
-
-                                <h3>{{ __('messages.Found Since :') }} {{$item->found_since}}</h3>
-
-                                @endif
-                                <h3>Found Since : {{$item->found_since}}</h3>
-
-                            </div>
-                        </div>
-                        @endforeach
-
                     </div>
                     <div class="row justify-content-center" id="pages">
 
@@ -166,14 +136,13 @@
         let slicedArray;
         let pageNumber=0;
         let SPAN=document.getElementById('pages')
-        for (let i=0;i<array.length;i+=2) {
+        for (let i=0;i<array.length;i+=6) {
             pageNumber++
                 SPAN.insertAdjacentHTML("beforeend",
-                    `<button id='${i / 2}' class="pn btn" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='#00bcc1'">${pageNumber}</button>
+                    `<button id='${i / 6}' class="pn btn" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='#00bcc1'">${pageNumber}</button>
 `)
 
-            slicedArray = array.slice(i,i+2);
-            // console.log(slicedArray);
+            slicedArray = array.slice(i,i+6);
             globalArray.push(slicedArray);
         }
         document.getElementById("0").style.backgroundColor="#00bcc1"
@@ -254,12 +223,12 @@
                                 $("#attribute").append(`
 @if(app()->getLocale()=='ar')
                                 <label>` + itemAttributes[key].attribute_name + `</label>
-                                         <select class=" form-control" name="` + itemAttributes[key].attribute_name + `" id = "` + itemAttributes[key].id + `">
+                                         <select class=" attr form-control" name="attr[]" id = "` + itemAttributes[key].id + `">
                                          <option value = " ">الكل</option>
                                          </select>
                                          @else
-                                <label>` + itemAttributes[key].attribute_name + `</label>
-                                         <select class=" form-control" name="` + itemAttributes[key].attribute_name + `" id = "` + itemAttributes[key].id + `">
+                                          <label>` + itemAttributes[key].attribute_name + `</label>
+                                         <select class=" attr form-control" name="attr[]" id = "` + itemAttributes[key].id +`">
                                          <option value = " ">All</option>
                                          </select>
                                     @endif
@@ -270,7 +239,6 @@
                                     success: function (result) {
                                         if (result) {
                                             $.each(result, function (key, value) {
-                                                console.log("isalm" + result[key].value_name);
                                                 $(`#` + result[key].attribute_id + ``).append(`
 @if(app()->getLocale()=='ar')
                                                 <option value = " ` + result[key].id + `"> ` + result[key].value_name_ar + `</option>
@@ -304,6 +272,7 @@
         $("#city").change(function (e) {
             var cityID = $(this).val();
             console.log(cityID);
+            $("#region").empty();
 
             if (cityID) {
                 $.ajax({
@@ -334,7 +303,6 @@
 
 
         $("#region").change(function (e) {
-
             filter_data_item();
 
         });
@@ -343,38 +311,47 @@
             fetch_Data(document.getElementById("search").value)
 
         });
-        // $("#attribute").change(function (e) {
-        //
-        //     // filter_data_item();
-        //
-        // })
-        $("#attribueselect").select(function (e) {
-            console.log("jjj");
-            filter_data_item();
-        });
+        var values = [];
+        $("#attribute").change(function (e) {
+             values = [];
+            $('.attr').each(function(){
+                if(this.value !== " ")
+                    values.push(this.value);
+            });
+             console.log(values)
+             filter_data_item();
+
+        })
+        // $(".attr").change(function (e) {
+        //     console.log(values);
+        //    // filter_data_item();
+        // });
 
         function filter_data_item() {
             var category_id = $("#CategoryList :selected").val();
             var city_id = $("#city :selected").val();
             var area_id = $("#region :selected").val();
+            var value_id=values;
             var data = {
                 category_id,
                 city_id,
-                area_id
+                area_id,
+                value_id
             };
-            if (data.category_id || data.city_id || data.area_id) {
+            if (data.category_id || data.city_id || data.area_id ||value_id.length>0) {
                 console.log(data);
                 $.ajax({
                     method: "GET",
                     url: "/filter/find/item/" + JSON.stringify(data),
                     traditional: true,
                     success: function (data) {
-                        let d1= document.getElementById("lost")
-                        let SPAN= document.getElementById("pages")
-                        d1.innerHTML=" ";
-                        SPAN.innerHTML = " ";
-                        paginate(data)
-                        insertToHtml(globalArray[0]);
+                        console.log(data)
+                       let d1= document.getElementById("lost")
+                       let SPAN= document.getElementById("pages")
+                       d1.innerHTML=" ";
+                       SPAN.innerHTML = " ";
+                       paginate(data)
+                       insertToHtml(globalArray[0]);
                     }
                 });
             }

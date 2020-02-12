@@ -199,8 +199,8 @@
 		</div>
 			<h3>${element.name}</h3>
 			<p>Age is :${element.age}</p>
-			<span>${element.gender}</span>
-        	<p>Click On  Image for more details</p>
+			<p>${element.gender}</p>
+<!--        	<p>Click On  Image for more details</p>-->
 	</div>
 	</div>
 
@@ -225,6 +225,7 @@
 				},
 				dataType: 'json',
 				success: function(data) {
+				    console.log(data)
 				   let d1= document.getElementById("lost")
                     let SPAN= document.getElementById("pages")
                     d1.innerHTML=" ";
@@ -262,7 +263,6 @@
 				age,
                 region
 			};
-			// console.log(data);
 			if ((data.gender).length != 0 || (data.city).length != 0 || (data.region).length != 0 || (data.age).length != 0) {
                 console.log(JSON.stringify(data));
 				$.ajax({
@@ -275,7 +275,6 @@
                     //data: JSON.stringify(data),
                     success: function (data) {
                         console.log(data)
-                        console.log("islam")
                         paginate(data)
                         console.log(globalArray[0])
                          insertToHtml(globalArray[0]);

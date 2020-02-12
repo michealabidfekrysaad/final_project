@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVisitorTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateVisitorTable extends Migration
      */
     public function up()
     {
-        Schema::create('visitor', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('click');
-            $table->integer('viewer');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('category_name');
+            $table->string('category_name_ar');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateVisitorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('visitor');
+        Schema::dropIfExists('categories');
     }
 }

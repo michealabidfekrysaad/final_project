@@ -18,7 +18,7 @@
     <div class="container  pt-5">
         <div class="card pt-2">
             <div class="card-header">
-                {{ __('messages.Your Profile') }}  
+                {{ __('messages.Your Profile') }}
             </div>
             <ul class="nav nav-tabs pt-3" id="myTab" role="tablist">
                 <li class="nav-item">
@@ -59,43 +59,9 @@
                                 <p>{{$profile->phone}}</p>
                             </div>
                         </div>
-<<<<<<< HEAD
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>{{ __('messages.City') }}</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>{{$profile->city}}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>{{ __('messages.Region') }}</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>{{$profile->region}}</p>
-                            </div>
-                        </div>
-=======
-                        {{--                        <div class="row">--}}
-                        {{--                            <div class="col-md-6">--}}
-                        {{--                                <label>City</label>--}}
-                        {{--                            </div>--}}
-                        {{--                            <div class="col-md-6">--}}
-                        {{--                                <p>{{$profile->city}}</p>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
-                        {{--                        <div class="row">--}}
-                        {{--                            <div class="col-md-6">--}}
-                        {{--                                <label>Region</label>--}}
-                        {{--                            </div>--}}
-                        {{--                            <div class="col-md-6">--}}
-                        {{--                                <p>{{$profile->region}}</p>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
->>>>>>> 2c028dc661b34abdc322725a298434a7b7851686
+
                         <a href="/edit/{{$profile->id}}" id="lostButton">
-                            {{ __('messages.Update Profile') }}  
+                            {{ __('messages.Update Profile') }}
                         </a>
                     </div>
                     <div class="tab-pane fade show  bg-white" id="notification" role="tabpanel"
@@ -103,13 +69,13 @@
 
                         <div class="row">
                             @foreach($notifications as $notification)
-<<<<<<< HEAD
+
                             <div class="col-12">
                             <h5>{{ __('messages.View Result For Last Search') }}   </h5>
                             <a class="btn btn-primary" href="/viewResultFromNotification/{{$notification['id']}}">{{ __('messages.View Results') }}</a>
                             <a class="btn btn-danger" href="/readNotification/{{$notification['id']}}">{{ __('messages.Make As Read') }}</a>
                             </div>
-=======
+
                                 <div class="col-12">
                                     <h5>View Result For Last Search </h5>
                                     <a class="btn btn-primary"
@@ -117,7 +83,7 @@
                                     <a class="btn btn-danger" href="/readNotification/{{$notification['id']}}">Make As
                                         Read</a>
                                 </div>
->>>>>>> 2c028dc661b34abdc322725a298434a7b7851686
+
                             @endforeach
 
                         </div>

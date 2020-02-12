@@ -187,6 +187,12 @@ class reportController extends Controller
         //        dd($report);
         return redirect('/');
     }
+    public function stillReport(Report $report)
+    {
+        $report->is_found = '0';
+        $report->save();
+        return redirect('/');
+    }
 
     public function show(Report $report)
     {
@@ -426,6 +432,23 @@ class reportController extends Controller
             $query="city_id=".$city;
             array_push($array,$query);
         }
+        if ($constraints['region']) {
+            if (count($constraints['age']) == 1) {
+                $area = "'" . $constraints['region'] . "'" . " AND ";
+                $query="area_id=".$area;
+                array_push($array,$query);
+            }
+            elseif($constraints['region']&&$constraints['city']&&$constraints['age']&&$constraints['gender']){
+                $area = "'" . $constraints['region'] . "'";
+                $query=" AND area_id=".$area;
+                array_push($array,$query);
+            }
+            else {
+                $area = "'" . $constraints['region'] . "'";
+                $query="area_id=".$area;
+                array_push($array,$query);
+            }
+        }
         if ($constraints['age']) {
             for ($i = 0; $i < count($constraints['age']); $i++) {
                 if ($constraints['age'][$i] == "below_10_years") {
@@ -478,12 +501,12 @@ class reportController extends Controller
         }
         $runQuery=$this->cleanQuery($globalQuery);
         if($runQuery!=false){
-//            return $this->cleanQuery($globalQuery);
+           // return $this->cleanQuery($globalQuery);
             return $results = DB::select($this->cleanQuery($globalQuery));
         }
         else
             {
-//            return $globalQuery;
+           //return $globalQuery;
             return $results = DB::select($globalQuery);
         }
     }
@@ -541,7 +564,10 @@ class reportController extends Controller
        return str_replace("AND   AND","AND",$globalQuery);
         elseif(strpos($globalQuery, 'ANDAND'))
         return str_replace("ANDAND","AND",$globalQuery);
-        else return false;
+      elseif(strpos($globalQuery, 'AND  AND'))
+          return str_replace("AND  AND","AND",$globalQuery);
+        else
+            return false;
     }
 
 

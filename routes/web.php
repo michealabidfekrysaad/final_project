@@ -14,6 +14,10 @@
 use App\Http\Middleware\increaseClick;
 use App\Http\Middleware\increaseView;
 
+Route::get('/allmessages' ,'contactController@indexTable');//today mi
+Route::get('/contact/delete/{id}','contactController@destroy');//today mi
+
+
 Route::get('/contact', function () {
     return view('contact.index');
 })->middleware(increaseView::class);
@@ -29,7 +33,11 @@ Route::get('/about/view1', function () {
 Route::group(['middleware' => ['auth']], function () {
 
 });
-
+Route::group(['middleware'=>['verified']],function (){
+    Route::get('/people/search/{type}', 'reportController@create')->middleware(increaseView::class);
+    Route::get('/people/image', 'UploadfileController@index')->middleware(increaseView::class);//done
+    Route::get('/items/search/found', 'itemController@create');
+});
 Route::get('/home', 'HomeController@index')->name('home')->middleware(increaseView::class);
 Route::get('/people/details', function () {
     return view('people.personDetails');
@@ -80,7 +88,6 @@ Route::get('/getforitem/{category}', 'AttributeController@getAttributeList');
 
 
 //islam fix 5ara
-Route::get('/people/search/{type}', 'reportController@create')->middleware(increaseView::class);
 Route::post('/people/search/post/{type}', 'reportController@store')->middleware(increaseClick::class);
 Route::get('get-area-list', 'reportController@getAreaList')->middleware(increaseClick::class);
 Route::get('/people/search', 'reportController@index')->name("people.home")->middleware(increaseView::class);//done
@@ -92,6 +99,7 @@ Route::get('/liveSearch/action', 'reportController@action')->name('search.action
 Route::get('/acceptOtherReport/{report}', 'reportController@acceptOtherReport')->name('reports.acceptOtherReport')->middleware('sessions')->middleware(increaseClick::class);
 Route::get('/RejectOtherReport', 'reportController@RejectOtherReport')->name('reports.RejectOtherReport')->middleware('sessions')->middleware(increaseClick::class);
 Route::get('/closereport/{report}', 'reportController@closeReport')->name('reports.closeReport')->middleware(increaseClick::class);
+Route::get('/stillreport/{report}', 'reportController@stillReport')->name('reports.stillReport')->middleware(increaseClick::class);
 Route::get('/viewResultFromNotification/{results}', 'ProfileController@viewResultFromNotification')->middleware(increaseClick::class);
 Route::get('/readNotification/{id}', 'ProfileController@readNotification')->middleware(increaseClick::class);
 Route::post('/sendEmail/{id}', 'reportController@SendEmailVerify')->middleware(increaseClick::class);
@@ -112,9 +120,8 @@ Route::get('/admin', function(){
 Route::get('/admin/1', function () {
     return view('layouts.AdminPanel.page');
 });
-Route::get('/admin/panel', function () {
-    return view('layouts.AdminPanel.index');
-});
+
+Route::get('/admin/panel','contactController@index');
 
 Route::get('/admin/panel/userstable','UserController@adminUsers');
 Route::get('/user/{id}','UserController@showUser');
@@ -177,7 +184,6 @@ Route::delete('/reportDelete/{id}' , 'reportController@DestroyByAdmin')->name('r
 // end of admin panel routes----------------------------------------------------------
 Route::get('/people/image','UploadfileController@index');//done
 Route::post('uploadfile','UploadfileController@upload');//done
-Route::get('/people/image', 'UploadfileController@index')->middleware(increaseView::class);//done
 Route::post('uploadfile', 'UploadfileController@upload')->middleware(increaseClick::class);//done
 
 Route::get('/', function () {
@@ -194,16 +200,17 @@ Route::get('/filter/find/item/{data}', 'itemController@doSearchingQuery')->middl
 Route::post('/items', 'itemController@store')->name('items.store')->middleware(increaseClick::class);
 Route::get('/acceptMessage/{decision}/{descriptionValidation}', 'itemController@AcceptMessage')->middleware(increaseClick::class);
 //end item
-Route::get('/items/search/found', 'itemController@CityCategory')->middleware(increaseClick::class);
+//Route::get('/items/search/found', 'itemController@CityCategory')->middleware(increaseClick::class);
 Route::get('/get-state-list', 'itemController@getAreaList')->middleware(increaseClick::class);
 Route::get('/get/{category}', 'itemController@getAttributeList')->middleware(increaseClick::class);
 //Route::get('/items/search','itemController@getCategory');
 Route::get('/liveSearch/actionItem', 'itemController@actionItem')->middleware(increaseClick::class);
 Route::get('/valueofattribute/{id}', 'itemController@getAttributeValue')->middleware(increaseClick::class);
 Route::get('/showReportItem/{id}', 'itemController@show')->middleware(increaseClick::class)->middleware(increaseView::class);
-Route::get('/items/search/found', 'itemController@create');
-Route::post('/sendEmailItem/{id}', 'itemController@sendEmailVerifyItems')->middleware(increaseClick::class);
 
+Route::post('/sendEmailItem/{id}', 'itemController@sendEmailVerifyItems')->middleware(increaseClick::class);
+Route::get('/addvalueadmin','AttributeController@create');// today mi
+Route::post('/addvalueadmin/store','AttributeController@store');// today mi
 
 Route::get('locale/{locale}', function ($locale) {
     Session::put('locale', $locale);
@@ -214,5 +221,6 @@ Route::get('/attribute/index', function(){
     return view('layouts.AdminPanel.attribute.index');
 });
 Route::get('/attribute/admin' , 'AttributeController@indexAdmin');
-Route::get('/addvalueadmin','AttributeController@create');
-Route::post('/addvalueadmin/store','AttributeController@store');
+
+
+

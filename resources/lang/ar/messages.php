@@ -184,6 +184,7 @@ return [
      'Login' => 'تسجيل الدخول',
      'Forgot Your Password?' => 'هل نسيت رقمك السري',
     'Select City First' => 'اختر المدينة اولا',
-    'Select an Option' => 'اخترالمدينة اولا'
+    'Select an Option' => 'اخترالمدينة اولا',
+    'Update Profile' =>'حدث صفحتك الشخصية'
 ];
 ?>

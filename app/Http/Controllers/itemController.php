@@ -40,11 +40,9 @@ class itemController extends Controller
     // isthere any role?
     public function index()
     {
-        $items = Item::paginate(5);
         $categories = Category::all();
         $cities = City::all();
         return view('items.find', [
-            'items' => $items,
             'categories' => $categories,
             'cities' => $cities,
         ]);
@@ -76,7 +74,6 @@ class itemController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->file('image'));
         DB::transaction(function () use ($request) {
             $item = new Item();
             $item->city_id = $request->input('city_id');
@@ -302,13 +299,22 @@ class itemController extends Controller
         $fields = array_keys($constraints);
         $index = 0;
         foreach ($constraints as $constraint) {
-            if ($constraint != "") {
-                $query = $query->with("category")->where( $fields[$index], '=',$constraint);
+            if ($constraint != "" && !is_array($constraint)) {
+                $query = $query->with("category")->where($fields[$index], '=',$constraint);
             }
-
             $index++;
         }
-       return response()->json($query->get());
+        if(count($constraints['value_id'])==0)
+            return response()->json($query->get());
+        else{
+            $itemsIds=$query->pluck('id');
+            $query1 = ItemAttributeValue::query();
+            foreach ($constraints['value_id'] as $value) {
+                $query1= ItemAttributeValue::whereIn('item_id',$itemsIds)->where("value_id","=",$value)->get();
+            }
+//            return response()->json($query1);
+            return response()->json(Item::with("category")->wherein("id",$query1)->get());
+        }
     }
 
 }

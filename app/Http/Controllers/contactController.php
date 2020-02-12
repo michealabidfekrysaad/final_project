@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Redirect;
 
 class contactController extends Controller
 {
+    public  function index(){
+        $lastMessages=DB::table("contact")->latest("created_at")->take(3)->get();
+        return view('layouts.AdminPanel.index',['lastMessages'=>$lastMessages]);
+    }
+    public  function indexTable(){
+        return view('layouts.AdminPanel.messages',['contacts'=>DB::table("contact")->paginate(5)]);
+    }
+
+
     public function store(Request $request){
         DB::table('contact')->insert([
             'name'=>$request->name,
@@ -19,7 +28,9 @@ class contactController extends Controller
             'created_at'=>now()
         ]);
         return redirect()->to('/contact')->with('message','Your message has been sent. Thank you!');
-
-
     }
+    public function destroy($id){
+        DB::table("contact")->delete($id);
+        return redirect()->to('/allmessages');
+}
 }

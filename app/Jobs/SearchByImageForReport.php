@@ -87,32 +87,21 @@ class SearchByImageForReport implements ShouldQueue
         $fileAsByte = $this->convertUrlToImageFile($this->file);
         $newArray = array(
             'image' => $this->uploadImageToS3("people/", $fileAsByte),
-            'user_id' => $this->user->id);
+            'user_id' => $this->user->id,
+            'created_at'=>now()
+        );
         $finalArray = array_merge($this->data, $newArray);
-        if (count($nearest) != 0) {
-            try {
-                $this->getClientForSms()->message()->send([
-                    'to' => '20' . $this->user->phone,
-                    'from' => 'ToFind',
-                    'text' => 'You Received Notification On Our Site For Results'
-                ]);
-            } catch (Exception $exception) {
-            }
-            $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
-        } else {
-//            try {
-//                $this->getClientForSms()->message()->send([
-//                    'to' => '20' . $this->user->phone,
-//                    'from' => 'ToFind',
-//                    'text' => 'Sorry Not Found And Created Report Successfully'
-//                ]);
-//            } catch (Exception $exception) {
-//
-//            }
-            DB::table('reports')->insert($finalArray);
-            $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
+
+            $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+            $client = new \Nexmo\Client($basic);
+            $message = $client->message()->send([
+                'to' =>'20'.substr(($this->user)->phone,1),
+                'from' => 'Nexmo',
+                'text' => 'Sorry These person doesnt exist create your report successfully'
+            ]);
+        DB::table('reports')->insert($finalArray);
+        $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
         }
-    }
     public function getClient()
     {
         return $this->client = new RekognitionClient(
@@ -125,11 +114,7 @@ class SearchByImageForReport implements ShouldQueue
                 ]]);
     }
 
-    public function getClientForSms()
-    {
-        $basic = new Basic('9d0cd4d6', 'LzIsAfazHBBHN7fl');
-        return new Client($basic);
-    }
+
 
     public function uploadImageToS3($path, $file)
     {
