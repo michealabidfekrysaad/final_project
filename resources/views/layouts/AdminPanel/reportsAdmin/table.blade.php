@@ -8,9 +8,9 @@
             <div class="col-lg-12">
                 <div class=" m-b-40">
 
-                    <table class="table table-borderless table-data3">
+                    <table id="table" class="table table-borderless table-data3">
                         <thead>
-                            <tr>
+
                                 <th>Image</th>
                                 <th>Name</th>
                                 <th>Age</th>
@@ -18,7 +18,7 @@
                                 <th>Last_Seen_On</th>
                                 <th>Last_Seen_At</th>
                                 <th class="text-center">Action</th>
-                            </tr>
+
                         </thead>
                         <tbody>
                        @foreach($reports as $report)

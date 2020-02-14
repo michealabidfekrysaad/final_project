@@ -33,7 +33,7 @@
                                                 <p> {{$report->age}}</p>
                                         </div>
                                         <div class="row">
-                                                <h3>{{ __('messages.Gender') }}</h3>
+                                                <h3>{{ __('messages.Gender') }} :</h3>
                                                 <p>{{$report->gender}} </p>
                                         </div>
                                         <div class="row">
@@ -48,24 +48,32 @@
                                                 <h3>{{ __('messages.Special Mark :') }}</h3>
                                                 <p>{{$report->special_mark}}</p>
                                         </div>
+                                    <div class="row">
+                                        <h3>{{ __('messages.Eye Color : ') }}</h3>
+                                        <p>{{$report->eye_color}}</p>
+                                    </div>
 
                                 </div>
                         </div>
                         <div class="col-md-4">
                                 <div class="details">
                                         <div class="row">
-                                                <h3>{{ __('messages.Eye Color : ') }}</h3>
-                                                <p>{{$report->eye_color}}</p>
-                                        </div>
-                                        <div class="row">
                                                 <h3>{{ __('messages.Hair Color : ') }}</h3>
                                                 <p> {{$report->hair_color}}</p>
                                         </div>
+                                    <div class="row">
+                                        <h3>{{ __('messages.City:') }}</h3>
+                                        <p>{{$report->eye_color}}</p>
+                                    </div>
+                                    <div class="row">
+                                        <h3>{{ __('messages.Region :') }}</h3>
+                                        <p>{{$report->eye_color}}</p>
+                                    </div>
+                                    <div class="row">
+                                        <h3>{{ __('messages.Location :') }}</h3>
+                                        <p>{{$report->location}}</p>
+                                    </div>
 
-                                        <div class="row">
-                                                <h3>{{ __('messages.Last Seen At :') }}</h3>
-                                                <p> {{$report->last_seen_at}}</p>
-                                        </div>
                                         <div class="row">
                                                 <h3>{{ __('messages.Lost Since : ') }}</h3>
                                                 <p> {{$report->lost_since}}</p>
@@ -75,10 +83,10 @@
                                                 <h3>{{ __('messages.Last Seen On : ') }}</h3>
                                                 <p> {{$report->last_seen_on}}</p>
                                         </div>
-                                        <div class="row">
-                                                <h3>{{ __('messages.Location :') }}</h3>
-                                                <p>{{$report->location}}</p>
-                                        </div>
+                                    <div class="row">
+                                        <h3>{{ __('messages.Last Seen At :') }}</h3>
+                                        <p> {{$report->last_seen_at}}</p>
+                                    </div>
 
                                 </div>
                         </div>

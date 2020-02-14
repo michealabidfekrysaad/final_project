@@ -272,7 +272,103 @@
                                     </span>
                                     @endif
             </div>
+                <div class="form-group {{ $errors->has('age') ? ' has-error' : '' }}">
+                    <label for="inputAge">{{ __('messages.Age :') }}</label>
+                    <input type="number" class="form-control" id="inputAge" placeholder="{{ __('messages.Age Of Person') }}" min=1 max=90 name="age" required>
+                    <span id="NumberErr"></span>
+                    @if ($errors->has('age'))
+                        <span class="help-block">
+                <strong>{{ $errors->first('age') }}</strong>
+            </span>
+                    @endif
+                </div>
+                <div class="form-group {{ $errors->has('gender') ? ' has-error' : '' }}">
+                    <label for="gender">{{ __('messages.select Gender :') }}</label>
+                    <select class="form-control" id="gender" name="gender" required>
+                        <option value="">{{ __('messages.select your gender') }}</option>
+                        <option value="male">{{ __('messages.Male') }}</option>
+                        <option value="female">{{ __('messages.Female') }}</option>
+                    </select>
+                    <span id="GenderErr"></span>
+                    @if ($errors->has('gender'))
+                        <span class="help-block">
+                <strong>{{ $errors->first('gender') }}</strong>
+            </span>
+                    @endif
+                </div>
+                <div class="form-group {{ $errors->has('height') ? ' has-error' : '' }}">
+                    <label for="inputHeight">{{ __('messages.Height :') }}</label>
+                    <input type="number" class="form-control" id="inputHeight" placeholder="{{ __('messages.height Of Person In CM ex:125') }}" min=1 max=250 name="height" required>
+                    <span id="HeightErr"></span>
+                    @if ($errors->has('height'))
+                        <span class="help-block">
+                <strong>{{ $errors->first('height') }}</strong>
+            </span>
+                    @endif
+                </div>
 
+                <div class="form-group  {{ $errors->has('weight') ? ' has-error' : '' }}">
+                    <label for="inputWeight">{{ __('messages.Weight :') }}</label>
+                    <input type="number" class="form-control" id="inputWeight" placeholder="{{ __('messages.Weight Of Person In KG') }}" min=5 max=100 name="weight"  required>
+                    <span id="WeightErr"></span>
+                    @if ($errors->has('weight'))
+                        <span class="help-block">
+                <strong>{{ $errors->first('weight') }}</strong>
+            </span>
+                    @endif
+                </div>
+
+                <div class="form-group {{ $errors->has('special_mark') ? ' has-error' : '' }}">
+                    <label for="inputspecial_mark">{{ __('messages.Special Mark :') }}</label>
+                    <input type="text" class="form-control" id="inputspecial_mark" placeholder="{{ __('messages.Special Mark Of Person') }}" name="special_mark" required>
+                    <span id="SpecialErr"></span>
+                    @if ($errors->has('special_mark'))
+                        <span class="help-block">
+                <strong>{{ $errors->first('special_mark') }}</strong>
+            </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="eye_color">{{ __('messages.Select Eye Color :') }}</label>
+                    <select class="form-control" id="eye_color" name="eye_color" required>
+                        <option value="black">{{ __('messages.Black') }}</option>
+                        <option value="brown">{{ __('messages.Brown') }}</option>
+                        <option value="green">{{ __('messages.Green') }}</option>
+                        <option value="grey">{{ __('messages.Grey') }}</option>
+                        <option value="blue">{{ __('messages.Blue') }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="hair_color">{{ __('messages.Select Hair Color :') }}</label>
+                    <select class="form-control" id="hair_color" name="hair_color">
+                        <option value="black">{{ __('messages.Black') }}</option>
+                        <option value="browan">{{ __('messages.Brown') }}</option>
+                        <option value="white">{{ __('messages.White') }}</option>
+                        <option value="golden">{{ __('messages.Golden') }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">{{ __('messages.City:') }}</label>
+                    <select class="form-control" id="city" name="city" required>
+                        <option value="none" selected disabled hidden>
+                            {{ __('messages.Select an Option') }}
+                        </option>
+                        @foreach($cities as $key => $city)
+                            <option value="{{$key}}"> {{$city}}</option>
+                        @endforeach
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">{{ __('messages.select region:') }}</label>
+                    <select name="area_id" id="state" class="form-control">
+
+                    </select>
+                </div>
 
             <div class="form-group {{ $errors->has('location') ? ' has-error' : '' }}">
                 <label for="inputlocation">{{ __('messages.Location :') }}</label>
@@ -285,17 +381,6 @@
             @endif
             </div>
 
-
-            <div class="form-group {{ $errors->has('special_mark') ? ' has-error' : '' }}">
-                <label for="inputspecial_mark">{{ __('messages.Special Mark :') }}</label>
-                <input type="text" class="form-control" id="inputspecial_mark" placeholder="{{ __('messages.Special Mark Of Person') }}" name="special_mark" required>
-                <span id="SpecialErr"></span>
-                @if ($errors->has('special_mark'))
-                <span class="help-block">
-                <strong>{{ $errors->first('special_mark') }}</strong>
-            </span>
-            @endif
-            </div>
 
             @if($type == 'lookfor')
             <div class="form-group {{ $errors->has('lost_since') ? ' has-error' : '' }}">
@@ -311,76 +396,13 @@
 
             @endif
 
+                @if($type == 'found')
+                    <div class="form-group">
+                        <label for="inputfound_since">{{ __('messages.found Since :') }}</label>
+                        <input type="date" class="form-control" id="inputfound_since" placeholder="Person found when"  name="found_since"  required>
+                    </div>
 
-            <div class="form-group {{ $errors->has('age') ? ' has-error' : '' }}">
-                <label for="inputAge">{{ __('messages.Age :') }}</label>
-                <input type="number" class="form-control" id="inputAge" placeholder="{{ __('messages.Age Of Person') }}" min=1 max=90 name="age" required>
-                <span id="NumberErr"></span>
-                @if ($errors->has('age'))
-                <span class="help-block">
-                <strong>{{ $errors->first('age') }}</strong>
-            </span>
-            @endif
-            </div>
-
-
-            <div class="form-group {{ $errors->has('height') ? ' has-error' : '' }}">
-                <label for="inputHeight">{{ __('messages.Height :') }}</label>
-                <input type="number" class="form-control" id="inputHeight" placeholder="{{ __('messages.height Of Person In CM ex:125') }}" min=1 max=250 name="height" required>
-                <span id="HeightErr"></span>
-                @if ($errors->has('height'))
-                <span class="help-block">
-                <strong>{{ $errors->first('height') }}</strong>
-            </span>
-            @endif
-            </div>
-
-
-            <div class="form-group  {{ $errors->has('weight') ? ' has-error' : '' }}">
-                <label for="inputWeight">{{ __('messages.Weight :') }}</label>
-                <input type="number" class="form-control" id="inputWeight" placeholder="{{ __('messages.Weight Of Person In KG') }}" min=5 max=100 name="weight"  required>
-                <span id="WeightErr"></span>
-                @if ($errors->has('weight'))
-                <span class="help-block">
-                <strong>{{ $errors->first('weight') }}</strong>
-            </span>
-            @endif
-            </div>
-
-
-            <div class="form-group {{ $errors->has('gender') ? ' has-error' : '' }}">
-                <label for="gender">{{ __('messages.select Gender :') }}</label>
-                <select class="form-control" id="gender" name="gender" required>
-                    <option value="">{{ __('messages.select your gender') }}</option>
-                    <option value="male">{{ __('messages.Male') }}</option>
-                    <option value="female">{{ __('messages.Female') }}</option>
-                </select>
-                <span id="GenderErr"></span>
-                @if ($errors->has('gender'))
-                <span class="help-block">
-                <strong>{{ $errors->first('gender') }}</strong>
-            </span>
-            @endif
-            </div>
-            <div class="form-group">
-                <label for="city">{{ __('messages.City:') }}</label>
-                <select class="form-control" id="city" name="city" required>
-                    <option value="none" selected disabled hidden>
-                        {{ __('messages.Select an Option') }}
-                    </option>
-                    @foreach($cities as $key => $city)
-                    <option value="{{$key}}"> {{$city}}</option>
-                    @endforeach
-
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="title">{{ __('messages.select region:') }}</label>
-                <select name="area_id" id="state" class="form-control">
-
-                </select>
-            </div>
+                @endif
 
             @if($type == 'lookfor')
             <div class="form-group">
@@ -405,37 +427,8 @@
 
             @endif
 
-            @if($type == 'found')
-            <div class="form-group">
-                <label for="inputfound_since">{{ __('messages.found Since :') }}</label>
-                <input type="date" class="form-control" id="inputfound_since" placeholder="Person found when"  name="found_since"  required>
-            </div>
-
-            @endif
-
-            <div class="form-group">
-                <label for="eye_color">{{ __('messages.Select Eye Color :') }}</label>
-                <select class="form-control" id="eye_color" name="eye_color" required>
-                    <option value="black">{{ __('messages.Black') }}</option>
-                    <option value="brown">{{ __('messages.Brown') }}</option>
-                    <option value="green">{{ __('messages.Green') }}</option>
-                    <option value="grey">{{ __('messages.Grey') }}</option>
-                    <option value="blue">{{ __('messages.Blue') }}</option>
-                </select>
-            </div>
 
 
-
-
-            <div class="form-group">
-                <label for="hair_color">{{ __('messages.Select Hair Color :') }}</label>
-                <select class="form-control" id="hair_color" name="hair_color">
-                    <option value="black">{{ __('messages.Black') }}</option>
-                    <option value="browan">{{ __('messages.Brown') }}</option>
-                    <option value="white">{{ __('messages.White') }}</option>
-                    <option value="golden">{{ __('messages.Golden') }}</option>
-                </select>
-            </div>
             <div class="text-center">
                 <button type="submit" class="btn" id="lostButton">{{ __('messages.Send Report') }}</button>
             </div>

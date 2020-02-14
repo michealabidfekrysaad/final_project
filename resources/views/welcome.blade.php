@@ -4,6 +4,11 @@
 
 <section id="intro">
   <div class="intro-container wow fadeIn">
+      @if(session('message'))
+          <div class="alert alert-success">
+              {{ session('message') }}
+          </div>
+      @endif
     <h1 class="mb-4 pb-0">{{ __('messages.Find Any Thing') }}<br><span>{{ __('messages.Lost') }}</span> {{ __('messages.From You') }}</h1>
     <!-- <p class="mb-4 pb-0">10-12 December, Downtown Conference Center, New York</p> -->
     <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox play-btn mb-4" data-vbtype="video"
@@ -31,4 +36,9 @@
         </div>
     </div>
 </div> -->
+    <script>
+        $(document).ready(function(){
+            $(".alert").slideDown(300).delay(3000).slideUp(300);
+        });
+    </script>
 @endsection

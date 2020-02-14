@@ -65,7 +65,7 @@
                                 <h3>{{ __('messages.Last Seen At :') }}</h3>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required name="last_seen_at" value="{{$report->last_seen_at}}">
+                                <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required name="last_seen_at" value="{{$report->last_seen_at}}">
                             </div>
 
                         </div>
@@ -74,7 +74,7 @@
                                 <h3>{{ __('messages.Lost Since : ') }}</h3>
                             </div>
                             <div class="col">
-                            <input type="date" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required name="last_seen_on" value="{{$report->last_seen_on}}">
+                            <input type="date" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" required name="last_seen_on" value="{{$report->lost_since}}">
                             </div>
                         </div>
                         <div class="row">
@@ -128,13 +128,13 @@
                             </div>
                             <div class="col">
                                 <select class="form-control" id="last_seen_on" name="last_seen_on" required>
-                                    <option value="Saturday">{{ __('messages.Saturday') }}</option>
-                                    <option value="Sunday">{{ __('messages.Sunday') }}</option>
-                                    <option value="Monday">{{ __('messages.Monday') }}</option>
-                                    <option value="Tuesday">{{ __('messages.Tuesday') }}</option>
-                                    <option value="Wednesday">{{ __('messages.Wednesday') }}</option>
-                                    <option value="Thursday">{{ __('messages.Thursday') }}</option>
-                                    <option value="Friday">{{ __('messages.Friday') }}</option>
+                                    <option {{ $report->last_seen_on=="Saturday" ? 'selected' : '' }} value="Saturday">{{ __('messages.Saturday') }}</option>
+                                    <option {{ $report->last_seen_on=="Sunday" ? 'selected' : '' }} value="Sunday">{{ __('messages.Sunday') }}</option>
+                                    <option {{ $report->last_seen_on=="Monday" ? 'selected' : '' }} value="Monday">{{ __('messages.Monday') }}</option>
+                                    <option  {{ $report->last_seen_on=="Tuesday" ? 'selected' : '' }}value="Tuesday">{{ __('messages.Tuesday') }}</option>
+                                    <option {{ $report->last_seen_on=="Wednesday" ? 'selected' : '' }} value="Wednesday">{{ __('messages.Wednesday') }}</option>
+                                    <option {{ $report->last_seen_on=="Thursday" ? 'selected' : '' }} value="Thursday">{{ __('messages.Thursday') }}</option>
+                                    <option {{ $report->last_seen_on=="Friday" ? 'selected' : '' }} value="Friday">{{ __('messages.Friday') }}</option>
 
                                 </select>
                             </div>

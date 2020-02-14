@@ -87,7 +87,7 @@
     <div class="container py-5">
 
         <div class="section-header pt-5">
-            <h2>{{ __('messages.Report For Lost Item') }}</h2>
+            <h2>{{ __('messages.Report For Found Item') }}</h2>
         </div>
 
 
@@ -107,7 +107,7 @@
                 <label for="category_id">{{ __('messages.item name:') }}</label>
                 <select class="form-control" id="item" name="category_id" required>
                     <option value="none" selected disabled hidden>
-                        {{ __('messages.Select an Option') }} 
+                        {{ __('messages.Select an Option') }}
                     </option>
                     @if(app()->getLocale()=='ar')
                         @foreach($categories as $category)

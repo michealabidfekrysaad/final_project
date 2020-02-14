@@ -91,16 +91,26 @@ class SearchByImageForReport implements ShouldQueue
             'created_at'=>now()
         );
         $finalArray = array_merge($this->data, $newArray);
-
+        if(count($finalArray)==0){
             $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
             $client = new \Nexmo\Client($basic);
             $message = $client->message()->send([
                 'to' =>'20'.substr(($this->user)->phone,1),
-                'from' => 'Nexmo',
+                'from' => 'ToFind',
                 'text' => 'Sorry These person doesnt exist create your report successfully'
             ]);
-        DB::table('reports')->insert($finalArray);
-        $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
+        }
+        else{
+            DB::table('reports')->insert($finalArray);
+            $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
+            $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+            $client = new \Nexmo\Client($basic);
+            $message = $client->message()->send([
+                'to' =>'20'.substr(($this->user)->phone,1),
+                'from' => 'ToFind',
+                'text' => 'Check Your Notification In ToFind Website'
+            ]);
+        }
         }
     public function getClient()
     {
@@ -130,7 +140,7 @@ class SearchByImageForReport implements ShouldQueue
 
     public function convertUrlToImageFile($tempUrl)
     {
-        $url = 'https://loseall.s3.us-east-2.amazonaws.com/' . $tempUrl;
+        $url = 'https://loseall.s3.us-east-2.amazonaws.com/' .$tempUrl;
         $info = pathinfo($url);
         $contents = file_get_contents($url);
         $file = '/tmp/' . $info['basename'];

@@ -13,9 +13,9 @@
 
       <div class="col-lg-12">
         <!-- DATA TABLE-->
-        <table class="table text-center">
+        <table id="table" class="table text-center">
           <thead class="thead-dark">
-            <tr>
+
               <th scope="col">#</th>
               <th scope="col">name</th>
               <th scope="col">email</th>
@@ -23,7 +23,7 @@
               <th scope="col">ban</th>
               <th scope="col">action</th>
 
-            </tr>
+
           </thead>
           <tbody>
             @if($users->count())

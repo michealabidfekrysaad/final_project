@@ -19,7 +19,7 @@
 		<div class="notfound-bg"></div>
 		<div class="notfound">
 			<div class="notfound-404">
-				<h1>{{$message}}</h1>
+				<h2>{{$message}}</h2>
 			</div>
 			<h2>{{$code}}</h2>
 			<a href="/" class="home-btn">{{ __('messages.Go Home') }}</a>

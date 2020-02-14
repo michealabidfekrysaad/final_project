@@ -14,7 +14,7 @@
 use App\Http\Middleware\increaseClick;
 use App\Http\Middleware\increaseView;
 
-Route::get('/allmessages' ,'contactController@indexTable');//today mi
+Route::get('/allmessages' ,'contactController@indexTable')->middleware('role:Admin');//today mi
 Route::get('/contact/delete/{id}','contactController@destroy');//today mi
 
 
@@ -33,7 +33,7 @@ Route::get('/about/view1', function () {
 Route::group(['middleware' => ['auth']], function () {
 
 });
-Route::group(['middleware'=>['verified']],function (){
+Route::group(['middleware'=>['auth','verified']],function (){
     Route::get('/people/search/{type}', 'reportController@create')->middleware(increaseView::class);
     Route::get('/people/image', 'UploadfileController@index')->middleware(increaseView::class);//done
     Route::get('/items/search/found', 'itemController@create');
@@ -105,6 +105,7 @@ Route::get('/readNotification/{id}', 'ProfileController@readNotification')->midd
 Route::post('/sendEmail/{id}', 'reportController@SendEmailVerify')->middleware(increaseClick::class);
 Route::get('/editReport/{report}', 'reportController@edit')->name('repo.edit')->middleware(increaseView::class);
 Route::post('/updateReport/{report}', 'reportController@update')->name('repo.update')->middleware(increaseClick::class);
+Route::post('/updateReportItem/{item}', 'itemController@update')->name('repo.item.update')->middleware(increaseClick::class);
 Route::delete('/report/delete/{report}', 'reportController@destroy')->name('repo.delete')->middleware(increaseClick::class);
 Route::get('/readNotification/{id}', 'ProfileController@readNotification')->middleware(increaseClick::class);
 Route::get('/filter/{request}', 'reportController@doSearchingQuery')->middleware(increaseClick::class);//done
@@ -165,7 +166,9 @@ Route::get('/item/show/{id}' , 'itemController2@show2Admin')->name('items.show')
 Route::get('/item/edit/{id}' , 'itemController2@edit2Admin')->name('items.edit');
 Route::put('/item/update/{id}' , 'itemController2@update2Admin')->name('items.update2Admin');
 Route::delete('/item/delete/{id}' , 'itemController2@delete2Admin')->name('items.delete2Admin');
-
+Route::get('/item/edit/user/{item}' , 'itemController@edit')->name('items.edit');
+Route::delete('/item/delete/user/{item}' , 'itemController@destroy')->name('items.delete');
+Route::put('/item/update/user/{id}' , 'itemController@update')->name('items.update');
 /*************************/
 
 /*********Admin Panel Table Reports*********/
@@ -221,6 +224,7 @@ Route::get('/attribute/index', function(){
     return view('layouts.AdminPanel.attribute.index');
 });
 Route::get('/attribute/admin' , 'AttributeController@indexAdmin');
+Route::get('/gmaps', 'MapsController@gmaps');
 
 
 

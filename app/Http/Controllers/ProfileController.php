@@ -25,7 +25,8 @@ class ProfileController extends Controller
         return view('user.index' , [
             'profile'=>$profile,
             'notifications'=>$notifications,
-            'reports'=>$profile->reports
+            'reports'=>$profile->reports,
+            'items'=>$profile->items
         ]
         );
 
@@ -89,8 +90,6 @@ class ProfileController extends Controller
         $profile->name = $request->input('name');
         $profile->email = $request->input('email');
         $profile->phone = $request->input('phone');
-        $profile->city = $request->input('city');
-        $profile->region = $request->input('region');
         $profile->save();
         return redirect(route('profile.index'));
 

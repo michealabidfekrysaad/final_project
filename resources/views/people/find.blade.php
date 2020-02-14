@@ -15,15 +15,16 @@
 			<input type="text" id="search" class="form-control mb-3 " placeholder="{{ __('messages.searching for lost people by name ') }}">
 		</div>
 	</div>
+
 	<div class="row w-100 mx-auto ">
 
-		<div class="col-lg-3  d-none d-lg-block">
+		<div class="col-lg-3 d-lg-block">
 
 			<h4 class="text-muted">{{ __('messages.filter by') }}</h4>
 
 			<article class="card-group-item">
 				<header class="card-header">
-					<h6 class="title">{{ __('messages.Category :') }}</h6>
+					<h6 class="title">{{ __('messages.Gender') }}</h6>
 				</header>
 				<div class="filter-content">
 					<div class="card-body">
@@ -96,29 +97,7 @@
                                 @endforeach
 							</select>
 						</div>
-						<!-- <div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">52</span>
-							<input type="checkbox" class="custom-control-input" id="City1">
-							<label class="custom-control-label" for="City1">Alexandria</label>
-						</div>
 
-						<div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">132</span>
-							<input type="checkbox" class="custom-control-input" id="City2">
-							<label class="custom-control-label" for="City2">Cairo</label>
-						</div>
-
-						<div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">17</span>
-							<input type="checkbox" class="custom-control-input" id="City3">
-							<label class="custom-control-label" for="City3">Portsaid</label>
-						</div>
-
-						<div class="custom-control custom-checkbox">
-							<span class="float-right badge badge-light round">7</span>
-							<input type="checkbox" class="custom-control-input" id="City4">
-							<label class="custom-control-label" for="City4">Minia</label>
-						</div> -->
 					</div> <!-- card-body.// -->
 				</div>
 			</article>
@@ -174,13 +153,14 @@
             pageNumber++
 
             SPAN.insertAdjacentHTML("beforeend",
-                `<button id='${i/6}' class="pn btn" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='#00bcc1'">${pageNumber}</button>
+                `<button id='${i/6}' class="pn btn" style="margin:2px" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='red';this.style.color='white'">${pageNumber}</button>
 `)
             slicedArray = array.slice(i,i+6);
             // console.log(slicedArray);
             globalArray.push(slicedArray);
         }
-          document.getElementById("0").style.backgroundColor="#00bcc1"
+          document.getElementById("0").style.backgroundColor="red"
+		  document.getElementById("0").style.color="white"
     }
     function setHtmlAndInsert(id) {
          insertToHtml(globalArray[id]);
@@ -209,7 +189,8 @@
     function changeColor() {
         let elements = document.getElementsByClassName("pn");
         for (let i=0; i<elements.length; i++ ) {
-            document.getElementById(elements[i].id).style.backgroundColor = "white";
+            document.getElementById(elements[i].id).style.backgroundColor = "#BBC2C2";
+			document.getElementById(elements[i].id).style.color = "black";
             // console.log(elements[i].id)
         }
     }
@@ -338,5 +319,6 @@
         })
     });
 </script>
+
 
 @endsection

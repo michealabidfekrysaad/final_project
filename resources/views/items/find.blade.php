@@ -7,8 +7,8 @@
         <h2 class="mx-auto">{{ __('messages.all Found Items') }}</h2>
     </div>
 	<!-- <div class="row justify-content-end ">
-		<div class="col-lg-9 col-md-12">    
-            <input type="text" id="search" class="form-control mb-3 " placeholder="{{ __('messages.searching for lost Item by name ') }} "> 
+		<div class="col-lg-9 col-md-12">
+            <input type="text" id="search" class="form-control mb-3 " placeholder="{{ __('messages.searching for lost Item by name ') }} ">
         </div>
     </div> -->
     <div class="row w-100 mx-auto ">
@@ -144,13 +144,14 @@
         for (let i=0;i<array.length;i+=6) {
             pageNumber++
                 SPAN.insertAdjacentHTML("beforeend",
-                    `<button id='${i / 6}' class="pn btn" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='#00bcc1'">${pageNumber}</button>
+                `<button id='${i/6}' class="pn btn" style="margin:2px" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='red';this.style.color='white'">${pageNumber}</button>
 `)
 
             slicedArray = array.slice(i,i+6);
             globalArray.push(slicedArray);
         }
-        document.getElementById("0").style.backgroundColor="#00bcc1"
+        document.getElementById("0").style.backgroundColor="red"
+        document.getElementById("0").style.color="white"
     }
     function setHtmlAndInsert(id) {
         insertToHtml(globalArray[id]);
@@ -173,7 +174,7 @@
                                             @else
                                             <h3>${(element.category).category_name}</h3>
                                             @endif
-                                            <h3>Found Since : ${element.found_since}</h3>
+                                            <h3> {{ __('messages.Found Since') }} : ${element.found_since}</h3>
 
                                         </div>
                                     </div>
@@ -185,7 +186,8 @@
     function changeColor() {
         let elements = document.getElementsByClassName("pn");
         for (let i=0; i<elements.length; i++ ) {
-            document.getElementById(elements[i].id).style.backgroundColor = "white";
+            document.getElementById(elements[i].id).style.backgroundColor = "#BBC2C2";
+			document.getElementById(elements[i].id).style.color = "black";
         }
     }
     $(document).ready(function () {
@@ -343,8 +345,8 @@
                 area_id,
                 value_id
             };
-            if (data.category_id || data.city_id || data.area_id ||value_id.length>0) {
-                console.log(data);
+            console.log(data)
+            if (data.category_id !="" || data.city_id !="" || data.area_id !="") {
                 $.ajax({
                     method: "GET",
                     url: "/filter/find/item/" + JSON.stringify(data),
@@ -359,6 +361,9 @@
                        insertToHtml(globalArray[0]);
                     }
                 });
+            }
+            else{
+                fetch_Data('')
             }
         }
         function insertToHtml(data) {
@@ -379,7 +384,7 @@
                                 <h3>${(element.category).category_name}</h3>
                                     @endif
 
-                <h3>Found Since : ${element.found_since}</h3>
+                <h3>{{ __('messages.Found Since') }} : ${element.found_since}</h3>
 
                                     </div>
                                 </div>

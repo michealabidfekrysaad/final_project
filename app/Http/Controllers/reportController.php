@@ -165,7 +165,8 @@ class reportController extends Controller
             $otherUser = $report->user;
 	         Mail::to($otherUser->email)->send(new \App\Mail\SendSmsMailToReporter($report));
           //   $otherUser->notify(new SendSmsMailToReporter($report));
-            return Redirect::to("/people/search");
+            return redirect('/')->with("message","Send Your information to reporter  successfully");
+           // return Redirect::to("/people/search");
 
 
         }
@@ -174,7 +175,8 @@ class reportController extends Controller
             $data=(array)\request()->session()->get('report');
              Report::create($data);
             \request()->session()->forget('report');
-            return Redirect::to("/people/search");
+            return redirect('/')->with("message","Thank you for using our App and  Report created successfully");
+           // return Redirect::to("/people/search");
         }
         else{
             return Redirect::to("/people/search/lookfor");
@@ -185,13 +187,13 @@ class reportController extends Controller
         $report->is_found = '1';
         $report->save();
         //        dd($report);
-        return redirect('/');
+        return redirect('/')->with("message","Thank you for using our App and closed report successfully");
     }
     public function stillReport(Report $report)
     {
         $report->is_found = '0';
         $report->save();
-        return redirect('/');
+        return redirect('/')->with("message","Thank you for using our App and report still active");
     }
 
     public function show(Report $report)
@@ -445,7 +447,7 @@ class reportController extends Controller
             }
             else {
                 $area = "'" . $constraints['region'] . "'";
-                $query="area_id=".$area;
+                $query=" AND area_id=".$area;
                 array_push($array,$query);
             }
         }
@@ -502,12 +504,14 @@ class reportController extends Controller
         $runQuery=$this->cleanQuery($globalQuery);
         if($runQuery!=false){
            // return $this->cleanQuery($globalQuery);
-            return $results = DB::select($this->cleanQuery($globalQuery));
+            return $results = DB::select($this->cleanQuery($globalQuery).' AND deleted_at IS NULL');
+            //return $results = DB::select($this->cleanQuery($globalQuery));
         }
         else
             {
            //return $globalQuery;
-            return $results = DB::select($globalQuery);
+             //   return $results = DB::select($globalQuery);
+            return $results = DB::select($globalQuery.' AND deleted_at IS NULL');
         }
     }
 

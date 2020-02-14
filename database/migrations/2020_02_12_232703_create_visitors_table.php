@@ -13,7 +13,7 @@ class CreateVisitors extends Migration
      */
     public function up()
     {
-        Schema::create('visitors', function (Blueprint $table) {
+        Schema::create('visitor', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('click');
             $table->integer('viewer');

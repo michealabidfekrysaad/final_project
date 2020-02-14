@@ -28,6 +28,7 @@
 
     <!-- Main CSS-->
     <link href="{{ asset('admin_css/theme.css') }}" rel="stylesheet" media="all">
+    <link href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -94,7 +95,7 @@
                     </li>
 
                     <li>
-                        <a href="map.html">
+                        <a href="/gmaps">
                             <i class="fas fa-map-marker-alt"></i>Maps</a>
                     </li>
                     <li>
@@ -117,7 +118,9 @@
                         <div class="noti-wrap ">
                             <div class="noti__item js-item-menu">
                                 <i class="zmdi zmdi-comment-more"></i>
+                                @if(count($lastMessages)!=0)
                                 <span class="quantity">{{count($lastMessages)}}</span>
+                                @endif
                                 <div class="mess-dropdown js-dropdown">
                                     <div class="mess__title">
                                         <p>You have {{count($lastMessages)}} news message</p>
@@ -221,6 +224,12 @@
 
 
 </body>
+<script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('#table').DataTable();
+    } );
+</script>
 
 </html>
 

@@ -12,15 +12,13 @@
                                 <i class="fa fa-lightbulb-o"></i>&nbsp; Add New Attribute
                             </a>
                         </div>
-                        <table class="table text-center">
+                        <table id="table" class="table text-center">
                             <thead class="thead-dark">
-                            <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">attribute</th>
                                 <th scope="col">values</th>
                                 <th scope="col">action</th>
 
-                            </tr>
                             </thead>
                             <tbody>
                             @foreach($attrributeValues as $key=>$attrributeValue)

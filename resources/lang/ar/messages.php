@@ -54,7 +54,7 @@ return [
      'select region:' => 'إختيار المنطقة',
      'Found Since : ' => 'وجد منذ',
      'All' => 'الكل' ,
-     'Report For Lost Item' => 'الإبلاغ عن شئ مفقود',
+     'Report For Found Item' => 'الإبلاغ عن ايجاد شئ',
      'Upload Image :' => 'تحميل الصورة',
      'item name:' => 'اسم الشئ',
      'Select an Option' => 'اختر',
@@ -152,7 +152,7 @@ return [
      'Last Seen On : '=> 'اخر يوم شاهدته ',
      'Hair Color : ' =>  'لون الشعر',
      'Update Report' => 'تحديث التقرير',
-     'View Result For Last Search ' => 'إظهار نتيجة اخر بحث',
+     'View Result For Last Search' => 'إظهار نتيجة اخر بحث',
      'View Results' => 'إظهار النتائج',
      'Make As Read' => 'تم القراءة' ,
      'Click On  Image for more details' => 'اضغط علي الصورة للتفاصيل',
@@ -188,8 +188,12 @@ return [
     'Your Profile' => 'الصفحة الشخصية',
     'About' => 'بياناتك',
     'Notification' => 'اشعارات',
-    'Your Reports' => 'البلاغات',
+    'Your People Reports' => 'بلاغاتك عن الاشخاص',
     'Update Report' => 'تعديل البلاغ',
     'Update Profile' => 'تعديل البيانات الشخصية',
+    'Found Since' => 'فقد منذ',
+    'Your Items Reports' => 'بلاغاتك عن الاشياء',
+    'Age : ' => 'العمر :',
+    'Delete' => 'حذف'
 ];
 ?>

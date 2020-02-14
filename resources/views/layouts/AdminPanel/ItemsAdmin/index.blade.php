@@ -13,9 +13,9 @@
                             <i class="fa fa-pencil-square-o"></i>
                             Add New Item</a>
                     </div>
-                    <table class="table table-borderless table-data3">
+                    <table id="table" class="table table-borderless table-data3">
                         <thead>
-                            <tr>
+
                                 <th>Image</th>
                                 <th>City</th>
                                 <th>Area</th>
@@ -23,11 +23,9 @@
                                 <th>Loster</th>
                                 <th>Category</th>
                                 <th class="text-center">Action</th>
-                            </tr>
                         </thead>
                         <tbody>
                             @foreach($items as $item)
-
                             <tr>
                                 <td>
                                     <img style="width:100px;height:80px;"

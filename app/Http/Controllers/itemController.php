@@ -48,6 +48,7 @@ class itemController extends Controller
         ]);
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -116,10 +117,28 @@ class itemController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return Response
+     * @return Factory|View
      */
-    public function edit($id)
+    public function edit($item)
     {
+        //you may put in transaction
+        $categories=Category::all();
+        $cities=City::all();
+        $itemAtributeValue = ItemAttributeValue::with("attribute")->with("value")->where("item_id", "=", $item)->get();
+        $attributesIds=array();
+        foreach ($itemAtributeValue as $key => $collection){
+                array_push($attributesIds,$collection->attribute->id);
+        }
+        $globalAttributeValues=Attribute::with("values")->wherein("id",$attributesIds)->get();
+        $item=Item::find($item);
+//       return \response()->json($globalAttributeValues->values);
+        return view('user.editItemReport', [
+            'categories'=>$categories,
+            'item' => $item,
+            'data' => $itemAtributeValue,
+            'cities'=>$cities,
+            'globalAttributeValues'=>$globalAttributeValues
+        ]);
     }
 
     //
@@ -133,20 +152,48 @@ class itemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        if ($request->hasFile('image')) {
-            Storage::delete($item->image);
-            $item->image = $request->image;
+        dd($request->all());
+        if (auth()->user()->id == $item->user->id) {
+            if ($request->has('city')) {
+                $item->city = $request->city;
+            }
+            if ($request->has('region')) {
+                $item->region = $request->region;
+            }
+            if ($request->has('found_since')) {
+                $item->found_since = $request->found_since;
+            }
+            if ($request->hasFile('image')) {
+                $this->deleteImageFromS3($item->image);
+                $item->image = $this->uploadImageToS3("items/", $request->file('image'));
+            }
+            if ($item->isClean()) {
+                return response()->json('You need to specify a different value to update', 422);
+            }
+            $item->save();
+            DB::transaction(function () use ($request) {
+                $item = new Item();
+                $item->city_id = $request->input('city_id');
+                $item->area_id = $request->input('area_id');
+                $item->image = $this->uploadImageToS3("items/", $request->file('image'));
+                $item->category_id = $request->input('category_id');
+                $item->found_since = $request->input('found_since');
+                $item->user_id = auth()->user()->id;
+                $item->save();
+                foreach ($request->all() as $attribute => $value) {
+                    if ($this->startsWith($attribute, "#")) {
+                        $this->itemWithVal = DB::table("_item_attribute_values")->insert([
+                            'item_id' => $item->id,
+                            'attribute_id' => (Attribute::where('attribute_name', '=', substr($attribute, 1))->first())->id,
+                            'value_id' => $value
+                        ]);
+                    }
+                }
+            }, 1);
+            return redirect(route('profile.index'));
         }
-        if ($request->has('city')) {
-            $item->city = $request->city;
-        }
-        if ($request->has('region')) {
-            $item->region = $request->region;
-        }
-        if ($request->has('found_since')) {
-            $item->found_since = $request->found_since;
-        }
-        $item->save();
+        else
+            return $this->errorResponse("Unauthorize", 403);
     }
 
     function fetch(Request $request)
@@ -176,8 +223,11 @@ class itemController extends Controller
      */
     public function destroy(Item $item)
     {
-        $item->delete();
-        return response()->json($item);
+        if (auth()->user()->id == $item->user->id || auth()->user()->hasRole('Admin')) {
+            $this->deleteImageFromS3($item->image);
+            $item->delete();
+            return redirect(route('profile.index'));
+        }
     }
 
 
@@ -288,11 +338,12 @@ class itemController extends Controller
             $item->status=1;
             $item->save();
         });
-        return redirect('/');
+        return redirect('/')->with("message","Thank you for using our App");
     }
 
     public function doSearchingQuery($data)
     {
+        //put in transaction
         $dataObject = json_decode($data, true);
         $constraints = (array) $dataObject;
         $query = Item::query();
@@ -307,13 +358,18 @@ class itemController extends Controller
         if(count($constraints['value_id'])==0)
             return response()->json($query->get());
         else{
+            $results=array();
             $itemsIds=$query->pluck('id');
-            $query1 = ItemAttributeValue::query();
-            foreach ($constraints['value_id'] as $value) {
-                $query1= ItemAttributeValue::whereIn('item_id',$itemsIds)->where("value_id","=",$value)->get();
+            $values=$constraints['value_id'];
+            $result=DB::table('_item_attribute_values')->whereIn('item_id', $itemsIds)->where(function ($q) use($values) {
+                    $q->wherein("value_id", $values);
+            })->get()->groupBy("item_id");
+            foreach ($result as $key => $collection){
+                if (count($collection)==count($values)){
+                    array_push($results,$key);
+                }
             }
-//            return response()->json($query1);
-            return response()->json(Item::with("category")->wherein("id",$query1)->get());
+            return response()->json(Item::with("category")->whereIn("id",$results)->get());
         }
     }
 

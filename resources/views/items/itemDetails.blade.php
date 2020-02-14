@@ -5,6 +5,10 @@
 <!--==========================
       Speaker Details Section
     ============================-->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
+<section id="speakers-details" class="wow fadeIn pt-5">
+
 <section id="speakers-details" class="wow fadeIn pt-5">
 
     <div class="container  pt-5">
@@ -12,9 +16,13 @@
             <h2>{{ __('messages.Item Details') }}</h2>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 text-center">
                 <img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}"
                      alt="Img Of Person" class="img-fluid">
+                <div class="row mt-3 ml-2 justify-content-center">
+                    <h5>{{ __('messages.Share Report :') }}</h5>
+                    <div class="fb-share-button ml-2" data-href="http://127.0.0.1:8000/people/details/{{$item->id}}" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2Fpeople%2Fdetails%2F3&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+                </div>
             </div>
 
             <div class="col-md-6">
@@ -86,7 +94,7 @@
 
             </div>
         </div>
-
+    </div>
 </section>
 
 @endsection
