@@ -11,7 +11,7 @@
       @endif
     <h1 class="mb-4 pb-0">{{ __('messages.Find Any Thing') }}<br><span>{{ __('messages.Lost') }}</span> {{ __('messages.From You') }}</h1>
     <!-- <p class="mb-4 pb-0">10-12 December, Downtown Conference Center, New York</p> -->
-    <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox play-btn mb-4" data-vbtype="video"
+    <a href="https://youtu.be/7s5eyNiE_ng" class="venobox play-btn mb-4" data-vbtype="video"
         data-autoplay="true"></a>
       <a href="{{ url('/people/search') }}" class="about-btn scrollto">{{ __('messages.People') }}</a>
       <a href="/items/search" class="about-btn scrollto">{{ __('messages.Items') }}</a>

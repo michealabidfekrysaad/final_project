@@ -20,6 +20,12 @@ class contactController extends Controller
 
 
     public function store(Request $request){
+        $request->validate([
+            'name'=> 'required',
+            'email'=> 'required|email:rfc,dns',
+            'subject'=> 'required|max:20',
+            'message'=> 'required',
+        ]);
         DB::table('contact')->insert([
             'name'=>$request->name,
             'email'=>$request->email,

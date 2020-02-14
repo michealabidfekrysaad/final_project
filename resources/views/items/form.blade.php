@@ -37,7 +37,15 @@
                     NameErr.innerHTML = "";
 
                 }
-
+        let image= document.getElementById('fileUpload').value;
+        let item= document.getElementById('item').value;
+        let city= document.getElementById('city').value;
+        let state= document.getElementById('state').value;
+        let inputfound_since= document.getElementById('inputfound_since').value;
+        if(image == "" || item == "" || city == "" || state == "" || inputfound_since == ""){
+            document.getElementById('formErr').innerText ="all fields are required";
+            return false;
+        }
 
             return( true );
     }
@@ -73,6 +81,19 @@
         }
     }
 
+    // function myFunction() {
+    //    let image= document.getElementById('fileUpload').value;
+    //     let item= document.getElementById('item').value;
+    //     let city= document.getElementById('city').value;
+    //     let state= document.getElementById('state').value;
+    //     let inputfound_since= document.getElementById('inputfound_since').value;
+    //     if(image == "" || item == "" || city == "" || state == "" || inputfound_since == ""){
+    //         document.getElementById('formErr').innerText ="all fields are required";
+    //         return false;
+    //     }
+    //
+    //
+    // }
 
 </script>
 
@@ -97,18 +118,30 @@
         <form action="{{route("items.store")}}" method="POST" onsubmit="return(validate());" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
+                <div class="form-group {{ $errors->has('image') ? ' has-error' : '' }}">
                 <label for="image">{{ __('messages.Upload Image :') }}</label>
                 <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()"
                        accept=".jpg,.jpeg,.png" required/>
                 <span id="ImgError"></span>
+                    @if ($errors->has('image'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('image') }}</strong>
+                                    </span>
+                    @endif
             </div>
 
             <div class="form-group">
+                <div class="form-group {{ $errors->has('category_id') ? ' has-error' : '' }}">
                 <label for="category_id">{{ __('messages.item name:') }}</label>
                 <select class="form-control" id="item" name="category_id" required>
-                    <option value="none" selected disabled hidden>
+                    <option value="" selected disabled hidden>
                         {{ __('messages.Select an Option') }}
                     </option>
+                    @if ($errors->has('category_id'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('category_id') }}</strong>
+                                    </span>
+                    @endif
                     @if(app()->getLocale()=='ar')
                         @foreach($categories as $category)
                             <option value="{{$category->id}}"> {{$category->category_name_ar}}</option>
@@ -129,11 +162,18 @@
             </div>
 
             <div class="form-group">
+                <div class="form-group {{ $errors->has('city_id') ? ' has-error' : '' }}">
                 <label for="city">{{ __('messages.City:') }}</label>
                 <select class="form-control" id="city" name="city_id" required>
-                    <option value="none" selected disabled hidden>
+                    <option value="" selected disabled hidden>
                         {{ __('messages.Select an Option') }}
                     </option>
+                    @if ($errors->has('city_id'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('city_id') }}</strong>
+                                    </span>
+
+                    @endif
                     @if(app()->getLocale()=='ar')
                         @foreach($cities as $city)
                             <option value="{{$city->id}}"> {{$city->city_name_ar}}</option>
@@ -147,19 +187,34 @@
             </div>
 
             <div class="form-group">
+                <div class="form-group {{ $errors->has('area_id') ? ' has-error' : '' }}">
                 <label for="title">{{ __('messages.select region:') }}</label>
                 <select name="area_id" id="state" class="form-control">
                 </select>
+                    @if ($errors->has('area_id'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('area_id') }}</strong>
+                                    </span>
+                    @endif
+
             </div>
 
 
             <div class="form-group">
+                <div class="form-group {{ $errors->has('found_since') ? ' has-error' : '' }}">
                 <label for="inputfound_since">{{ __('messages.found Since :') }}</label>
                 <input type="date" class="form-control" id="inputfound_since" name="found_since" placeholder="Item found when" required>
-            </div>
+                    @if ($errors->has('found_since'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('found_since') }}</strong>
+                        </span>
+                    @endif
+                </div>
+
 
             <div class="text-center">
                 <button type="submit" class="btn" id="lostButton">{{ __('messages.Send Report') }}</button>
+                <span class="d-block mt-2 text-danger" id="formErr"></span>
             </div>
 
         </form>

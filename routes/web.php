@@ -116,7 +116,7 @@ Route::get('auth/redirect/{provider}', 'Auth\LoginController@redirect')->middlew
 Route::get('login/{provider}/callback', 'Auth\LoginController@callback');
 // admin panel routes---------------------------------------------------------------
 Route::get('/admin', function(){
-    return view('layouts.AdminPanel.app');
+    return view('layouts.AdminPanel.home');
 });
 Route::get('/admin/1', function () {
     return view('layouts.AdminPanel.page');
@@ -192,7 +192,7 @@ Route::post('uploadfile', 'UploadfileController@upload')->middleware(increaseCli
 Route::get('/', function () {
     return view('welcome');
 })->middleware(increaseView::class);
-Route::get('/charts', 'chartsController@index');
+Route::get('/admin', 'chartsController@index');
 Route::get('/chartData', 'chartsController@chart');
 Route::get('/chartData1', 'chartsController@chart1');
 Route::get('/chartData2', 'chartsController@chart2');

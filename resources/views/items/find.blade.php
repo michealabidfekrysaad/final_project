@@ -333,25 +333,26 @@
         //     console.log(values);
         //    // filter_data_item();
         // });
-
+        var data
         function filter_data_item() {
             var category_id = $("#CategoryList :selected").val();
             var city_id = $("#city :selected").val();
             var area_id = $("#region :selected").val();
             var value_id=values;
-            var data = {
+             data = {
                 category_id,
                 city_id,
                 area_id,
                 value_id
             };
-            console.log(data)
-            if (data.category_id !="" || data.city_id !="" || data.area_id !="") {
+            if (data.category_id !="" || data.city_id !="" || data.area_id !="" ||value_id.length>0) {
+                console.log(data)
                 $.ajax({
                     method: "GET",
                     url: "/filter/find/item/" + JSON.stringify(data),
                     traditional: true,
                     success: function (data) {
+                        values=[]
                         console.log(data)
                        let d1= document.getElementById("lost")
                        let SPAN= document.getElementById("pages")

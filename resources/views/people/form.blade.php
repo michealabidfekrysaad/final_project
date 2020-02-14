@@ -275,7 +275,9 @@
                 <div class="form-group {{ $errors->has('age') ? ' has-error' : '' }}">
                     <label for="inputAge">{{ __('messages.Age :') }}</label>
                     <input type="number" class="form-control" id="inputAge" placeholder="{{ __('messages.Age Of Person') }}" min=1 max=90 name="age" required>
-                    <span id="NumberErr"></span>
+                    <span id="NumberErr">
+
+                    </span>
                     @if ($errors->has('age'))
                         <span class="help-block">
                 <strong>{{ $errors->first('age') }}</strong>

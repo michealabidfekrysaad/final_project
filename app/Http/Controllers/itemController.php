@@ -124,6 +124,7 @@ class itemController extends Controller
         //you may put in transaction
         $categories=Category::all();
         $cities=City::all();
+        $areas=Area::all();
         $itemAtributeValue = ItemAttributeValue::with("attribute")->with("value")->where("item_id", "=", $item)->get();
         $attributesIds=array();
         foreach ($itemAtributeValue as $key => $collection){
@@ -137,6 +138,7 @@ class itemController extends Controller
             'item' => $item,
             'data' => $itemAtributeValue,
             'cities'=>$cities,
+            'areas'=>$areas,
             'globalAttributeValues'=>$globalAttributeValues
         ]);
     }
@@ -152,14 +154,17 @@ class itemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        dd($request->all());
         if (auth()->user()->id == $item->user->id) {
-            if ($request->has('city')) {
-                $item->city = $request->city;
+            if ($request->has('city_id')) {
+                $item->city_id = $request->city_id;
             }
-            if ($request->has('region')) {
-                $item->region = $request->region;
+            if ($request->has('area_id')) {
+                $item->area_id = $request->area_id;
             }
+            if ($request->has('category_id')) {
+                $item->category_id = $request->category_id;
+            }
+
             if ($request->has('found_since')) {
                 $item->found_since = $request->found_since;
             }
@@ -167,29 +172,17 @@ class itemController extends Controller
                 $this->deleteImageFromS3($item->image);
                 $item->image = $this->uploadImageToS3("items/", $request->file('image'));
             }
-            if ($item->isClean()) {
-                return response()->json('You need to specify a different value to update', 422);
+            $item->ItemAttributeValue()->delete();
+            foreach ($request->all() as $attribute => $value) {
+                if ($this->startsWith($attribute, "#")) {
+                    $this->itemWithVal = DB::table("_item_attribute_values")->insert([
+                        'item_id' => $item->id,
+                        'attribute_id' => (Attribute::where('attribute_name', '=', substr($attribute, 1))->first())->id,
+                        'value_id' => $value
+                    ]);
+                }
             }
             $item->save();
-            DB::transaction(function () use ($request) {
-                $item = new Item();
-                $item->city_id = $request->input('city_id');
-                $item->area_id = $request->input('area_id');
-                $item->image = $this->uploadImageToS3("items/", $request->file('image'));
-                $item->category_id = $request->input('category_id');
-                $item->found_since = $request->input('found_since');
-                $item->user_id = auth()->user()->id;
-                $item->save();
-                foreach ($request->all() as $attribute => $value) {
-                    if ($this->startsWith($attribute, "#")) {
-                        $this->itemWithVal = DB::table("_item_attribute_values")->insert([
-                            'item_id' => $item->id,
-                            'attribute_id' => (Attribute::where('attribute_name', '=', substr($attribute, 1))->first())->id,
-                            'value_id' => $value
-                        ]);
-                    }
-                }
-            }, 1);
             return redirect(route('profile.index'));
         }
         else
