@@ -245,6 +245,7 @@
     <div class="container py-5">
 
         <div class="section-header pt-5">
+        
             @if($type == 'lookfor')
             <h2>{{ __('messages.Report For Lost Person') }}</h2>
             @endif
@@ -254,14 +255,16 @@
 
 
         </div>
+        
             <form action="/people/search/post/{{$type}}" method="POST" name="add_report" class="m-5" enctype="multipart/form-data"  onsubmit="return(validate());">
                 @csrf
-            <div class="form-group">
+                <div class="form-group">
                 <label for="Select_file">{{ __('messages.Upload Image :') }}</label>
                 <input type="file" class="form-control" name="image" id="fileUpload" onchange="Filevalidation()" accept=".jpg,.jpeg,.png" required />
                 <span id="ImgError"></span>
             </div>
-
+                <div class="row">
+            <div class="col-md-6">
             <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                 <label for="inputName">{{ __('messages.Name Of Person :') }}</label>
                 <input type="text" class="form-control" id="inputName" placeholder="{{ __('messages.Name Of Person') }}" name="name" required>
@@ -331,6 +334,27 @@
                     @endif
                 </div>
 
+                
+                @if($type == 'lookfor')
+
+            <div class="form-group">
+                <label for="inputlast_seen_at">{{ __('messages.Last Seen At :') }}</label>
+                <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" name="last_seen_at"  required>
+            </div>
+
+            @endif
+            </div>
+
+            <div class="col-md-6">
+            <div class="form-group">
+                    <label for="hair_color">{{ __('messages.Select Hair Color :') }}</label>
+                    <select class="form-control" id="hair_color" name="hair_color">
+                        <option value="black">{{ __('messages.Black') }}</option>
+                        <option value="brown">{{ __('messages.Brown') }}</option>
+                        <option value="white">{{ __('messages.White') }}</option>
+                        <option value="golden">{{ __('messages.Golden') }}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="eye_color">{{ __('messages.Select Eye Color :') }}</label>
                     <select class="form-control" id="eye_color" name="eye_color" required>
@@ -339,16 +363,6 @@
                         <option value="green">{{ __('messages.Green') }}</option>
                         <option value="grey">{{ __('messages.Grey') }}</option>
                         <option value="blue">{{ __('messages.Blue') }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="hair_color">{{ __('messages.Select Hair Color :') }}</label>
-                    <select class="form-control" id="hair_color" name="hair_color">
-                        <option value="black">{{ __('messages.Black') }}</option>
-                        <option value="browan">{{ __('messages.Brown') }}</option>
-                        <option value="white">{{ __('messages.White') }}</option>
-                        <option value="golden">{{ __('messages.Golden') }}</option>
                     </select>
                 </div>
 
@@ -421,17 +435,21 @@
                 </select>
             </div>
 
-
-            <div class="form-group">
-                <label for="inputlast_seen_at">{{ __('messages.Last Seen At :') }}</label>
-                <input type="time" class="form-control" id="inputlast_seen_at" placeholder="Last Time Seen Of Person" name="last_seen_at"  required>
-            </div>
-
             @endif
+            
+            
+
+            </div>
+        </div>
+                
+           
+
+            
+
+                
 
 
-
-            <div class="text-center">
+            <div class="text-center mt-3">
                 <button type="submit" class="btn" id="lostButton">{{ __('messages.Send Report') }}</button>
             </div>
 

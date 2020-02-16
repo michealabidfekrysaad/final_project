@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class City extends Model
 {
     protected $table = 'cities';
+    protected $fillable = ['city_name','city_name_ar'];
     public function areas(){
-        $this->hasMany(Area::class,'city_id');
+        $this->hasMany(Area::class,'city_id','id');
     }
     public function items (){
 

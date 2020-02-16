@@ -34,7 +34,19 @@
                                         </div>
                                         <div class="row">
                                                 <h3>{{ __('messages.Gender') }} :</h3>
-                                                <p>{{$report->gender}} </p>
+                                            @if(app()->getLocale()=='ar')
+                                                @if($report->gender =='male')
+                                                    <p>{{ __('messages.male') }}</p>
+                                                    @else
+                                                    <p>{{ __('messages.female') }}</p>
+                                                @endif
+                                                @else
+                                                @if($report->gender =='male')
+                                                    <p>{{ __('messages.male') }}</p>
+                                                @else
+                                                    <p>{{ __('messages.female') }}</p>
+                                                @endif
+                                                @endif
                                         </div>
                                         <div class="row">
                                                 <h3>{{ __('messages.Height : ') }}</h3>
@@ -50,7 +62,34 @@
                                         </div>
                                     <div class="row">
                                         <h3>{{ __('messages.Eye Color : ') }}</h3>
-                                        <p>{{$report->eye_color}}</p>
+                                        @if(app()->getLocale() == 'ar')
+                                            @switch($report->eye_color)
+                                                @case($report->eye_color == 'black')
+                                        <p>{{__('messages.Black')}}</p>
+                                                @break
+
+                                                @case($report->eye_color == 'brown')
+                                                <p>{{__('messages.Brown')}}</p>
+                                                @break
+
+                                                @case($report->eye_color == 'green')
+                                                <p>{{__('messages.Green')}}</p>
+                                                @break
+
+                                                @case($report->eye_color == 'grey')
+                                                <p>{{__('messages.Grey')}}</p>
+                                                @break
+
+                                                @case($report->eye_color == 'blue')
+                                                <p>{{__('messages.Blue')}}</p>
+                                                @break
+
+                                                @default
+                                                <p>{{$report->eye_color}}</p>
+                                            @endswitch
+                                            @else
+                                            <p>{{$report->eye_color}}</p>
+                                            @endif
                                     </div>
 
                                 </div>
@@ -59,15 +98,47 @@
                                 <div class="details">
                                         <div class="row">
                                                 <h3>{{ __('messages.Hair Color : ') }}</h3>
-                                                <p> {{$report->hair_color}}</p>
+                                            @if(app()->getLocale() == 'ar')
+                                                @switch($report->hair_color)
+                                                    @case($report->hair_color == 'black')
+                                                <p> {{__('messages.Black')}}</p>
+                                                    @break
+
+                                                    @case($report->hair_color == 'brown')
+                                                    <p> {{__('messages.Brown')}}</p>
+                                                    @break
+
+                                                    @case($report->hair_color == 'golden')
+                                                    <p> {{__('messages.Golden')}}</p>
+                                                    @break
+
+                                                    @case($report->hair_color == 'white')
+                                                    <p> {{__('messages.White')}}</p>
+                                                    @break
+
+                                                    @default
+                                                    <p>{{$report->hair_color}}</p>
+                                                @endswitch
+                                                @else
+                                                <p>{{$report->hair_color}}</p>
+                                                @endif
                                         </div>
                                     <div class="row">
                                         <h3>{{ __('messages.City:') }}</h3>
-                                        <p>{{$report->eye_color}}</p>
+                                        @if(app()->getLocale()=='ar')
+                                        <p>{{$report->city->city_name_ar}}</p>
+                                            @else
+                                            <p>{{$report->city->city_name}}</p>
+                                            @endif
                                     </div>
                                     <div class="row">
                                         <h3>{{ __('messages.Region :') }}</h3>
-                                        <p>{{$report->eye_color}}</p>
+                                        @if(app()->getLocale()=='ar')
+                                        <p>{{$report->area->area_name_ar}}</p>
+                                        @else
+                                            <p>{{$report->area->area_name}}</p>
+                                        @endif
+
                                     </div>
                                     <div class="row">
                                         <h3>{{ __('messages.Location :') }}</h3>

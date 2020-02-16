@@ -196,5 +196,12 @@ return [
     'Your Items Reports' => 'Your Items Reports',
     'Age' => 'Age',
     'Delete' => 'Delete',
+    'Your Name' => 'Your Name' ,
+    'Your Email' => 'Your Email',
+    'Phone Number' => 'Phone Number',
+    'Password' => 'Password',
+    'Repeat your password' => 'Repeat your password',
+    'Register' => 'Register',
+    'Dashboard'=>'Dashboard'
 ]
 ?>

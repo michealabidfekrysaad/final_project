@@ -5,9 +5,9 @@
 
 
 <!--==========================
-  
+
         Speakers Section
-  
+
       ============================-->
 
 <section id="speakers" class="pt-5">
@@ -154,9 +154,9 @@
 
               <a class="mr-2" href="https://github.com/Islam44"><i style="font-size: 20px" class="fa fa-github"></i></a>
 
-              <a class="mr-2" href=""><i style="font-size: 20px" class="fa fa-linkedin"></i></a>
+              <a class="mr-2" href="https://www.linkedin.com/in/islam-emam-91409012a/"><i style="font-size: 20px" class="fa fa-linkedin"></i></a>
 
-              <a class="mr-2" href=""><i style="font-size: 20px" class="fa fa-download" title="download CV"></i></a>
+              <a class="mr-2" href="{{asset('cvs/Islam-Emam (PHP Laravel)demo .pdf')}}"><i style="font-size: 20px" class="fa fa-download" title="download CV"></i></a>
 
             </div>
 

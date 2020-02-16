@@ -95,16 +95,14 @@ class itemController2 extends Controller
         , 'city','area','category','attributes' , 'values'));
     }
     public function update2Admin(Request $request , $id){
-
         DB::transaction(function() use ($request , $id) {
             $item = Item::where('id' , '=' , $id)->first();
-            $item->update([
-                'image' => $this->uploadImageToS3('items/',$request->file('image')),
-                'city_id' => $request->input('city_id'),
-                'area_id' => $request->input('area_id'),
-                'found_since' => $request->input('found_since'),
-                'category_id' => $request->input('category_id')
-            ]);
+            $item->city_id=$request->city_id;
+            $item->area_id= $request->area_id;
+            $item->found_since=$request->found_since;
+            $item->category_id=$request->category_id;
+            $item->image=$this->uploadImageToS3('items/',$request->file('image'));
+            $item->save();
             $item_attribute_values=ItemAttributeValue::where('item_id','=',$item->id);
             $item_attribute_values->each(function ($collection, $alphabet) {
                 $collection->delete();
@@ -133,7 +131,7 @@ class itemController2 extends Controller
         DB::transaction(function () use ($request) {
             $item = new Item();
             $item->city_id = $request->input('city_id');
-            $item->area_id = 1;
+            $item->area_id = $request->input('area_id');
             $item->image = $this->uploadImageToS3("items/", $request->file('image'));
             $item->category_id = $request->input('category_id');
             $item->found_since = $request->input('found_since');

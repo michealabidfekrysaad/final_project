@@ -21,13 +21,9 @@ class ForbidBannedUserCustom
     public function handle($request, Closure $next)
     {
         $user = $this->auth->user();
-
-
         if ($user && $user->isBanned()) {
-            \Session::flush();
-            return redirect('login')->withInput()->withErrors([
-                'email' => 'This account is blocked.',
-            ]);
+            return redirect('/')->with(
+                'message', 'This account is blocked for Reporting');
         }
         return $next($request);
     }

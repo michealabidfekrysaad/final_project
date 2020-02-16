@@ -75,6 +75,13 @@ class itemController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'city_id'=>'required',
+            'area_id'=>'required',
+            'category_id'=>'required',
+            'image' => 'required|mimes:jpeg,jpg,png|max:2024',
+            'found_since'=>'required',
+        ]);
         DB::transaction(function () use ($request) {
             $item = new Item();
             $item->city_id = $request->input('city_id');
@@ -304,16 +311,22 @@ class itemController extends Controller
     public function sendEmailVerifyItems(Request $request, $id)
     {
         $item = Item::with('user')->where('id', '=', $id)->first();
-        $descriptionValidation=new DescriptionValidation();
-        $descriptionValidation->lost_id=auth()->user()->id;
-        $descriptionValidation->founder_id=$item->user->id;
+        if(auth()->user()->id == $item->user->id){
+            return redirect('showReportItem/'.$item->id)->with("message","Sorry,You are same owner of item");
+        }
+        else{
+            $descriptionValidation=new DescriptionValidation();
+            $descriptionValidation->lost_id=auth()->user()->id;
+            $descriptionValidation->founder_id=$item->user->id;
             $descriptionValidation-> description=$request->input('description');
             $descriptionValidation->item_id=$item->id;
-        $descriptionValidation->save();
-        Mail::to($item->user->email)->send(new \App\Mail\NotifyItem($item,$descriptionValidation));
-      //  $item->user->notify(new NotifyItem($item,$descriptionValidation));
-        $item->update(["status"=>1]);
-        return redirect('/');
+            $descriptionValidation->save();
+            Mail::to($item->user->email)->send(new \App\Mail\NotifyItem($item,$descriptionValidation));
+            //  $item->user->notify(new NotifyItem($item,$descriptionValidation));
+            $item->update(["status"=>1]);
+            return redirect('/')->with("message","Description has been send successfully");
+
+        }
     }
 
     public function AcceptMessage($decision,DescriptionValidation $descriptionValidation)

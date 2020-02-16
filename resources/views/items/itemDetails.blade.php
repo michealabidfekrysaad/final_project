@@ -12,6 +12,11 @@
 <section id="speakers-details" class="wow fadeIn pt-5">
 
     <div class="container  pt-5">
+        @if(session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
         <div class="section-header pt-2">
             <h2>{{ __('messages.Item Details') }}</h2>
         </div>
@@ -96,5 +101,10 @@
         </div>
     </div>
 </section>
+    <script>
+        $(document).ready(function(){
+            $(".alert").slideDown(300).delay(3000).slideUp(300);
+        });
+    </script>
 
 @endsection

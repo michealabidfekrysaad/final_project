@@ -6,11 +6,16 @@
         <div class="container">
             <div class="signin-content">
                 <!-- <div class="signin-image">
-                        
+
                         <a href="#" class="signup-image-link">Create an account</a>
                     </div> -->
 
                 <div class="signin-form">
+                    @if(session('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <h2 class="form-title">{{ __('messages.Login') }}</h2>
                     <form method="POST" class="register-form" id="login-form" action="{{ route('login') }}">
                         @csrf
@@ -38,12 +43,12 @@
                         </div>
                         <div class="form-group form-button">
                             <button type="submit" class="btn btn-primary">
-                                {{ __('messages.Login') }} 
+                                {{ __('messages.Login') }}
                             </button>
 
                             @if (Route::has('password.request'))
                             <a class="btn btn-link" href="{{ route('password.request') }}">
-                                {{ __('messages.Forgot Your Password?') }}  
+                                {{ __('messages.Forgot Your Password?') }}
                             </a>
                             @endif
                         </div>
@@ -52,7 +57,6 @@
                         <span class="social-label">{{ __('messages.Or login with') }}</span>
                         <ul class="socials">
                             <li><a href="{{ url('auth/redirect/facebook') }}"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                            <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
                             <li><a href="{{ url('auth/redirect/google') }}"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
                         </ul>
                     </div>
@@ -62,4 +66,9 @@
     </section>
 
 </div>
+<script>
+    $(document).ready(function(){
+        $(".alert").slideDown(300).delay(3000).slideUp(300);
+    });
+</script>
 @endsection

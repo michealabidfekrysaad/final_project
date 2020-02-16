@@ -195,9 +195,12 @@ class categoryController extends Controller
                 'category_name_ar'=>$request->category_ar
                 ]);
 
+            if($request->input('attribute')){
                 foreach ($request->input('attribute') as $attribute){
                     $category->attributes()->attach($attribute);
+                }
             }
+
         });
         return redirect()->route('category.index22Admin');
     }

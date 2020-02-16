@@ -62,7 +62,7 @@ class SearchByImageForReport implements ShouldQueue
         if ($this->type == "found") {
             $this->renderType = "lost";
         }
-        foreach (DB::table('reports')->where('type', '=', $this->renderType)->get(['image'])->toArray() as $value) {
+        foreach (DB::table('reports')->where('type', '=', $this->renderType)->where("user_id",'!=',$this->user->id)->get(['image'])->toArray() as $value) {
             $result = $this->getClient()->compareFaces([
                 'SimilarityThreshold' => 0,
                 'SourceImage' => [
@@ -91,24 +91,25 @@ class SearchByImageForReport implements ShouldQueue
             'created_at'=>now()
         );
         $finalArray = array_merge($this->data, $newArray);
-        if(count($finalArray)==0){
-            $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+        if(count($nearest)==0){
+            DB::table("reports")->insert($finalArray);
+            $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             $client = new \Nexmo\Client($basic);
             $message = $client->message()->send([
                 'to' =>'20'.substr(($this->user)->phone,1),
                 'from' => 'ToFind',
-                'text' => 'Sorry These person doesnt exist create your report successfully'
+                'text' => 'Sorry This person doesnt exist your report is created successfully'
             ]);
+           // $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
         }
         else{
-            DB::table('reports')->insert($finalArray);
             $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
-            $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+            $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             $client = new \Nexmo\Client($basic);
             $message = $client->message()->send([
                 'to' =>'20'.substr(($this->user)->phone,1),
                 'from' => 'ToFind',
-                'text' => 'Check Your Notification In ToFind Website'
+                'text' => 'please visit ToFind website to check your notification.it is important'
             ]);
         }
         }

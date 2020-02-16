@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
+use App\City;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect('/');
+        return redirect("/");
     }
+
 }

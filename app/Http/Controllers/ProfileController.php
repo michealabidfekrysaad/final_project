@@ -86,6 +86,9 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'email' => 'email|unique:users,email,' . auth()->user()->id,
+        ]);
         $profile = auth()->user()->find($id);
         $profile->name = $request->input('name');
         $profile->email = $request->input('email');

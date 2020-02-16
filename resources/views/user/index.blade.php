@@ -59,7 +59,7 @@
 
                         <div class="row justify-content-center">
 
-                            <a href="/edit/{{$profile->id}}" id="lostButton">
+                            <a href="/edit/user/{{$profile->id}}" id="lostButton">
                                 {{ __('messages.Update Profile') }}
                             </a>
 

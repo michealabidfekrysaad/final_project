@@ -293,7 +293,12 @@ class reportController extends Controller
 
     public function destroy(Report $report)
     {
-        if (auth()->user()->id == $report->user->id || auth()->user()->hasRole('Admin')) {
+        if(auth()->user()->hasRole('Admin')) {
+            $this->deleteImageFromS3($report->image);
+            $report->delete();
+            return redirect('/admin/panel/report');
+        }
+         else if (auth()->user()->id == $report->user->id) {
             $this->deleteImageFromS3($report->image);
             $report->delete();
             return redirect(route('profile.index'));

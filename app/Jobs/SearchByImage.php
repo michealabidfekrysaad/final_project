@@ -54,7 +54,7 @@ class SearchByImage implements ShouldQueue
         if($this->type=="found"){
             $this->renderType="lost";
         }
-        foreach (DB::table('reports')->where('type','=',$this->renderType)->get(['image'])->toArray() as $value){
+        foreach (DB::table('reports')->where('type','=',$this->renderType)->where("user_id",'!=',$this->user->id)->get(['image'])->toArray() as $value){
             $result = $this->getClient()->compareFaces([
                 'SimilarityThreshold' => 0,
                 'SourceImage' => [
@@ -77,7 +77,7 @@ class SearchByImage implements ShouldQueue
             }
         }
         if(count($nearest)==0){
-            $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+            $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             $client = new \Nexmo\Client($basic);
             $message = $client->message()->send([
                 'to' =>'20'.substr(($this->user)->phone,1),
@@ -87,7 +87,7 @@ class SearchByImage implements ShouldQueue
         }
         else{
             $this->user->notify(new SendSummaryToUser($nearest, ""));
-            $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+            $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             $client = new \Nexmo\Client($basic);
 
             $message = $client->message()->send([

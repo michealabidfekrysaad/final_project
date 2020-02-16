@@ -49,12 +49,13 @@ class UserController extends Controller
         return view('layouts.AdminPanel.user.edit', ['user' => $user]);
     }
 
-    public function updateUser($id)
+    public function updateUser(Request $request,$id)
     {
-
+        $this->validate($request, [
+            'email' => 'email|unique:users,email,' . auth()->user()->id,
+        ]);
         // $post->update(request()->all());
         $user = User::find($id);
-
         $user->name = request()->name;
         $user->email = request()->email;
         $user->phone = request()->phone;

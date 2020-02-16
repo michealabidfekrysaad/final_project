@@ -206,8 +206,14 @@
                     let SPAN= document.getElementById("pages")
                     d1.innerHTML=" ";
                     SPAN.innerHTML = " ";
-                    paginate(data)
-                    insertToHtml(globalArray[0]);
+                    if(data.length != 0){
+                        paginate(data)
+                        insertToHtml(globalArray[0]);
+                    }
+                    else{
+                         d1.innerHTML="No Results Found";
+                        d1.className="row font-weight-bold text-danger";
+                    }
                     //$('#lost').html(data.div_data);
                     // insertToHtml(data);
 
@@ -358,8 +364,15 @@
                        let SPAN= document.getElementById("pages")
                        d1.innerHTML=" ";
                        SPAN.innerHTML = " ";
-                       paginate(data)
-                       insertToHtml(globalArray[0]);
+                       if(data.length != 0){
+                           paginate(data)
+                           insertToHtml(globalArray[0]);
+                       }
+                       else{
+                           d1.className="row font-weight-bold  text-danger"
+                            d1.innerHTML="No Results Found";
+
+                       }
                     }
                 });
             }

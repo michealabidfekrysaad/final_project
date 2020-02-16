@@ -11,6 +11,7 @@ use Socialite;
 use Exception;
 use App\User;
 use Spatie\Permission\Models\Role;
+    use Illuminate\Http\Request;;
 
 class LoginController extends Controller
 {
@@ -43,6 +44,14 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    protected function authenticated(Request $request, User $user) {
+        if ($user && $user->isBanned()) {
+            Auth::logout();
+            return redirect('/login')->with(
+                'message', 'This account is blocked for Reporting');
+        }
+        return redirect()->intended($this->redirectPath());
+    }
     public function redirect($provider)
     {
         return Socialite::driver($provider)->redirect();
@@ -52,7 +61,12 @@ class LoginController extends Controller
     {
         $userSocial = Socialite::driver($provider)->user();//info user
         $existUser = User::where('email', $userSocial->email)->first();
-        if($existUser) {
+        if ($existUser && $existUser->isBanned()) {
+            Auth::logout();
+            return redirect('/login')->with(
+                'message', 'This account is blocked for Reporting');
+        }
+        else if($existUser) {
             Auth::loginUsingId($existUser->id);
             return redirect()->to('/');
         }

@@ -95,6 +95,7 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'role' => RoleMiddleware::class,
         'permission' => PermissionMiddleware::class,
+        'is-ban' => \App\Http\Middleware\ForbidBannedUserCustom::class,
     ];
 
     /**

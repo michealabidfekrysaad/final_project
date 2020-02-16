@@ -210,8 +210,14 @@
                     let SPAN= document.getElementById("pages")
                     d1.innerHTML=" ";
                     SPAN.innerHTML = " ";
-                    paginate(data)
-                    insertToHtml(globalArray[0]);
+                    if(data.length !=0){
+                        paginate(data)
+                        insertToHtml(globalArray[0]);
+                    }
+                    else{
+                        d1.innerHTML="No Results Founded";
+                        SPAN.innerHTML = " ";
+                    }
 				}
 			});
 		}
@@ -222,20 +228,23 @@
 		});
 
 		function filter_data() {
+
 			var gender = get_filter('gender');
 			var age = get_filter('age');
-			if ($("#DropDownList1 :selected").text() != "All") {
-				var city = $("#DropDownList1 :selected").val();
+            var city
+            var region
+            if ($("#DropDownList1 :selected").text() != "All" || $("#DropDownList1 :selected").text() != "الكل") {
+				 city = $("#DropDownList1 :selected").val();
 
 			}
 			else{
-				var city ="";
+				 city ="";
 			}
-            if ($("#region :selected").text() != "All") {
-                var region = $("#region :selected").val();
+            if ($("#region :selected").text() != "All" || $("#region :selected").text() != "الكل") {
+                 region = $("#region :selected").val();
             }
             else{
-                var region ="";
+                 region ="";
             }
 			var data = {
 				gender,
@@ -243,7 +252,7 @@
 				age,
                 region
 			};
-			if ((data.gender).length != 0 || (data.city).length != 0 || (data.region).length != 0 || (data.age).length != 0) {
+			if ((data.gender).length != 0 || data.city != "" || data.region != "" || (data.age).length != 0) {
                 console.log(JSON.stringify(data));
 				$.ajax({
 					method: "GET",
@@ -255,9 +264,15 @@
                     //data: JSON.stringify(data),
                     success: function (data) {
                         console.log(data)
-                        paginate(data)
-                        console.log(globalArray[0])
-                         insertToHtml(globalArray[0]);
+                        if(data.length != 0){
+                            paginate(data)
+                            console.log(globalArray[0])
+                            insertToHtml(globalArray[0]);
+                        }
+			else{
+			    document.getElementById("lost").innerHTML="No Results Founded"
+                            document.getElementById("pages").innerHTML = " ";
+                        }
 					}
                 });
             } else {
@@ -276,11 +291,10 @@
         $('.custom-control-input').click(function () {
             filter_data();
         });
-
         $("#DropDownList1").change(function (e) {
-
             filter_data();
         });
+
 
         $("#DropDownList1").change(function (e) {
             var cityID = $(this).val();

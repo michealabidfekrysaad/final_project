@@ -96,9 +96,9 @@
                     $("#state").empty();
                     $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
                     $.each(states,function(key,value){
-                        $("#state").append('<option value="'+value+'">'+value+'</option>');
+                        $("#state").append('<option value="'+key+'">'+value+'</option>');
                     });
-    
+
                 }else{
                    $("#state").empty();
                 }
@@ -109,7 +109,7 @@
             $("#city").empty();
         }
        });
-    
+
        $('#item').change(function(){
         var category_id = $(this).val();
         if(category_id){
@@ -122,11 +122,11 @@
                     $.each(category[0].attributes,function(key,value){
                         let itemAttributes=category[0].attributes;
                     $("#attribute").append( `<label class="text-danger">`+itemAttributes[key].attribute_name+`</label>
-                                             <select class="form-control" name="#`+itemAttributes[key].attribute_name+`" 
+                                             <select class="form-control" name="#`+itemAttributes[key].attribute_name+`"
                                              id = "`+itemAttributes[key].id+`" value = "`+itemAttributes[key].id+`">
                                              </select>`);
-    
-    
+
+
                         $.ajax({
                         type:"GET",
                         url:"/valueofattribute/"+itemAttributes[key].id,
@@ -135,17 +135,17 @@
                                 $.each(result,function(key,value){
                                     $(`#`+result[key].attribute_id+``).append(`<option value = "`+result[key].id+`">`+result[key].value_name+`</option>`);
                                 })
-    
-    
+
+
                             }
                             //  console.log(result.value_name)
-    
+
                              }})
-    
-    
+
+
                     });
-    
-    
+
+
                 }else{
                    $("#attribute").empty();
                 }
@@ -156,10 +156,10 @@
             $("#item").empty();
         }
        });
-    
-    
-    
-    
+
+
+
+
 </script>
 
 @endsection
