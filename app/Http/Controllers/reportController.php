@@ -413,111 +413,47 @@ class reportController extends Controller
 //        $founder = Item::with('user')->where('id', '=', $id)->get();
 //        dd($founder);
 //    }
-    public function doSearchingQuery($request) {
-        $globalQuery="SELECT * FROM reports WHERE is_found='0' AND type='lost' AND ";
-        $array=array();
-        // {"gender":["male","female"],"city":"Cairo","age":[]}
+    public function doSearchingQuery($request)
+    {
         $constraints = json_decode($request, true);
-        if (count($constraints['gender']) == 2) {
-            $firstGender = "'" . $constraints['gender'][0] . "'";
-            $secondGender = "'" . $constraints['gender'][1] . "'";
-            $query = " (gender=" . $firstGender . " OR gender=" . $secondGender . ")";
-            array_push($array, $query);
-        }
-        if (count($constraints['gender']) == 1) {
-            $gender = "'" . $constraints['gender'][0] . "'";
-            $query = " gender=" . $gender;
-            array_push($array, $query);
-        }
-        //
-        if ($constraints['city']) {
-            if (count($constraints['age']) == 1) {
-                $city = "'" . $constraints['city'] . "'" . " AND ";
-            } else {
-                $city = "'" . $constraints['city'] . "'";
-            }
-            $query="city_id=".$city;
-            array_push($array,$query);
-        }
-        if ($constraints['region']) {
-            if (count($constraints['age']) == 1) {
-                $area = "'" . $constraints['region'] . "'" . " AND ";
-                $query="area_id=".$area;
-                array_push($array,$query);
-            }
-            elseif($constraints['region']&&$constraints['city']&&$constraints['age']&&$constraints['gender']){
-                $area = "'" . $constraints['region'] . "'";
-                $query=" AND area_id=".$area;
-                array_push($array,$query);
-            }
-            else {
-                $area = "'" . $constraints['region'] . "'";
-                $query=" AND area_id=".$area;
-                array_push($array,$query);
+        $searchArray=array();
+        foreach ($constraints as $key=>$constraint){
+            if((is_array($constraint)&&count($constraint)>0) || $constraint!=""){
+                $searchArray[$key]=$constraint;
             }
         }
-        if ($constraints['age']) {
-            for ($i = 0; $i < count($constraints['age']); $i++) {
-                if ($constraints['age'][$i] == "below_10_years") {
-                    $query = "age <= 10";
-                    array_push($this->localArray, $query);
-                }
-                if ($constraints['age'][$i] == "below_20_years") {
-                    $query = "age <= 20 and age > 10";
-                    array_push($this->localArray, $query);
-                }
-                if ($constraints['age'][$i] == "below_30_years") {
-                    $query = " age <= 30 and age > 20 ";
-                    array_push($this->localArray, $query);
-                }
-                if ($constraints['age'][$i] == "other_above_30") {
-
-                    $query = " age > 30";
-                    array_push($this->localArray, $query);
-                }
+        $query = Report::query()->where('type','=','lost');
+        $fields = array_keys($constraints);
+        $index = 0;
+        foreach ($searchArray as $key=>$search) {
+            if(is_array($search)&&count($search)>0&&$key!="age"){
+                $query = $query->whereIn($fields[$index], $search);
             }
-            for ($i = 0; $i < count($this->localArray); $i++) {
-                if ($i > 0) {
-                    if ($i == count($this->localArray) - 1) {
-                        $this->localQuery .= " OR " . $this->localArray[$i] . " )";
-                    } else {
-                        $this->localQuery .= " OR " . $this->localArray[$i];
+             if ($search !=""&&!is_array($search)){
+                $query = $query->where($fields[$index], '=',$search);
+            }
+             if($key=='age'&&is_array($search)&&count($search)>0){
+                $ageArray = array();
+                if (in_array('below_10_years', $search)) {
+                    array_push($ageArray, range(1, 9));
+                }  if (in_array('below_20_years', $search)) {
+                    array_push($ageArray, range(10, 20));
+                }  if (in_array('below_30_years', $search)) {
+                    array_push($ageArray, range(21, 29));
+                }if (in_array('other_above_30', $search)) {
+                    array_push($ageArray, range(30, 90));
+                }
+                $mergedArray=[];
+                foreach ($ageArray as $age) {
+                    foreach ($age as $one){
+                        array_push($mergedArray,$one);
                     }
-                } else {
-                    if (count($this->localArray) == 1) {
-                        $this->localQuery .= " (" . $this->localArray[$i] . " )";
-                    } else {
-                        if ($constraints['city']) {
-                            $this->localQuery .= " AND (" . $this->localArray[$i];
-                        } else {
-                            $this->localQuery .= "(" . $this->localArray[$i];
-                        }
                     }
-                }
+                 $query = $query->WhereIn('age',$mergedArray);
             }
-            array_push($array, $this->localQuery);
-            //return $this->localQuery;
-        }
-
-        for ($i = 0; $i < count($array); $i++) {
-            if ($i == 1) {
-                $globalQuery .= " AND " . $array[$i];
-            } else {
-                $globalQuery .= $array[$i];
+            $index++;
             }
-        }
-        $runQuery=$this->cleanQuery($globalQuery);
-        if($runQuery!=false){
-           // return $this->cleanQuery($globalQuery);
-            return $results = DB::select($this->cleanQuery($globalQuery).' AND deleted_at IS NULL');
-            //return $results = DB::select($this->cleanQuery($globalQuery));
-        }
-        else
-            {
-           //return $globalQuery;
-             //   return $results = DB::select($globalQuery);
-            return $results = DB::select($globalQuery.' AND deleted_at IS NULL');
-        }
+        return $query->get();
     }
 
 
@@ -567,17 +503,6 @@ class reportController extends Controller
         return view('layouts.AdminPanel.reportsAdmin.table',['reports'=>Report::paginate(5)]);
     }
 
-    private function cleanQuery(string $globalQuery)
-    {
-      if(strpos($globalQuery, 'AND   AND'))
-       return str_replace("AND   AND","AND",$globalQuery);
-        elseif(strpos($globalQuery, 'ANDAND'))
-        return str_replace("ANDAND","AND",$globalQuery);
-      elseif(strpos($globalQuery, 'AND  AND'))
-          return str_replace("AND  AND","AND",$globalQuery);
-        else
-            return false;
-    }
 
 
 }

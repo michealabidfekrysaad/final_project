@@ -26,8 +26,8 @@
 {{--            @method('PUT')--}}
             <div class="row">
                 <div class="col-md-6">
-                    <img id="image" src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}">
-                    <input type="file" name="image">
+                    <img style="width:348px;height:348px" id="image" src="http://loseall.s3.us-east-2.amazonaws.com/{{$report->image}}">
+                    <input type="file" name="image" onchange="readURL(this);">
                     <span id="ImgError"></span>
                 </div>
 
@@ -182,5 +182,18 @@
         </form>
     </div>
 </section>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
+            reader.onload = function (e) {
+                $('#image')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 @endsection

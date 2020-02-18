@@ -229,31 +229,18 @@
 
 		function filter_data() {
 
-			var gender = get_filter('gender');
-			var age = get_filter('age');
-            var city
-            var region
-            if ($("#DropDownList1 :selected").text() != "All" || $("#DropDownList1 :selected").text() != "الكل") {
-				 city = $("#DropDownList1 :selected").val();
-
-			}
-			else{
-				 city ="";
-			}
-            if ($("#region :selected").text() != "All" || $("#region :selected").text() != "الكل") {
-                 region = $("#region :selected").val();
-            }
-            else{
-                 region ="";
-            }
-			var data = {
+            let gender = get_filter('gender');
+            let age = get_filter('age');
+            let city_id= $("#DropDownList1 :selected").val()
+            let area_id= $("#region :selected").val()
+			let data = {
 				gender,
-				city,
+                city_id,
 				age,
-                region
+                area_id
 			};
-			if ((data.gender).length != 0 || data.city != "" || data.region != "" || (data.age).length != 0) {
-                console.log(JSON.stringify(data));
+            console.log(data);
+			if ((data.gender).length != 0 || data.city_id !="" || data.area_id !="" || (data.age).length != 0) {
 				$.ajax({
 					method: "GET",
                     url: "/filter/" + JSON.stringify(data),
@@ -291,13 +278,14 @@
         $('.custom-control-input').click(function () {
             filter_data();
         });
-        $("#DropDownList1").change(function (e) {
-            filter_data();
-        });
+        // $("#DropDownList1").change(function (e) {
+        //
+        // });
 
 
         $("#DropDownList1").change(function (e) {
             var cityID = $(this).val();
+            $("#region").empty();
             if (cityID) {
                 $.ajax({
                     type: "GET",
@@ -323,7 +311,7 @@
                 $("#region").append('<option hidden value="">Select City First</option>');
                 $("#city").empty();
             }
-            // filter_data_item();
+            filter_data();
         });
 
         $("#region").change(function (e) {

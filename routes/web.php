@@ -232,6 +232,9 @@ Route::group(['middleware'=>['auth','verified','is-ban']],function (){
     Route::get('/attribute/admin' , 'AttributeController@indexAdmin')->middleware('role:Admin');
     Route::get('/gmaps', 'MapsController@gmaps')->middleware('role:Admin');
 });
+Route::fallback(function (){
+   return redirect("/");
+});
 
 
 

@@ -17,9 +17,9 @@
                     @csrf
                 <div class="row">
                     <div class="col-md-6 text-center">
-                        <img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}"
+                        <img id="image" style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/{{$item->image}}"
                              alt="Img Of Person" class="img-fluid">
-                        <input type="file" name="image" id="fileUpload" onchange="Filevalidation()"
+                        <input type="file" name="image" id="fileUpload" onchange="readURL(this);"
                                accept=".jpg,.jpeg,.png"/>
                         <span id="ImgError"></span>
                     </div>
@@ -146,6 +146,18 @@
 
         </section>
         <script>
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#image')
+                            .attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
             $('#city').change(function(e){
                 let itemCity=$(this).attr("item")
                 var cityID = $(this).val();

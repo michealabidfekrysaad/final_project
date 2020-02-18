@@ -86,7 +86,6 @@ class SearchByImage implements ShouldQueue
             ]);
         }
         else{
-            $this->user->notify(new SendSummaryToUser($nearest, ""));
             $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             $client = new \Nexmo\Client($basic);
 
@@ -95,6 +94,7 @@ class SearchByImage implements ShouldQueue
                 'from' => 'ToFind',
                 'text' => 'Check Your Notification In ToFind Website'
             ]);
+            $this->user->notify(new SendSummaryToUser($nearest, ""));
         }
     }
 

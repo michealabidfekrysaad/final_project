@@ -299,12 +299,14 @@
                                 $("#region").append('' +
                                     '@if(app()->getLocale()=="ar")<option value="' + regions[key].id + '">' + regions[key].area_name_ar + '</option>@else <option value="' + regions[key].id + '">' + regions[key].area_name + '</option>@endif');
                             });
+
                         } else {
                             $("#region").empty();
                         }
                     }
                 });
-            } else {
+            }
+            else {
                 $("#region").empty();
                 $("#region").append('<option hidden value="">{{__('messages.Select City First') }}</option>');
                 fetch_Data();
