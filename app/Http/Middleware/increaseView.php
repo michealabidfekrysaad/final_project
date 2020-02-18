@@ -18,21 +18,21 @@ class increaseView
     public function handle($request, Closure $next)
     {
         $value = 0;
-        $row = DB::table('visitor')->whereMonth("created_at", "=", now()->month)->whereYear("created_at", "=", now()->year)->first();
+        $row = DB::table('visitors')->whereMonth("created_at", "=", now()->month)->whereYear("created_at", "=", now()->year)->first();
         if ($row) {
             $value = $row->viewer + 1;
-            DB::table('visitor')->whereMonth("created_at", "=", now()->month)->whereYear("created_at", "=", now()->year)
+            DB::table('visitors')->whereMonth("created_at", "=", now()->month)->whereYear("created_at", "=", now()->year)
                 ->update(['viewer' => $value]);
         } else {
-            DB::table('visitor')->insert([
+            DB::table('visitors')->insert([
                 'click' => 0,
                 'viewer' => 0,
                 'created_at' => now()
             ]);
-            $row = DB::table('visitor')->whereMonth("created_at", "=", now()->month)->whereYear("created_at", "=", now()->year)->first();
+            $row = DB::table('visitors')->whereMonth("created_at", "=", now()->month)->whereYear("created_at", "=", now()->year)->first();
             if ($row) {
                 $value = $row->viewer + 1;
-                DB::table('visitor')->whereMonth("created_at", "=", now()->month)->whereYear("created_at", "=", now()->year)
+                DB::table('visitors')->whereMonth("created_at", "=", now()->month)->whereYear("created_at", "=", now()->year)
                     ->update(['viewer' => $value]);
             }
         }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Report;
@@ -11,19 +12,20 @@ use Illuminate\Support\Facades\DB;
 
 class chartsController extends Controller
 {
-    public function index(){
-        $users=User::all()->count();
-        $items=Item::all()->count();
-        $reports=Report::all()->count();
-        $launch=DB::table("visitor")->orderBy('created_at', 'asc')->first('created_at');
-        $difference = \Carbon\Carbon::now()->diffInDays($launch->created_at, true);
-        return view('layouts/AdminPanel/index',[
-            'members'=>$users,
-            'items'=>$items,
-            'reports'=>$reports,
-            'difference'=>$difference,
+    public function index()
+    {
+        $users = User::all()->count();
+        $items = Item::all()->count();
+        $reports = Report::all()->count();
+        $launch = DB::table("visitors")->orderBy('created_at', 'asc')->first('created_at');
+        $difference = Carbon::now()->diffInDays($launch->created_at, true);
+        return view('layouts/AdminPanel/index', [
+            'members' => $users,
+            'items' => $items,
+            'reports' => $reports,
+            'difference' => $difference,
         ]);
-}
+    }
 public function chart(){
     $data = DB::table('reports')
         ->select(
