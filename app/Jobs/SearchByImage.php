@@ -77,24 +77,25 @@ class SearchByImage implements ShouldQueue
             }
         }
         if(count($nearest)==0){
-            $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
-            $client = new \Nexmo\Client($basic);
-            $message = $client->message()->send([
-                'to' =>'20'.substr(($this->user)->phone,1),
-                'from' => 'ToFind',
-                'text' => 'Sorry These person doesnt exist please make report'
-            ]);
+            $this->user->notify(new SendSummaryToUser($nearest, ""));
+            // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
+            // $client = new \Nexmo\Client($basic);
+            // $message = $client->message()->send([
+            //     'to' =>'20'.substr(($this->user)->phone,1),
+            //     'from' => 'ToFind',
+            //     'text' => 'Sorry These person doesnt exist please make report'
+            // ]);
         }
         else{
-            $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
-            $client = new \Nexmo\Client($basic);
+            // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
+            // $client = new \Nexmo\Client($basic);
 
-            $message = $client->message()->send([
-                'to' =>'20'.substr(($this->user)->phone,1),
-                'from' => 'ToFind',
-                'text' => 'Check Your Notification In ToFind Website'
-            ]);
-            $this->user->notify(new SendSummaryToUser($nearest, ""));
+            // $message = $client->message()->send([
+            //     'to' =>'20'.substr(($this->user)->phone,1),
+            //     'from' => 'ToFind',
+            //     'text' => 'Check Your Notification In ToFind Website'
+            // ]);
+             $this->user->notify(new SendSummaryToUser($nearest, ""));
         }
     }
 

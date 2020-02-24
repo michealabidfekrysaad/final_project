@@ -171,7 +171,7 @@ class reportController extends Controller
 
         }
     public function RejectOtherReport(){
-        if (\request()->session()->exists('report')&& \request()->session()->exists('report')!=" " ) {
+        if (\request()->session()->exists('report')&& \request()->session()->get('report')!="" ) {
             $data=(array)\request()->session()->get('report');
              Report::create($data);
             \request()->session()->forget('report');

@@ -44,8 +44,10 @@ class AppServiceProvider extends ServiceProvider
 
             }
         });
-        Schema::defaultStringLength(191);
-        $lastMessages=DB::table("contact")->latest("created_at")->take(3)->get();
+         Schema::defaultStringLength(191);
+         if (Schema::hasTable('contact')) {
+            $lastMessages=DB::table("contact")->latest("created_at")->take(3)->get();
             View::share('lastMessages', $lastMessages);
+        }
     }
 }

@@ -92,25 +92,26 @@ class SearchByImageForReport implements ShouldQueue
         );
         $finalArray = array_merge($this->data, $newArray);
         if(count($nearest)==0){
+            $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
             DB::table("reports")->insert($finalArray);
-            $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
-            $client = new \Nexmo\Client($basic);
-            $message = $client->message()->send([
-                'to' =>'20'.substr(($this->user)->phone,1),
-                'from' => 'ToFind',
-                'text' => 'Sorry This person doesnt exist your report is created successfully'
-            ]);
+            // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
+            // $client = new \Nexmo\Client($basic);
+            // $message = $client->message()->send([
+            //     'to' =>'20'.substr(($this->user)->phone,1),
+            //     'from' => 'ToFind',
+            //     'text' => 'Sorry This person doesnt exist your report is created successfully'
+            // ]);
            // $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
         }
         else{
             $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
-            $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
-            $client = new \Nexmo\Client($basic);
-            $message = $client->message()->send([
-                'to' =>'20'.substr(($this->user)->phone,1),
-                'from' => 'ToFind',
-                'text' => 'please visit ToFind website to check your notification.it is important'
-            ]);
+            // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
+            // $client = new \Nexmo\Client($basic);
+            // $message = $client->message()->send([
+            //     'to' =>'20'.substr(($this->user)->phone,1),
+            //     'from' => 'ToFind',
+            //     'text' => 'please visit ToFind website to check your notification.it is important'
+            // ]);
         }
         }
     public function getClient()
