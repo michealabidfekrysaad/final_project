@@ -13,8 +13,8 @@
                                 <i class="zmdi zmdi-account-o"></i>
                             </div>
                             <div class="text">
-                                {{-- <h2>{{$members}}</h2>
-                                <span>members</span> --}}
+                                 <h2>{{$members}}</h2>
+                                <span>members</span>
                             </div>
                         </div>
                         <div class="overview-chart"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
@@ -31,8 +31,8 @@
                                 <i class="far fa-file"></i>
                             </div>
                             <div class="text">
-                                {{-- <h2>{{$reports}}</h2>
-                                <span>Reports</span> --}}
+                                 <h2>{{$reports}}</h2>
+                                <span>Reports</span>
                             </div>
                         </div>
                         <div class="overview-chart"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
@@ -49,8 +49,8 @@
                                 <i class="far fa-file"></i>
                             </div>
                             <div class="text">
-                                {{-- <h2>{{$items}}</h2>
-                                <span>Items</span> --}}
+                                 <h2>{{$items}}</h2>
+                                <span>Items</span>
                             </div>
                         </div>
                         <div class="overview-chart"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
@@ -66,7 +66,7 @@
                             <div class="icon">
                                 <i class="fas fa-calendar"></i>                            </div>
                             <div class="text">
-                                {{-- <h2>{{$difference}}</h2> --}}
+                                 <h2>{{$difference}}</h2>
                                 <span>Website launch</span>
                             </div>
                         </div>

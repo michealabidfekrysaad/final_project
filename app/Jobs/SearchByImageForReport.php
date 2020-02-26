@@ -92,8 +92,8 @@ class SearchByImageForReport implements ShouldQueue
         );
         $finalArray = array_merge($this->data, $newArray);
         if(count($nearest)==0){
-            $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
             DB::table("reports")->insert($finalArray);
+            $this->user->notify(new SendSummaryToUser($nearest, ""));
             // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             // $client = new \Nexmo\Client($basic);
             // $message = $client->message()->send([

@@ -34,7 +34,7 @@ class itemController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return Factory|View
      */
 
     // isthere any role?
@@ -42,13 +42,16 @@ class itemController extends Controller
     {
         $categories = Category::all();
         $cities = City::all();
-        return view('items.find', [
-            'categories' => $categories,
-            'cities' => $cities,
+        return view('items.find')->with([
+            'categories'=>$categories,
+            'cities'=>$cities
         ]);
+
     }
-
-
+    public function fetchAll(){
+        $items=Item::with("category")->paginate(2);
+        return response()->json($items);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -288,7 +291,7 @@ class itemController extends Controller
                 else return [];
             }
             else {
-                return Item::with("category")->get();
+                return Item::with("category")->paginate(1);
             }
 
 
@@ -349,7 +352,6 @@ class itemController extends Controller
 
     public function doSearchingQuery($data)
     {
-        //put in transaction
         $dataObject = json_decode($data, true);
         $constraints = (array) $dataObject;
         $query = Item::query();
@@ -361,22 +363,26 @@ class itemController extends Controller
             }
             $index++;
         }
-        if(count($constraints['value_id'])==0)
-            return response()->json($query->get());
+        if(count($constraints['value_id'])==0){
+            $items=$query->paginate(2);
+            return response()->json($items);
+        }
         else{
             $results=array();
             $itemsIds=$query->pluck('id');
             $values=$constraints['value_id'];
             $result=DB::table('_item_attribute_values')->whereIn('item_id', $itemsIds)->where(function ($q) use($values) {
-                    $q->wherein("value_id", $values);
+                $q->wherein("value_id", $values);
             })->get()->groupBy("item_id");
             foreach ($result as $key => $collection){
                 if (count($collection)==count($values)){
                     array_push($results,$key);
                 }
             }
-            return response()->json(Item::with("category")->whereIn("id",$results)->get());
+            $items=Item::with("category")->whereIn("id",$results)->paginate(2);
+            return response()->json($items);
         }
+
     }
 
 }

@@ -231,6 +231,20 @@
 
     <!-- Template Main Javascript File -->
     <script src="{{ asset('js/main.js') }}"></script><!-- #header -->
+    <script type="text/javascript">
+        window.onhashchange = function() {
+            if (window.innerDocClick) {
+                window.innerDocClick = false;
+            } else {
+                if (window.location.hash != '#undefined') {
+                    goBack();
+                } else {
+                    history.pushState("", document.title, window.location.pathname);
+                    location.reload();
+                }
+            }
+        }
+    </script>
 
 
     <div>

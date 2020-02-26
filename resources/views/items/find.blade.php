@@ -124,7 +124,6 @@
                     <div class="row" id="lost">
                     </div>
                     <div class="row justify-content-center" id="pages">
-
                     </div>
                 </div>
 
@@ -133,33 +132,27 @@
     </div>
 </div>
 <script>
-    let globalArray=[];
-    function paginate (array) {
-        document.getElementById("lost").innerHTML="";
+    function paginate (data) {
         document.getElementById("pages").innerHTML="";
-        globalArray=[];
-        let slicedArray;
-        let pageNumber=0;
         let SPAN=document.getElementById('pages')
-        for (let i=0;i<array.length;i+=6) {
-            pageNumber++
+        for (let i=1;i<=data.last_page;i++) {
                 SPAN.insertAdjacentHTML("beforeend",
-                `<button id='${i/6}' class="pn btn" style="margin:2px" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='red';this.style.color='white'">${pageNumber}</button>
+                `<button id='pageBtb${i}' page=${i} path='${data.path}' class="pn btn" style="margin:2px" onclick="changeColor();setHtmlAndInsert(getAttribute('path'),getAttribute('page'));this.style.backgroundColor='red';this.style.color='white'">${i}</button>
 `)
-
-            slicedArray = array.slice(i,i+6);
-            globalArray.push(slicedArray);
         }
-        document.getElementById("0").style.backgroundColor="red"
-        document.getElementById("0").style.color="white"
+        document.getElementById("pageBtb1").style.backgroundColor="red"
+        document.getElementById("pageBtb1").style.color="white"
     }
-    function setHtmlAndInsert(id) {
-        insertToHtml(globalArray[id]);
+    function setHtmlAndInsert(path,pageNumber) {
+        $.get(path+"?page="+pageNumber, function(data, status){
+            console.log(data);
+            insertToHtml(data);
+        });
     }
     function insertToHtml(data) {
         let d1 = document.getElementById('lost');
         d1.innerHTML = " ";
-        data.forEach(element => {
+        data.data.forEach(element => {
             d1.insertAdjacentHTML('beforeend', `
 
                                     <div class="col-lg-4 col-md-6">
@@ -191,14 +184,11 @@
         }
     }
     $(document).ready(function () {
-        fetch_Data();
-        function fetch_Data(query = '') {
+        filter_data_item();
+        function fetch_Data() {
             $.ajax({
                 method: 'GET',
-                url: "/liveSearch/actionItem",
-                data: {
-                    query: query
-                },
+                url: "/fetchall",
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
@@ -206,9 +196,10 @@
                     let SPAN= document.getElementById("pages")
                     d1.innerHTML=" ";
                     SPAN.innerHTML = " ";
-                    if(data.length != 0){
+                    if(data.data.length != 0){
+                        console.log(data.last_page)
+                        insertToHtml(data);
                         paginate(data)
-                        insertToHtml(globalArray[0]);
                     }
                     else{
                          d1.innerHTML="No Results Found";
@@ -326,7 +317,6 @@
             fetch_Data(document.getElementById("search").value)
 
         });
-        var values = [];
         $("#attribute").change(function (e) {
              values = [];
             $('.attr').each(function(){
@@ -342,6 +332,7 @@
         //    // filter_data_item();
         // });
         var data
+        var values = [];
         function filter_data_item() {
             var category_id = $("#CategoryList :selected").val();
             var city_id = $("#city :selected").val();
@@ -353,7 +344,7 @@
                 area_id,
                 value_id
             };
-            if (data.category_id !="" || data.city_id !="" || data.area_id !="" ||value_id.length>0) {
+            if (data.category_id !="" || data.city_id !="" || data.area_id !="") {
                 console.log(data)
                 $.ajax({
                     method: "GET",
@@ -366,9 +357,9 @@
                        let SPAN= document.getElementById("pages")
                        d1.innerHTML=" ";
                        SPAN.innerHTML = " ";
-                       if(data.length != 0){
+                       if(data.data.length != 0){
                            paginate(data)
-                           insertToHtml(globalArray[0]);
+                           insertToHtml(data);
                        }
                        else{
                            d1.className="row font-weight-bold  text-danger"
@@ -379,35 +370,36 @@
                 });
             }
             else{
-                fetch_Data('')
+                console.log('fetch_Data')
+                fetch_Data()
             }
         }
-        function insertToHtml(data) {
-            let d1=document.getElementById("lost")
-            d1.innerHTML = " ";
-            $("#next").remove();
-            $("#pre").remove();
-            data.forEach(element => {
-                d1.insertAdjacentHTML('beforeend', `
-                     <div class="col-lg-4 col-md-6" >
-                                    <div class="hotel text-center">
-                                        <div class="hotel-img" >
-                                            <a href="/showReportItem/${element.id}"><img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/${element.image}" alt="Img Of Person" class="img-fluid"></a>
-                                        </div>
-@if(app()->getLocale()=='ar')
-                                <h3>${(element.category).category_name_ar}</h3>
-                                    @else
-                                <h3>${(element.category).category_name}</h3>
-                                    @endif
+{{--        function insertToHtml(data) {--}}
+{{--            let d1=document.getElementById("lost")--}}
+{{--            d1.innerHTML = " ";--}}
+{{--            // $("#next").remove();--}}
+{{--            // $("#pre").remove();--}}
+{{--            data.data.forEach(element => {--}}
+{{--                d1.insertAdjacentHTML('beforeend', `--}}
+{{--                     <div class="col-lg-4 col-md-6" >--}}
+{{--                                    <div class="hotel text-center">--}}
+{{--                                        <div class="hotel-img" >--}}
+{{--                                            <a href="/showReportItem/${element.id}"><img style="width:348px;height:348px" src="https://loseall.s3.us-east-2.amazonaws.com/${element.image}" alt="Img Of Person" class="img-fluid"></a>--}}
+{{--                                        </div>--}}
+{{--@if(app()->getLocale()=='ar')--}}
+{{--                                <h3>${(element.category).category_name_ar}</h3>--}}
+{{--                                    @else--}}
+{{--                                <h3>${(element.category).category_name}</h3>--}}
+{{--                                    @endif--}}
 
-                <h3>{{ __('messages.Found Since') }} : ${element.found_since}</h3>
+{{--                <h3>{{ __('messages.Found Since') }} : ${element.found_since}</h3>--}}
 
-                                    </div>
-                                </div>
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
-	`)
-            });
-        }
+{{--	`)--}}
+{{--            });--}}
+{{--        }--}}
     });
 </script>
 @endsection

@@ -141,34 +141,29 @@
 
 
 <script>
-    let globalArray=[];
-    function paginate (array) {
-        document.getElementById("lost").innerHTML="";
+    function paginate (data) {
         document.getElementById("pages").innerHTML="";
-        globalArray=[];
-        let slicedArray;
-        let pageNumber=0;
         let SPAN=document.getElementById('pages')
-        for (let i=0;i<array.length;i+=6) {
-            pageNumber++
-
+        for (let i=1;i<=data.last_page;i++) {
             SPAN.insertAdjacentHTML("beforeend",
-                `<button id='${i/6}' class="pn btn" style="margin:2px" onclick="changeColor();setHtmlAndInsert(getAttribute('id'));this.style.backgroundColor='red';this.style.color='white'">${pageNumber}</button>
+                `<button id='pageBtb${i}' page=${i} path='${data.path}' class="pn btn" style="margin:2px" onclick="changeColor();setHtmlAndInsert(getAttribute('path'),getAttribute('page'));this.style.backgroundColor='red';this.style.color='white'">${i}</button>
 `)
-            slicedArray = array.slice(i,i+6);
-            // console.log(slicedArray);
-            globalArray.push(slicedArray);
         }
-          document.getElementById("0").style.backgroundColor="red"
-		  document.getElementById("0").style.color="white"
+        document.getElementById("pageBtb1").style.backgroundColor="red"
+        document.getElementById("pageBtb1").style.color="white"
     }
-    function setHtmlAndInsert(id) {
-         insertToHtml(globalArray[id]);
+
+    function setHtmlAndInsert(path,pageNumber) {
+        console.log(path+"?page="+pageNumber)
+        $.get(path+"?page="+pageNumber, function(data, status){
+            console.log(data);
+            insertToHtml(data);
+        });
     }
     function insertToHtml(data) {
          let d1 = document.getElementById('lost');
          d1.innerHTML = " ";
-        data.forEach(element => {
+        data.data.forEach(element => {
             d1.insertAdjacentHTML('beforeend', `
 	<div class="col-lg-4 col-md-6" >
 		<div class="hotel text-center">
@@ -195,31 +190,57 @@
         }
     }
 	$(document).ready(function() {
-		fetch_Data();
-		function fetch_Data(query = '') {
-			$.ajax({
-				url: "{{route('search.action')}}",
-				method: 'GET',
-				data: {
-					query: query
-				},
-				dataType: 'json',
-				success: function(data) {
-				    console.log(data)
-				   let d1= document.getElementById("lost")
+        filter_data()
+        function fetch_Data_all() {
+            $.ajax({
+                method: 'GET',
+                url: "/people/fetchall",
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    let d1= document.getElementById("lost")
                     let SPAN= document.getElementById("pages")
                     d1.innerHTML=" ";
                     SPAN.innerHTML = " ";
-                    if(data.length !=0){
+                    if(data.data.length != 0){
+                        console.log(data.last_page)
                         paginate(data)
-                        insertToHtml(globalArray[0]);
+                        insertToHtml(data);
                     }
                     else{
-                        d1.innerHTML="No Results Founded";
-                        SPAN.innerHTML = " ";
+                        d1.innerHTML="No Results Found";
+                        d1.className="row font-weight-bold text-danger";
                     }
-				}
-			});
+                    //$('#lost').html(data.div_data);
+                    // insertToHtml(data);
+
+                }
+            });
+        }
+		function fetch_Data(query) {
+            if(query){
+                $.ajax({
+                    url: "/liveSearch/action/"+query,
+                    method: 'GET',
+                    traditional: true,
+                    success: function(data) {
+                        console.log(data)
+                        let d1= document.getElementById("lost")
+                        let SPAN= document.getElementById("pages")
+                        d1.innerHTML=" ";
+                        SPAN.innerHTML = " ";
+                        if(data.data.length !=0){
+                            insertToHtml(data);
+                            paginate(data)
+                        }
+                        else{
+                            d1.innerHTML="No Results Founded";
+                            SPAN.innerHTML = " ";
+                        }
+                    }
+                });
+            }
+            else fetch_Data_all()
 		}
 		$(document).on('keyup', '#search', function() {
 			var query = $(this).val();
@@ -251,10 +272,9 @@
                     //data: JSON.stringify(data),
                     success: function (data) {
                         console.log(data)
-                        if(data.length != 0){
+                        if(data.data.length != 0){
+                            insertToHtml(data);
                             paginate(data)
-                            console.log(globalArray[0])
-                            insertToHtml(globalArray[0]);
                         }
 			else{
 			    document.getElementById("lost").innerHTML="No Results Founded"
@@ -262,8 +282,9 @@
                         }
 					}
                 });
-            } else {
-                fetch_Data()
+            } else
+                {
+                    fetch_Data_all()
             }
         }
 

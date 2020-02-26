@@ -29,8 +29,10 @@
             @endforeach
         @endif
     </div>
+                @if(count($results) != 0)
     <div class="row justify-content-center mt-5 pt-3">
         <a href="/RejectOtherReport" type="button" class="btn btn-danger" data-dismiss="modal">{{ __('messages.Close all And Sumbit Report') }}</a>
     </div>
+                    @endif
 </div>
 @endsection

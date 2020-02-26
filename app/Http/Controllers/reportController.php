@@ -54,6 +54,10 @@ class reportController extends Controller
             $cities = City::all();
             return view('people.find',['cities'=>$cities]);
     }
+    public function fetchAll(){
+        $reports = Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')->paginate(2);
+        return response()->json($reports);
+    }
     public function myReports()
     {
         $reports = auth()->user()->reports; //Report::paginate(10);
@@ -171,10 +175,12 @@ class reportController extends Controller
 
         }
     public function RejectOtherReport(){
-        if (\request()->session()->exists('report')&& \request()->session()->get('report')!="" ) {
+        if (\request()->session()->exists('report')&& \request()->session()->get('report')!="")
+        {
             $data=(array)\request()->session()->get('report');
-             Report::create($data);
-            \request()->session()->forget('report');
+            DB::table("reports")->insert($data);
+            (array)\request()->session()->forget('report');
+            Session::save();
             return redirect('/')->with("message","Thank you for using our App and  Report created successfully");
            // return Redirect::to("/people/search");
         }
@@ -344,22 +350,11 @@ class reportController extends Controller
         return response()->json($reports);
     }
 
-    public function action(Request $request)
+    public function action($query)
     {
-        if ($request->ajax()) {
-            $cities = City::all();
-            $query = $request->get('query');
-            if($query != ''){
-                $reports =Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')
+        return Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')
                     ->where('name' , 'like' , '%'.$query.'%')
-                    ->get();
-                return $reports;
-            }
-            else{
-                $reports = Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')->get();
-                return $reports;
-            }
-        }
+                    ->paginate(2);
     }
     public function showReport($id)
     {
@@ -453,7 +448,7 @@ class reportController extends Controller
             }
             $index++;
             }
-        return $query->get();
+        return $query->paginate(2);
     }
 
 

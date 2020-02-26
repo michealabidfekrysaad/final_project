@@ -33,12 +33,14 @@ Route::get('/people/details', function () {
 })->middleware(increaseView::class);
 Route::post('/filter/find', 'filterController@doSearchingQuery')->middleware(increaseClick::class);
 Route::get('/items/search', 'itemController@index')->name('items.index')->middleware(increaseView::class);
+Route::get('/fetchall', 'itemController@fetchAll')->name('items.fetchAll')->middleware(increaseView::class);
+    Route::get('/people/fetchall', 'reportController@fetchAll')->name('items.fetchAll')->middleware(increaseView::class);
 Route::get('/showReportItem/{id}', 'itemController@show')->middleware(increaseClick::class)->middleware(increaseView::class);
 Route::get('/home', 'HomeController@index')->name('home')->middleware(increaseView::class);
 
 Route::get('/login/{provider}', 'Auth\LoginController@redirect')->middleware(increaseClick::class);
 Route::get('/login/{provider}/callback', 'Auth\LoginController@callback');
-Route::get('/liveSearch/action', 'reportController@action')->name('search.action')->middleware(increaseClick::class);
+Route::get('/liveSearch/action/{query}', 'reportController@action')->name('search.action')->middleware(increaseClick::class);
 
 Route::get('/closereport/{report}', 'reportController@closeReport')->name('reports.closeReport')->middleware(increaseClick::class);
 Route::get('/stillreport/{report}', 'reportController@stillReport')->name('reports.stillReport')->middleware(increaseClick::class);
@@ -54,7 +56,7 @@ Route::get('login/{provider}/callback', 'Auth\LoginController@callback');
 Route::get('/get-state-list', 'itemController@getAreaList')->middleware(increaseClick::class);
 Route::get('/get/{category}', 'itemController@getAttributeList')->middleware(increaseClick::class);
 //Route::get('/items/search','itemController@getCategory');
-Route::get('/liveSearch/actionItem', 'itemController@actionItem')->middleware(increaseClick::class);
+Route::get('/liveSearch/actionItem', 'itemController@index')->middleware(increaseClick::class);
 Route::get('/valueofattribute/{id}', 'itemController@getAttributeValue')->middleware(increaseClick::class);
 
 Route::get('/filter/find/item/{data}', 'itemController@doSearchingQuery')->middleware(increaseClick::class);

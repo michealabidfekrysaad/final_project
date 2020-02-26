@@ -114,6 +114,10 @@ class ProfileController extends Controller
         $arrayOfResultsAfterEncode= ($arrayOfResults->data)->result;
         $insertedData=($arrayOfResults->data)->insertedData;
         session()->put('report',$insertedData);
+        $notification = auth()->user()->notifications()->where('id','=',$results)->first();
+        if($notification) {
+            $notification->markAsRead();
+        }
        return view("showResultNotification",[
            "results"=>$this->getQueryReportsForResults($arrayOfResultsAfterEncode)
     ]);
