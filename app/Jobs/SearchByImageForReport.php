@@ -87,13 +87,13 @@ class SearchByImageForReport implements ShouldQueue
         $fileAsByte = $this->convertUrlToImageFile($this->file);
         $newArray = array(
             'image' => $this->uploadImageToS3("people/", $fileAsByte),
-            'user_id' => $this->user->id,
-            'created_at'=>now()
+            'user_id' => $this->user->id
+            // 'created_at'=>now()
         );
         $finalArray = array_merge($this->data, $newArray);
         if(count($nearest)==0){
             $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
-            DB::table("reports")->insert($finalArray);
+            // DB::table("reports")->insert($finalArray);
             // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             // $client = new \Nexmo\Client($basic);
             // $message = $client->message()->send([

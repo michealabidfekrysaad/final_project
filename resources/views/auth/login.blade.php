@@ -5,10 +5,7 @@
     <section class="sign-in">
         <div class="container">
             <div class="signin-content">
-                <!-- <div class="signin-image">
-
-                        <a href="#" class="signup-image-link">Create an account</a>
-                    </div> -->
+                
 
                 <div class="signin-form">
                     @if(session('message'))
