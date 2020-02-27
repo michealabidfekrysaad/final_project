@@ -81,19 +81,7 @@
         }
     }
 
-    // function myFunction() {
-    //    let image= document.getElementById('fileUpload').value;
-    //     let item= document.getElementById('item').value;
-    //     let city= document.getElementById('city').value;
-    //     let state= document.getElementById('state').value;
-    //     let inputfound_since= document.getElementById('inputfound_since').value;
-    //     if(image == "" || item == "" || city == "" || state == "" || inputfound_since == ""){
-    //         document.getElementById('formErr').innerText ="all fields are required";
-    //         return false;
-    //     }
-    //
-    //
-    // }
+
 
 </script>
 
@@ -226,13 +214,11 @@
 <script>
     $('#city').change(function(){
     var cityID = $(this).val();
-    // console.log(cityID);
     if(cityID){
         $.ajax({
            type:"GET",
            url:"{{url('get-state-list')}}?city_id=" + cityID,
             success: function (states) {
-                //console.log(states);
                 if (states) {
                     $("#state").empty();
                     $("#state").append('<label for="inputfound_since" >enter attributes :</label>');
@@ -282,7 +268,6 @@
 
 
                                     }
-                                    //  console.log(result.value_name)
 
                                 }
                             })

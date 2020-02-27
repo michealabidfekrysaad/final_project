@@ -30,8 +30,14 @@
                                 <td>{{$report->name}}</td>
                                 <td>{{$report->age}}</td>
                                 <td>{{$report->location}}</td>
+                                @if (($report->last_seen_on) != "")
                                 <td>{{$report->last_seen_on}}</td>
                                 <td>{{$report->last_seen_at}}</td>
+                                @else
+                                <td>this person is <span class="text-danger">found</span></td>
+
+                                <td>not lost</td>
+                                @endif
                                 <td class="text-center" style="width:410px">
                                     <a href="/reportShow/{{$report->id}}" class="btn btn-info m-1"><i class="fa fa-eye"></i> show</a>
                                     <form class="d-inline" action="/reportDelete/{{$report->id}}" method="POST">

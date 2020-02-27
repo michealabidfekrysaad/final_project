@@ -70,7 +70,6 @@
                     </li>
 
 
-                    {{-- <li class=""><a href="#about">Find Items</a></li> --}}
 
                     <li class="dropdown {{ Request::is('items/search') ? 'menu-active' : '' }}" style="float: right;">
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -104,7 +103,6 @@
 
                         <div class="dropdown-menu dropdown-menu-right mt-2" style="border: 0px;background:none;">
                             <a class="dropdown-item d-block" href="/profile">
-                                {{-- {{ __('MyProfile') }}--}}
                                 {{ __('messages.MyProfile') }}
                             </a>
                            @role('Admin') <a class="dropdown-item d-block" href="/admin">
@@ -113,7 +111,6 @@
                             @endrole
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                {{-- {{ __('Logout') }}--}}
                                 {{ __('messages.Logout') }}
                             </a>
 
@@ -153,7 +150,6 @@
                     </li>
 
 
-                    {{-- <li class=""><a href="#about">Find Items</a></li> --}}
 
                     <li class="dropdown {{ Request::is('items/search') ? 'menu-active' : '' }}">
                         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

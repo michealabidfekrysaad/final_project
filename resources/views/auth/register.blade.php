@@ -69,9 +69,7 @@
                             </button></div>
                     </form>
                 </div>
-                <!-- <div class="signup-image">
-                        <a href="#" class="signup-image-link">I am already member</a>
-                    </div> -->
+                
             </div>
         </div>
     </section>

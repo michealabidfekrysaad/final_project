@@ -36,16 +36,16 @@
             height is <span>{{$report->height}}</span>, weight is <span>{{$report->weight}}</span>  
             </h4><br>
             
-            {{-- @if ({{$report->found_since}} != "null") --}}
+            @if (($report->found_since) != "")
             <h4>
             {{$report->name}} was found at <span>{{$report->found_since}}</span>
             </h4><br>
-            {{-- @endif --}}
+            @endif
 
 
-            <h4>
+            {{-- <h4>
               if you know any information:- <span>hena 3ayez akteb el madena !!</span>
-              </h4><br>
+              </h4><br> --}}
 
 
           </div>

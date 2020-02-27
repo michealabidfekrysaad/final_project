@@ -87,8 +87,8 @@ class SearchByImageForReport implements ShouldQueue
         $fileAsByte = $this->convertUrlToImageFile($this->file);
         $newArray = array(
             'image' => $this->uploadImageToS3("people/", $fileAsByte),
-            'user_id' => $this->user->id,
-            'created_at'=>now()
+            'user_id' => $this->user->id
+            // 'created_at'=>now()
         );
         $finalArray = array_merge($this->data, $newArray);
         if(count($nearest)==0){
