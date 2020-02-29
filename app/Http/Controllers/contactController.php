@@ -26,6 +26,7 @@ class contactController extends Controller
             'subject'=> 'required|max:20',
             'message'=> 'required',
         ]);
+        
         DB::table('contact')->insert([
             'name'=>$request->name,
             'email'=>$request->email,
