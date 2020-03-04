@@ -49,12 +49,8 @@ $ git clone https://github.com/michealabidfekrysaad/final_project.git
 ```
 cd final_project
 ```
-1. Install composer dependencies
-```
-$ composer install
-```
 
-2. rename .env.example file to .env 
+1. rename .env.example file to .env 
 then edit in .env file with
 ```
 DB_CONNECTION=mysql
@@ -83,6 +79,12 @@ then edit
 ```
 QUEUE_DRIVER=database
 ```
+
+2. Install composer dependencies
+```
+$ composer install
+```
+
 3. Generate APP_KEY
 ```
 $ php artisan key:generate
