@@ -140,7 +140,6 @@
 
         function setHtmlAndInsert(path, pageNumber) {
             $.get(path + "?page=" + pageNumber, function (data, status) {
-                console.log(data);
                 insertToHtml(data);
             });
         }
@@ -190,7 +189,6 @@
                     url: "/fetchall",
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data);
                         let d1 = document.getElementById("lost")
                         let SPAN = document.getElementById("pages")
                         d1.innerHTML = " ";
@@ -209,7 +207,6 @@
             }
 
             $("#CategoryList").change(function (e) {
-                console.log($(this).val());
                 var category_id = $(this).val();
                 if (category_id) {
                     $.ajax({
@@ -269,7 +266,7 @@
             });
             $("#city").change(function (e) {
                 var cityID = $(this).val();
-                console.log(cityID);
+
                 $("#region").empty();
 
                 if (cityID) {
@@ -308,7 +305,6 @@
 
             });
             $("#search").keyup(function (e) {
-                console.log(document.getElementById("search").value);
                 fetch_Data(document.getElementById("search").value)
 
             });
@@ -320,10 +316,6 @@
                 filter_data_item();
 
             })
-            // $(".attr").change(function (e) {
-            //     console.log(values);
-            //    // filter_data_item();
-            // });
             var data
             var values = [];
             function getValues() {
@@ -346,14 +338,12 @@
                     value_id
                 };
                 if (data.category_id != "" || data.city_id != "" || data.area_id != "" || value_id.length>0) {
-                    console.log(data)
                     $.ajax({
                         method: "GET",
                         url: "/filter/find/item/" + JSON.stringify(data),
                         traditional: true,
                         success: function (data) {
                             values = []
-                            console.log(data)
                             let d1 = document.getElementById("lost")
                             let SPAN = document.getElementById("pages")
                             d1.innerHTML = " ";
@@ -369,7 +359,6 @@
                         }
                     });
                 } else {
-                    console.log('fetch_Data')
                     fetch_Data()
                 }
             }

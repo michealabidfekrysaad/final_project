@@ -164,9 +164,7 @@
         }
 
         function setHtmlAndInsert(path, pageNumber) {
-            console.log(path + "?page=" + pageNumber)
             $.get(path + "?page=" + pageNumber, function (data, status) {
-                console.log(data);
                 insertToHtml(data);
             });
         }
@@ -198,7 +196,6 @@
             for (let i = 0; i < elements.length; i++) {
                 document.getElementById(elements[i].id).style.backgroundColor = "#BBC2C2";
                 document.getElementById(elements[i].id).style.color = "black";
-                // console.log(elements[i].id)
             }
         }
 
@@ -211,13 +208,11 @@
                     url: "/people/fetchall",
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data);
                         let d1 = document.getElementById("lost")
                         let SPAN = document.getElementById("pages")
                         d1.innerHTML = " ";
                         SPAN.innerHTML = " ";
                         if (data.data.length != 0) {
-                            console.log(data.last_page)
                              paginate(data)
                             insertToHtml(data);
                         } else {
@@ -238,7 +233,6 @@
                         method: 'GET',
                         traditional: true,
                         success: function (data) {
-                            console.log(data)
                             let d1 = document.getElementById("lost")
                             let SPAN = document.getElementById("pages")
                             d1.innerHTML = " ";
@@ -273,7 +267,6 @@
                     age,
                     area_id
                 };
-                console.log(data);
                 if ((data.gender).length != 0 || data.city_id != "" || data.area_id != "" || (data.age).length != 0) {
                     $.ajax({
                         method: "GET",
@@ -284,7 +277,6 @@
                         },
                         //data: JSON.stringify(data),
                         success: function (data) {
-                            console.log(data)
                             if (data.data.length != 0) {
                                     paginate(data)
                                 insertToHtml(data);
