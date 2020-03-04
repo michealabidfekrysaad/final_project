@@ -14,10 +14,10 @@
                         </div>
                         <table id="table" class="table text-center">
                             <thead class="thead-dark">
-                                <th scope="col">#</th>
-                                <th scope="col">attribute</th>
-                                <th scope="col">values</th>
-                                <th scope="col">action</th>
+                            <th scope="col">#</th>
+                            <th scope="col">attribute</th>
+                            <th scope="col">values</th>
+                            <th scope="col">action</th>
 
                             </thead>
                             <tbody>
@@ -31,13 +31,15 @@
                                             {{$value->value_name}} /
                                         @endforeach
                                     </td>
-                                    <td >
-{{--                                        <a href="/category/editAdmin/{{$category->id}}" class="btn btn-primary">update</a>--}}
-                                        <form class="d-inline" action="/deleteAttribute/{{$attrributeValue->id}}" method="POST">
+                                    <td>
+                                        {{--                                        <a href="/category/editAdmin/{{$category->id}}" class="btn btn-primary">update</a>--}}
+                                        <form class="d-inline" action="/deleteAttribute/{{$attrributeValue->id}}"
+                                              method="POST">
                                             {{ csrf_field() }}
 
                                             <button type="submit" onclick="return confirm('Are you sure?')"
-                                                    class="btn btn-danger">Delete</button>
+                                                    class="btn btn-danger">Delete
+                                            </button>
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         </form>

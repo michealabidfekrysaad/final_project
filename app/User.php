@@ -2,30 +2,27 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\NotifyReport;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Notifications\NotifyReport;
 use Spatie\Permission\Traits\HasRoles;
 
 
-
-class User extends Authenticatable implements MustVerifyEmail,BannableContract
+class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
     use Notifiable;
     use HasRoles;
     use Bannable;
-
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone'];
+        'name', 'email', 'password', 'phone'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -47,13 +44,14 @@ class User extends Authenticatable implements MustVerifyEmail,BannableContract
 
     public function reports()
     {
-        return $this->hasMany(Report::class,'user_id');
+        return $this->hasMany(Report::class, 'user_id');
     }
 
     public function userFounder()
     {
         return $this->hasMany('App\DescriptionValidation', 'founder_id', 'id');
     }
+
     public function userLost()
     {
         return $this->hasMany('App\DescriptionValidation', 'lost_id', 'id');

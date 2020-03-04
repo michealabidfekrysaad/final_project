@@ -4,24 +4,15 @@ namespace App\Jobs;
 
 use App\Notifications\SendSummaryToUser;
 use App\Report;
-use App\User;
 use Aws\Rekognition\RekognitionClient;
-use Exception;
-use http\Exception\RuntimeException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Nexmo\Client;
-use Nexmo\Client\Credentials\Basic;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
@@ -40,12 +31,12 @@ class SearchByImageForReport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($user,$file,$type,$data)
+    public function __construct($user, $file, $type, $data)
     {
-        $this->type=$type;
-        $this->file=$file;
-        $this->user=$user;
-        $this->data=$data;
+        $this->type = $type;
+        $this->file = $file;
+        $this->user = $user;
+        $this->data = $data;
     }
 
     /**
@@ -62,7 +53,7 @@ class SearchByImageForReport implements ShouldQueue
         if ($this->type == "found") {
             $this->renderType = "lost";
         }
-        foreach (DB::table('reports')->where('type', '=', $this->renderType)->where("user_id",'!=',$this->user->id)->get(['image'])->toArray() as $value) {
+        foreach (DB::table('reports')->where('type', '=', $this->renderType)->where("user_id", '!=', $this->user->id)->get(['image'])->toArray() as $value) {
             $result = $this->getClient()->compareFaces([
                 'SimilarityThreshold' => 0,
                 'SourceImage' => [
@@ -87,12 +78,12 @@ class SearchByImageForReport implements ShouldQueue
         $fileAsByte = $this->convertUrlToImageFile($this->file);
         $newArray = array(
             'image' => $this->uploadImageToS3("people/", $fileAsByte),
-            'user_id' => $this->user->id
-            // 'created_at'=>now()
+            'user_id' => $this->user->id,
+//            'created_at'=> now()
         );
         $finalArray = array_merge($this->data, $newArray);
-        if(count($nearest)==0){
-            DB::table("reports")->insert($finalArray);
+        if (count($nearest) == 0) {
+            Report::create($finalArray);
             $this->user->notify(new SendSummaryToUser($nearest, ""));
             // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             // $client = new \Nexmo\Client($basic);
@@ -101,9 +92,8 @@ class SearchByImageForReport implements ShouldQueue
             //     'from' => 'ToFind',
             //     'text' => 'Sorry This person doesnt exist your report is created successfully'
             // ]);
-           // $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
-        }
-        else{
+            // $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
+        } else {
             $this->user->notify(new SendSummaryToUser($nearest, $finalArray));
             // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             // $client = new \Nexmo\Client($basic);
@@ -113,19 +103,19 @@ class SearchByImageForReport implements ShouldQueue
             //     'text' => 'please visit ToFind website to check your notification.it is important'
             // ]);
         }
-        }
+    }
+
     public function getClient()
     {
         return $this->client = new RekognitionClient(
             [
-                'version' => 'latest',
-                'region' => 'us-east-2',
+                'version' =>'latest',
+                'region' => env('AWS_DEFAULT_REGION'),
                 'credentials' => [
-                    'key' => 'AKIA5WVDM6FIA5253O7V',
-                    'secret' => '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'
+                    'key' => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
                 ]]);
     }
-
 
 
     public function uploadImageToS3($path, $file)
@@ -142,7 +132,7 @@ class SearchByImageForReport implements ShouldQueue
 
     public function convertUrlToImageFile($tempUrl)
     {
-        $url = 'https://loseall.s3.us-east-2.amazonaws.com/' .$tempUrl;
+        $url = 'https://loseall.s3.us-east-2.amazonaws.com/' . $tempUrl;
         $info = pathinfo($url);
         $contents = file_get_contents($url);
         $file = '/tmp/' . $info['basename'];

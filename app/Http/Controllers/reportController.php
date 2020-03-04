@@ -2,35 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SearchByImage;zz
+use App\Area;
+use App\City;
+use App\Http\Requests\StorePostRequest;
 use App\Jobs\SearchByImageForReport;
-use App\Notifications\SendSmsMailToReporter;
-use App\Notifications\SendSummaryToUser;
-use App\Category;
+use App\Notifications\NotifyReport;
 use App\Report;
-use Aws\Rekognition\RekognitionClient;
+use App\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use App\Notifications\NotifyReport;
-use Illuminate\Support\Facades\Notification;
-use App\User;
-use App\DescriptionValidation;
-use App\Item;
-use App\City;
-use App\Area;
-use Carbon\Carbon;
 use Illuminate\View\View;
-use function MongoDB\BSON\toJSON;
-use App\Http\Requests\StorePostRequest;
-use Mailgun\Mailgun;
 
 
 class reportController extends Controller
@@ -55,12 +41,12 @@ class reportController extends Controller
         return view('people.find', ['cities' => $cities]);
     }
     public function fetchAll(){
-        $reports = Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')->paginate(2);
+        $reports = Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')->paginate(6);
         return response()->json($reports);
     }
     public function myReports()
     {
-        $reports = auth()->user()->reports; //Report::paginate(10);
+        $reports = auth()->user()->reports;
         return view('reports/index', [
             'reports' => $reports,
         ]);
@@ -92,7 +78,6 @@ class reportController extends Controller
      */
     public function store(Request $request, $type)
     {
-        //dd($request->all());
         if ($type == "lookfor") {
             $this->renderType = "lost";
         }
@@ -167,44 +152,19 @@ class reportController extends Controller
             }
             $otherUser = $report->user;
 	         Mail::to($otherUser->email)->send(new \App\Mail\SendSmsMailToReporter($report));
-          //   $otherUser->notify(new SendSmsMailToReporter($report));
             return redirect('/')->with("message","Send Your information to reporter  successfully");
-           // return Redirect::to("/people/search");
-
-
         }
     public function RejectOtherReport(){
-        if (\request()->session()->exists('report')&& \request()->session()->get('report')!="")
-        {
-            $data=(array)\request()->session()->get('report');
-            DB::table("reports")->insert($data);
-            (array)\request()->session()->forget('report');
-            Session::save();
-            return redirect('/')->with("message","Thank you for using our App and  Report created successfully");
-           // return Redirect::to("/people/search");
-        }
-        $otherUser = $report->user;
-        Mail::to($otherUser->email)->send(new \App\Mail\SendSmsMailToReporter($report));
-        //   $otherUser->notify(new SendSmsMailToReporter($report));
-        return redirect('/')->with("message", "Send Your information to reporter  successfully");
-        // return Redirect::to("/people/search");
-
-
-    }
-    public function RejectOtherReport()
-    {
-        // dd(\request()->session()->get('report'));
         if (\request()->session()->exists('report') && \request()->session()->get('report') != "") {
-            $data = (array) \request()->session()->get('report');
+            $data = (array)\request()->session()->get('report');
             Report::create($data);
-            (array) \request()->session()->forget('report');
+            \request()->session()->forget('report');
             Session::save();
-            // dd(\request()->session()->get('report'));
             return redirect('/')->with("message", "Thank you for using our App and  Report created successfully");
-            // return Redirect::to("/people/search");
         } else {
             return Redirect::to("/people/search/lookfor");
         }
+
     }
     public function closeReport(Report $report)
     {
@@ -327,104 +287,12 @@ class reportController extends Controller
             return redirect(route('profile.index'));
         }
     }
-
-
-    public function SearchReports(Request $request)
-    {
-        $nameSearch = $request->input('search');
-        $FilterSearch = Report::where('name', 'like', '%' . $nameSearch . '%')->get();
-        dd($FilterSearch);
-    }
-    public function getFormSearch()
-    {
-
-        return view('search');
-    }
-
-    public function searchReports2(Request $request)
-    {
-        if ($request->has('search')) {
-
-            $searchName = $request->input('search');
-
-            $FilterSearch = Report::search($searchName)->get();
-
-            return view('search', ['FilterSearch' => $FilterSearch]);
-        } else {
-
-            return response()->json('Not Found');
-        }
-    }
-    public function getSearchCheckbox(Request $request)
-    {
-        if ($request->input('locationfilter1')) {
-            $reports = DB::table('reports')->whereIn('gender', ['male'])
-                ->get();
-        } else {
-            $reports = DB::table('reports')->whereIn('gender', ['female'])
-                ->get();
-        }
-        return response()->json($reports);
-    }
-
     public function action($query)
     {
         return Report::withoutTrashed()->where('type','=','lost')->where('is_found','=','0')
                     ->where('name' , 'like' , '%'.$query.'%')
-                    ->paginate(2);
+                    ->paginate(6);
     }
-    public function showReport($id)
-    {
-        $repor = Report::findOrFail($id);
-        // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
-        // dd($founder);
-        return view('people.personDetails', ['repor' => $repor]);
-    }
-
-    public function SendEmailVerify(Request $request, $id)
-    {
-        // $when = now()->addMinutes(10);
-        //$when = Carbon::now()->addSeconds(10);
-
-        $founder = Report::with('user')->where('id', '=', $id)->get();
-        // $founderss = User::with('reports')->where('id' , '=' , $id)->get();
-        // dd($founder->user);
-        $loster = auth()->user()->id;
-        $desc = new DescriptionValidation;
-        // $user1 = User::find(4);
-        // $user2 = User::find(1);
-        foreach ($founder as $f) {
-            $desc->lost_id = $loster;
-            $desc->founder_id = $f->user_id;
-            $desc->description = $request->input('description');
-            $f->user->notify(new NotifyReport(auth()->user(), $f->user));
-
-            // $f->user->notify((new NotifyReport($loster))->delay($when));
-            //dd(Notification::send($f, new NotifyReport($loster)));
-        }
-
-
-
-        //dd($user1->notify(new NotifyReport($user2)));
-        $desc->save();
-
-        return response()->json($desc);
-
-        //dd($founder);
-        // $founder = Report::with('user')->where('id' , '=' , );
-        // $founder = User::with('reports')->get();
-        // foreach($founder as $ff){
-        // dd($ff->name);
-        // }
-    }
-    //    public function sendEmailVerifyItems(Request $request, $id)
-    //    {
-    //        //$user->notify(new NotifyReport);
-    //        // or
-    //        //Notification::send($users , new NotifyReport());//for sending to users not one user
-    //        $founder = Item::with('user')->where('id', '=', $id)->get();
-    //        dd($founder);
-    //    }
     public function doSearchingQuery($request)
     {
         $constraints = json_decode($request, true);
@@ -468,7 +336,7 @@ class reportController extends Controller
             }
             $index++;
             }
-        return $query->paginate(2);
+        return $query->paginate(6);
     }
 
 
@@ -486,23 +354,14 @@ class reportController extends Controller
             return response()->json($states);
         }
     }
-
-
-
-    // el fn ale fo2 makanha user controller   mosh hena
-
     public function create2Admin()
     {
         $cities = DB::table("cities")->pluck("city_name", "id");
-
         return view('layouts.AdminPanel.reportsAdmin.create', ['cities' => $cities]);
     }
-
-
     public function show2Admin($id)
     {
         $report = Report::find($id);
-        // dd($report->found_since);
         return view('layouts.AdminPanel.reportsAdmin.show', ['report' => $report]);
     }
     public function edit2Admin($id)
@@ -512,7 +371,6 @@ class reportController extends Controller
         $cities = City::all();
         $area = Area::all()->where('city_id', '=', $report->city_id); //all areas
         $user = User::all()->where('id', '=', $report->user_id);
-        // dd($user[0]->name);
         return view('layouts.AdminPanel.reportsAdmin.edit', compact(
             'report',
             'cities',
@@ -522,7 +380,6 @@ class reportController extends Controller
     }
     public  function indexAdmin()
     {
-        
-        return view('layouts.AdminPanel.reportsAdmin.table', ['reports' => Report::paginate(5)]);
+        return view('layouts.AdminPanel.reportsAdmin.table', ['reports' => Report::paginate(6)]);
     }
 }

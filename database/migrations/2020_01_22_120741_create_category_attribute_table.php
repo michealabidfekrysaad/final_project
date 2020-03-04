@@ -17,10 +17,10 @@ class CreateCategoryAttributeTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null')
-            ->onUpdate('cascade');
+                ->onUpdate('cascade');
             $table->unsignedBigInteger('attribute_id')->nullable();
             $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('set null')
-            ->onUpdate('cascade');
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

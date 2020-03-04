@@ -19,7 +19,7 @@ class CreateValuesOfAttributesTable extends Migration
             $table->string('value_name_ar');
             $table->unsignedBigInteger('attribute_id')->nullable();
             $table->foreign('attribute_id')->references('id')->on('attributes')
-            ->onDelete('set null')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
             $table->timestamps();
         });
     }

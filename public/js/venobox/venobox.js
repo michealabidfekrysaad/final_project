@@ -12,7 +12,7 @@
 
 /* global jQuery */
 
-(function($){
+(function ($) {
     "use strict";
     var autoplay, bgcolor, blocknum, blocktitle, border, core, container, content, dest, extraCss,
         framewidth, frameheight, gallItems, infinigall, items, keyNavigationDisabled, margine, numeratio,
@@ -21,43 +21,53 @@
 
     $.fn.extend({
         //plugin name - venobox
-        venobox: function(options) {
+        venobox: function (options) {
             var plugin = this;
             // default options
             var defaults = {
-                arrowsColor : '#B6B6B6',
-                autoplay : false, // same as data-autoplay - thanks @codibit
+                arrowsColor: '#B6B6B6',
+                autoplay: false, // same as data-autoplay - thanks @codibit
                 bgcolor: '#fff',
                 border: '0',
-                closeBackground : '#161617',
-                closeColor : "#d2d2d2",
+                closeBackground: '#161617',
+                closeColor: "#d2d2d2",
                 framewidth: '',
                 frameheight: '',
                 gallItems: false,
                 infinigall: false,
-                htmlClose : '&times;',
-                htmlNext : '<span>Next</span>',
-                htmlPrev : '<span>Prev</span>',
+                htmlClose: '&times;',
+                htmlNext: '<span>Next</span>',
+                htmlPrev: '<span>Prev</span>',
                 numeratio: false,
-                numerationBackground : '#161617',
-                numerationColor : '#d2d2d2',
-                numerationPosition : 'top', // 'top' || 'bottom'
+                numerationBackground: '#161617',
+                numerationColor: '#d2d2d2',
+                numerationPosition: 'top', // 'top' || 'bottom'
                 overlayClose: true, // disable overlay click-close - thanx @martybalandis
-                overlayColor : 'rgba(23,23,23,0.85)',
-                spinner : 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'chasing-dots' | 'three-bounce' | 'circle' | 'cube-grid' | 'fading-circle' | 'folding-cube'
-                spinColor : '#d2d2d2',
+                overlayColor: 'rgba(23,23,23,0.85)',
+                spinner: 'double-bounce', // available: 'rotating-plane' | 'double-bounce' | 'wave' | 'wandering-cubes' | 'spinner-pulse' | 'chasing-dots' | 'three-bounce' | 'circle' | 'cube-grid' | 'fading-circle' | 'folding-cube'
+                spinColor: '#d2d2d2',
                 titleattr: 'title', // specific attribute to get a title (e.g. [data-title]) - thanx @mendezcode
                 titleBackground: '#161617',
                 titleColor: '#d2d2d2',
-                titlePosition : 'top', // 'top' || 'bottom'
-                cb_pre_open: function(){ return true; }, // Callbacks - thanx @garyee
-                cb_post_open: function(){},
-                cb_pre_close: function(){ return true; },
-                cb_post_close: function(){},
-                cb_post_resize: function(){},
-                cb_after_nav: function(){},
-                cb_content_loaded: function(){},
-                cb_init: function(){}
+                titlePosition: 'top', // 'top' || 'bottom'
+                cb_pre_open: function () {
+                    return true;
+                }, // Callbacks - thanx @garyee
+                cb_post_open: function () {
+                },
+                cb_pre_close: function () {
+                    return true;
+                },
+                cb_post_close: function () {
+                },
+                cb_post_resize: function () {
+                },
+                cb_after_nav: function () {
+                },
+                cb_content_loaded: function () {
+                },
+                cb_init: function () {
+                }
             };
 
             var option = $.extend(defaults, options);
@@ -65,17 +75,17 @@
             // callback plugin initialization
             option.cb_init(plugin);
 
-            return this.each(function() {
+            return this.each(function () {
 
                 obj = $(this);
 
                 // Prevent double initialization - thanx @matthistuff
                 if (obj.data('venobox')) {
-                  return true;
+                    return true;
                 }
 
                 // method to be used outside the plugin
-                plugin.VBclose = function() {
+                plugin.VBclose = function () {
                     closeVbox();
                 };
                 obj.addClass('vbox-item');
@@ -91,7 +101,7 @@
 
                 obj.data('venobox', true);
 
-                obj.on('click', function(e){
+                obj.on('click', function (e) {
 
                     e.preventDefault();
                     obj = $(this);
@@ -100,14 +110,14 @@
                     var cb_pre_open = option.cb_pre_open(obj);
 
                     if (cb_pre_open === false) {
-                      return false;
+                        return false;
                     }
 
                     // methods to be used outside the plugin
-                    plugin.VBnext = function() {
+                    plugin.VBnext = function () {
                         navigateGall(thenext);
                     };
-                    plugin.VBprev = function() {
+                    plugin.VBprev = function () {
                         navigateGall(theprev);
                     };
 
@@ -125,7 +135,7 @@
 
                     // set a different url to be loaded using data-href="" - thanx @pixeline
                     dest = obj.data('href') || obj.attr('href');
-                    extraCss = obj.data( 'css' ) || '';
+                    extraCss = obj.data('css') || '';
                     title = obj.attr(obj.data('titleattr')) || '';
 
                     preloader = '<div class="vbox-preloader">';
@@ -136,94 +146,94 @@
                             preloader += '<div class="sk-rotating-plane"></div>';
                             break;
                         case 'double-bounce':
-                            preloader += '<div class="sk-double-bounce">'+
-                            '<div class="sk-child sk-double-bounce1"></div>'+
-                            '<div class="sk-child sk-double-bounce2"></div>'+
-                            '</div>';
+                            preloader += '<div class="sk-double-bounce">' +
+                                '<div class="sk-child sk-double-bounce1"></div>' +
+                                '<div class="sk-child sk-double-bounce2"></div>' +
+                                '</div>';
                             break;
                         case 'wave':
-                            preloader += '<div class="sk-wave">'+
-                            '<div class="sk-rect sk-rect1"></div>'+
-                            '<div class="sk-rect sk-rect2"></div>'+
-                            '<div class="sk-rect sk-rect3"></div>'+
-                            '<div class="sk-rect sk-rect4"></div>'+
-                            '<div class="sk-rect sk-rect5"></div>'+
-                            '</div>';
+                            preloader += '<div class="sk-wave">' +
+                                '<div class="sk-rect sk-rect1"></div>' +
+                                '<div class="sk-rect sk-rect2"></div>' +
+                                '<div class="sk-rect sk-rect3"></div>' +
+                                '<div class="sk-rect sk-rect4"></div>' +
+                                '<div class="sk-rect sk-rect5"></div>' +
+                                '</div>';
                             break;
                         case 'wandering-cubes':
-                            preloader += '<div class="sk-wandering-cubes">'+
-                            '<div class="sk-cube sk-cube1"></div>'+
-                            '<div class="sk-cube sk-cube2"></div>'+
-                            '</div>';
+                            preloader += '<div class="sk-wandering-cubes">' +
+                                '<div class="sk-cube sk-cube1"></div>' +
+                                '<div class="sk-cube sk-cube2"></div>' +
+                                '</div>';
                             break;
-                          case 'spinner-pulse':
+                        case 'spinner-pulse':
                             preloader += '<div class="sk-spinner sk-spinner-pulse"></div>';
                             break;
                         case 'chasing-dots':
-                            preloader += '<div class="sk-chasing-dots">'+
-                            '<div class="sk-child sk-dot1"></div>'+
-                            '<div class="sk-child sk-dot2"></div>'+
-                            '</div>';
+                            preloader += '<div class="sk-chasing-dots">' +
+                                '<div class="sk-child sk-dot1"></div>' +
+                                '<div class="sk-child sk-dot2"></div>' +
+                                '</div>';
                             break;
                         case 'three-bounce':
-                            preloader += '<div class="sk-three-bounce">'+
-                            '<div class="sk-child sk-bounce1"></div>'+
-                            '<div class="sk-child sk-bounce2"></div>'+
-                            '<div class="sk-child sk-bounce3"></div>'+
-                            '</div>';
+                            preloader += '<div class="sk-three-bounce">' +
+                                '<div class="sk-child sk-bounce1"></div>' +
+                                '<div class="sk-child sk-bounce2"></div>' +
+                                '<div class="sk-child sk-bounce3"></div>' +
+                                '</div>';
                             break;
                         case 'circle':
-                            preloader += '<div class="sk-circle">'+
-                            '<div class="sk-circle1 sk-child"></div>'+
-                            '<div class="sk-circle2 sk-child"></div>'+
-                            '<div class="sk-circle3 sk-child"></div>'+
-                            '<div class="sk-circle4 sk-child"></div>'+
-                            '<div class="sk-circle5 sk-child"></div>'+
-                            '<div class="sk-circle6 sk-child"></div>'+
-                            '<div class="sk-circle7 sk-child"></div>'+
-                            '<div class="sk-circle8 sk-child"></div>'+
-                            '<div class="sk-circle9 sk-child"></div>'+
-                            '<div class="sk-circle10 sk-child"></div>'+
-                            '<div class="sk-circle11 sk-child"></div>'+
-                            '<div class="sk-circle12 sk-child"></div>'+
-                            '</div>';
+                            preloader += '<div class="sk-circle">' +
+                                '<div class="sk-circle1 sk-child"></div>' +
+                                '<div class="sk-circle2 sk-child"></div>' +
+                                '<div class="sk-circle3 sk-child"></div>' +
+                                '<div class="sk-circle4 sk-child"></div>' +
+                                '<div class="sk-circle5 sk-child"></div>' +
+                                '<div class="sk-circle6 sk-child"></div>' +
+                                '<div class="sk-circle7 sk-child"></div>' +
+                                '<div class="sk-circle8 sk-child"></div>' +
+                                '<div class="sk-circle9 sk-child"></div>' +
+                                '<div class="sk-circle10 sk-child"></div>' +
+                                '<div class="sk-circle11 sk-child"></div>' +
+                                '<div class="sk-circle12 sk-child"></div>' +
+                                '</div>';
                             break;
                         case 'cube-grid':
-                            preloader += '<div class="sk-cube-grid">'+
-                            '<div class="sk-cube sk-cube1"></div>'+
-                            '<div class="sk-cube sk-cube2"></div>'+
-                            '<div class="sk-cube sk-cube3"></div>'+
-                            '<div class="sk-cube sk-cube4"></div>'+
-                            '<div class="sk-cube sk-cube5"></div>'+
-                            '<div class="sk-cube sk-cube6"></div>'+
-                            '<div class="sk-cube sk-cube7"></div>'+
-                            '<div class="sk-cube sk-cube8"></div>'+
-                            '<div class="sk-cube sk-cube9"></div>'+
-                            '</div>';
+                            preloader += '<div class="sk-cube-grid">' +
+                                '<div class="sk-cube sk-cube1"></div>' +
+                                '<div class="sk-cube sk-cube2"></div>' +
+                                '<div class="sk-cube sk-cube3"></div>' +
+                                '<div class="sk-cube sk-cube4"></div>' +
+                                '<div class="sk-cube sk-cube5"></div>' +
+                                '<div class="sk-cube sk-cube6"></div>' +
+                                '<div class="sk-cube sk-cube7"></div>' +
+                                '<div class="sk-cube sk-cube8"></div>' +
+                                '<div class="sk-cube sk-cube9"></div>' +
+                                '</div>';
                             break;
                         case 'fading-circle':
-                            preloader += '<div class="sk-fading-circle">'+
-                            '<div class="sk-circle1 sk-circle"></div>'+
-                            '<div class="sk-circle2 sk-circle"></div>'+
-                            '<div class="sk-circle3 sk-circle"></div>'+
-                            '<div class="sk-circle4 sk-circle"></div>'+
-                            '<div class="sk-circle5 sk-circle"></div>'+
-                            '<div class="sk-circle6 sk-circle"></div>'+
-                            '<div class="sk-circle7 sk-circle"></div>'+
-                            '<div class="sk-circle8 sk-circle"></div>'+
-                            '<div class="sk-circle9 sk-circle"></div>'+
-                            '<div class="sk-circle10 sk-circle"></div>'+
-                            '<div class="sk-circle11 sk-circle"></div>'+
-                            '<div class="sk-circle12 sk-circle"></div>'+
-                            '</div>';
+                            preloader += '<div class="sk-fading-circle">' +
+                                '<div class="sk-circle1 sk-circle"></div>' +
+                                '<div class="sk-circle2 sk-circle"></div>' +
+                                '<div class="sk-circle3 sk-circle"></div>' +
+                                '<div class="sk-circle4 sk-circle"></div>' +
+                                '<div class="sk-circle5 sk-circle"></div>' +
+                                '<div class="sk-circle6 sk-circle"></div>' +
+                                '<div class="sk-circle7 sk-circle"></div>' +
+                                '<div class="sk-circle8 sk-circle"></div>' +
+                                '<div class="sk-circle9 sk-circle"></div>' +
+                                '<div class="sk-circle10 sk-circle"></div>' +
+                                '<div class="sk-circle11 sk-circle"></div>' +
+                                '<div class="sk-circle12 sk-circle"></div>' +
+                                '</div>';
                             break;
                         case 'folding-cube':
-                            preloader += '<div class="sk-folding-cube">'+
-                            '<div class="sk-cube1 sk-cube"></div>'+
-                            '<div class="sk-cube2 sk-cube"></div>'+
-                            '<div class="sk-cube4 sk-cube"></div>'+
-                            '<div class="sk-cube3 sk-cube"></div>'+
-                            '</div>';
+                            preloader += '<div class="sk-folding-cube">' +
+                                '<div class="sk-cube1 sk-cube"></div>' +
+                                '<div class="sk-cube2 sk-cube"></div>' +
+                                '<div class="sk-cube4 sk-cube"></div>' +
+                                '<div class="sk-cube3 sk-cube"></div>' +
+                                '</div>';
                             break;
                     }
                     preloader += '</div>';
@@ -231,8 +241,8 @@
                     navigation = '<a class="vbox-next">' + option.htmlNext + '</a><a class="vbox-prev">' + option.htmlPrev + '</a>';
                     vbheader = '<div class="vbox-title"></div><div class="vbox-num">0/0</div><div class="vbox-close">' + option.htmlClose + '</div>';
 
-                    core = '<div class="vbox-overlay ' + extraCss + '" style="background:'+ overlayColor +'">'+
-                    preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + '</div>';
+                    core = '<div class="vbox-overlay ' + extraCss + '" style="background:' + overlayColor + '">' +
+                        preloader + '<div class="vbox-container"><div class="vbox-content"></div></div>' + vbheader + navigation + '</div>';
 
                     $('body').append(core).addClass('vbox-open');
 
@@ -249,24 +259,24 @@
 
                     blocktitle.css(option.titlePosition, '-1px');
                     blocktitle.css({
-                      'color' : option.titleColor,
-                      'background-color' : option.titleBackground
+                        'color': option.titleColor,
+                        'background-color': option.titleBackground
                     });
 
                     $('.vbox-close').css({
-                      'color' : option.closeColor,
-                      'background-color' : option.closeBackground
+                        'color': option.closeColor,
+                        'background-color': option.closeBackground
                     });
 
                     $('.vbox-num').css(option.numerationPosition, '-1px');
                     $('.vbox-num').css({
-                      'color' : option.numerationColor,
-                      'background-color' : option.numerationBackground
+                        'color': option.numerationColor,
+                        'background-color': option.numerationBackground
                     });
 
                     $('.vbox-next span, .vbox-prev span').css({
-                      'border-top-color' : option.arrowsColor,
-                      'border-right-color' : option.arrowsColor
+                        'border-top-color': option.arrowsColor,
+                        'border-right-color': option.arrowsColor
                     });
 
                     content.html('');
@@ -276,19 +286,19 @@
                     checknav();
 
                     // fade in overlay
-                    overlay.animate({opacity:1}, 250, function(){
+                    overlay.animate({opacity: 1}, 250, function () {
 
                         if (obj.data('vbtype') == 'iframe') {
-                          loadIframe();
+                            loadIframe();
                         } else if (obj.data('vbtype') == 'inline') {
-                          loadInline();
+                            loadInline();
                         } else if (obj.data('vbtype') == 'ajax') {
-                          loadAjax();
+                            loadAjax();
                         } else if (obj.data('vbtype') == 'video') {
-                          loadVid(autoplay);
+                            loadVid(autoplay);
                         } else {
-                          content.html('<img src="'+dest+'">');
-                          preloadFirst();
+                            content.html('<img src="' + dest + '">');
+                            preloadFirst();
                         }
                         option.cb_post_open(obj, gallIndex, thenext, theprev);
                     });
@@ -297,11 +307,11 @@
                     $('body').keydown(keyboardHandler);
 
                     /* -------- PREVGALL -------- */
-                    $('.vbox-prev').on('click', function(){
+                    $('.vbox-prev').on('click', function () {
                         navigateGall(theprev);
                     });
                     /* -------- NEXTGALL -------- */
-                    $('.vbox-next').on('click', function(){
+                    $('.vbox-next').on('click', function () {
                         navigateGall(thenext);
                     });
 
@@ -310,7 +320,7 @@
                 }); // click
 
                 /* -------- CHECK NEXT / PREV -------- */
-                function checknav(){
+                function checknav() {
 
                     thisgall = obj.data('gall');
                     numeratio = obj.data('numeratio');
@@ -323,54 +333,54 @@
                         items = $('.vbox-item[data-gall="' + thisgall + '"]');
                     }
 
-                    thenext = items.eq( items.index(obj) + 1 );
-                    theprev = items.eq( items.index(obj) - 1 );
+                    thenext = items.eq(items.index(obj) + 1);
+                    theprev = items.eq(items.index(obj) - 1);
 
                     if (!thenext.length && infinigall === true) {
-                      thenext = items.eq(0);
+                        thenext = items.eq(0);
                     }
 
                     // update gall numeration
                     if (items.length > 1) {
-                      gallIndex = items.index(obj)+1;
-                      blocknum.html(gallIndex + ' / ' + items.length);
+                        gallIndex = items.index(obj) + 1;
+                        blocknum.html(gallIndex + ' / ' + items.length);
                     } else {
-                      gallIndex = 1;
+                        gallIndex = 1;
                     }
                     if (numeratio === true) {
-                      blocknum.show();
+                        blocknum.show();
                     } else {
-                      blocknum.hide();
+                        blocknum.hide();
                     }
 
                     // update title
                     if (title !== '') {
-                      blocktitle.show();
+                        blocktitle.show();
                     } else {
-                      blocktitle.hide();
+                        blocktitle.hide();
                     }
 
                     // update navigation arrows
                     if (!thenext.length && infinigall !== true) {
-                      $('.vbox-next').css('display', 'none');
-                      nextok = false;
+                        $('.vbox-next').css('display', 'none');
+                        nextok = false;
                     } else {
-                      $('.vbox-next').css('display', 'block');
-                      nextok = true;
+                        $('.vbox-next').css('display', 'block');
+                        nextok = true;
                     }
 
                     if (items.index(obj) > 0 || infinigall === true) {
-                      $('.vbox-prev').css('display', 'block');
-                      prevok = true;
+                        $('.vbox-prev').css('display', 'block');
+                        prevok = true;
                     } else {
-                      $('.vbox-prev').css('display', 'none');
-                      prevok = false;
+                        $('.vbox-prev').css('display', 'none');
+                        prevok = false;
                     }
                     // activate swipe
                     if (prevok === true || nextok === true) {
-                      content.on(TouchMouseEvent.DOWN, onDownEvent);
-                      content.on(TouchMouseEvent.MOVE, onMoveEvent);
-                      content.on(TouchMouseEvent.UP, onUpEvent);
+                        content.on(TouchMouseEvent.DOWN, onDownEvent);
+                        content.on(TouchMouseEvent.MOVE, onMoveEvent);
+                        content.on(TouchMouseEvent.UP, onUpEvent);
                     }
                 }
 
@@ -378,10 +388,10 @@
                 function navigateGall(destination) {
 
                     if (destination.length < 1) {
-                      return false;
+                        return false;
                     }
                     if (keyNavigationDisabled) {
-                      return false;
+                        return false;
                     }
                     keyNavigationDisabled = true;
 
@@ -399,92 +409,92 @@
 
                     // swipe out item
                     if (destination === theprev) {
-                      content.addClass('animated').addClass('swipe-right');
+                        content.addClass('animated').addClass('swipe-right');
                     }
                     if (destination === thenext) {
-                      content.addClass('animated').addClass('swipe-left');
+                        content.addClass('animated').addClass('swipe-left');
                     }
 
                     $preloader.show();
 
                     content.animate({
-                      opacity : 0,
-                    }, 500, function(){
+                        opacity: 0,
+                    }, 500, function () {
 
-                      overlay.css('background',overlayColor);
+                        overlay.css('background', overlayColor);
 
-                      content
-                      .removeClass('animated')
-                      .removeClass('swipe-left')
-                      .removeClass('swipe-right')
-                      .css({'margin-left': 0,'margin-right': 0});
+                        content
+                            .removeClass('animated')
+                            .removeClass('swipe-left')
+                            .removeClass('swipe-right')
+                            .css({'margin-left': 0, 'margin-right': 0});
 
-                      if (destination.data('vbtype') == 'iframe') {
-                        loadIframe();
-                      } else if (destination.data('vbtype') == 'inline') {
-                        loadInline();
-                      } else if (destination.data('vbtype') == 'ajax') {
-                        loadAjax();
-                      } else if (destination.data('vbtype') == 'video') {
-                        loadVid(autoplay);
-                      } else {
-                        content.html('<img src="'+dest+'">');
-                        preloadFirst();
-                      }
-                      obj = destination;
-                      checknav();
-                      keyNavigationDisabled = false;
-                      option.cb_after_nav(obj, gallIndex, thenext, theprev);
+                        if (destination.data('vbtype') == 'iframe') {
+                            loadIframe();
+                        } else if (destination.data('vbtype') == 'inline') {
+                            loadInline();
+                        } else if (destination.data('vbtype') == 'ajax') {
+                            loadAjax();
+                        } else if (destination.data('vbtype') == 'video') {
+                            loadVid(autoplay);
+                        } else {
+                            content.html('<img src="' + dest + '">');
+                            preloadFirst();
+                        }
+                        obj = destination;
+                        checknav();
+                        keyNavigationDisabled = false;
+                        option.cb_after_nav(obj, gallIndex, thenext, theprev);
                     });
                 }
 
                 /* -------- KEYBOARD HANDLER -------- */
                 function keyboardHandler(e) {
                     if (e.keyCode === 27) { // esc
-                      closeVbox();
+                        closeVbox();
                     }
 
                     if (e.keyCode == 37 && prevok === true) { // left
-                      navigateGall(theprev);
+                        navigateGall(theprev);
                     }
 
                     if (e.keyCode == 39 && nextok === true) { // right
-                      navigateGall(thenext);
+                        navigateGall(thenext);
                     }
                 }
 
                 /* -------- CLOSE VBOX -------- */
-                function closeVbox(){
+                function closeVbox() {
 
                     var cb_pre_close = option.cb_pre_close(obj, gallIndex, thenext, theprev);
 
                     if (cb_pre_close === false) {
-                      return false;
+                        return false;
                     }
 
                     $('body').off('keydown', keyboardHandler).removeClass('vbox-open');
 
                     obj.focus();
 
-                    overlay.animate({opacity:0}, 500, function(){
-                      overlay.remove();
-                      keyNavigationDisabled = false;
-                      option.cb_post_close();
+                    overlay.animate({opacity: 0}, 500, function () {
+                        overlay.remove();
+                        keyNavigationDisabled = false;
+                        option.cb_post_close();
                     });
                 }
 
                 /* -------- CLOSE CLICK -------- */
                 var closeclickclass = '.vbox-overlay';
-                if(!option.overlayClose){
+                if (!option.overlayClose) {
                     closeclickclass = '.vbox-close'; // close only on X
                 }
 
-                $('body').on('click touchstart', closeclickclass, function(e){
+                $('body').on('click touchstart', closeclickclass, function (e) {
                     if ($(e.target).is('.vbox-overlay') ||
-						$(e.target).is('.vbox-content') ||
-						$(e.target).is('.vbox-close') ||
-						$(e.target).is('.vbox-preloader') ||
-						$(e.target).is('.vbox-container')
+                        $(e.target).is('.vbox-content') ||
+                        $(e.target).is('.vbox-close') ||
+                        $(e.target).is('.vbox-preloader') ||
+                        $(e.target).is('.vbox-container')
                     ) {
                         closeVbox();
                     }
@@ -497,14 +507,14 @@
                 threshold = 50;
                 startouch = false;
 
-                function onDownEvent(e){
+                function onDownEvent(e) {
                     content.addClass('animated');
                     startY = endY = e.pageY;
                     startX = endX = e.pageX;
                     startouch = true;
                 }
 
-                function onMoveEvent(e){
+                function onMoveEvent(e) {
                     if (startouch === true) {
                         endX = e.pageX;
                         endY = e.pageY;
@@ -522,7 +532,7 @@
                     }
                 }
 
-                function onUpEvent(e){
+                function onUpEvent(e) {
                     if (startouch === true) {
                         startouch = false;
                         var subject = obj;
@@ -541,7 +551,7 @@
                         if (Math.abs(diff) >= threshold && change === true) {
                             navigateGall(subject);
                         } else {
-                            content.css({'margin-left': 0,'margin-right': 0});
+                            content.css({'margin-left': 0, 'margin-right': 0});
                         }
                     }
                 }
@@ -554,13 +564,21 @@
                 };
 
                 /* == EVENT LISTENERS == */
-                var onMouseEvent = function(event) {
+                var onMouseEvent = function (event) {
                     var type;
                     switch (event.type) {
-                        case "mousedown": type = TouchMouseEvent.DOWN; break;
-                        case "mouseup":   type = TouchMouseEvent.UP;   break;
-                        case "mouseout":   type = TouchMouseEvent.UP;   break;
-                        case "mousemove": type = TouchMouseEvent.MOVE; break;
+                        case "mousedown":
+                            type = TouchMouseEvent.DOWN;
+                            break;
+                        case "mouseup":
+                            type = TouchMouseEvent.UP;
+                            break;
+                        case "mouseout":
+                            type = TouchMouseEvent.UP;
+                            break;
+                        case "mousemove":
+                            type = TouchMouseEvent.MOVE;
+                            break;
                         default:
                             return;
                     }
@@ -568,12 +586,18 @@
                     $(event.target).trigger(touchMouseEvent);
                 };
 
-                var onTouchEvent = function(event) {
+                var onTouchEvent = function (event) {
                     var type;
                     switch (event.type) {
-                        case "touchstart": type = TouchMouseEvent.DOWN; break;
-                        case "touchend":   type = TouchMouseEvent.UP;   break;
-                        case "touchmove":  type = TouchMouseEvent.MOVE; break;
+                        case "touchstart":
+                            type = TouchMouseEvent.DOWN;
+                            break;
+                        case "touchend":
+                            type = TouchMouseEvent.UP;
+                            break;
+                        case "touchmove":
+                            type = TouchMouseEvent.MOVE;
+                            break;
                         default:
                             return;
                     }
@@ -582,7 +606,7 @@
                     var touchMouseEvent;
 
                     if (type == TouchMouseEvent.UP) {
-                         touchMouseEvent = normalizeEvent(type, event, null, null);
+                        touchMouseEvent = normalizeEvent(type, event, null, null);
                     } else {
                         touchMouseEvent = normalizeEvent(type, event, touch.pageX, touch.pageY);
                     }
@@ -590,7 +614,7 @@
                 };
 
                 /* == NORMALIZE == */
-                var normalizeEvent = function(type, original, x, y) {
+                var normalizeEvent = function (type, original, x, y) {
                     return $.Event(type, {
                         pageX: x,
                         pageY: y,
@@ -611,30 +635,30 @@
                 }
 
                 /* -------- LOAD AJAX -------- */
-                function loadAjax(){
-                  $.ajax({
-                  url: dest,
-                  cache: false
-                  }).done(function( msg ) {
-                      content.html('<div class="vbox-inline">'+ msg +'</div>');
-                      preloadFirst();
+                function loadAjax() {
+                    $.ajax({
+                        url: dest,
+                        cache: false
+                    }).done(function (msg) {
+                        content.html('<div class="vbox-inline">' + msg + '</div>');
+                        preloadFirst();
 
-                  }).fail(function() {
-                      content.html('<div class="vbox-inline"><p>Error retrieving contents, please retry</div>');
-                      updateoverlay();
-                  });
+                    }).fail(function () {
+                        content.html('<div class="vbox-inline"><p>Error retrieving contents, please retry</div>');
+                        updateoverlay();
+                    });
                 }
 
                 /* -------- LOAD IFRAME -------- */
-                function loadIframe(){
-                    content.html('<iframe class="venoframe" src="'+dest+'"></iframe>');
-                  //  $('.venoframe').load(function(){ // valid only for iFrames in same domain
+                function loadIframe() {
+                    content.html('<iframe class="venoframe" src="' + dest + '"></iframe>');
+                    //  $('.venoframe').load(function(){ // valid only for iFrames in same domain
                     updateoverlay();
-                  //  });
+                    //  });
                 }
 
                 /* -------- LOAD VIDEOs -------- */
-                function loadVid(autoplay){
+                function loadVid(autoplay) {
 
                     var player;
                     var videoObj = parseVideo(dest);
@@ -644,18 +668,18 @@
                     var queryvars = stringAutoplay + getUrlParameter(dest);
 
                     if (videoObj.type == 'vimeo') {
-                      player = 'https://player.vimeo.com/video/';
+                        player = 'https://player.vimeo.com/video/';
                     } else if (videoObj.type == 'youtube') {
-                      player = 'https://www.youtube.com/embed/';
+                        player = 'https://www.youtube.com/embed/';
                     }
-                    content.html('<iframe class="venoframe vbvid" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" frameborder="0" src="'+player+videoObj.id+queryvars+'"></iframe>');
+                    content.html('<iframe class="venoframe vbvid" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay" frameborder="0" src="' + player + videoObj.id + queryvars + '"></iframe>');
                     updateoverlay();
                 }
 
                 /**
-                * Parse Youtube or Vimeo videos and get host & ID
-                */
-                function parseVideo (url) {
+                 * Parse Youtube or Vimeo videos and get host & ID
+                 */
+                function parseVideo(url) {
                     url.match(/(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
                     var type;
                     if (RegExp.$3.indexOf('youtu') > -1) {
@@ -670,38 +694,38 @@
                 }
 
                 /**
-                * get additional video url parameters
-                */
+                 * get additional video url parameters
+                 */
                 function getUrlParameter(name) {
-                  var result = '';
-                  var sPageURL = decodeURIComponent(name);
-                  var firstsplit = sPageURL.split('?');
+                    var result = '';
+                    var sPageURL = decodeURIComponent(name);
+                    var firstsplit = sPageURL.split('?');
 
-                  if (firstsplit[1] !== undefined) {
-                      var sURLVariables = firstsplit[1].split('&');
-                      var sParameterName;
-                      var i;
-                      for (i = 0; i < sURLVariables.length; i++) {
-                          sParameterName = sURLVariables[i].split('=');
-                          result = result + '&'+ sParameterName[0]+'='+ sParameterName[1];
-                      }
-                  }
-                  return encodeURI(result);
+                    if (firstsplit[1] !== undefined) {
+                        var sURLVariables = firstsplit[1].split('&');
+                        var sParameterName;
+                        var i;
+                        for (i = 0; i < sURLVariables.length; i++) {
+                            sParameterName = sURLVariables[i].split('=');
+                            result = result + '&' + sParameterName[0] + '=' + sParameterName[1];
+                        }
+                    }
+                    return encodeURI(result);
                 }
 
                 /* -------- LOAD INLINE -------- */
-                function loadInline(){
-                    content.html('<div class="vbox-inline">'+$(dest).html()+'</div>');
+                function loadInline() {
+                    content.html('<div class="vbox-inline">' + $(dest).html() + '</div>');
                     updateoverlay();
                 }
 
                 /* -------- PRELOAD IMAGE -------- */
-                function preloadFirst(){
+                function preloadFirst() {
                     images = content.find('img');
 
                     if (images.length) {
-                        images.each(function(){
-                            $(this).one('load', function() {
+                        images.each(function () {
+                            $(this).one('load', function () {
                                 updateoverlay();
                             });
                         });
@@ -711,7 +735,7 @@
                 }
 
                 /* -------- FADE-IN THE NEW CONTENT -------- */
-                function updateoverlay(){
+                function updateoverlay() {
 
                     blocktitle.html(title);
 
@@ -722,7 +746,7 @@
                         'background': bgcolor
                     });
 
-                    $('img.figlio').on('dragstart', function(event) {
+                    $('img.figlio').on('dragstart', function (event) {
                         event.preventDefault();
                     });
 
@@ -730,20 +754,20 @@
 
                     content.animate({
                         'opacity': '1'
-                    },'slow', function(){
+                    }, 'slow', function () {
                         $preloader.hide();
                     });
                     option.cb_content_loaded(obj, gallIndex, thenext, theprev);
                 }
 
                 /* -------- CENTER FRAME -------- */
-                function updateOL(){
+                function updateOL() {
 
                     var sonH = content.outerHeight();
                     var finH = $(window).height();
 
                     if (sonH + 60 < finH) {
-                        margine = (finH - sonH)/2;
+                        margine = (finH - sonH) / 2;
                     } else {
                         margine = '30px';
                     }
@@ -752,8 +776,8 @@
                     option.cb_post_resize();
                 }
 
-                $(window).resize(function(){
-                    if($('.vbox-content').length){
+                $(window).resize(function () {
+                    if ($('.vbox-content').length) {
                         setTimeout(updateOL(), 800);
                     }
                 });

@@ -281,11 +281,12 @@ section {
 
 @media (max-width: 991px) {
     .page-wrapper {
-    overflow: hidden; /* hena kanet auto w ana me3'ayarha*/
-    background: #e5e5e5;
-    padding-bottom: 12vh;
+        overflow: hidden; /* hena kanet auto w ana me3'ayarha*/
+        background: #e5e5e5;
+        padding-bottom: 12vh;
+    }
 }
-}
+
 .page-container {
     background: #e5e5e5;
     padding-left: 300px;
@@ -323,7 +324,7 @@ section {
 @media (max-width: 991px) {
     .main-content {
         padding-top: 50px;
-	padding-bottom: 100px;
+        padding-bottom: 100px;
     }
 }
 
@@ -954,7 +955,7 @@ section {
 .rs-select2--light .select2-container--open .select2-dropdown,
 .rs-select2--trans .select2-container--open .select2-dropdown {
     font-size: 14px;
-    box-shadow: 0px 2px 15px 3px rgba(0,0,0,0.1);
+    box-shadow: 0px 2px 15px 3px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -963,7 +964,7 @@ section {
     overflow: hidden;
 }
 
-.rs-select2--dark .select2-container--open .select2-dropdown .select2-results__option ,
+.rs-select2--dark .select2-container--open .select2-dropdown .select2-results__option,
 .rs-select2--trans .select2-container--open .select2-dropdown .select2-results__option,
 .rs-select2--light .select2-container--open .select2-dropdown .select2-results__option {
     padding: 8px 16px;
@@ -977,10 +978,9 @@ section {
 .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
- }
+}
 
 .rs-select2--border .select2-container--default .select2-selection--single,
-
 .rs-select2--dark2 .select2-container--default .select2-selection--single {
     background: #555;
 }
@@ -1493,9 +1493,9 @@ section {
 }
 
 .account-dropdown .info .content .name {
-    line-height: -webkit-calc(20/16);
-    line-height: -moz-calc(20/16);
-    line-height: calc(20/16);
+    line-height: -webkit-calc(20 / 16);
+    line-height: -moz-calc(20 / 16);
+    line-height: calc(20 / 16);
 }
 
 .account-dropdown .info .content .name a {
@@ -1511,9 +1511,9 @@ section {
 .account-dropdown .info .content .email {
     font-size: 13px;
     color: #999;
-    line-height: -webkit-calc(20/13);
-    line-height: -moz-calc(20/13);
-    line-height: calc(20/13);
+    line-height: -webkit-calc(20 / 13);
+    line-height: -moz-calc(20 / 13);
+    line-height: calc(20 / 13);
 }
 
 .account-dropdown:after {
@@ -1909,9 +1909,9 @@ section {
 }
 
 .mess__title p, .email__title p, .notifi__title p {
-    line-height: -webkit-calc(29/14);
-    line-height: -moz-calc(29/14);
-    line-height: calc(29/14);
+    line-height: -webkit-calc(29 / 14);
+    line-height: -moz-calc(29 / 14);
+    line-height: calc(29 / 14);
     font-size: 14px;
     color: #808080;
 }
@@ -1973,9 +1973,9 @@ section {
 .mess__item .content p {
     font-size: 14px;
     color: #555;
-    line-height: -webkit-calc(24/14);
-    line-height: -moz-calc(24/14);
-    line-height: calc(24/14);
+    line-height: -webkit-calc(24 / 14);
+    line-height: -moz-calc(24 / 14);
+    line-height: calc(24 / 14);
     margin-bottom: 4px;
 }
 
@@ -2184,7 +2184,7 @@ section {
     -moz-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    border-bottom: 1px  solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
 }
 
 .account2 .name {
@@ -3861,7 +3861,7 @@ section {
 }
 
 .task-progress {
-    border: 1px solid  #e5e5e5;
+    border: 1px solid #e5e5e5;
     background: #fff;
     padding: 40px;
     padding-top: 42px;
@@ -4748,9 +4748,9 @@ section {
 .copyright p {
     font-size: 14px;
     color: #666;
-    line-height: -webkit-calc(24/14);
-    line-height: -moz-calc(24/14);
-    line-height: calc(24/14);
+    line-height: -webkit-calc(24 / 14);
+    line-height: -moz-calc(24 / 14);
+    line-height: calc(24 / 14);
 }
 
 /* ----- Breadcrumb ----- */
@@ -5313,7 +5313,7 @@ section {
 }
 
 .switch.switch-text .switch-label::before,
-  .switch.switch-text .switch-label::after {
+.switch.switch-text .switch-label::after {
     position: absolute;
     top: 50%;
     width: 50%;
@@ -5459,7 +5459,7 @@ section {
 }
 
 .switch.switch-icon .switch-label::before,
-  .switch.switch-icon .switch-label::after {
+.switch.switch-icon .switch-label::after {
     position: absolute;
     top: 50%;
     width: 50%;

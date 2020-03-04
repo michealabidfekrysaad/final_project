@@ -17,7 +17,7 @@
 @slick-opacity-not-active: 0.25;
 
 /* Slider */
-.slick-loading .slick-list{
+.slick-loading .slick-list {
     background: #fff url('@{slick-loader-path}ajax-loader.gif') center center no-repeat;
 }
 
@@ -40,14 +40,17 @@
     padding: 0;
     border: none;
     outline: none;
+
     &:hover, &:focus {
         outline: none;
         background: transparent;
         color: transparent;
+
         &:before {
             opacity: @slick-opacity-on-hover;
         }
     }
+
     &.slick-disabled:before {
         opacity: @slick-opacity-not-active;
     }
@@ -61,7 +64,7 @@
     opacity: @slick-opacity-default;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    
+
     & when ( @slick-font-family = 'slick' ) {
         /* Icons */
         @font-face {
@@ -76,12 +79,15 @@
 
 .slick-prev {
     left: -25px;
+
     [dir="rtl"] & {
         left: auto;
         right: -25px;
     }
+
     &:before {
         content: @slick-prev-character;
+
         [dir="rtl"] & {
             content: @slick-next-character;
         }
@@ -90,12 +96,15 @@
 
 .slick-next {
     right: -25px;
+
     [dir="rtl"] & {
         left: -25px;
         right: auto;
     }
+
     &:before {
         content: @slick-next-character;
+
         [dir="rtl"] & {
             content: @slick-prev-character;
         }
@@ -117,6 +126,7 @@
     padding: 0;
     margin: 0;
     width: 100%;
+
     li {
         position: relative;
         display: inline-block;
@@ -125,6 +135,7 @@
         margin: 0 5px;
         padding: 0;
         cursor: pointer;
+
         button {
             border: 0;
             background: transparent;
@@ -137,12 +148,15 @@
             color: transparent;
             padding: 5px;
             cursor: pointer;
+
             &:hover, &:focus {
                 outline: none;
+
                 &:before {
                     opacity: @slick-opacity-on-hover;
                 }
             }
+
             &:before {
                 position: absolute;
                 top: 0;
@@ -160,6 +174,7 @@
                 -moz-osx-font-smoothing: grayscale;
             }
         }
+
         &.slick-active button:before {
             color: @slick-dot-color-active;
             opacity: @slick-opacity-default;

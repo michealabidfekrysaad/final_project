@@ -3,20 +3,13 @@
 namespace App\Jobs;
 
 use App\Notifications\SendSummaryToUser;
-use App\User;
 use Aws\Rekognition\RekognitionClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Notification;
-use Nexmo\Client;
-use Nexmo\Client\Credentials\Basic;
 
 
 class SearchByImage implements ShouldQueue
@@ -34,12 +27,13 @@ class SearchByImage implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($type,$file,$user)
+    public function __construct($type, $file, $user)
     {
-        $this->type=$type;
-        $this->file=$file;
-        $this->user=$user;
+        $this->type = $type;
+        $this->file = $file;
+        $this->user = $user;
     }
+
     /**
      * Execute the job.
      *
@@ -47,14 +41,14 @@ class SearchByImage implements ShouldQueue
      */
     public function handle()
     {
-        $nearest=array();
-        if($this->type=="lookfor"){
-            $this->renderType="found";
+        $nearest = array();
+        if ($this->type == "lookfor") {
+            $this->renderType = "found";
         }
-        if($this->type=="found"){
-            $this->renderType="lost";
+        if ($this->type == "found") {
+            $this->renderType = "lost";
         }
-        foreach (DB::table('reports')->where('type','=',$this->renderType)->where("user_id",'!=',$this->user->id)->get(['image'])->toArray() as $value){
+        foreach (DB::table('reports')->where('type', '=', $this->renderType)->where("user_id", '!=', $this->user->id)->get(['image'])->toArray() as $value) {
             $result = $this->getClient()->compareFaces([
                 'SimilarityThreshold' => 0,
                 'SourceImage' => [
@@ -76,7 +70,7 @@ class SearchByImage implements ShouldQueue
                 array_push($nearest, $value->image);
             }
         }
-        if(count($nearest)==0){
+        if (count($nearest) == 0) {
             $this->user->notify(new SendSummaryToUser($nearest, ""));
             // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             // $client = new \Nexmo\Client($basic);
@@ -85,8 +79,7 @@ class SearchByImage implements ShouldQueue
             //     'from' => 'ToFind',
             //     'text' => 'Sorry These person doesnt exist please make report'
             // ]);
-        }
-        else{
+        } else {
             // $basic  = new \Nexmo\Client\Credentials\Basic('6de49b6e', 'atjBwti3oZtsUOCd');
             // $client = new \Nexmo\Client($basic);
 
@@ -95,7 +88,7 @@ class SearchByImage implements ShouldQueue
             //     'from' => 'ToFind',
             //     'text' => 'Check Your Notification In ToFind Website'
             // ]);
-             $this->user->notify(new SendSummaryToUser($nearest, ""));
+            $this->user->notify(new SendSummaryToUser($nearest, ""));
         }
     }
 
@@ -104,16 +97,16 @@ class SearchByImage implements ShouldQueue
         return $this->client = new RekognitionClient(
             [
                 'version' => 'latest',
-                'region' => 'us-east-2',
+                'region' => env('AWS_DEFAULT_REGION'),
                 'credentials' => [
-                    'key' => 'AKIA5WVDM6FIA5253O7V',
-                    'secret' => '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'
+                    'key' => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
                 ]]);
     }
 
     public function getClientForSms()
     {
-        $basic  = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
+        $basic = new \Nexmo\Client\Credentials\Basic('9576a3a8', 'xvyZTGB6xMhh32V9');
         return new \Nexmo\Client($basic);
     }
 

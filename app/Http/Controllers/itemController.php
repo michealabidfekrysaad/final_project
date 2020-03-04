@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
 use App\Attribute;
 use App\AttributeValue;
+use App\Category;
+use App\City;
+use App\DescriptionValidation;
+use App\Item;
 use App\ItemAttributeValue;
+use App\Notifications\NotifyReport;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
-use App\Notifications\NotifyReport;
-use Illuminate\Support\Facades\Notification;
-use App\Item;
-use App\City;
-use App\Area;
-use App\User;
-use App\DescriptionValidation;
-use App\Category;
-use App\Notifications\NotifyItem;
 use Illuminate\View\View;
 
 class itemController extends Controller
@@ -43,15 +39,18 @@ class itemController extends Controller
         $categories = Category::all();
         $cities = City::all();
         return view('items.find')->with([
-            'categories'=>$categories,
-            'cities'=>$cities
+            'categories' => $categories,
+            'cities' => $cities
         ]);
 
     }
-    public function fetchAll(){
-        $items=Item::with("category")->paginate(2);
+
+    public function fetchAll()
+    {
+        $items = Item::with("category")->paginate(6);
         return response()->json($items);
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -59,10 +58,9 @@ class itemController extends Controller
      */
     public function create()
     {
-        $items = Item::paginate(10);
+        $items = Item::paginate(6);
         $categories = Category::all();
         $cities = City::all();
-        // return view('item.find');
         return view('items.form', [
             'items' => $items,
             'categories' => $categories,
@@ -79,11 +77,11 @@ class itemController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'city_id'=>'required',
-            'area_id'=>'required',
-            'category_id'=>'required',
+            'city_id' => 'required',
+            'area_id' => 'required',
+            'category_id' => 'required',
             'image' => 'required|mimes:jpeg,jpg,png|max:2024',
-            'found_since'=>'required',
+            'found_since' => 'required',
         ]);
         DB::transaction(function () use ($request) {
             $item = new Item();
@@ -132,24 +130,23 @@ class itemController extends Controller
     public function edit($item)
     {
         //you may put in transaction
-        $categories=Category::all();
-        $cities=City::all();
-        $areas=Area::all();
+        $categories = Category::all();
+        $cities = City::all();
+        $areas = Area::all();
         $itemAtributeValue = ItemAttributeValue::with("attribute")->with("value")->where("item_id", "=", $item)->get();
-        $attributesIds=array();
-        foreach ($itemAtributeValue as $key => $collection){
-                array_push($attributesIds,$collection->attribute->id);
+        $attributesIds = array();
+        foreach ($itemAtributeValue as $key => $collection) {
+            array_push($attributesIds, $collection->attribute->id);
         }
-        $globalAttributeValues=Attribute::with("values")->wherein("id",$attributesIds)->get();
-        $item=Item::find($item);
-//       return \response()->json($globalAttributeValues->values);
+        $globalAttributeValues = Attribute::with("values")->wherein("id", $attributesIds)->get();
+        $item = Item::find($item);
         return view('user.editItemReport', [
-            'categories'=>$categories,
+            'categories' => $categories,
             'item' => $item,
             'data' => $itemAtributeValue,
-            'cities'=>$cities,
-            'areas'=>$areas,
-            'globalAttributeValues'=>$globalAttributeValues
+            'cities' => $cities,
+            'areas' => $areas,
+            'globalAttributeValues' => $globalAttributeValues
         ]);
     }
 
@@ -194,29 +191,9 @@ class itemController extends Controller
             }
             $item->save();
             return redirect(route('profile.index'));
-        }
-        else
+        } else
             return $this->errorResponse("Unauthorize", 403);
     }
-
-    function fetch(Request $request)
-    {
-        $select = $request->get('select');
-        $value = $request->get('value');
-        $dependent = $request->get('dependent');
-        $data = DB::table('country_state_city')
-            ->where($select, $value)
-            ->groupBy($dependent)
-            ->get();
-        $output = '<option value="">Select ' . ucfirst($dependent) . '</option>';
-        foreach ($data as $row) {
-            $output .= '<option value="' . $row->$dependent . '">' . $row->$dependent . '</option>';
-        }
-        echo $output;
-    }
-
-
-    // ---------end of ajax for city
 
     /**
      * Remove the specified resource from storage.
@@ -247,17 +224,10 @@ class itemController extends Controller
                 ->pluck("area_name", "id");
             return response()->json($states);
         }
-
-        // $area = City::with('areas')->where('id' , '=' , $id)->get();
-        // foreach($area as $a){
-        //     return response()->json($a);
-        // }
     }
 
     public function CityCategory()
     {
-
-        // $cities = DB::table("cities")->pluck("city_name","id");
         $cities = City::all();
         $categories = Category::with('attributes')->get();
         return view('items.form', compact('cities', 'categories'));
@@ -278,108 +248,76 @@ class itemController extends Controller
 
     }
 
-    public function actionItem(Request $request)
-    {
-
-        if ($request->ajax()) {
-            $query = $request->get('query');
-            if ($query != '') {
-                $category = Category::with("items")->where('category_name', 'like', '%' . $query . '%')->first();
-                if ($category) {
-                    return $category->items;
-                }
-                else return [];
-            }
-            else {
-                return Item::with("category")->paginate(1);
-            }
-
-
-
-            // echo json_encode($data);
-
-        }
-    }
-
     public function showReportItems($id)
     {
-        //$item = Item::findOrFail($id);
         $item = Item::with('category')->where('id', '=', $id)->get();
-
-        // $founder = Report::with('user')->where('id' , '=' , $id)->get('user_id');
-        // dd($founder);
         return view('items.itemDetails', ['item' => $item]);
     }
 
     public function sendEmailVerifyItems(Request $request, $id)
     {
         $item = Item::with('user')->where('id', '=', $id)->first();
-        if(auth()->user()->id == $item->user->id){
-            return redirect('showReportItem/'.$item->id)->with("message","Sorry,You are same owner of item");
-        }
-        else{
-            $descriptionValidation=new DescriptionValidation();
-            $descriptionValidation->lost_id=auth()->user()->id;
-            $descriptionValidation->founder_id=$item->user->id;
-            $descriptionValidation-> description=$request->input('description');
-            $descriptionValidation->item_id=$item->id;
+        if (auth()->user()->id == $item->user->id) {
+            return redirect('showReportItem/' . $item->id)->with("message", "Sorry,You are same owner of item");
+        } else {
+            $descriptionValidation = new DescriptionValidation();
+            $descriptionValidation->lost_id = auth()->user()->id;
+            $descriptionValidation->founder_id = $item->user->id;
+            $descriptionValidation->description = $request->input('description');
+            $descriptionValidation->item_id = $item->id;
             $descriptionValidation->save();
-            Mail::to($item->user->email)->send(new \App\Mail\NotifyItem($item,$descriptionValidation));
-            //  $item->user->notify(new NotifyItem($item,$descriptionValidation));
-            $item->update(["status"=>1]);
-            return redirect('/')->with("message","Description has been send successfully");
+            Mail::to($item->user->email)->send(new \App\Mail\NotifyItem($item, $descriptionValidation));
+            $item->update(["status" => 1]);
+            return redirect('/')->with("message", "Description has been send successfully");
 
         }
     }
 
-    public function AcceptMessage($decision,DescriptionValidation $descriptionValidation)
+    public function AcceptMessage($decision, DescriptionValidation $descriptionValidation)
     {
-
-
-        $value='';
-        if($decision=="accept")
-            $value='1';
-            else if($decision=="reject")
-                $value='0';
-        DB::transaction(function () use ($value,$descriptionValidation) {
+        $value = '';
+        if ($decision == "accept")
+            $value = '1';
+        else if ($decision == "reject")
+            $value = '0';
+        DB::transaction(function () use ($value, $descriptionValidation) {
             $descriptionValidation->update(['status' => $value]);
             $item = Item::where("id", "=", $descriptionValidation->item_id)->first();
-            $item->status=1;
+            $item->status = 1;
             $item->save();
         });
-        return redirect('/')->with("message","Thank you for using our App");
+        return redirect('/')->with("message", "Thank you for using our App");
     }
 
     public function doSearchingQuery($data)
     {
         $dataObject = json_decode($data, true);
-        $constraints = (array) $dataObject;
+        $constraints = (array)$dataObject;
         $query = Item::query();
         $fields = array_keys($constraints);
         $index = 0;
         foreach ($constraints as $constraint) {
             if ($constraint != "" && !is_array($constraint)) {
-                $query = $query->with("category")->where($fields[$index], '=',$constraint);
+                $query = $query->with("category")->where($fields[$index], '=', $constraint);
             }
             $index++;
         }
-        if(count($constraints['value_id'])==0){
-            $items=$query->paginate(2);
+        if (count($constraints['value_id']) == 0) {
+            $items = $query->paginate(6);
             return response()->json($items);
-        }
-        else{
-            $results=array();
-            $itemsIds=$query->pluck('id');
-            $values=$constraints['value_id'];
-            $result=DB::table('_item_attribute_values')->whereIn('item_id', $itemsIds)->where(function ($q) use($values) {
+        } else {
+            $results = array();
+            $itemsIds = $query->pluck('id');
+            $values = $constraints['value_id'];
+            $result = DB::table('_item_attribute_values')->whereIn('item_id', $itemsIds)->where(function ($q) use ($values) {
                 $q->wherein("value_id", $values);
             })->get()->groupBy("item_id");
-            foreach ($result as $key => $collection){
-                if (count($collection)==count($values)){
-                    array_push($results,$key);
+            foreach ($result as $key => $collection) {
+                if (count($collection) == count($values)) {
+                    array_push($results, $key);
                 }
             }
-            $items=Item::with("category")->whereIn("id",$results)->paginate(2);
+            $items = Item::with("category")->whereIn("id", $results)->paginate(6);
             return response()->json($items);
         }
 

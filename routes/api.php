@@ -16,10 +16,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('test','TestsController@test');
-Route::post('/test/store','TestsController@store');
-Route::get('/test/index','TestsController@index');
-Route::delete('/test/delete/{image}','TestsController@destroy');
+Route::get('test', 'TestsController@test');
+Route::post('/test/store', 'TestsController@store');
+Route::get('/test/index', 'TestsController@index');
+Route::delete('/test/delete/{image}', 'TestsController@destroy');
 
 Route::get('/people/reports', 'reportController@index')->name('reports.index');
 Route::get('/people/reports/{report}', 'reportController@show')->name('reports.show');
@@ -33,9 +33,9 @@ Route::get('/RejectOtherReport', 'reportController@RejectOtherReport')->name('re
 Route::get('/people/myreports', 'reportController@myReports')->name('reports.myReports');
 Route::put('/people/myreports/update/{report}', 'reportController@update')->name('reports.update');
 Route::delete('/people/myreports/delete/{report}', 'reportController@destroy')->name('reports.destroy');
-Route::post('/report','reportController@store');
+Route::post('/report', 'reportController@store');
 // Route::delete('/report/{report}','reportController@destroy');
 
 
-Route::get('/fahmy' , 'itemController@getAreaList');
+Route::get('/fahmy', 'itemController@getAreaList');
 

@@ -196,38 +196,38 @@
                         .append($('<tr>')
                             .append($('<th>').addClass('prev').attr('data-action', 'previous')
                                 .append($('<i>').addClass(options.icons.previous))
-                                )
+                            )
                             .append($('<th>').addClass('picker-switch').attr('data-action', 'pickerSwitch').attr('colspan', (options.calendarWeeks ? '6' : '5')))
                             .append($('<th>').addClass('next').attr('data-action', 'next')
                                 .append($('<i>').addClass(options.icons.next))
-                                )
-                            ),
+                            )
+                        ),
                     contTemplate = $('<tbody>')
                         .append($('<tr>')
                             .append($('<td>').attr('colspan', (options.calendarWeeks ? '8' : '7')))
-                            );
+                        );
 
                 return [
                     $('<div>').addClass('datepicker-days')
                         .append($('<table>').addClass('table-condensed')
                             .append(headTemplate)
                             .append($('<tbody>'))
-                            ),
+                        ),
                     $('<div>').addClass('datepicker-months')
                         .append($('<table>').addClass('table-condensed')
                             .append(headTemplate.clone())
                             .append(contTemplate.clone())
-                            ),
+                        ),
                     $('<div>').addClass('datepicker-years')
                         .append($('<table>').addClass('table-condensed')
                             .append(headTemplate.clone())
                             .append(contTemplate.clone())
-                            ),
+                        ),
                     $('<div>').addClass('datepicker-decades')
                         .append($('<table>').addClass('table-condensed')
                             .append(headTemplate.clone())
                             .append(contTemplate.clone())
-                            )
+                        )
                 ];
             },
 
@@ -238,11 +238,22 @@
 
                 if (isEnabled('h')) {
                     topRow.append($('<td>')
-                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementHour }).addClass('btn').attr('data-action', 'incrementHours').append($('<i>').addClass(options.icons.up))));
+                        .append($('<a>').attr({
+                            href: '#',
+                            tabindex: '-1',
+                            'title': options.tooltips.incrementHour
+                        }).addClass('btn').attr('data-action', 'incrementHours').append($('<i>').addClass(options.icons.up))));
                     middleRow.append($('<td>')
-                        .append($('<span>').addClass('timepicker-hour').attr({ 'data-time-component': 'hours', 'title': options.tooltips.pickHour }).attr('data-action', 'showHours')));
+                        .append($('<span>').addClass('timepicker-hour').attr({
+                            'data-time-component': 'hours',
+                            'title': options.tooltips.pickHour
+                        }).attr('data-action', 'showHours')));
                     bottomRow.append($('<td>')
-                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementHour }).addClass('btn').attr('data-action', 'decrementHours').append($('<i>').addClass(options.icons.down))));
+                        .append($('<a>').attr({
+                            href: '#',
+                            tabindex: '-1',
+                            'title': options.tooltips.decrementHour
+                        }).addClass('btn').attr('data-action', 'decrementHours').append($('<i>').addClass(options.icons.down))));
                 }
                 if (isEnabled('m')) {
                     if (isEnabled('h')) {
@@ -251,12 +262,23 @@
                         bottomRow.append($('<td>').addClass('separator'));
                     }
                     topRow.append($('<td>')
-                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementMinute }).addClass('btn').attr('data-action', 'incrementMinutes')
+                        .append($('<a>').attr({
+                            href: '#',
+                            tabindex: '-1',
+                            'title': options.tooltips.incrementMinute
+                        }).addClass('btn').attr('data-action', 'incrementMinutes')
                             .append($('<i>').addClass(options.icons.up))));
                     middleRow.append($('<td>')
-                        .append($('<span>').addClass('timepicker-minute').attr({ 'data-time-component': 'minutes', 'title': options.tooltips.pickMinute }).attr('data-action', 'showMinutes')));
+                        .append($('<span>').addClass('timepicker-minute').attr({
+                            'data-time-component': 'minutes',
+                            'title': options.tooltips.pickMinute
+                        }).attr('data-action', 'showMinutes')));
                     bottomRow.append($('<td>')
-                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementMinute }).addClass('btn').attr('data-action', 'decrementMinutes')
+                        .append($('<a>').attr({
+                            href: '#',
+                            tabindex: '-1',
+                            'title': options.tooltips.decrementMinute
+                        }).addClass('btn').attr('data-action', 'decrementMinutes')
                             .append($('<i>').addClass(options.icons.down))));
                 }
                 if (isEnabled('s')) {
@@ -266,19 +288,34 @@
                         bottomRow.append($('<td>').addClass('separator'));
                     }
                     topRow.append($('<td>')
-                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementSecond }).addClass('btn').attr('data-action', 'incrementSeconds')
+                        .append($('<a>').attr({
+                            href: '#',
+                            tabindex: '-1',
+                            'title': options.tooltips.incrementSecond
+                        }).addClass('btn').attr('data-action', 'incrementSeconds')
                             .append($('<i>').addClass(options.icons.up))));
                     middleRow.append($('<td>')
-                        .append($('<span>').addClass('timepicker-second').attr({ 'data-time-component': 'seconds', 'title': options.tooltips.pickSecond }).attr('data-action', 'showSeconds')));
+                        .append($('<span>').addClass('timepicker-second').attr({
+                            'data-time-component': 'seconds',
+                            'title': options.tooltips.pickSecond
+                        }).attr('data-action', 'showSeconds')));
                     bottomRow.append($('<td>')
-                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementSecond }).addClass('btn').attr('data-action', 'decrementSeconds')
+                        .append($('<a>').attr({
+                            href: '#',
+                            tabindex: '-1',
+                            'title': options.tooltips.decrementSecond
+                        }).addClass('btn').attr('data-action', 'decrementSeconds')
                             .append($('<i>').addClass(options.icons.down))));
                 }
 
                 if (!use24Hours) {
                     topRow.append($('<td>').addClass('separator'));
                     middleRow.append($('<td>')
-                        .append($('<button>').addClass('btn btn-primary').attr({ 'data-action': 'togglePeriod', tabindex: '-1', 'title': options.tooltips.togglePeriod })));
+                        .append($('<button>').addClass('btn btn-primary').attr({
+                            'data-action': 'togglePeriod',
+                            tabindex: '-1',
+                            'title': options.tooltips.togglePeriod
+                        })));
                     bottomRow.append($('<td>').addClass('separator'));
                 }
 
@@ -312,16 +349,28 @@
             getToolbar = function () {
                 var row = [];
                 if (options.showTodayButton) {
-                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'today', 'title': options.tooltips.today }).append($('<i>').addClass(options.icons.today))));
+                    row.push($('<td>').append($('<a>').attr({
+                        'data-action': 'today',
+                        'title': options.tooltips.today
+                    }).append($('<i>').addClass(options.icons.today))));
                 }
                 if (!options.sideBySide && hasDate() && hasTime()) {
-                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'togglePicker', 'title': options.tooltips.selectTime }).append($('<i>').addClass(options.icons.time))));
+                    row.push($('<td>').append($('<a>').attr({
+                        'data-action': 'togglePicker',
+                        'title': options.tooltips.selectTime
+                    }).append($('<i>').addClass(options.icons.time))));
                 }
                 if (options.showClear) {
-                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'clear', 'title': options.tooltips.clear }).append($('<i>').addClass(options.icons.clear))));
+                    row.push($('<td>').append($('<a>').attr({
+                        'data-action': 'clear',
+                        'title': options.tooltips.clear
+                    }).append($('<i>').addClass(options.icons.clear))));
                 }
                 if (options.showClose) {
-                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'close', 'title': options.tooltips.close }).append($('<i>').addClass(options.icons.close))));
+                    row.push($('<td>').append($('<a>').attr({
+                        'data-action': 'close',
+                        'title': options.tooltips.close
+                    }).append($('<i>').addClass(options.icons.close))));
                 }
                 return $('<table>').addClass('table-condensed').append($('<tbody>').append($('<tr>').append(row)));
             },
@@ -648,7 +697,7 @@
             updateDecades = function () {
                 var decadesView = widget.find('.datepicker-decades'),
                     decadesViewHeader = decadesView.find('th'),
-                    startDecade = moment({ y: viewDate.year() - (viewDate.year() % 100) - 1 }),
+                    startDecade = moment({y: viewDate.year() - (viewDate.year() % 100) - 1}),
                     endDecade = startDecade.clone().add(100, 'y'),
                     startedAt = startDecade.clone(),
                     minDateDecade = false,
@@ -661,13 +710,13 @@
 
                 decadesView.find('.disabled').removeClass('disabled');
 
-                if (startDecade.isSame(moment({ y: 1900 })) || (options.minDate && options.minDate.isAfter(startDecade, 'y'))) {
+                if (startDecade.isSame(moment({y: 1900})) || (options.minDate && options.minDate.isAfter(startDecade, 'y'))) {
                     decadesViewHeader.eq(0).addClass('disabled');
                 }
 
                 decadesViewHeader.eq(1).text(startDecade.year() + '-' + endDecade.year());
 
-                if (startDecade.isSame(moment({ y: 2000 })) || (options.maxDate && options.maxDate.isBefore(endDecade, 'y'))) {
+                if (startDecade.isSame(moment({y: 2000})) || (options.maxDate && options.maxDate.isBefore(endDecade, 'y'))) {
                     decadesViewHeader.eq(2).addClass('disabled');
                 }
 
@@ -2369,8 +2418,7 @@
         }
         if (input.is('input') && input.val().trim().length !== 0) {
             setValue(parseInputDate(input.val().trim()));
-        }
-        else if (options.defaultDate && input.attr('placeholder') === undefined) {
+        } else if (options.defaultDate && input.attr('placeholder') === undefined) {
             setValue(options.defaultDate);
         }
         if (options.inline) {
@@ -2386,12 +2434,12 @@
      ********************************************************************************/
 
     /**
-    * See (http://jquery.com/).
-    * @name jQuery
-    * @class
-    * See the jQuery Library  (http://jquery.com/) for full details.  This just
-    * documents the function and classes that are added to jQuery by this plug-in.
-    */
+     * See (http://jquery.com/).
+     * @name jQuery
+     * @class
+     * See the jQuery Library  (http://jquery.com/) for full details.  This just
+     * documents the function and classes that are added to jQuery by this plug-in.
+     */
     /**
      * See (http://jquery.com/)
      * @name fn

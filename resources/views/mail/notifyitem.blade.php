@@ -16,5 +16,5 @@
             Reject
         @endcomponent
         Thanks,<br>
-      ToFind
-@endcomponent
+        ToFind
+    @endcomponent

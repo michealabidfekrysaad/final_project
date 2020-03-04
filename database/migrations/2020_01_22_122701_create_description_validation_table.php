@@ -18,11 +18,11 @@ class CreateDescriptionValidationTable extends Migration
             $table->unsignedBigInteger('founder_id')->nullable();
             $table->unsignedBigInteger('lost_id')->nullable();
             $table->text('description');
-            $table->enum('status',[-1,0,1]);
+            $table->enum('status', [-1, 0, 1]);
             $table->foreign('founder_id')->references('id')->on('users')
-            ->onDelete('set null')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
             $table->foreign('lost_id')->references('id')->on('users')
-            ->onDelete('set null')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
 
             $table->timestamps();
         });

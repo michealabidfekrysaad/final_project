@@ -25,10 +25,10 @@ class CreateItemsTable extends Migration
             $table->date('found_since');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null')
-            ->onUpdate('cascade');
+                ->onUpdate('cascade');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null')
-            ->onUpdate('cascade');
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

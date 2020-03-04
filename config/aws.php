@@ -17,11 +17,11 @@ return [
     |
     */
     'credentials' => [
-        'key'    => 'AKIA5WVDM6FIA5253O7V',
-        'secret' => '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',
+        'key' => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
     ],
-    'region' => 'us-east-2',
-    'version' => 'latest',
+    'region' => env('AWS_DEFAULT_REGION'),
+    'version' =>  env('AWS_VERSION'),
     'ua_append' => [
         'L5MOD/' . AwsServiceProvider::VERSION,
     ],

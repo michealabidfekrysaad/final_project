@@ -9,7 +9,7 @@
     phone : {{auth()->user()->phone}}
     please make an action after meet him/her
     @component('mail::button', ['url' => 'http://localhost:8000/people/details/'.$report->id])
-         View Report
+        View Report
     @endcomponent
     @component('mail::button', ['url' => 'http://localhost:8000/closereport/'.$report->id])
         Close Report

@@ -2,53 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Attribute;
-use App\AttributeValue;
-use App\ItemAttributeValue;
-use DB;
-use Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
-use App\Notifications\NotifyReport;
-use Illuminate\Support\Facades\Notification;
-use App\Item;
-use App\City;
 use App\Area;
-use App\User;
-use App\DescriptionValidation;
+use App\Attribute;
 use App\Category;
-use App\Notifications\NotifyItem;
+use App\City;
+use App\Item;
+use App\ItemAttributeValue;
+use App\Notifications\NotifyReport;
+use Auth;
+use DB;
+use Illuminate\Http\Request;
 
 class itemController2 extends Controller
 {
-    public function index2Admin(){
+    public function index2Admin()
+    {
         $items = Item::with('city')->with('area')->with('user')->with('category')->paginate(2);
-        // dd($items);
-        // $city = Item::with('city')->get();
-        // $area = Item::with('area')->get();
-        // $user = Item::with('user')->get();
-        // $category = Item::with('category')->get();
-
-        return view('layouts.AdminPanel.ItemsAdmin.index' , [
-          'items' => $items
+        return view('layouts.AdminPanel.ItemsAdmin.index', [
+            'items' => $items
         ]);
     }
-    public function create2Admin(){
-        // $city = City::all();
-        // $area = Area::all();
-        // $user = User::all();
-        // $category = Category::all();
-        // $attr = Attribute::all();
-        // $value = AttributeValue::all();
-        // return view('layouts.AdminPanel.ItemsAdmin.create' , [
-        //     'city' => $city
-        //   , 'area' => $area
-        //   , 'user' => $user
-        //   , 'category' => $category
-        //   , 'attr' => $attr
-        //   , 'value' => $value
-        //   ]);
+
+    public function create2Admin()
+    {
         $items = Item::paginate(10);
         $categories = Category::all();
         $cities = City::all();
@@ -60,54 +36,40 @@ class itemController2 extends Controller
         ]);
     }
 
-    public function show2Admin($id){
-        // $item = Item::find($id);
-        // $city = City::find($id);
-        // $area = Area::find($id);
-        // $user = User::find($id);
-        // $category = Category::find($id);
-        // $attr = Attribute::find($id);
-        // $value = AttributeValue::find($id);
+    public function show2Admin($id)
+    {
         $itemAtributeValue = ItemAttributeValue::with("attribute")->with("value")->where("item_id", "=", $id)->get();
         $item = Item::where("id", "=", $id)->first();
-        return view('layouts.AdminPanel.ItemsAdmin.show' , compact('item','itemAtributeValue'));
+        return view('layouts.AdminPanel.ItemsAdmin.show', compact('item', 'itemAtributeValue'));
     }
 
-    public function edit2Admin(Request $request , $id){
+    public function edit2Admin(Request $request, $id)
+    {
         $item = Item::find($id);
         $city = City::all();
-        $area = Area::all()->where('city_id','=',$item->city_id);
+        $area = Area::all()->where('city_id', '=', $item->city_id);
         $category = Category::all();
-        $attributes = Category::with('attributes')->where('id' , '=' , $item->category_id)->get();
+        $attributes = Category::with('attributes')->where('id', '=', $item->category_id)->get();
         $values = Attribute::with('valuesOfAttributes')->get();
-
-
-        // $attributeOfCategory = $item->attributes;
-        // dd($attributeOfCategory);
-
-        // $city = City::all();
-        // $area = Area::all();
-        // $user = User::all();
-        // $category = Category::all();
-        // $attr = Attribute::all();
-        // $value = AttributeValue::all();
-        return view('layouts.AdminPanel.ItemsAdmin.edit' , compact('item'
-        , 'city','area','category','attributes' , 'values'));
+        return view('layouts.AdminPanel.ItemsAdmin.edit', compact('item'
+            , 'city', 'area', 'category', 'attributes', 'values'));
     }
-    public function update2Admin(Request $request , $id){
-        DB::transaction(function() use ($request , $id) {
-            $item = Item::where('id' , '=' , $id)->first();
-            $item->city_id=$request->city_id;
-            $item->area_id= $request->area_id;
-            $item->found_since=$request->found_since;
-            $item->category_id=$request->category_id;
-            $item->image=$this->uploadImageToS3('items/',$request->file('image'));
+
+    public function update2Admin(Request $request, $id)
+    {
+        DB::transaction(function () use ($request, $id) {
+            $item = Item::where('id', '=', $id)->first();
+            $item->city_id = $request->city_id;
+            $item->area_id = $request->area_id;
+            $item->found_since = $request->found_since;
+            $item->category_id = $request->category_id;
+            $item->image = $this->uploadImageToS3('items/', $request->file('image'));
             $item->save();
-            $item_attribute_values=ItemAttributeValue::where('item_id','=',$item->id);
+            $item_attribute_values = ItemAttributeValue::where('item_id', '=', $item->id);
             $item_attribute_values->each(function ($collection, $alphabet) {
                 $collection->delete();
             });
-           foreach ($request->all() as $attribute => $value) {
+            foreach ($request->all() as $attribute => $value) {
                 if ($this->startsWith($attribute, "#")) {
                     $this->itemWithVal = DB::table("_item_attribute_values")->insert([
                         'item_id' => $item->id,
@@ -117,17 +79,19 @@ class itemController2 extends Controller
                 }
             }
 
-  });
-  return redirect()->route('items.index2Admin');
+        });
+        return redirect()->route('items.index2Admin');
 
     }
 
-    public function delete2Admin($id){
+    public function delete2Admin($id)
+    {
         $item = Item::find($id)->delete();
         return redirect()->route('items.index2Admin');
     }
 
-    public function stores(Request $request){
+    public function stores(Request $request)
+    {
         DB::transaction(function () use ($request) {
             $item = new Item();
             $item->city_id = $request->input('city_id');
@@ -148,29 +112,6 @@ class itemController2 extends Controller
             }
         }, 1);
         return redirect()->route('items.index2Admin');
-// // dd(auth()->user()->id);
-//         DB::transaction(function() use ($request) {
-//             $item = Item::
-//             create([
-//                 'image' => $this->uploadImageToS3('items/',$request->file('image')),
-//                 'found_since' => $request->input('found_since'),
-//                 'user_id' => auth()->user()->id,
-//                 'category_id' => $request->input('category_id')
-//             ]);
-//            $item->city_id = $request->input('city_id');
-//            $item->area_id = $request->input('area_id');
-//            //dd($item);
-//             $item->save();
-//             $itemAttributeValue = ItemAttributeValue::
-//             create([
-//                 'attribute_id' => $request->input('attribute_id'),
-//                 'value_id' => $request->input('value_id'),
-//                  'item_id' => $item->id
-//             ]);
-
-//    });
-
-//    return redirect()->route('items.index2Admin');
 
     }
 }

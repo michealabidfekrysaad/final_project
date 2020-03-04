@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Item;
+use App\Report;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Report;
-use App\Item;
 use Illuminate\Support\Facades\DB;
 
 class chartsController extends Controller
@@ -26,22 +24,26 @@ class chartsController extends Controller
             'difference' => $difference,
         ]);
     }
-public function chart(){
-    $data = DB::table('reports')
-        ->select(
-            DB::raw('type as type'),
-            DB::raw('count(*) as number'))
-        ->groupBy('type')
-        ->get();
-    $array [] = ['Type', 'Number'];
-    foreach ($data as $key => $value) {
-        $array[++$key] = [$value->type, $value->number];
+
+    public function chart()
+    {
+        $data = DB::table('reports')
+            ->select(
+                DB::raw('type as type'),
+                DB::raw('count(*) as number'))
+            ->groupBy('type')
+            ->get();
+        $array [] = ['Type', 'Number'];
+        foreach ($data as $key => $value) {
+            $array[++$key] = [$value->type, $value->number];
+        }
+        return [
+            'type' => response()->json($array),
+        ];
     }
-    return [
-        'type'=> response()->json($array),
-    ];
-}
-    public function chart1(){
+
+    public function chart1()
+    {
         $data1 = DB::table('reports')
             ->select(
                 DB::raw('is_found as is_found'),
@@ -54,10 +56,12 @@ public function chart(){
         }
         return $array1;
         return [
-        'is_found'=> response()->json($array1)
+            'is_found' => response()->json($array1)
         ];
     }
-    public function chart2(){
+
+    public function chart2()
+    {
         $data2 = DB::table('items')
             ->select(
                 DB::raw('status as status'),
@@ -79,9 +83,9 @@ public function chart(){
         $viewsArray = array();
         $clicksArray = array();
         $timesArray = array();
-        $views = DB::table('visitor')->get(['viewer'])->toArray();
-        $clicks = DB::table('visitor')->get(['click'])->toArray();
-        $times = DB::table('visitor')
+        $views = DB::table('visitors')->get(['viewer'])->toArray();
+        $clicks = DB::table('visitors')->get(['click'])->toArray();
+        $times = DB::table('visitors')
             ->select(DB::raw("DATE_FORMAT(created_at, '%m-%Y') as time"))
             ->orderBy("created_at")
             ->get()->toArray();

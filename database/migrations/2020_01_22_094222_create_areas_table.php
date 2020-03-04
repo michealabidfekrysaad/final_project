@@ -19,7 +19,7 @@ class CreateAreasTable extends Migration
             $table->string('area_name_ar');
             $table->unsignedBigInteger('city_id')->nullable();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('set null')
-            ->onUpdate('cascade');
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

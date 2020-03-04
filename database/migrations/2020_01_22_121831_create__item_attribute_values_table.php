@@ -19,11 +19,11 @@ class CreateItemAttributeValuesTable extends Migration
             $table->unsignedBigInteger('value_id')->nullable();
             $table->unsignedBigInteger('item_id')->nullable();
             $table->foreign('attribute_id')->references('id')->on('attributes')
-            ->onDelete('set null')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
             $table->foreign('value_id')->references('id')->on('values_of_attributes')
-            ->onDelete('set null')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
             $table->foreign('item_id')->references('id')->on('items')
-            ->onDelete('set null')->onUpdate('cascade');
+                ->onDelete('set null')->onUpdate('cascade');
 
             $table->timestamps();
         });

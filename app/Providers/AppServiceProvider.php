@@ -3,10 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,26 +26,25 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        app()->singleton('lang',function(){
-            if(auth()->user()){
-                if(empty(auth()->user()->lang))
-                {
+        app()->singleton('lang', function () {
+            if (auth()->user()) {
+                if (empty(auth()->user()->lang)) {
                     return 'en';
-                }else{
+                } else {
                     return auth()->user()->lang;
                 }
-            }else{
-                if(session()->has('lang')){
-                   return session()->get('lang');
-                }else{
-                    return'en';
+            } else {
+                if (session()->has('lang')) {
+                    return session()->get('lang');
+                } else {
+                    return 'en';
                 }
 
             }
         });
-         Schema::defaultStringLength(191);
-         if (Schema::hasTable('contact')) {
-            $lastMessages=DB::table("contact")->latest("created_at")->take(3)->get();
+        Schema::defaultStringLength(191);
+        if (Schema::hasTable('contact')) {
+            $lastMessages = DB::table("contact")->latest("created_at")->take(3)->get();
             View::share('lastMessages', $lastMessages);
         }
     }

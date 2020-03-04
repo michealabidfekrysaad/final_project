@@ -12,8 +12,8 @@ var notifications = [];
 
 //...
 
-$(document).ready(function() {
-    if(Laravel.userId) {
+$(document).ready(function () {
+    if (Laravel.userId) {
         //...
         window.Echo.private(`App.User.${Laravel.userId}`)
             .notification((notification) => {

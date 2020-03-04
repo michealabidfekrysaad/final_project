@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -20,10 +19,10 @@ class NotifyItem extends Mailable
      * @param $item
      * @param $descriptionValidation
      */
-    public function __construct($item , $descriptionValidation)
+    public function __construct($item, $descriptionValidation)
     {
-        $this->item=$item;
-        $this->descriptionValidation=$descriptionValidation;
+        $this->item = $item;
+        $this->descriptionValidation = $descriptionValidation;
     }
 
     /**
@@ -34,8 +33,8 @@ class NotifyItem extends Mailable
     public function build()
     {
         return $this->markdown('mail.notifyitem', [
-            'item'=>$this->item,
-            'descriptionValidation'=>$this->descriptionValidation
+            'item' => $this->item,
+            'descriptionValidation' => $this->descriptionValidation
         ]);;
     }
 }
