@@ -1758,7 +1758,7 @@ body.mobile-nav-active #mobile-nav-toggle {
     background-size: cover;
 }
 
-/* #notfound .notfound-bg:after {
+#notfound .notfound-bg:after {
   content: '';
   position: absolute;
   width: 100%;
@@ -1841,7 +1841,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 .notfound .contact-btn {
   border: 2px solid rgba(255, 255, 255, 0.9);
   color: rgba(255, 255, 255, 0.9);
-} */
+}
 
 
 @media only screen and (max-width: 767px) {

@@ -74,7 +74,7 @@ return [
     'Female' => 'أنثي',
     'Age: ' => 'السن',
     'Under 10 Years old' => 'اصغر من عشرة',
-    'Between 11 and 20 Years old' => 'بين 11و20 سنه',
+    'Between 11 and 20 Years old' => 'بين 10و20 سنه',
     'Between 21 and 30 Years old' => 'بين 21و30 سنه',
     'Above 30 Years old' => 'أكبر من 30 سنه',
     'City:' => 'المدينة',

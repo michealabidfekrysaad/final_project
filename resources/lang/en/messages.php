@@ -74,7 +74,7 @@ return [
     'Female' => 'Female',
     'Age: ' => 'Age: ',
     'Under 10 Years old' => 'Under 10 Years old',
-    'Between 11 and 20 Years old' => 'Between 11 and 20 Years old',
+    'Between 11 and 20 Years old' => 'Between 10 and 20 Years old',
     'Between 21 and 30 Years old' => 'Between 21 and 30 Years old',
     'Above 30 Years old' => 'Above 30 Years old',
     'City:' => 'City:',
