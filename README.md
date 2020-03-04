@@ -47,7 +47,7 @@ first
 $ git clone https://github.com/michealabidfekrysaad/final_project.git
 ```
 ```
-cd final_project
+$ cd final_project
 ```
 
 1. rename .env.example file to .env 
@@ -91,11 +91,11 @@ $ php artisan key:generate
 ```
 4.Run migrations
 ```
-$php artisan migrate
+$ php artisan migrate
 ```
 4.Run seeds
 ```
-$php artisan db:seed
+$ php artisan db:seed
 ```
 6. Run server
 ```
