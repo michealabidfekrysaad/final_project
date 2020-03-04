@@ -42,6 +42,12 @@ Presentation Of Project In The Following Link
 -	Laravel 6.2
 
 ### Installation
+first
+```
+$ git clone https://github.com/michealabidfekrysaad/final_project.git
+cd final_project
+```
+
 
 1. Install composer dependencies
 ```
