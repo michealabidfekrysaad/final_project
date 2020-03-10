@@ -121,7 +121,6 @@ Route::group(['middleware' => ['auth', 'verified', 'is-ban']], function () {
     Route::get('category/create', 'categoryController@createCategory')->middleware('role:Admin')->name('category.create');
     Route::post('category/store', 'categoryController@storeCategory')->middleware('role:Admin')->name('posts.store');
     Route::delete('category/{id}', 'categoryController@destroyCategory')->middleware('role:Admin');;
-    Route::get('/home', 'HomeController@index')->name('home')->middleware(\App\Http\Middleware\CheckBanned::class);
     Route::get('/userUserRevoke/{id}', 'UserController@revoke')->name('users.revokeuser')->middleware('role:Admin');;
     Route::get('/userBan/{id}', 'UserController@ban')->name('users.ban')->middleware('role:Admin');;
 
