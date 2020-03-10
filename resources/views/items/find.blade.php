@@ -194,7 +194,9 @@
                         d1.innerHTML = " ";
                         SPAN.innerHTML = " ";
                         if (data.data.length != 0) {
+                            if(data.last_page>1){
                                 paginate(data)
+                            }
                             insertToHtml(data);
                         } else {
                             d1.innerHTML = "No Results Found";
@@ -349,7 +351,9 @@
                             d1.innerHTML = " ";
                             SPAN.innerHTML = " ";
                             if (data.data.length != 0) {
+                                if(data.last_page>1){
                                     paginate(data)
+                                }
                                 insertToHtml(data);
                             } else {
                                 d1.className = "row font-weight-bold  text-danger"

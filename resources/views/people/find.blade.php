@@ -213,7 +213,9 @@
                         d1.innerHTML = " ";
                         SPAN.innerHTML = " ";
                         if (data.data.length != 0) {
-                             paginate(data)
+                            if(data.last_page>1){
+                                paginate(data)
+                            }
                             insertToHtml(data);
                         } else {
                             d1.innerHTML = "No Results Found";
@@ -238,7 +240,9 @@
                             d1.innerHTML = " ";
                             SPAN.innerHTML = " ";
                             if (data.data.length != 0) {
+                                if(data.last_page>1){
                                     paginate(data)
+                                }
                                 insertToHtml(data);
                             } else {
                                 d1.innerHTML = "No Results Founded";
@@ -278,7 +282,10 @@
                         //data: JSON.stringify(data),
                         success: function (data) {
                             if (data.data.length != 0) {
+                                if(data.last_page>1){
                                     paginate(data)
+                                }
+
                                 insertToHtml(data);
                             }
                 else {

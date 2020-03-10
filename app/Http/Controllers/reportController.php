@@ -170,7 +170,7 @@ class reportController extends Controller
     {
         $report->is_found = '1';
         $report->save();
-    
+
         return redirect('/')->with("message", "Thank you for using our App and closed report successfully");
     }
     public function stillReport(Report $report)
