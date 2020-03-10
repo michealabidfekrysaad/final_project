@@ -43,9 +43,9 @@ class AppServiceProvider extends ServiceProvider
             }
         });
         Schema::defaultStringLength(191);
-        view()->composer('*', function (View $view) {
-            $lastMessages = DB::table("contact")->latest("created_at")->take(3)->get();
-            View::share('lastMessages', $lastMessages);
-        });
+        if (Schema::hasTable('contact')) {
+            $lastMessages = DB::table("contact")->latest("created_at")->take(3)->get();	            $lastMessages = DB::table("contact")->latest("created_at")->take(3)->get();
+            View::share('lastMessages', $lastMessages);	            View::share('lastMessages', $lastMessages);
+        }
     }
 }
