@@ -9,6 +9,7 @@ class Item extends Model
 {
 
     use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     protected $fillable = ['image', 'city', 'region', 'found_since', 'user_id', 'category_id'];
 

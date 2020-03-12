@@ -12,6 +12,7 @@ class Report extends Model
     use SoftDeletes;
 
     protected $table = 'reports';
+    protected $dates = ['deleted_at'];
 
     protected $fillable = ['name', 'age', 'gender', 'image', 'type', 'special_mark', 'eye_color', 'hair_color', 'city_id', 'area_id', 'location', 'last_seen_on', 'last_seen_at', 'lost_since', 'found_since', 'height', 'weight', 'user_id'];
 
